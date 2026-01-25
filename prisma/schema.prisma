@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+// ==========================
+// ENUM
+// ==========================
+enum UserRole {
+  ADMIN
+  GURU
+}
+
+// ==========================
+// USERS (Admin & Guru)
+// ==========================
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String
+  role       UserRole
+  isActive   Boolean  @default(true)
+
+  // Relations
+  news       News[]   @relation("AdminNews")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// ==========================
+// STUDENTS (Import via NISN)
+// ==========================
+model Student {
+  id        String   @id @default(uuid())
+  nisn      String   @unique
+  name      String
+  kelas     String
+  angkatan  Int
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("students")
+}
+
+// ==========================
+// COMPETITION CATEGORIES
+// ==========================
+model CompetitionCategory {
+  id        String   @id @default(uuid())
+  name      String
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("competition_categories")
+}
+
+// ==========================
+// COMPETITION LEVELS
+// ==========================
+model CompetitionLevel {
+  id        String   @id @default(uuid())
+  name      String
+  order     Int
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("competition_levels")
+}
+
+
+// ==========================
+// NEWS / ARTICLES
+// ==========================
+model News {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  thumbnail   String?
+  isPublished Boolean  @default(false)
+
+  // Relations
+  createdBy   String
+  admin       User     @relation("AdminNews", fields: [createdBy], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("news")
+}
