@@ -1,6 +1,34 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+export async function GET() {
+  try {
+    const data = await prisma.competition.findMany({
+      orderBy: { createdAt: "asc" },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        isActive: true,
+        startDate: true,
+        endDate: true,
+        category: true,
+        level: true,
+        createdBy: true,
+      },
+    });
+    return NextResponse.json({
+      success: true,
+      data: data,
+    });
+  } catch (e) {
+    return NextResponse.json(
+      { success: false, message: "Failed to fetch gurus" },
+      { status: 500 },
+    );
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -26,7 +54,7 @@ export async function POST(req: Request) {
     ) {
       return NextResponse.json(
         { success: false, message: "Field wajib belum lengkap" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -50,7 +78,7 @@ export async function POST(req: Request) {
     console.error(error);
     return NextResponse.json(
       { success: false, message: "Gagal membuat kompetisi" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
