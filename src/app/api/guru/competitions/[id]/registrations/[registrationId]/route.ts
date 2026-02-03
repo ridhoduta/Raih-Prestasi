@@ -3,19 +3,19 @@ import { NextResponse } from "next/server";
 
 type Context = {
   params: Promise<{
-    competitionId: string;
+    id: string;
     registrationId: string;
   }>;
 };
 
 export async function GET(req: Request, context: Context) {
   try {
-    const { competitionId, registrationId } = await context.params;
+    const { id, registrationId } = await context.params;
 
     const registration = await prisma.competitionRegistration.findFirst({
       where: {
         id: registrationId,
-        competitionId,
+        competitionId : id,
       },
       select: {
         id: true,
