@@ -39,13 +39,36 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, content, thumbnail, isPublished, createdBy } = body;
 
-    if (!title || !content || !createdBy) {
+    if (!title || !content) {
       return NextResponse.json(
         {
           success: false,
-          message: "title, content, and createdBy are required",
+          message: "title and content are required",
         },
         { status: 400 },
+      );
+    }
+
+    let authorId = createdBy;
+
+    // Fallback: use first admin if not provided
+    if (!authorId) {
+      const firstAdmin = await prisma.user.findFirst({
+        where: { role: "ADMIN" },
+      });
+      if (firstAdmin) {
+        authorId = firstAdmin.id;
+      } else {
+        // Fallback: use first user (e.g. Guru) if no admin exists (dev only)
+        const firstUser = await prisma.user.findFirst();
+        if (firstUser) authorId = firstUser.id;
+      }
+    }
+
+    if (!authorId) {
+       return NextResponse.json(
+        { success: false, message: "No user found to assign as author" },
+        { status: 500 },
       );
     }
 
@@ -55,7 +78,7 @@ export async function POST(req: Request) {
         content,
         thumbnail,
         isPublished: isPublished ?? false,
-        createdBy,
+        createdBy: authorId,
       },
     });
 

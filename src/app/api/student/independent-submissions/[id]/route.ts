@@ -10,6 +10,20 @@ export async function GET(_: Request, context: Context) {
 
   const submission = await prisma.independentCompetitionSubmission.findUnique({
     where: { id },
+    include :{
+      student:{
+        select:{
+          name:true,
+          kelas:true
+        }
+      },
+      guru:{
+        select:{
+          name:true
+        }
+      }
+    }
+    
     
   });
 

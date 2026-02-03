@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 export async function GET() {
   try {
     const levels = await prisma.competitionLevel.findMany({
+      where: { isActive: true },
       orderBy: { order: "asc" },
     });
 

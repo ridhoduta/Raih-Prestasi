@@ -10,7 +10,7 @@ export async function PUT(req: Request, context: Context) {
     const { id } = await context.params;
     const body = await req.json();
 
-    const { status, rejectionNote, reviewedBy } = body;
+    const { status, rejectionNote, reviewedBy, recommendationLetter } = body;
 
     if (!status || !reviewedBy) {
       return NextResponse.json(
@@ -70,6 +70,7 @@ export async function PUT(req: Request, context: Context) {
         status,
         rejectionNote: status === "DITOLAK" ? rejectionNote : null,
         reviewedBy,
+        recommendationLetter
       },
     });
 
@@ -86,6 +87,46 @@ export async function PUT(req: Request, context: Context) {
       {
         success: false,
         message: "Gagal memverifikasi pengajuan",
+      },
+      { status: 500 }
+    );
+  }
+}
+export async function GET(_: Request, context: Context) {
+  try {
+    const { id } = await context.params;
+    const submissions = await prisma.independentCompetitionSubmission.findMany({
+      where:{id},
+      include: {
+        student: {
+          select: {
+            id: true,
+            name: true,
+            nisn: true,
+            kelas: true,
+          },
+        },
+        guru: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      data: submissions,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Gagal mengambil daftar pengajuan lomba mandiri",
       },
       { status: 500 }
     );

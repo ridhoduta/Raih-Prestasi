@@ -59,13 +59,30 @@ export async function PUT(req: Request, context: Context) {
     }
 
     const body = await req.json();
-    const { name, password, isActive } = body;
+    const { name, email, password, isActive } = body;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data : any= {
       name,
+      email,
       isActive,
     };
+
+    if (email) {
+      const existing = await prisma.user.findFirst({
+        where: { 
+          email,
+          NOT: { id } // Exclude self
+        },
+      });
+
+      if (existing) {
+        return NextResponse.json(
+          { success: false, message: "Email already in use" },
+          { status: 400 }
+        );
+      }
+    }
 
     if (password) {
       data.password = await bcrypt.hash(password, 10);

@@ -9,7 +9,7 @@ export async function GET() {
   try {
     // 👉 GET ALL
     const gurus = await prisma.user.findMany({
-      where: { role: "GURU" },
+      where: { role: "GURU", isActive: true },
       orderBy: { createdAt: "desc" },
       select: {
         id: true,
