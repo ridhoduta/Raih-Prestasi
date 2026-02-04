@@ -31,16 +31,16 @@ export default function AdminDashboard() {
   }, []);
 
   const statCards = [
-    { label: "Total Guru", value: stats.totalGuru, icon: Users, color: "bg-blue-500", trend: "Data Terbaru" },
-    { label: "Total Siswa", value: stats.totalSiswa, icon: Award, color: "bg-purple-500", trend: "Data Terbaru" },
-    { label: "Kompetisi Aktif", value: stats.activeCompetitions, icon: Trophy, color: "bg-orange-500", trend: "Sedang berjalan" },
-    { label: "Total Prestasi", value: stats.totalPrestasi, icon: Award, color: "bg-green-500", trend: "Terverifikasi" },
+    { label: "Total Guru", value: stats.totalGuru, icon: Users, color: "bg-emerald-500", trend: "Data Terbaru" },
+    { label: "Total Siswa", value: stats.totalSiswa, icon: Award, color: "bg-emerald-400", trend: "Data Terbaru" },
+    { label: "Kompetisi Aktif", value: stats.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Sedang berjalan" },
+    { label: "Total Prestasi", value: stats.totalPrestasi, icon: Award, color: "bg-emerald-500", trend: "Terverifikasi" },
   ];
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 size={40} className="animate-spin text-blue-600" />
+        <Loader2 size={40} className="animate-spin text-emerald-600" />
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function AdminDashboard() {
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+            <div key={stat.label} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
               <div className="flex justify-between items-start">
                 <div>
                   <p className="text-sm font-medium text-gray-500">{stat.label}</p>
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-1 text-sm">
-                <span className="text-green-600 font-medium bg-green-50 px-2 py-0.5 rounded-full text-xs">
+                <span className="text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-full text-xs">
                   {stat.trend}
                 </span>
               </div>

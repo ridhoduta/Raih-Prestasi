@@ -63,7 +63,7 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
               type="text" 
               required
               placeholder="Contoh: Budi Santoso, S.Pd"
-              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
             />
@@ -105,7 +105,7 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
           <button 
             type="submit" 
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm shadow-blue-200"
+            className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"
           >
             {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
             Simpan Data

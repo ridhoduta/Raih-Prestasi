@@ -58,7 +58,7 @@ export default function NewsPage() {
         
         <Link 
           href="/page/admin/news/new"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm shadow-blue-200"
+          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           Tambah Berita
@@ -72,7 +72,7 @@ export default function NewsPage() {
             <input 
               type="text"
               placeholder="Cari judul berita..." 
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -81,7 +81,7 @@ export default function NewsPage() {
         
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="animate-spin text-blue-600" size={32} />
+            <Loader2 className="animate-spin text-emerald-600" size={32} />
           </div>
         ) : (
           <table className="w-full text-left text-sm text-gray-600">
@@ -110,7 +110,7 @@ export default function NewsPage() {
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${
                       item.isPublished 
-                        ? "bg-green-50 text-green-700 border-green-100" 
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
                         : "bg-amber-50 text-amber-700 border-amber-100"
                     }`}>
                       {item.isPublished ? "Terbit" : "Draf"}
@@ -119,7 +119,7 @@ export default function NewsPage() {
                   <td className="px-6 py-4 text-right flex justify-end gap-2">
                     <Link 
                       href={`/page/admin/news/${item.id}/edit`}
-                      className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" 
+                      className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all" 
                       title="Edit"
                     >
                       <Edit size={16} />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, GripVertical, Loader2, Save } from "lucide-react";
+import { Plus, Edit, Trash2, Layers, Loader2, Save } from "lucide-react";
 
 export default function LevelsPage() {
   const [levels, setLevels] = useState([]);
@@ -108,7 +108,7 @@ export default function LevelsPage() {
         
         <button 
           onClick={openAddModal}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm shadow-blue-200"
+          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           Tambah Tingkat
@@ -118,62 +118,71 @@ export default function LevelsPage() {
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="animate-spin text-blue-600" size={32} />
+            <Loader2 className="animate-spin text-emerald-600" size={32} />
           </div>
         ) : (
-          <div className="p-1">
-            {levels.map((level) => (
-              <div key={level.id} className="flex items-center gap-4 p-4 hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0 group">
-                <div className="cursor-move text-gray-300 hover:text-gray-500">
-                  <GripVertical size={20} />
-                </div>
-                
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-sm">
-                  {level.order}
-                </div>
-                
-                <div className="flex-1">
-                  <h3 className="text-base font-bold text-gray-900">{level.name}</h3>
-                </div>
-
-                <div className="flex items-center gap-3">
-                   <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
+          <table className="w-full text-left text-sm text-gray-600">
+            <thead className="bg-gray-50/50 border-b border-gray-100 font-medium text-gray-500 uppercase tracking-wider text-xs">
+              <tr>
+                <th className="px-6 py-4">Urutan</th>
+                <th className="px-6 py-4">Tingkat</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {levels.map((level) => (
+                <tr key={level.id} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-6 py-4">
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                      {level.order}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                      <Layers size={16} />
+                    </div>
+                    {level.name}
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${
                       level.isActive 
-                        ? "bg-green-50 text-green-700 border-green-100" 
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100" 
                         : "bg-gray-50 text-gray-600 border-gray-100"
                     }`}>
                       {level.isActive ? "Aktif" : "Nonaktif"}
                     </span>
-                    
-                    <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
-                        onClick={() => openEditModal(level)}
-                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" 
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(level.id)}
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" 
-                        title="Hapus"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                </div>
-              </div>
-            ))}
-            {levels.length === 0 && (
-               <div className="p-12 text-center text-gray-500">
-                 Belum ada tingkat kompetisi.
-               </div>
-            )}
+                  </td>
+                  <td className="px-6 py-4 text-right flex justify-end gap-2">
+                    <button 
+                      onClick={() => openEditModal(level)}
+                      className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all" 
+                      title="Edit"
+                    >
+                      <Edit size={16} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(level.id)}
+                      className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all" 
+                      title="Hapus"
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {!isLoading && levels.length === 0 && (
+          <div className="p-12 text-center text-gray-500">
+            Belum ada tingkat kompetisi.
           </div>
         )}
       </div>
 
-       {/* Reusable Modal */}
+       {/* Modal */}
        {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
@@ -183,7 +192,7 @@ export default function LevelsPage() {
             <input 
               type="text" 
               placeholder="Nama Tingkat (misal: Regional)"
-              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans mb-6 text-gray-900"
+              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans mb-6 text-gray-900"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
               autoFocus
@@ -199,7 +208,7 @@ export default function LevelsPage() {
               <button 
                 onClick={handleSubmit}
                 disabled={!formData.name || isSubmitting}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"
+                className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"
               >
                 {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : (formData.id ? <Save size={18} /> : <Plus size={18} />)}
                 {formData.id ? "Simpan Perubahan" : "Simpan"}

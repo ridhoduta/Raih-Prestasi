@@ -60,7 +60,7 @@ export default function TeachersPage() {
         
         <Link 
           href="/page/admin/teachers/new"
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm shadow-blue-200"
+          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           Tambah Guru
@@ -74,7 +74,7 @@ export default function TeachersPage() {
             <input 
               type="text"
               placeholder="Cari nama atau email guru..." 
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-black"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -83,7 +83,7 @@ export default function TeachersPage() {
         
         {isLoading ? (
           <div className="p-12 text-center text-gray-500 flex justify-center">
-            <Loader2 className="animate-spin text-blue-600" />
+            <Loader2 className="animate-spin text-emerald-600" />
           </div>
         ) : (
           <table className="w-full text-left text-sm text-gray-600">
@@ -99,7 +99,7 @@ export default function TeachersPage() {
               {filteredTeachers.map((teacher) => (
                 <tr key={teacher.id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
+                    <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
                       {teacher.name.substring(0, 2).toUpperCase()}
                     </div>
                     {teacher.name}
@@ -122,7 +122,7 @@ export default function TeachersPage() {
                   <td className="px-6 py-4 text-right flex justify-end gap-2">
                     <Link 
                       href={`/page/admin/teachers/${teacher.id}/edit`}
-                      className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all" 
+                      className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all" 
                       title="Edit"
                     >
                       <Edit size={16} />

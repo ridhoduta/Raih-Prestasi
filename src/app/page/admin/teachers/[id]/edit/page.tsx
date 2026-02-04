@@ -83,7 +83,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
   if (isLoading) {
     return (
       <div className="flex justify-center py-12">
-        <Loader2 className="animate-spin text-blue-600" size={32} />
+        <Loader2 className="animate-spin text-emerald-600" size={32} />
       </div>
     );
   }
@@ -109,7 +109,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
           <input 
             type="text" 
             required
-            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
             value={formData.name}
             onChange={(e) => setFormData({...formData, name: e.target.value})}
           />
@@ -142,7 +142,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
             <input 
               type="checkbox" 
               id="isActive"
-              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-gray-300"
+              className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 border-gray-300"
               checked={formData.isActive}
               onChange={(e) => setFormData({...formData, isActive: e.target.checked})}
             />
@@ -159,7 +159,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
           <button 
             type="submit" 
             disabled={isSaving}
-            className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm shadow-blue-200"
+            className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"
           >
             {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
             Simpan Perubahan
