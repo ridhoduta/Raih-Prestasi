@@ -5,11 +5,28 @@ import Link from "next/link";
 import { Plus, Search, Edit, Trash2, Calendar, Loader2 } from "lucide-react";
 
 import { getNews, deleteNews, NewsItem } from "@/app/service/newsAPI";
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 export default function NewsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Modal States
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const [confirmState, setConfirmState] = useState<{ isOpen: boolean; id: string | null; title: string; message: string }>({
+    isOpen: false,
+    id: null,
+    title: "",
+    message: ""
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchNews();
@@ -28,18 +45,41 @@ export default function NewsPage() {
     }
   }
 
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
+    setAlertState({ isOpen: true, title, message, type });
+  };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Hapus berita ini?")) return;
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+  };
+
+  const initiateDelete = (id: string, title: string) => {
+    setConfirmState({
+      isOpen: true,
+      id,
+      title: "Hapus Berita",
+      message: `Apakah Anda yakin ingin menghapus berita "${title}"?`
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!confirmState.id) return;
+    setIsDeleting(true);
     try {
-      const response = await deleteNews(id);
+      const response = await deleteNews(confirmState.id);
       if (response.success) {
-        setNews(news.filter((n: any) => n.id !== id));
+        setNews(news.filter((n: any) => n.id !== confirmState.id));
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Dihapus", "Berita berhasil dihapus.", "success");
       } else {
-        alert("Gagal menghapus: " + response.message);
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
       }
     } catch (error) {
-      alert("Terjadi kesalahan.");
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -110,8 +150,8 @@ export default function NewsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${item.isPublished
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-amber-50 text-amber-700 border-amber-100"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                        : "bg-amber-50 text-amber-700 border-amber-100"
                         }`}>
                         {item.isPublished ? "Terbit" : "Draf"}
                       </span>
@@ -125,7 +165,7 @@ export default function NewsPage() {
                         <Edit size={16} />
                       </Link>
                       <button
-                        onClick={() => handleDelete(item.id)}
+                        onClick={() => initiateDelete(item.id, item.title)}
                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         title="Hapus"
                       >
@@ -145,6 +185,23 @@ export default function NewsPage() {
           </div>
         )}
       </div>
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
+
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

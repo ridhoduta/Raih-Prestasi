@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Trophy, Loader2, Save } from "lucide-react";
 import { getCategories, createCategories, updateCategories, deleteCategories, Category, CategoryPayload } from "@/app/service/categoriesAPI";
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -10,6 +12,21 @@ export default function CategoriesPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<{ id: string | null; name: string }>({ id: null, name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Modal States
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const [confirmState, setConfirmState] = useState<{ isOpen: boolean; id: string | null; title: string; message: string }>({
+    isOpen: false,
+    id: null,
+    title: "",
+    message: ""
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -39,6 +56,14 @@ export default function CategoriesPage() {
     setIsModalOpen(true);
   };
 
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
+    setAlertState({ isOpen: true, title, message, type });
+  };
+
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+  };
+
   const handleSubmit = async () => {
     if (!formData.name) return;
     setIsSubmitting(true);
@@ -61,27 +86,44 @@ export default function CategoriesPage() {
           setCategories([response.data as Category, ...categories]);
         }
         setIsModalOpen(false);
+        showAlert("Berhasil", isEdit ? "Kategori berhasil diperbarui." : "Kategori berhasil ditambahkan.", "success");
       } else {
-        alert("Gagal menyimpan kategori: " + response.message);
+        showAlert("Gagal", "Gagal menyimpan kategori: " + response.message, "error");
       }
     } catch (error) {
-      alert("Terjadi kesalahan.");
+      showAlert("Error", "Terjadi kesalahan sistem.", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Hapus kategori ini?")) return;
+  const initiateDelete = (id: string, name: string) => {
+    setConfirmState({
+      isOpen: true,
+      id,
+      title: "Hapus Kategori",
+      message: `Apakah Anda yakin ingin menghapus kategori "${name}"?`
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!confirmState.id) return;
+    setIsDeleting(true);
     try {
-      const response = await deleteCategories(id);
+      const response = await deleteCategories(confirmState.id);
       if (response.success) {
-        setCategories(categories.filter((c) => c.id !== id));
+        setCategories(categories.filter((c) => c.id !== confirmState.id));
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Dihapus", "Kategori berhasil dihapus.", "success");
       } else {
-        alert("Gagal menghapus: " + response.message);
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
       }
     } catch (error) {
-      alert("Terjadi kesalahan saat menghapus.");
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -129,8 +171,8 @@ export default function CategoriesPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${category.isActive
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-gray-50 text-gray-600 border-gray-100"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                        : "bg-gray-50 text-gray-600 border-gray-100"
                         }`}>
                         {category.isActive ? "Aktif" : "Nonaktif"}
                       </span>
@@ -144,7 +186,7 @@ export default function CategoriesPage() {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => handleDelete(category.id)}
+                        onClick={() => initiateDelete(category.id, category.name)}
                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         title="Hapus"
                       >
@@ -165,7 +207,7 @@ export default function CategoriesPage() {
         )}
       </div>
 
-      {/* Modal */}
+      {/* Modal Form */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
@@ -200,6 +242,23 @@ export default function CategoriesPage() {
           </div>
         </div>
       )}
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
+
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

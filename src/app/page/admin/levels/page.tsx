@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { Plus, Edit, Trash2, Layers, Loader2, Save } from "lucide-react";
 
 import { getLevels, createLevel, updateLevel, deleteLevel, Level, LevelPayload } from "@/app/service/levelsAPI";
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 export default function LevelsPage() {
   const [levels, setLevels] = useState<Level[]>([]);
@@ -11,6 +13,21 @@ export default function LevelsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState<{ id: string | null; name: string }>({ id: null, name: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Modal States
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const [confirmState, setConfirmState] = useState<{ isOpen: boolean; id: string | null; title: string; message: string }>({
+    isOpen: false,
+    id: null,
+    title: "",
+    message: ""
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchLevels();
@@ -39,6 +56,14 @@ export default function LevelsPage() {
     setIsModalOpen(true);
   };
 
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
+    setAlertState({ isOpen: true, title, message, type });
+  };
+
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+  };
+
   const handleSubmit = async () => {
     if (!formData.name) return;
     setIsSubmitting(true);
@@ -62,30 +87,46 @@ export default function LevelsPage() {
           setLevels([...levels, response.data as Level]);
         }
         setIsModalOpen(false);
+        showAlert("Berhasil", isEdit ? "Tingkat berhasil diperbarui." : "Tingkat berhasil ditambahkan.", "success");
       } else {
-        alert("Gagal menyimpan tingkat: " + response.message);
+        showAlert("Gagal", "Gagal menyimpan tingkat: " + response.message, "error");
       }
     } catch (error) {
-      alert("Terjadi kesalahan.");
+      showAlert("Error", "Terjadi kesalahan sistem.", "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Hapus tingkat kompetisi ini?")) return;
-    try {
-      const response = await deleteLevel(id);
-      if (response.success) {
-        setLevels(levels.filter((l) => l.id !== id));
-      } else {
-        alert("Gagal menghapus: " + response.message);
-      }
-    } catch (error) {
-      alert("Terjadi kesalahan.");
-    }
+  const initiateDelete = (id: string, name: string) => {
+    setConfirmState({
+      isOpen: true,
+      id,
+      title: "Hapus Tingkat",
+      message: `Apakah Anda yakin ingin menghapus tingkat "${name}"?`
+    });
   };
 
+  const handleConfirmDelete = async () => {
+    if (!confirmState.id) return;
+    setIsDeleting(true);
+    try {
+      const response = await deleteLevel(confirmState.id);
+      if (response.success) {
+        setLevels(levels.filter((l) => l.id !== confirmState.id));
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Dihapus", "Tingkat berhasil dihapus.", "success");
+      } else {
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
+      }
+    } catch (error) {
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -136,8 +177,8 @@ export default function LevelsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${level.isActive
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-gray-50 text-gray-600 border-gray-100"
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                        : "bg-gray-50 text-gray-600 border-gray-100"
                         }`}>
                         {level.isActive ? "Aktif" : "Nonaktif"}
                       </span>
@@ -151,7 +192,7 @@ export default function LevelsPage() {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => handleDelete(level.id)}
+                        onClick={() => initiateDelete(level.id, level.name)}
                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         title="Hapus"
                       >
@@ -207,6 +248,23 @@ export default function LevelsPage() {
           </div>
         </div>
       )}
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
+
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

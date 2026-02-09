@@ -5,11 +5,28 @@ import Link from "next/link";
 import { Plus, Search, Edit, Trash2, Mail, Loader2 } from "lucide-react";
 
 import { getTeachers, deleteTeacher, Teacher } from "@/app/service/teachersAPI";
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Modal States
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const [confirmState, setConfirmState] = useState<{ isOpen: boolean; id: string | null; title: string; message: string }>({
+    isOpen: false,
+    id: null,
+    title: "",
+    message: ""
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchTeachers();
@@ -28,18 +45,42 @@ export default function TeachersPage() {
     }
   }
 
-  async function handleDelete(id: string) {
-    if (!confirm("Apakah Anda yakin ingin menghapus data guru ini?")) return;
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
+    setAlertState({ isOpen: true, title, message, type });
+  };
+
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+  };
+
+  const initiateDelete = (id: string, name: string) => {
+    setConfirmState({
+      isOpen: true,
+      id,
+      title: "Hapus Data Guru",
+      message: `Apakah Anda yakin ingin menghapus data guru "${name}"?`
+    });
+  };
+
+  async function handleConfirmDelete() {
+    if (!confirmState.id) return;
+    setIsDeleting(true);
 
     try {
-      const response = await deleteTeacher(id);
+      const response = await deleteTeacher(confirmState.id);
       if (response.success) {
-        setTeachers(teachers.filter((t) => t.id !== id));
+        setTeachers(teachers.filter((t) => t.id !== confirmState.id));
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Dihapus", "Data guru berhasil dihapus.", "success");
       } else {
-        alert("Gagal menghapus guru: " + response.message);
+        setConfirmState({ ...confirmState, isOpen: false });
+        showAlert("Gagal", "Gagal menghapus guru: " + response.message, "error");
       }
     } catch (error) {
-      alert("Terjadi kesalahan saat menghapus data.");
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Error", "Terjadi kesalahan saat menghapus data.", "error");
+    } finally {
+      setIsDeleting(false);
     }
   }
 
@@ -112,8 +153,8 @@ export default function TeachersPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${teacher.isActive
-                          ? "bg-green-50 text-green-700 border-green-100"
-                          : "bg-gray-50 text-gray-600 border-gray-100"
+                        ? "bg-green-50 text-green-700 border-green-100"
+                        : "bg-gray-50 text-gray-600 border-gray-100"
                         }`}>
                         {teacher.isActive ? "Aktif" : "Nonaktif"}
                       </span>
@@ -127,7 +168,7 @@ export default function TeachersPage() {
                         <Edit size={16} />
                       </Link>
                       <button
-                        onClick={() => handleDelete(teacher.id)}
+                        onClick={() => initiateDelete(teacher.id, teacher.name)}
                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                         title="Hapus"
                       >
@@ -147,6 +188,23 @@ export default function TeachersPage() {
           </div>
         )}
       </div>
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
+
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

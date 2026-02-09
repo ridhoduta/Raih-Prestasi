@@ -4,43 +4,64 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 
-  import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { createTeacher } from "@/app/service/teachersAPI";
+import AlertModal from "@/app/components/AlertModal";
 
 export default function AddTeacherPage() {
-    const router = useRouter();
-    const [formData, setFormData] = useState({
-      name: "",
-      email: "",
-      password: "",
-    });
-    const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-      setIsLoading(true);
-      
-      try {
-        const response = await createTeacher(formData);
-        
-        if (response.success) {
-          router.push("/page/admin/teachers");
-        } else {
-          alert("Gagal menambahkan guru: " + response.message);
-        }
-      } catch (error) {
-        alert("Terjadi kesalahan saat menyimpan data.");
-      } finally {
-        setIsLoading(false);
+  // Modal State
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info"; shouldRedirect?: boolean }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info",
+    shouldRedirect: false
+  });
+
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info", shouldRedirect = false) => {
+    setAlertState({ isOpen: true, title, message, type, shouldRedirect });
+  };
+
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+    if (alertState.shouldRedirect) {
+      router.push("/page/admin/teachers");
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const response = await createTeacher(formData);
+
+      if (response.success) {
+        showAlert("Berhasil", "Guru berhasil ditambahkan.", "success", true);
+      } else {
+        showAlert("Gagal", "Gagal menambahkan guru: " + response.message, "error");
       }
-    };
+    } catch (error) {
+      showAlert("Error", "Terjadi kesalahan saat menyimpan data.", "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <div className="flex items-center gap-4 mb-8">
-        <Link 
+        <Link
           href="/page/admin/teachers"
           className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
         >
@@ -56,37 +77,37 @@ export default function AddTeacherPage() {
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               required
               placeholder="Contoh: Budi Santoso, S.Pd"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email Sekolah</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               placeholder="nama@sekolah.sch.id"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               required
               placeholder="Minimal 8 karakter"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
             <p className="text-xs text-gray-400 mt-1">Password bisa diubah nanti oleh guru.</p>
           </div>
@@ -99,8 +120,8 @@ export default function AddTeacherPage() {
           >
             Batal
           </Link>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             disabled={isLoading}
             className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"
           >
@@ -109,6 +130,14 @@ export default function AddTeacherPage() {
           </button>
         </div>
       </form>
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        onClose={closeAlert}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+      />
     </div>
   );
 }
