@@ -5,17 +5,10 @@ export async function GET() {
   try {
     const data = await prisma.competition.findMany({
       orderBy: { createdAt: "asc" },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        isActive: true,
-        startDate: true,
-        endDate: true,
+      include: {
         category: true,
         level: true,
-        createdBy: true,
-      },
+      }
     });
     return NextResponse.json({
       success: true,

@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 
+import { createNews } from "@/app/service/newsAPI";
+
 export default function AddNewsPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -19,18 +21,12 @@ export default function AddNewsPage() {
     setIsLoading(true);
 
     try {
-      const res = await fetch("/api/admin/news", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await createNews(formData);
 
-      const data = await res.json();
-
-      if (data.success) {
+      if (response.success) {
         router.push("/page/admin/news");
       } else {
-        alert("Gagal menambahkan berita: " + data.message);
+        alert("Gagal menambahkan berita: " + response.message);
       }
     } catch (error) {
       alert("Terjadi kesalahan saat menyimpan data.");
@@ -39,6 +35,7 @@ export default function AddNewsPage() {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

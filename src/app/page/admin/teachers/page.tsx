@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Search, Edit, Trash2, Mail, Loader2 } from "lucide-react";
 
+import { getTeachers, deleteTeacher, Teacher } from "@/app/service/teachersAPI";
+
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
@@ -15,10 +17,9 @@ export default function TeachersPage() {
 
   async function fetchTeachers() {
     try {
-      const res = await fetch("/api/admin/guru");
-      const data = await res.json();
-      if (data.success) {
-        setTeachers(data.data);
+      const response = await getTeachers();
+      if (response.success && response.data) {
+        setTeachers(response.data);
       }
     } catch (error) {
       console.error("Failed to fetch teachers", error);
@@ -27,23 +28,21 @@ export default function TeachersPage() {
     }
   }
 
-  async function handleDelete(id) {
+  async function handleDelete(id: string) {
     if (!confirm("Apakah Anda yakin ingin menghapus data guru ini?")) return;
 
     try {
-      const res = await fetch(`/api/admin/guru/${id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (data.success) {
+      const response = await deleteTeacher(id);
+      if (response.success) {
         setTeachers(teachers.filter((t) => t.id !== id));
       } else {
-        alert("Gagal menghapus guru: " + data.message);
+        alert("Gagal menghapus guru: " + response.message);
       }
     } catch (error) {
       alert("Terjadi kesalahan saat menghapus data.");
     }
   }
+
 
   const filteredTeachers = teachers.filter(teacher => 
     teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

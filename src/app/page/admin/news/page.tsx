@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Search, Edit, Trash2, Calendar, Loader2 } from "lucide-react";
 
+import { getNews, deleteNews, NewsItem } from "@/app/service/newsAPI";
+
 export default function NewsPage() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
@@ -15,10 +17,9 @@ export default function NewsPage() {
 
   async function fetchNews() {
     try {
-      const res = await fetch("/api/admin/news");
-      const data = await res.json();
-      if (data.success) {
-        setNews(data.data);
+      const response = await getNews();
+      if (response.success && response.data) {
+        setNews(response.data);
       }
     } catch (error) {
       console.error("Failed to fetch news", error);
@@ -27,22 +28,21 @@ export default function NewsPage() {
     }
   }
 
+
   const handleDelete = async (id: string) => {
     if (!confirm("Hapus berita ini?")) return;
     try {
-      const res = await fetch(`/api/admin/news/${id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (data.success) {
+      const response = await deleteNews(id);
+      if (response.success) {
         setNews(news.filter((n: any) => n.id !== id));
       } else {
-        alert("Gagal menghapus: " + data.message);
+        alert("Gagal menghapus: " + response.message);
       }
     } catch (error) {
       alert("Terjadi kesalahan.");
     }
   };
+
 
   const filteredNews = news.filter((item: any) => 
     item.title.toLowerCase().includes(searchTerm.toLowerCase())

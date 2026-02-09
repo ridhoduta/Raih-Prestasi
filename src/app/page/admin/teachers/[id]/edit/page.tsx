@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 
+import { getTeacherDetail, updateTeacher } from "@/app/service/teachersAPI";
+
 export default function EditTeacherPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const { id } = use(params);
@@ -24,14 +26,13 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
 
   async function fetchTeacher() {
     try {
-      const res = await fetch(`/api/admin/guru/${id}`);
-      const data = await res.json();
-      if (data.success) {
+      const response = await getTeacherDetail(id);
+      if (response.success && response.data) {
         setFormData({
-            name: data.data.name,
-            email: data.data.email,
+            name: response.data.name,
+            email: response.data.email,
             password: "",
-            isActive: data.data.isActive
+            isActive: response.data.isActive
         });
       } else {
         alert("Guru tidak ditemukan");
@@ -44,6 +45,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
       setIsLoading(false);
     }
   }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,18 +62,12 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
         payload.password = formData.password;
       }
 
-      const res = await fetch(`/api/admin/guru/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await updateTeacher(id, payload);
       
-      const data = await res.json();
-      
-      if (data.success) {
+      if (response.success) {
         router.push("/page/admin/teachers");
       } else {
-        alert("Gagal memperbarui guru: " + data.message);
+        alert("Gagal memperbarui guru: " + response.message);
       }
     } catch (error) {
       alert("Terjadi kesalahan saat menyimpan data.");
@@ -79,6 +75,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
       setIsSaving(false);
     }
   };
+
 
   if (isLoading) {
     return (

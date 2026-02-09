@@ -6,7 +6,9 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 
   import { useRouter } from "next/navigation";
 
-  export default function AddTeacherPage() {
+import { createTeacher } from "@/app/service/teachersAPI";
+
+export default function AddTeacherPage() {
     const router = useRouter();
     const [formData, setFormData] = useState({
       name: "",
@@ -20,18 +22,12 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
       setIsLoading(true);
       
       try {
-        const res = await fetch("/api/admin/guru", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        const response = await createTeacher(formData);
         
-        const data = await res.json();
-        
-        if (data.success) {
+        if (response.success) {
           router.push("/page/admin/teachers");
         } else {
-          alert("Gagal menambahkan guru: " + data.message);
+          alert("Gagal menambahkan guru: " + response.message);
         }
       } catch (error) {
         alert("Terjadi kesalahan saat menyimpan data.");
@@ -39,6 +35,7 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
         setIsLoading(false);
       }
     };
+
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">

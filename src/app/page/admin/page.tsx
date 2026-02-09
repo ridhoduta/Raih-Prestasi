@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { Users, Trophy, Award, Calendar, Loader2 } from "lucide-react";
 
+import { getDashboardStats, DashboardStats } from "@/app/service/dashboardAPI";
+
 export default function AdminDashboard() {
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<DashboardStats>({
     totalGuru: 0,
     totalSiswa: 0,
     activeCompetitions: 0,
@@ -16,10 +18,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     async function fetchStats() {
       try {
-        const res = await fetch("/api/admin/dashboard");
-        const data = await res.json();
-        if (data.success) {
-          setStats(data.data);
+        const response = await getDashboardStats();
+        if (response.success && response.data) {
+          setStats(response.data);
         }
       } catch (error) {
         console.error("Failed to fetch dashboard stats", error);
@@ -29,6 +30,7 @@ export default function AdminDashboard() {
     }
     fetchStats();
   }, []);
+
 
   const statCards = [
     { label: "Total Guru", value: stats.totalGuru, icon: Users, color: "bg-emerald-500", trend: "Data Terbaru" },
