@@ -4,13 +4,13 @@ import { NextResponse } from "next/server";
 type Context = {
   params: Promise<{
     id: string; // Match folder [id]
-    registrationid: string; // Match folder [registrationid]
+    registrationId: string;
   }>;
 };
 
 export async function PATCH(req: Request, context: Context) {
   try {
-    const { id: competitionId, registrationid: registrationId } = await context.params;
+    const { id: competitionId, registrationId } = await context.params;
     const body = await req.json();
 
     const { status, note } = body;
