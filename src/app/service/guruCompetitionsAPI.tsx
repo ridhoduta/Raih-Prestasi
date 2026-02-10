@@ -96,3 +96,8 @@ export async function deleteFormField(competitionId: string, fieldId: string) {
 export async function getRegistrations(competitionId: string) {
   return apiClient.get<Registration[]>(`${BASE_URL}/${competitionId}/registrations`);
 }
+
+export async function getCompetitionById(id: string) {
+  return apiClient.get<Competition>(`${BASE_URL}/${id}`);
+}
+

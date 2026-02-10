@@ -4,6 +4,8 @@ import { Category, getCategories } from "@/app/service/categoriesAPI";
 import { Competition, createCompetition, deleteCompetition, getCompetitions, updateCompetition } from "@/app/service/guruCompetitionsAPI";
 import { getLevels, Level } from "@/app/service/levelsAPI";
 import { Edit, Loader2, Plus, Save, Trash2, Trophy } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function GuruCompetitions() {
@@ -11,35 +13,22 @@ export default function GuruCompetitions() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [levels, setLevels] = useState<Level[]>([]);
   const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({
-    id: "",
-    title: "",
-    description: "",
-    isActive: false,
-    startDate: "",
-    endDate: "",
-    levelId: "",
-    categoryId: "",
-    createdById: ""
-  });
+  const router = useRouter();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [issubmit, setIssubmit] = useState(false);
 
   // Placeholder static Guru ID (to be replaced by auth session later)
-  const STATIC_GURU_ID = "d351129f-7522-4ff2-9314-e6957cd8bc8f";
+
 
   async function fetchAllData() {
     setLoading(true);
     try {
-      const [compRes, catRes, levelRes] = await Promise.all([
+      const [compRes] = await Promise.all([
         getCompetitions(),
-        getCategories(),
-        getLevels(),
       ]);
 
       if (compRes.success && compRes.data) setCompetitions(compRes.data);
-      if (catRes.success && catRes.data) setCategories(catRes.data);
-      if (levelRes.success && levelRes.data) setLevels(levelRes.data);
     } catch (error) {
       console.error("Failed to fetch data", error);
     } finally {
@@ -68,47 +57,7 @@ export default function GuruCompetitions() {
       }
     }
   };
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.title || !formData.categoryId || !formData.levelId || !formData.startDate || !formData.endDate) {
-      alert("Harap isi semua field yang wajib!");
-      return;
-    }
 
-    try {
-      setIssubmit(true);
-      const payload = {
-        title: formData.title,
-        description: formData.description,
-        categoryId: formData.categoryId,
-        levelId: formData.levelId,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        isActive: formData.isActive,
-        createdById: formData.createdById || STATIC_GURU_ID,
-      };
-
-      let response;
-      if (formData.id) {
-        response = await updateCompetition(formData.id, payload);
-      } else {
-        response = await createCompetition(payload);
-      }
-
-      if (response.success) {
-        alert(formData.id ? "Kompetisi berhasil diupdate!" : "Kompetisi berhasil dibuat!");
-        setIsModalOpen(false);
-        fetchCompetitions();
-      } else {
-        alert("Gagal menyimpan kompetisi: " + response.message);
-      }
-    } catch (error) {
-      console.error("Failed to save competition", error);
-      alert("Terjadi kesalahan sistem saat menyimpan kompetisi.");
-    } finally {
-      setIssubmit(false);
-    }
-  };
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "-";
@@ -120,39 +69,14 @@ export default function GuruCompetitions() {
     return `${day}-${month}-${year}`;
   };
 
+  const handleEdit = (competition: Competition) => {
+    router.push(`/page/guru/competitions/${competition.id}/edit`);
+  };
+
   useEffect(() => {
     fetchAllData();
   }, []);
 
-  const openAddModal = () => {
-    setFormData({
-      id: "",
-      title: "",
-      description: "",
-      isActive: true,
-      startDate: "",
-      endDate: "",
-      levelId: "",
-      categoryId: "",
-      createdById: STATIC_GURU_ID
-    });
-    setIsModalOpen(true);
-  };
-
-  const openEditModal = (competition: Competition) => {
-    setFormData({
-      id: competition.id,
-      title: competition.title,
-      description: competition.description ?? "",
-      isActive: competition.isActive,
-      startDate: competition.startDate,
-      endDate: competition.endDate,
-      levelId: competition.levelId,
-      categoryId: competition.categoryId,
-      createdById: competition.createdBy,
-    });
-    setIsModalOpen(true);
-  };
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -162,13 +86,13 @@ export default function GuruCompetitions() {
             Daftar kompetisi yang tersedia untuk siswa.
           </p>
         </div>
-        <button
-          onClick={openAddModal}
-          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-medium transition-all shadow-sm hover:shadow-md"
+        <Link
+          href="/page/guru/competitions/new"
+          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           Tambah Kompetisi
-        </button>
+        </Link>
       </div>
       <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center">
         {loading ? (
@@ -226,7 +150,7 @@ export default function GuruCompetitions() {
                     </td>
                     <td className="px-6 py-4 text-right flex justify-end gap-2">
                       <button
-                        onClick={() => openEditModal(competition)}
+                        onClick={() => handleEdit(competition)}
                         className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
                         title="Edit"
                       >
@@ -247,7 +171,7 @@ export default function GuruCompetitions() {
           </div>
 
         )}
-        {isModalOpen && (
+        {/* {isModalOpen && (
           <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
               <h2 className="text-xl font-bold text-gray-900 mb-4">
@@ -362,7 +286,7 @@ export default function GuruCompetitions() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
 
         {/* <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
           <Trophy size={32} />
