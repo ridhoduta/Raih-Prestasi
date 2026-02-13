@@ -6,7 +6,15 @@ export type ApiResponse<T> = {
 };
 
 async function handleResponse<T>(res: Response): Promise<ApiResponse<T>> {
-  const data = await res.json();
+  let data: any = {};
+  try {
+    const text = await res.text();
+    if (text) {
+      data = JSON.parse(text);
+    }
+  } catch (error) {
+    console.error("Error parsing JSON response:", error);
+  }
   if (!res.ok) {
     return {
       success: false,

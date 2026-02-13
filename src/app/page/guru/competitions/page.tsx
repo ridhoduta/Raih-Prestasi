@@ -13,6 +13,7 @@ export default function GuruCompetitions() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [levels, setLevels] = useState<Level[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
   const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -77,6 +78,13 @@ export default function GuruCompetitions() {
     fetchAllData();
   }, []);
 
+  const filteredCompetitions = competitions.filter((comp) => {
+    if (filterStatus === "all") return true;
+    if (filterStatus === "active") return comp.isActive;
+    if (filterStatus === "inactive") return !comp.isActive;
+    return true;
+  });
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -94,7 +102,38 @@ export default function GuruCompetitions() {
           Tambah Kompetisi
         </Link>
       </div>
-      <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center">
+
+      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setFilterStatus("all")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
+              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+              : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Semua
+          </button>
+          <button
+            onClick={() => setFilterStatus("active")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "active"
+              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+              : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Aktif
+          </button>
+          <button
+            onClick={() => setFilterStatus("inactive")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "inactive"
+              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+              : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Nonaktif
+          </button>
+        </div>
+
         {loading ? (
           <div className="flex justify-center py-12">
             <Loader2 className="animate-spin text-emerald-600" size={32} />
@@ -113,191 +152,72 @@ export default function GuruCompetitions() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {competitions.map((competition) => (
-                  <tr key={competition.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                          <Trophy size={16} />
+                {filteredCompetitions.length > 0 ? (
+                  filteredCompetitions.map((competition) => (
+                    <tr key={competition.id} className="hover:bg-gray-50/50 transition-colors">
+                      <td className="px-6 py-4 font-medium text-gray-900">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                            <Trophy size={16} />
+                          </div>
+                          {competition.title}
                         </div>
-                        {competition.title}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${competition.isActive
-                        ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                        : "bg-gray-50 text-gray-600 border-gray-100"
-                        }`}>
-                        {competition.isActive ? "Aktif" : "Nonaktif"}
-                      </span>
-                    </td>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${competition.isActive
+                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                          : "bg-gray-50 text-gray-600 border-gray-100"
+                          }`}>
+                          {competition.isActive ? "Aktif" : "Nonaktif"}
+                        </span>
+                      </td>
 
 
-                    <td className="px-6 py-4 font-medium text-gray-900">
-                      <div className="flex items-center gap-3">
-                        {formatDate(competition.startDate)} - {formatDate(competition.endDate)}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900">
-                      <div className="flex items-center gap-3">
-                        {competition.category.name}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-medium text-gray-900">
-                      <div className="flex items-center gap-3">
-                        {competition.level.name}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-right flex justify-end gap-2">
-                      <button
-                        onClick={() => handleEdit(competition)}
-                        className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(competition.id)}
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                        title="Hapus"
-                      >
-                        <Trash2 size={16} />
-                      </button>
+                      <td className="px-6 py-4 font-medium text-gray-900">
+                        <div className="flex items-center gap-3">
+                          {formatDate(competition.startDate)} - {formatDate(competition.endDate)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-medium text-gray-900">
+                        <div className="flex items-center gap-3">
+                          {competition.category.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-medium text-gray-900">
+                        <div className="flex items-center gap-3">
+                          {competition.level.name}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right flex justify-end gap-2">
+                        <button
+                          onClick={() => handleEdit(competition)}
+                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                          title="Edit"
+                        >
+                          <Edit size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(competition.id)}
+                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                          title="Hapus"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                      Tidak ada kompetisi {filterStatus === 'all' ? '' : filterStatus === 'active' ? 'aktif' : 'nonaktif'} ditemukan.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
 
         )}
-        {/* {isModalOpen && (
-          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                {formData.id ? "Edit Kompetisi" : "Tambah Kompetisi Baru"}
-              </h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Judul Kompetisi</label>
-                  <input
-                    type="text"
-                    placeholder="misal: Robotik Nasional"
-                    className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    autoFocus
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                  <textarea
-                    placeholder="Jelaskan tentang kompetisi ini..."
-                    className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900 h-24 resize-none"
-                    value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  />
-                </div>
-
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
-                    <input
-                      type="date"
-                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
-                      value={formData.startDate ? formData.startDate.split('T')[0] : ""}
-                      onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Berakhir</label>
-                    <input
-                      type="date"
-                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
-                      value={formData.endDate ? formData.endDate.split('T')[0] : ""}
-                      onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                    <select
-                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
-                      value={formData.categoryId}
-                      onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                    >
-                      <option value="">Pilih Kategori</option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tingkat</label>
-                    <select
-                      className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
-                      value={formData.levelId}
-                      onChange={(e) => setFormData({ ...formData, levelId: e.target.value })}
-                    >
-                      <option value="">Pilih Tingkat</option>
-                      {levels.map((level) => (
-                        <option key={level.id} value={level.id}>
-                          {level.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 mb-6 px-1 py-2 mt-2">
-                <input
-                  type="checkbox"
-                  id="isActive"
-                  checked={formData.isActive}
-                  onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                  className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
-                />
-                <label htmlFor="isActive" className="text-sm font-medium text-gray-700">
-                  Kompetisi Aktif
-                </label>
-              </div>
-
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-4 py-2.5 rounded-xl font-medium text-gray-600 hover:bg-gray-50 text-center transition-colors"
-                  disabled={issubmit}
-                >
-                  Batal
-                </button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={!formData.title || !formData.categoryId || !formData.levelId || !formData.startDate || !formData.endDate || issubmit}
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"
-                >
-                  {issubmit ? <Loader2 className="animate-spin" size={18} /> : (formData.id ? <Save size={18} /> : <Plus size={18} />)}
-                  {formData.id ? "Simpan Perubahan" : "Simpan Kompetisi"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )} */}
-
-        {/* <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-          <Trophy size={32} />
-        </div>
-        <h3 className="text-lg font-bold text-gray-900">
-          Halaman Sedang Dikembangkan
-        </h3>
-        <p className="text-gray-500 mt-2 max-w-sm mx-auto">
-          Fitur untuk melihat daftar kompetisi sedang dalam tahap pengerjaan.
-          Segera hadir!
-        </p> */}
       </div>
     </div>
   );

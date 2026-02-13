@@ -13,6 +13,9 @@ export type IndependentSubmission = {
   id: string;
   status: IndependentSubmissionStatus;
   rejectionNote?: string;
+  title: string,
+  description: string,
+  documentUrl: string,
   reviewedBy?: string;
   recommendationLetter?: string;
   createdAt: string;
