@@ -22,7 +22,7 @@ export default function GuruSidebar() {
   const menuItems = [
     { name: "Dashboard", href: "/page/guru", icon: LayoutDashboard },
     { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy },
-    { name: "Pengajuan Kompetisi Mandiri", href: "/page/guru/independent-submissions", icon: Send },
+    { name: "Pengajuan Kompetisi Mandiri", href: "/page/guru/independent-submissions" , icon: Send },
     { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award },
     { name: "Pengumuman", href: "/page/guru/announcements", icon: Newspaper },
   ];

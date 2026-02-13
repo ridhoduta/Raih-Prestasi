@@ -1,17 +1,30 @@
-import { apiClient } from "./apiClient";
 
-export type AchievementStatus = "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
+
+import { apiClient } from "./apiClient";
 
 export type Achievement = {
   id: string;
   title: string;
-  status: AchievementStatus;
-  verifiedBy?: string;
-  guru?: {
+  result:string;
+  competitionName: string;
+  certificate:string;
+  status: "PENDING" | "VERIFIED" | "REJECTED";
+  createdAt: string;
+  updatedAt: string;
+  studentId: string;
+  guruId: string;
+  student: {
+    name: string;
+    nisn: string;
+    kelas: string;
+  };
+  guru: {
     name: string;
   };
-  // Add other fields as needed based on prisma schema if known
 };
+
+
+
 
 export type VerifyAchievementPayload = {
   status: "TERVERIFIKASI" | "DITOLAK";

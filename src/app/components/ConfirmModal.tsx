@@ -37,7 +37,7 @@ export default function ConfirmModal({ isOpen, onClose, onConfirm, title, messag
                         className="flex-1 py-2.5 px-4 rounded-xl text-white font-medium bg-red-500 hover:bg-red-600 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-70 flex items-center justify-center gap-2"
                     >
                         {isLoading && <Loader2 className="animate-spin" size={18} />}
-                        {isLoading ? "Memproses..." : "Ya, Hapus"}
+                        {isLoading ? "Memproses..." : "Ya"}
                     </button>
                 </div>
             </div>

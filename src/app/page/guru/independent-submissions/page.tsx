@@ -4,7 +4,8 @@ import AlertModal from "@/app/components/AlertModal";
 import ConfirmModal from "@/app/components/ConfirmModal";
 import { deleteIndependentSubmissions, getIndependentSubmissions } from "@/app/service/guruIndependentSubmissionsAPI";
 import { IndependentSubmission } from "@/app/service/guruIndependentSubmissionsAPI";
-import { Edit, File, Loader2, Send, Trash2 } from "lucide-react";
+import { ArrowLeft, Edit, Eye, File, Loader2, Send, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function GuruIndependentSubmissions() {
@@ -23,9 +24,11 @@ export default function GuruIndependentSubmissions() {
     message: ""
   });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [filterStatus, setFilterStatus] = useState<"all" | "menunggu" | "diterima" | "ditolak">("all");
   const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
     setAlertState({ isOpen: true, title, message, type });
   };
+  const router = useRouter();
 
   const closeAlert = () => {
     setAlertState({ ...alertState, isOpen: false });
@@ -35,7 +38,7 @@ export default function GuruIndependentSubmissions() {
       isOpen: true,
       id,
       title: "Hapus Pengajuan",
-      message: `Apakah Anda yakin ingin menghapus pengajuan "${name}"?`
+      message: `Apakah Anda yakin ingin menolak pengajuan "${name}"?`
     });
   };
 
@@ -83,6 +86,7 @@ export default function GuruIndependentSubmissions() {
   }
 
   function handleEdit(submission: IndependentSubmission) {
+    router.push(`/page/guru/independent-submissions/${submission.id}`);
     // setSelectedSubmission(submission);
     console.log(submission);
   }
@@ -92,6 +96,13 @@ export default function GuruIndependentSubmissions() {
   useEffect(() => {
     fetchSubmissions();
   }, []);
+  const filteredSubmissions = submissions.filter((sub) => {
+    if (filterStatus === "all") return true;
+    if (filterStatus === "menunggu") return sub.status === "MENUNGGU";
+    if (filterStatus === "diterima") return sub.status === "DITERIMA";
+    if (filterStatus === "ditolak") return sub.status === "DITOLAK";
+    return true;
+  });
 
   return (
     <div className="space-y-8">
@@ -101,7 +112,7 @@ export default function GuruIndependentSubmissions() {
           <p className="text-gray-500 mt-1">Kelola pengajuan prestasi mandiri oleh siswa.</p>
         </div>
       </div>
-
+      
       <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center">
         {loading ? (
           <div className="flex justify-center py-12">
@@ -109,6 +120,44 @@ export default function GuruIndependentSubmissions() {
           </div>
         ) : (
           <div className="overflow-x-auto">
+            <div className="flex gap-2 mb-6">
+          <button
+            onClick={() => setFilterStatus("all")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Semua
+          </button>
+          <button
+            onClick={() => setFilterStatus("menunggu")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "menunggu"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Menunggu
+          </button>
+          <button
+            onClick={() => setFilterStatus("diterima")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "diterima"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Diterima
+          </button>
+          <button
+            onClick={() => setFilterStatus("ditolak")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "ditolak"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+              }`}
+          >
+            Ditolak
+          </button>
+        </div>
             <table className="w-full text-left text-sm text-gray-600">
               <thead className="bg-gray-50/50 border-b border-gray-100 font-medium text-gray-500 uppercase tracking-wider text-xs">
                 <tr>
@@ -122,7 +171,7 @@ export default function GuruIndependentSubmissions() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
-                {submissions.map((submission) => (
+                {filteredSubmissions.map((submission) => (
                   <tr key={submission.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-gray-900">
                       <div className="flex items-center gap-3">
@@ -167,9 +216,9 @@ export default function GuruIndependentSubmissions() {
                       <button
                         onClick={() => handleEdit(submission)}
                         className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                        title="Edit"
+                        title="Lihat"
                       >
-                        <Edit size={16} />
+                        <Eye size={16} />
                       </button>
                       <button
                         onClick={() => initiateDelete(submission.id, submission.student.name)}

@@ -10,18 +10,9 @@ import { useEffect, useState } from "react";
 
 export default function GuruCompetitions() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [levels, setLevels] = useState<Level[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
   const router = useRouter();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [issubmit, setIssubmit] = useState(false);
-
-  // Placeholder static Guru ID (to be replaced by auth session later)
-
-
   async function fetchAllData() {
     setLoading(true);
     try {
