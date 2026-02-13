@@ -188,24 +188,6 @@ export default function GuruIndependentSubmissions() {
 
         )}
       </div>
-      <AlertModal
-        isOpen={alertState.isOpen}
-        title={alertState.title}
-        message={alertState.message}
-        type={alertState.type}
-        onClose={closeAlert}
-      />
-      <ConfirmModal
-        isOpen={confirmState.isOpen}
-        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
-        onConfirm={handleConfirmDelete}
-        title={confirmState.title}
-        message={confirmState.message}
-        isLoading={isDeleting}
-      />
     </div>
-  );
-}
-    </div >
   );
 }
