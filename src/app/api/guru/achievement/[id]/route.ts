@@ -7,9 +7,10 @@ type Context = {
 
 export async function GET(_: Request, context: Context) {
   const { id } = await context.params;
-  const data = await prisma.achievement.findMany({
+  const data = await prisma.achievement.findFirst({
     where: { id },
     include: {
+      student: true,
       guru: {
         select: {
           name: true,
@@ -19,8 +20,8 @@ export async function GET(_: Request, context: Context) {
   });
   return NextResponse.json({
     success: true,
-    message: "berhasil mengmabil data",
-    data: { data },
+    message: "berhasil mengambil data",
+    data: data,
   });
 }
 export async function PUT(request: Request, context: Context) {
@@ -31,7 +32,7 @@ export async function PUT(request: Request, context: Context) {
     const { status, verifiedBy } = body;
 
     // validasi status
-    if (!["TERVERIFIKASI", "DITOLAK"].includes(status)) {
+    if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK"].includes(status)) {
       return NextResponse.json(
         {
           success: false,
@@ -48,6 +49,7 @@ export async function PUT(request: Request, context: Context) {
         verifiedBy,
       },
       include: {
+        student: true,
         guru: {
           select: {
             name: true,
@@ -58,7 +60,7 @@ export async function PUT(request: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Achievement berhasil diverifikasi",
+      message: "Achievement berhasil diperbarui",
       data: updated,
     });
   } catch (error) {

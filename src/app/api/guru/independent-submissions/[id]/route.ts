@@ -22,7 +22,7 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
-    if (!["DITERIMA", "DITOLAK"].includes(status)) {
+    if (!["MENUNGGU", "DITERIMA", "DITOLAK"].includes(status)) {
       return NextResponse.json(
         {
           success: false,
@@ -54,16 +54,6 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
-    if (submission.status !== "MENUNGGU") {
-      return NextResponse.json(
-        {
-          success: false,
-          message: "Pengajuan sudah diverifikasi sebelumnya",
-        },
-        { status: 403 }
-      );
-    }
-
     const updated = await prisma.independentCompetitionSubmission.update({
       where: { id },
       data: {
@@ -79,7 +69,9 @@ export async function PUT(req: Request, context: Context) {
       message:
         status === "DITERIMA"
           ? "Pengajuan diterima"
-          : "Pengajuan ditolak",
+          : status === "DITOLAK" 
+          ? "Pengajuan ditolak"
+          : "Pengajuan diatur ke menunggu",
       data: updated,
     });
   } catch (error) {

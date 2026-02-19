@@ -76,14 +76,14 @@ export default function GuruIndependentSubmissions() {
     }
   }
 
-  function formatDate(dateString: string) {
+  const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "2-digit",
       year: "numeric",
+      month: "long",
+      day: "numeric",
     });
-  }
+  };
 
   function handleEdit(submission: IndependentSubmission) {
     router.push(`/page/guru/independent-submissions/${submission.id}`);
@@ -95,7 +95,7 @@ export default function GuruIndependentSubmissions() {
 
   useEffect(() => {
     fetchSubmissions();
-  }, []);
+  }, [filterStatus]);
   const filteredSubmissions = submissions.filter((sub) => {
     if (filterStatus === "all") return true;
     if (filterStatus === "menunggu") return sub.status === "MENUNGGU";
