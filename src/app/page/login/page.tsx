@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { LogIn, Mail, Lock, AlertCircle, Loader2 } from "lucide-react";
+import { LogIn, Mail, Lock, AlertCircle, Loader2, Key } from "lucide-react";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -56,7 +56,7 @@ export default function LoginPage() {
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
                 <div className="bg-[#7db03d] p-8 text-white text-center">
                     <div className="inline-flex items-center justify-center p-3 bg-white/20 rounded-xl mb-4">
-                        <LogIn size={32} />
+                        <Key size={32} />
                     </div>
                     <h1 className="text-2xl font-bold">Raih Prestasi</h1>
                     <p className="text-white/80 mt-1">Sistem Manajemen Kompetensi & Prestasi</p>
