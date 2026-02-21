@@ -3,7 +3,7 @@ import { apiClient } from "./apiClient";
 export type IndependentSubmissionStatus = "MENUNGGU" | "DITERIMA" | "DITOLAK";
 
 export type ReviewSubmissionPayload = {
-  status: "DITERIMA" | "DITOLAK";
+  status: IndependentSubmissionStatus;
   reviewedBy: string;
   rejectionNote?: string;
   recommendationLetter?: string;
@@ -41,6 +41,11 @@ export async function getIndependentSubmissionDetail(id: string) {
   // The API returns array in some cases or object. Let's check route.ts again.
   // GET [id] returns findMany with where id. 
   return apiClient.get<IndependentSubmission[]>(`${BASE_URL}/${id}`);
+}
+
+
+export async function deleteIndependentSubmissions(id: string, payload: ReviewSubmissionPayload) {
+  return apiClient.put<IndependentSubmission>(`${BASE_URL}/${id}`, payload);
 }
 
 export async function reviewIndependentSubmission(id: string, payload: ReviewSubmissionPayload) {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   LayoutDashboard,
@@ -16,7 +16,31 @@ import {
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+    setIsLoggingOut(true);
+
+    try {
+      const response = await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        router.push("/page/login");
+        router.refresh();
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   const menuItems = [
     { name: "Dashboard", href: "/page/admin", icon: LayoutDashboard },
@@ -80,8 +104,8 @@ export default function AdminSidebar() {
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 group ${isActive
-                    ? "bg-emerald-50 text-emerald-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                  ? "bg-emerald-50 text-emerald-600 font-medium"
+                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                   }`}
               >
                 <Icon size={20} className={isActive ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-600"} />
@@ -93,11 +117,12 @@ export default function AdminSidebar() {
 
         <div className="p-4 border-t border-gray-100">
           <button
-            className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-600 hover:bg-red-50 transition-colors"
-            onClick={() => console.log('Logout')}
+            className={`flex items-center gap-3 px-4 py-3 w-full rounded-xl text-red-600 hover:bg-red-50 transition-colors ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={handleLogout}
+            disabled={isLoggingOut}
           >
             <LogOut size={20} />
-            <span>Keluar</span>
+            <span>{isLoggingOut ? "Keluar..." : "Keluar"}</span>
           </button>
         </div>
       </div>

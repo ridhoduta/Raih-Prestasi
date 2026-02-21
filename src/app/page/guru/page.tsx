@@ -1,30 +1,29 @@
-"use client";
+import { Trophy, Award, Calendar, Newspaper, Send } from "lucide-react";
+import { getSession } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
-import { useEffect, useState } from "react";
-import { Trophy, Award, Calendar, Loader2, Newspaper, Send } from "lucide-react";
+export default async function GuruDashboard() {
+  const session = await getSession();
 
-export default function GuruDashboard() {
-  const [stats, setStats] = useState({
-    totalPrestasiSiswa: 0,
-    activeCompetitions: 0,
-    pendingSubmissions: 0,
-    announcements: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+  if (!session || session.role !== "GURU") {
+    redirect("/page/login");
+  }
 
-  useEffect(() => {
-    // Simulate fetching stats
-    const timer = setTimeout(() => {
-      setStats({
-        totalPrestasiSiswa: 12,
-        activeCompetitions: 5,
-        pendingSubmissions: 3,
-        announcements: 8,
-      });
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
+  // Fetch real stats from database
+  const [totalPrestasiSiswa, activeCompetitions, pendingSubmissions, announcementsCount] = await Promise.all([
+    prisma.achievement.count({ where: { status: "TERVERIFIKASI" } }),
+    prisma.competition.count({ where: { isActive: true } }),
+    prisma.independentCompetitionSubmission.count({ where: { status: "MENUNGGU" } }),
+    prisma.announcement.count({ where: { isPublished: true } }),
+  ]);
+
+  const stats = {
+    totalPrestasiSiswa,
+    activeCompetitions,
+    pendingSubmissions,
+    announcements: announcementsCount,
+  };
 
   const statCards = [
     { label: "Prestasi Siswa", value: stats.totalPrestasiSiswa, icon: Award, color: "bg-emerald-500", trend: "Bulan ini" },
@@ -33,19 +32,11 @@ export default function GuruDashboard() {
     { label: "Pengumuman", value: stats.announcements, icon: Newspaper, color: "bg-emerald-400", trend: "Terbaru" },
   ];
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 size={40} className="animate-spin text-emerald-600" />
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard Guru</h1>
-        <p className="text-gray-500 mt-1">Selamat datang di Panel Guru, mari pantau prestasi siswa!</p>
+        <p className="text-gray-500 mt-1">Selamat datang {session.name}, mari pantau prestasi siswa!</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -100,20 +91,20 @@ export default function GuruDashboard() {
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
           <h3 className="font-bold text-gray-900 mb-4">Pengumuman Terkini</h3>
           <div className="space-y-3">
-             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                <Calendar size={18} className="text-gray-400" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">Persiapan Lomba O2SN 2026</p>
-                  <p className="text-xs text-gray-500">Diterbitkan 1 hari yang lalu</p>
-                </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+              <Calendar size={18} className="text-gray-400" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Persiapan Lomba O2SN 2026</p>
+                <p className="text-xs text-gray-500">Diterbitkan 1 hari yang lalu</p>
               </div>
-              <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
-                <Calendar size={18} className="text-gray-400" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">Jadwal Verifikasi Sertifikat</p>
-                  <p className="text-xs text-gray-500">Diterbitkan 3 hari yang lalu</p>
-                </div>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+              <Calendar size={18} className="text-gray-400" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-gray-900">Jadwal Verifikasi Sertifikat</p>
+                <p className="text-xs text-gray-500">Diterbitkan 3 hari yang lalu</p>
               </div>
+            </div>
           </div>
         </div>
       </div>

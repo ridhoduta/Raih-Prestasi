@@ -1,5 +1,7 @@
 "use client";
 
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
 import { Category, getCategories } from "@/app/service/categoriesAPI";
 import { Competition, createCompetition, deleteCompetition, getCompetitions, updateCompetition } from "@/app/service/guruCompetitionsAPI";
 import { getLevels, Level } from "@/app/service/levelsAPI";
@@ -10,16 +12,56 @@ import { useEffect, useState } from "react";
 
 export default function GuruCompetitions() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [levels, setLevels] = useState<Level[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
   const router = useRouter();
+  const [confirmState, setConfirmState] = useState({
+    isOpen: false,
+    id: "",
+    title: "",
+    message: "",
+  });
+  const [isDelete, setIsDelete] = useState(false);
+  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
+    isOpen: false,
+    title: "",
+    message: "",
+    type: "info"
+  });
+  const closeAlert = () => {
+    setAlertState({ ...alertState, isOpen: false });
+  };
+  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
+    setAlertState({ isOpen: true, title, message, type });
+  };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [issubmit, setIssubmit] = useState(false);
 
-  // Placeholder static Guru ID (to be replaced by auth session later)
+  const initiateDelete = (id: string, name: string) => {
+    setConfirmState({
+      isOpen: true,
+      id,
+      title: "Hapus Kompetisi",
+      message: `Apakah Anda yakin ingin menghapus kompetisi "${name}"?`
+    });
+  };
+  const handleConfirmDelete = async () => {
+    if (!confirmState.id) return;
+    setIsDelete(true);
+    try {
+      await deleteCompetition(confirmState.id);
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Success", "Kompetisi berhasil dihapus.", "success");
+      fetchCompetitions();
+    } catch (error) {
+      setConfirmState({ ...confirmState, isOpen: false });
+      showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+    } finally {
+      setIsDelete(false);
+    }
+  };
+
+
+
 
 
   async function fetchAllData() {
@@ -48,26 +90,17 @@ export default function GuruCompetitions() {
     }
   }
 
-  const handleDelete = async (id: string) => {
-    if (confirm("Apakah Anda yakin ingin menghapus kompetisi ini?")) {
-      try {
-        await deleteCompetition(id);
-        fetchCompetitions();
-      } catch (error) {
-        console.error("Failed to delete competition", error);
-      }
-    }
-  };
 
 
   const formatDate = (dateString: string) => {
     if (!dateString) return "-";
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+    return date.toLocaleDateString("id-ID", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
   };
 
   const handleEdit = (competition: Competition) => {
@@ -197,7 +230,7 @@ export default function GuruCompetitions() {
                           <Edit size={16} />
                         </button>
                         <button
-                          onClick={() => handleDelete(competition.id)}
+                          onClick={() => initiateDelete(competition.id, competition.title)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                           title="Hapus"
                         >
@@ -219,6 +252,21 @@ export default function GuruCompetitions() {
 
         )}
       </div>
+      <AlertModal
+        isOpen={alertState.isOpen}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+        onClose={closeAlert}
+      />
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDelete}
+      />
     </div>
   );
 }

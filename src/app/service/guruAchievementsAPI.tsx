@@ -1,20 +1,33 @@
-import { apiClient } from "./apiClient";
 
-export type AchievementStatus = "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
+
+import { apiClient } from "./apiClient";
 
 export type Achievement = {
   id: string;
   title: string;
-  status: AchievementStatus;
-  verifiedBy?: string;
-  guru?: {
+  result: string;
+  competitionName: string;
+  certificate: string;
+  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
+  createdAt: string;
+  updatedAt: string;
+  studentId: string;
+  guruId: string;
+  student: {
+    name: string;
+    nisn: string;
+    kelas: string;
+  };
+  guru: {
     name: string;
   };
-  // Add other fields as needed based on prisma schema if known
 };
 
+
+
+
 export type VerifyAchievementPayload = {
-  status: "TERVERIFIKASI" | "DITOLAK";
+  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
   verifiedBy: string;
 };
 
@@ -25,7 +38,11 @@ export async function getAchievements() {
 }
 
 export async function getAchievementDetail(id: string) {
-  return apiClient.get<{ data: Achievement }>(`${BASE_URL}/${id}`);
+  return apiClient.get<Achievement>(`${BASE_URL}/${id}`);
+}
+
+export async function deleteAchievement(id: string, payload: VerifyAchievementPayload) {
+  return apiClient.put<Achievement>(`${BASE_URL}/${id}`, payload);
 }
 
 export async function verifyAchievement(id: string, payload: VerifyAchievementPayload) {
