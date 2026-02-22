@@ -73,10 +73,7 @@ export default function GuruAchievements() {
     if (!confirmState.id) return;
     setIsDeleting(true);
     try {
-      await deleteAchievement(confirmState.id, {
-        status: "DITOLAK",
-        verifiedBy: "14d8aa2c-ff9e-4696-9898-cf03584c4967",
-      });
+      await deleteAchievement(confirmState.id);
       setConfirmState({ ...confirmState, isOpen: false });
       showAlert("Success", "Pengajuan berhasil dihapus.", "success");
       fetchAchievements();

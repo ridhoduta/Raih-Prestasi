@@ -43,9 +43,8 @@ export async function getIndependentSubmissionDetail(id: string) {
   return apiClient.get<IndependentSubmission[]>(`${BASE_URL}/${id}`);
 }
 
-
-export async function deleteIndependentSubmissions(id: string, payload: ReviewSubmissionPayload) {
-  return apiClient.put<IndependentSubmission>(`${BASE_URL}/${id}`, payload);
+export async function deleteIndependentSubmissions(id: string) {
+  return apiClient.delete<IndependentSubmission>(`${BASE_URL}/${id}`);
 }
 
 export async function reviewIndependentSubmission(id: string, payload: ReviewSubmissionPayload) {

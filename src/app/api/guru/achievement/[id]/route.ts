@@ -74,3 +74,26 @@ export async function PUT(request: Request, context: Context) {
     );
   }
 }
+export async function DELETE(request: Request, context: Context) {
+  try {
+    const { id } = await context.params;
+    const deleted = await prisma.achievement.delete({
+      where: { id },
+    });
+    return NextResponse.json({
+      success: true,
+      message: "Achievement berhasil dihapus",
+      data: deleted,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Gagal menghapus achievement",
+      },
+      { status: 500 }
+    );
+  }
+}
+

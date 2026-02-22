@@ -46,7 +46,7 @@ export default function GuruIndependentSubmissions() {
     if (!confirmState.id) return;
     setIsDeleting(true);
     try {
-      const response = await deleteIndependentSubmissions(confirmState.id, { status: "DITOLAK", reviewedBy: "Guru", rejectionNote: "Pengajuan dihapus oleh guru" });
+      const response = await deleteIndependentSubmissions(confirmState.id);
       if (response.success) {
         setSubmissions(submissions.filter((s) => s.id !== confirmState.id));
         setConfirmState({ ...confirmState, isOpen: false });
@@ -236,6 +236,21 @@ export default function GuruIndependentSubmissions() {
 
         )}
       </div>
+      <AlertModal
+        isOpen={alertState.isOpen}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+        onClose={closeAlert}
+      />
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </div>
   );
 }

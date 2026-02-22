@@ -84,6 +84,40 @@ export async function PUT(req: Request, context: Context) {
     );
   }
 }
+
+export async function DELETE(_: Request, context: Context) {
+  try {
+    const { id } = await context.params;
+    const submission = await prisma.independentCompetitionSubmission.findUnique({
+      where: { id },
+    });
+
+    if (!submission) {
+      return NextResponse.json(
+        { success: false, message: "Pengajuan tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    await prisma.independentCompetitionSubmission.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Pengajuan dihapus",
+    });
+  } catch (error) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Gagal menghapus pengajuan",
+      },
+      { status: 500 }
+    );
+  }
+}
+
 export async function GET(_: Request, context: Context) {
   try {
     const { id } = await context.params;

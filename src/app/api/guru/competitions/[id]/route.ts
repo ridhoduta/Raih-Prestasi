@@ -104,14 +104,13 @@ export async function DELETE(_: Request, context : Context) {
       );
     }
 
-    await prisma.competition.update({
+    await prisma.competition.delete({
       where: { id },
-      data: { isActive: false },
     });
 
     return NextResponse.json({
       success: true,
-      message: "Competition disabled",
+      message: "Competition deleted",
     });
   } catch (error) {
     console.error(error);

@@ -41,8 +41,8 @@ export async function getAchievementDetail(id: string) {
   return apiClient.get<Achievement>(`${BASE_URL}/${id}`);
 }
 
-export async function deleteAchievement(id: string, payload: VerifyAchievementPayload) {
-  return apiClient.put<Achievement>(`${BASE_URL}/${id}`, payload);
+export async function deleteAchievement(id: string) {
+  return apiClient.delete<Achievement>(`${BASE_URL}/${id}`);
 }
 
 export async function verifyAchievement(id: string, payload: VerifyAchievementPayload) {
