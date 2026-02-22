@@ -85,7 +85,7 @@ export default function LoginPage() {
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-slate-700 block">
-                                Kata Sandi
+                                Password    
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
