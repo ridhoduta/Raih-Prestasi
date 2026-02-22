@@ -20,6 +20,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { nisn, name, kelas, angkatan } = body;
 
+
+    
+
     if (!nisn || !name || !kelas || !angkatan) {
       return NextResponse.json(
         { success: false, message: "Field wajib belum lengkap" },
@@ -30,9 +33,10 @@ export async function POST(req: Request) {
     const student = await prisma.student.create({
       data: {
         nisn,
+        password: nisn, // Default password is NISN
         name,
         kelas,
-        angkatan,
+        angkatan: Number(angkatan),
       },
     });
 

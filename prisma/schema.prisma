@@ -1,6 +1,5 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -70,6 +69,7 @@ model User {
 model Student {
   id        String   @id @default(uuid())
   nisn      String   @unique
+  password  String
   name      String
   kelas     String
   angkatan  Int

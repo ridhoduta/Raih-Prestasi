@@ -45,6 +45,7 @@ export default function AdminSidebar() {
   const menuItems = [
     { name: "Dashboard", href: "/page/admin", icon: LayoutDashboard },
     { name: "Data Guru", href: "/page/admin/teachers", icon: Users },
+    { name: "Data Siswa", href: "/page/admin/students", icon: Users },
     { name: "Kategori", href: "/page/admin/categories", icon: Trophy },
     { name: "Tingkat", href: "/page/admin/levels", icon: Settings },
     { name: "Berita Sekolah", href: "/page/admin/news", icon: Newspaper },
