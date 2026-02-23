@@ -8,6 +8,7 @@ export async function GET() {
       include: {
         category: true,
         level: true,
+        CompetitionFormField: true,
       }
     });
     return NextResponse.json({
@@ -29,11 +30,13 @@ export async function POST(req: Request) {
     const {
       title,
       description,
+      thumbnail,
       categoryId,
       levelId,
       startDate,
       endDate,
       createdById,
+      formFields,
     } = body;
 
     // 🔒 Validasi wajib
@@ -55,11 +58,21 @@ export async function POST(req: Request) {
       data: {
         title,
         description,
+        thumbnail,
         categoryId,
         levelId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        createdBy: createdById, // ✅ FIX DI SINI
+        createdBy: createdById,
+        CompetitionFormField: {
+          create: formFields?.map((f: any, idx: number) => ({
+            label: f.label,
+            fieldType: f.fieldType,
+            isRequired: f.isRequired || false,
+            options: f.options,
+            order: f.order || idx,
+          })) || [],
+        }
       },
     });
 

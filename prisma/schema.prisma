@@ -26,6 +26,7 @@ enum FieldType {
   SELECT
   CHECKBOX
   RADIO
+  DATE
 }
 enum SubmissionStatus {
   MENUNGGU
@@ -145,6 +146,7 @@ model Competition {
   id          String   @id @default(uuid())
   title       String
   description String?
+  thumbnail   String?
   isActive    Boolean  @default(true)
   startDate   DateTime
   endDate     DateTime

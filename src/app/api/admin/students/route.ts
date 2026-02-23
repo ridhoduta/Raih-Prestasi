@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import bcrypt from "bcrypt";
 
 
 export async function GET() {
@@ -30,10 +31,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const hashedPassword = await bcrypt.hash(nisn, 10);
+
     const student = await prisma.student.create({
       data: {
         nisn,
-        password: nisn, // Default password is NISN
+        password: hashedPassword, // Default password is hashed NISN
         name,
         kelas,
         angkatan: Number(angkatan),

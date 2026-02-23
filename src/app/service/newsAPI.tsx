@@ -3,6 +3,7 @@ import { apiClient } from "./apiClient";
 export type NewsPayload = {
   title: string;
   content: string;
+  thumbnail?: string;
   isPublished: boolean;
 };
 
@@ -10,6 +11,7 @@ export type NewsItem = {
   id: string;
   title: string;
   content: string;
+  thumbnail?: string;
   isPublished: boolean;
   createdAt: string;
 };

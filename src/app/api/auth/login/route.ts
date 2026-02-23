@@ -5,18 +5,29 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const { email, password } = await request.json();
+    const { email, nisn, password } = await request.json();
 
-    if (!email || !password) {
+    if ((!email && !nisn) || !password) {
       return NextResponse.json(
-        { message: "Email and password are required" },
+        { message: "Email/NISN and password are required" },
         { status: 400 }
       );
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+    let user = null;
+    let role = null;
+
+    if (nisn) {
+      user = await prisma.student.findUnique({
+        where: { nisn },
+      });
+      role = "STUDENT";
+    } else {
+      user = await prisma.user.findUnique({
+        where: { email },
+      });
+      role = user?.role;
+    }
 
     if (!user) {
       return NextResponse.json(
@@ -43,8 +54,9 @@ export async function POST(request: Request) {
 
     const token = await signJWT({
       id: user.id,
-      email: user.email,
-      role: user.role,
+      email: nisn ? null : (user as any).email,
+      nisn: nisn || null,
+      role: role ? role : "admin",
       name: user.name,
     });
 
@@ -54,8 +66,9 @@ export async function POST(request: Request) {
         user: {
           id: user.id,
           name: user.name,
-          email: user.email,
-          role: user.role
+          email: nisn ? null : (user as any).email,
+          nisn: nisn || null,
+          role: role
         }
       },
       { status: 200 }

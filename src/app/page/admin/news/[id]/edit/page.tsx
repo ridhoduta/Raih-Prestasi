@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, Image as ImageIcon, X } from "lucide-react";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function EditNewsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -13,8 +13,11 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
   const [formData, setFormData] = useState({
     title: "",
     content: "",
+    thumbnail: "",
     isPublished: true,
   });
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -50,8 +53,12 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
         setFormData({
           title: data.data.title,
           content: data.data.content,
+          thumbnail: data.data.thumbnail || "",
           isPublished: data.data.isPublished
         });
+        if (data.data.thumbnail) {
+          setThumbnailPreview(data.data.thumbnail);
+        }
       } else {
         showAlert("Gagal", "Berita tidak ditemukan", "error", true);
       }
@@ -63,15 +70,63 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
     }
   }
 
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setThumbnailFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setThumbnailPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeThumbnail = () => {
+    setThumbnailFile(null);
+    setThumbnailPreview(null);
+    setFormData({ ...formData, thumbnail: "" });
+  };
+
+  const uploadThumbnail = async (): Promise<string | null> => {
+    if (!thumbnailFile) return null;
+
+    const formDataUpload = new FormData();
+    formDataUpload.append("file", thumbnailFile);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formDataUpload,
+      });
+      const data = await res.json();
+      if (data.success) {
+        return data.url.publicUrl;
+      }
+      throw new Error(data.message || "Gagal upload thumbnail");
+    } catch (error) {
+      console.error("Upload error:", error);
+      throw error;
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
 
     try {
+      let thumbnailUrl = formData.thumbnail;
+      if (thumbnailFile) {
+        thumbnailUrl = await uploadThumbnail() || "";
+      }
+
       const res = await fetch(`/api/admin/news/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          thumbnail: thumbnailUrl
+        }),
       });
 
       const data = await res.json();
@@ -81,8 +136,8 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
       } else {
         showAlert("Gagal", "Gagal memperbarui berita: " + data.message, "error");
       }
-    } catch (error) {
-      showAlert("Error", "Terjadi kesalahan saat menyimpan data.", "error");
+    } catch (error: any) {
+      showAlert("Error", error.message || "Terjadi kesalahan saat menyimpan data.", "error");
       console.error(error);
     } finally {
       setIsSaving(false);
@@ -124,6 +179,42 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Thumbnail Berita</label>
+            <div className="flex flex-col gap-4">
+              {thumbnailPreview ? (
+                <div className="relative w-full max-w-sm aspect-video rounded-xl overflow-hidden border border-gray-200 group">
+                  <img
+                    src={thumbnailPreview}
+                    alt="Thumbnail preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={removeThumbnail}
+                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              ) : (
+                <label className="flex flex-col items-center justify-center w-full max-w-sm aspect-video border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray-50 hover:border-emerald-500 transition-all group">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-emerald-500 mb-2" />
+                    <p className="text-sm text-gray-500 group-hover:text-emerald-600">Pilih thumbnail berita</p>
+                    <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP (Max 2MB)</p>
+                  </div>
+                  <input
+                    type="file"
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleThumbnailChange}
+                  />
+                </label>
+              )}
+            </div>
           </div>
 
           <div>

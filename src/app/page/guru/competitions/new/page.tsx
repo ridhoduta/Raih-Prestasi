@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, Plus, Trash2, Image as ImageIcon, X } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 import AlertModal from "@/app/components/AlertModal";
@@ -17,13 +17,20 @@ export default function AddCompetitionPage() {
         id: "",
         title: "",
         description: "",
-        isActive: false,
+        thumbnail: "",
+        isActive: true,
         startDate: "",
         endDate: "",
         levelId: "",
         categoryId: "",
         createdById: ""
     });
+    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
+    const [formFields, setFormFields] = useState<{ label: string; fieldType: string; isRequired: boolean }[]>([
+        { label: "Nama Lengkap", fieldType: "TEXT", isRequired: true },
+        { label: "NISN", fieldType: "TEXT", isRequired: true },
+    ]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [levels, setLevels] = useState<Level[]>([]);
     const [loading, setLoading] = useState(false);
@@ -64,6 +71,59 @@ export default function AddCompetitionPage() {
     useEffect(() => {
         fetchAllData();
     }, []);
+    const addField = () => {
+        setFormFields([...formFields, { label: "", fieldType: "TEXT", isRequired: false }]);
+    };
+
+    const removeField = (index: number) => {
+        setFormFields(formFields.filter((_, i) => i !== index));
+    };
+
+    const updateField = (index: number, updates: any) => {
+        const newFields = [...formFields];
+        newFields[index] = { ...newFields[index], ...updates };
+        setFormFields(newFields);
+    };
+
+    const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setThumbnailFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setThumbnailPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const removeThumbnail = () => {
+        setThumbnailFile(null);
+        setThumbnailPreview(null);
+    };
+
+    const uploadThumbnail = async (): Promise<string | null> => {
+        if (!thumbnailFile) return null;
+
+        const formDataUpload = new FormData();
+        formDataUpload.append("file", thumbnailFile);
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formDataUpload,
+            });
+            const data = await res.json();
+            if (data.success) {
+                return data.url.publicUrl;
+            }
+            throw new Error(data.message || "Gagal upload thumbnail");
+        } catch (error) {
+            console.error("Upload error:", error);
+            throw error;
+        }
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.title || !formData.categoryId || !formData.levelId || !formData.startDate || !formData.endDate) {
@@ -71,32 +131,44 @@ export default function AddCompetitionPage() {
             return;
         }
 
+        if (formFields.some(f => !f.label)) {
+            alert("Semua label field pendaftaran harus diisi!");
+            return;
+        }
+
+        setLoading(true);
+
         try {
+            let thumbnailUrl = formData.thumbnail;
+            if (thumbnailFile) {
+                thumbnailUrl = await uploadThumbnail() || "";
+            }
 
             const payload = {
                 title: formData.title,
                 description: formData.description,
+                thumbnail: thumbnailUrl,
                 categoryId: formData.categoryId,
                 levelId: formData.levelId,
                 startDate: formData.startDate,
                 endDate: formData.endDate,
                 isActive: formData.isActive,
                 createdById: formData.createdById || STATIC_GURU_ID,
+                formFields: formFields.map((f, idx) => ({ ...f, order: idx }))
             };
 
-            let response;
-            response = await createCompetition(payload);
+            const response = await createCompetition(payload as any);
 
             if (response.success) {
                 showAlert("Berhasil", "Kompetisi berhasil dibuat.", "success", true);
             } else {
                 showAlert("Gagal", "Gagal menambahkan kompetisi: " + response.message, "error");
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error("Failed to save competition", error);
-            showAlert("Error", "Terjadi kesalahan sistem saat menyimpan kompetisi.", "error");
+            showAlert("Error", error.message || "Terjadi kesalahan sistem saat menyimpan kompetisi.", "error");
         } finally {
-
+            setLoading(false);
         }
     };
     const handleCancel = () => {
@@ -127,7 +199,7 @@ export default function AddCompetitionPage() {
                             type="text"
                             required
                             placeholder="Contoh: Olimpiade Sains Nasional"
-                            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
+                            className="w-full px-4 py-2 bg-gray border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
                             value={formData.title}
                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                         />
@@ -135,14 +207,50 @@ export default function AddCompetitionPage() {
 
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
-                        <input
-                            type="text"
+                        <textarea
                             required
-                            placeholder="Contoh: Olimpiade Sains Nasional"
-                            className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+                            placeholder="Tulis deskripsi kompetisi di sini..."
+                            rows={3}
+                            className="w-full px-4 py-2 bg-gray border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
                             value={formData.description}
                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Thumbnail Kompetisi</label>
+                        <div className="flex flex-col gap-4">
+                            {thumbnailPreview ? (
+                                <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-gray-200 group">
+                                    <img
+                                        src={thumbnailPreview}
+                                        alt="Thumbnail preview"
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={removeThumbnail}
+                                        className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                                    >
+                                        <X size={16} />
+                                    </button>
+                                </div>
+                            ) : (
+                                <label className="flex flex-col items-center justify-center w-full aspect-video border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:bg-gray hover:border-emerald-500 transition-all group">
+                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <ImageIcon className="w-8 h-8 text-gray-400 group-hover:text-emerald-500 mb-2" />
+                                        <p className="text-sm text-gray-500 group-hover:text-emerald-600">Pilih thumbnail kompetisi</p>
+                                        <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP (Max 2MB)</p>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        accept="image/*"
+                                        onChange={handleThumbnailChange}
+                                    />
+                                </label>
+                            )}
+                        </div>
                     </div>
 
                     <div>
@@ -199,6 +307,84 @@ export default function AddCompetitionPage() {
                                 </option>
                             ))}
                         </select>
+                    </div>
+
+                    <div className="pt-6 border-t border-gray-100">
+                        <div className="flex items-center justify-between mb-4">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">Field Pendaftaran</h3>
+                                <p className="text-sm text-gray-500">Tentukan data apa saja yang harus diisi pendaftar</p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={addField}
+                                className="flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
+                            >
+                                <Plus size={16} />
+                                Tambah Field
+                            </button>
+                        </div>
+
+                        <div className="space-y-4">
+                            {formFields.map((field, index) => (
+                                <div key={index} className="p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-3 relative group">
+                                    <button
+                                        type="button"
+                                        onClick={() => removeField(index)}
+                                        className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
+
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Label Field</label>
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="Contoh: Nomor HP"
+                                                className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
+                                                value={field.label}
+                                                onChange={(e) => updateField(index, { label: e.target.value })}
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Tipe Field</label>
+                                            <select
+                                                className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
+                                                value={field.fieldType}
+                                                onChange={(e) => updateField(index, { fieldType: e.target.value })}
+                                            >
+                                                <option value="TEXT">Teks Singkat</option>
+                                                <option value="TEXTAREA">Teks Panjang</option>
+                                                <option value="NUMBER">Angka</option>
+                                                <option value="FILE">Upload File</option>
+                                                <option value="DATE">Tanggal</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id={`req-${index}`}
+                                            checked={field.isRequired}
+                                            onChange={(e) => updateField(index, { isRequired: e.target.checked })}
+                                            className="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                                        />
+                                        <label htmlFor={`req-${index}`} className="text-xs text-gray-600">
+                                            Wajib Diisi
+                                        </label>
+                                    </div>
+                                </div>
+                            ))}
+
+                            {formFields.length === 0 && (
+                                <div className="text-center py-6 border-2 border-dashed border-gray-200 rounded-xl">
+                                    <p className="text-sm text-gray-400">Belum ada field kustom.</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 

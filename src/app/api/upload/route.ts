@@ -14,9 +14,10 @@ export async function POST(req: Request) {
     }
 
     // 🧠 validasi tipe file
-    if (file.type !== "application/pdf") {
+    const allowedTypes = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
-        { success: false, message: "Hanya file PDF yang diperbolehkan" },
+        { success: false, message: "Hanya file PDF dan gambar (JPG, PNG, WEBP) yang diperbolehkan" },
         { status: 400 }
       );
     }

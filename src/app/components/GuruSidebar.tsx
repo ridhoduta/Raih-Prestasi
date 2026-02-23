@@ -12,7 +12,8 @@ import {
   Menu,
   X,
   Award,
-  Send
+  Send,
+  User
 } from "lucide-react";
 
 export default function GuruSidebar() {
@@ -46,6 +47,7 @@ export default function GuruSidebar() {
   const menuItems = [
     { name: "Dashboard", href: "/page/guru", icon: LayoutDashboard },
     { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy },
+    { name: "Pendaftaran", href: "/page/guru/registrations", icon: User },
     { name: "Pengajuan Kompetisi Mandiri", href: "/page/guru/independent-submissions", icon: Send },
     { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award },
     { name: "Pengumuman", href: "/page/guru/announcements", icon: Newspaper },

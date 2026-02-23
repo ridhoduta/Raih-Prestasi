@@ -22,6 +22,9 @@ export async function GET(req: Request, context: Context) {
       include: {
         category: true,
         level: true,
+        CompetitionFormField: {
+          orderBy: { order: "asc" }
+        }
       },
     });
 
@@ -60,11 +63,13 @@ export async function PUT(req: Request, context : Context) {
     const {
       title,
       description,
+      thumbnail,
       categoryId,
       levelId,
       startDate,
       endDate,
       isActive,
+      formFields,
     } = body;
 
     const competition = await prisma.competition.update({
@@ -72,11 +77,22 @@ export async function PUT(req: Request, context : Context) {
       data: {
         title,
         description,
+        thumbnail,
         categoryId,
         levelId,
         startDate: startDate ? new Date(startDate) : undefined,
         endDate: endDate ? new Date(endDate) : undefined,
         isActive,
+        CompetitionFormField: {
+          deleteMany: {},
+          create: formFields?.map((f: any, idx: number) => ({
+            label: f.label,
+            fieldType: f.fieldType,
+            isRequired: f.isRequired || false,
+            options: f.options,
+            order: f.order || idx,
+          })) || [],
+        }
       },
     });
 
