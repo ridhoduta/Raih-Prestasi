@@ -9,6 +9,9 @@ export async function GET(req: Request) {
     const studentId = searchParams.get("studentId");
 
     const registrations = await prisma.competitionRegistration.findMany({
+      where: {
+        ...(studentId ? { studentId } : {})
+      },
       include: {
         student: {
           select: {
