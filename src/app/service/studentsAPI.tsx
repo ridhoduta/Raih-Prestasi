@@ -5,6 +5,7 @@ export type StudentPayload = {
     name: string;
     kelas: string;
     angkatan: number;
+    isActive?: boolean;
 };
 
 export type Student = {
