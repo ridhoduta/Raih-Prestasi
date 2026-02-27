@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { LogIn, Mail, Lock, AlertCircle, Loader2, Key } from "lucide-react";
 
-export default function LoginPage() {
+function LoginContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const from = searchParams.get("from") || "/";
@@ -85,7 +85,7 @@ export default function LoginPage() {
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-slate-700 block">
-                                Password    
+                                Password
                             </label>
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
@@ -137,5 +137,17 @@ export default function LoginPage() {
                 &copy; 2025 Raih Prestasi. All rights reserved.
             </p>
         </div>
+    );
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+                <Loader2 className="animate-spin text-[#7db03d]" size={40} />
+            </div>
+        }>
+            <LoginContent />
+        </Suspense>
     );
 }

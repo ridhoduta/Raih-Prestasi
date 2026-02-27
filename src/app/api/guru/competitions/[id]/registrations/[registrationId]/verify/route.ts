@@ -4,13 +4,13 @@ import { NextResponse } from "next/server";
 type Context = {
   params: Promise<{
     id: string; // Match folder [id]
-    registrationId: string;
+    registrationid: string;
   }>;
 };
 
 export async function PATCH(req: Request, context: Context) {
   try {
-    const { id: competitionId, registrationId } = await context.params;
+    const { id: competitionId, registrationid } = await context.params;
     const body = await req.json();
 
     const { status, note } = body;
@@ -35,7 +35,7 @@ export async function PATCH(req: Request, context: Context) {
     // 🔍 Cek data pendaftaran
     const existing = await prisma.competitionRegistration.findFirst({
       where: {
-        id: registrationId,
+        id: registrationid,
         competitionId,
       },
     });
@@ -48,7 +48,7 @@ export async function PATCH(req: Request, context: Context) {
     }
 
     const updated = await prisma.competitionRegistration.update({
-      where: { id: registrationId },
+      where: { id: registrationid },
       data: {
         status,
         note: status === "DITOLAK" ? note : null,
