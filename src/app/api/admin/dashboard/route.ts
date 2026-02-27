@@ -29,7 +29,7 @@ export async function GET() {
         totalSiswa,
         activeCompetitions,
         totalPrestasi,
-        recentActivities: recentActivities.map(comp => ({
+        recentActivities: (recentActivities as any[]).map((comp: any) => ({
           id: comp.id,
           title: comp.title, // Or generic message
           description: `${comp.guru.name} menambahkan kompetisi baru`,
