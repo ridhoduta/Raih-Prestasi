@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 type Context = {
   params: Promise<{
     id: string;
-    registrationid: string;
+    registrationId: string;
   }>;
 };
 
