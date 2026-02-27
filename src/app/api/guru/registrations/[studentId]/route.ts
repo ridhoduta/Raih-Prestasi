@@ -2,7 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+type Context = {
+  params: Promise<{ studentId: string }>;
+};
+
+export async function GET(req: Request, context: Context) {
   try {
     const session = await getSession();
     if (!session) {
@@ -12,25 +16,42 @@ export async function GET() {
       );
     }
 
+    const { studentId } = await context.params;
+
     const registrations = await prisma.competitionRegistration.findMany({
       where: {
-        competition: {
-          createdBy: session.id,
-        },
+        studentId: studentId,
       },
       include: {
+        competition: {
+          select: {
+            id: true,
+            title: true,
+            description: true,
+            thumbnail: true,
+            startDate: true,
+            endDate: true,
+            category: true,
+            level: true,
+          },
+        },
         student: {
           select: {
             id: true,
             name: true,
             nisn: true,
             kelas: true,
+            angkatan: true,
           },
         },
-        competition: {
-          select: {
-            id: true,
-            title: true,
+        answers: {
+          include: {
+            field: true,
+          },
+          orderBy: {
+            field: {
+              order: "asc",
+            },
           },
         },
       },
@@ -44,9 +65,9 @@ export async function GET() {
       data: registrations,
     });
   } catch (error) {
-    console.error(error);
+    console.error("[GURU_STUDENT_REGISTRATIONS_GET]", error);
     return NextResponse.json(
-      { success: false, message: "Gagal mengambil data pendaftaran" },
+      { success: false, message: "Gagal mengambil daftar pendaftaran siswa" },
       { status: 500 }
     );
   }
