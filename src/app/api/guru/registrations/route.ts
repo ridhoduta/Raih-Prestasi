@@ -4,13 +4,13 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
   try {
-    const session = await getSession();
-    if (!session) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized" },
-        { status: 401 }
-      );
-    }
+    // const session = await getSession();
+    // if (!session) {
+    //   return NextResponse.json(
+    //     { success: false, message: "Unauthorized" },
+    //     { status: 401 }
+    //   );
+    // }
 
     const { searchParams } = new URL(req.url);
     const studentId = searchParams.get("studentId");
