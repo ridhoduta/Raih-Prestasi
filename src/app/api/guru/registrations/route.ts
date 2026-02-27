@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     const session = await getSession();
     if (!session) {
@@ -12,11 +12,16 @@ export async function GET() {
       );
     }
 
+    const { searchParams } = new URL(req.url);
+    const studentId = searchParams.get("studentId");
+
     const registrations = await prisma.competitionRegistration.findMany({
       where: {
-        competition: {
-          createdBy: session.id,
-        },
+        ...(studentId ? { studentId } : {
+          competition: {
+            createdBy: session.id,
+          }
+        }),
       },
       include: {
         student: {
@@ -25,12 +30,29 @@ export async function GET() {
             name: true,
             nisn: true,
             kelas: true,
+            angkatan: true,
           },
         },
         competition: {
           select: {
             id: true,
             title: true,
+            description: true,
+            thumbnail: true,
+            startDate: true,
+            endDate: true,
+            category: true,
+            level: true,
+          },
+        },
+        answers: {
+          include: {
+            field: true,
+          },
+          orderBy: {
+            field: {
+              order: "asc",
+            },
           },
         },
       },
