@@ -17,6 +17,7 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get("auth_token")?.value;
 
     if (!token) {
+      console.log(`[Middleware] No token found for ${pathname}. Redirecting to login.`);
       const url = new URL("/page/login", request.url);
       url.searchParams.set("from", pathname);
       return NextResponse.redirect(url);
@@ -25,18 +26,22 @@ export async function middleware(request: NextRequest) {
     try {
       const { payload } = await jwtVerify(token, secret);
       const role = payload.role as string;
+      console.log(`[Middleware] Path: ${pathname}, User Role: ${role}`);
 
       // Check role access
       if (isAdminPath && role !== "ADMIN") {
+        console.warn(`[Middleware] Unauthorized: Admin path accessed by ${role}`);
         return NextResponse.redirect(new URL("/page/login", request.url));
       }
 
       if (isGuruPath && role !== "GURU") {
+        console.warn(`[Middleware] Unauthorized: Guru path accessed by ${role}`);
         return NextResponse.redirect(new URL("/page/login", request.url));
       }
 
       return NextResponse.next();
-    } catch (error) {
+    } catch (error: any) {
+      console.error(`[Middleware] JWT Verification Failed for ${pathname}:`, error.message);
       const url = new URL("/page/login", request.url);
       url.searchParams.set("from", pathname);
       return NextResponse.redirect(url);
