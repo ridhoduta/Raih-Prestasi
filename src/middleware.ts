@@ -6,7 +6,7 @@ const secret = new TextEncoder().encode(
   process.env.JWT_SECRET || "fallback_secret_keep_it_safe"
 );
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Paths that require authentication
