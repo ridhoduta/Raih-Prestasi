@@ -1,10 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose";
-
-const secret = new TextEncoder().encode(
-  process.env.JWT_SECRET || "fallback_secret_keep_it_safe"
-);
+import { verifyJWT } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -24,8 +20,13 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-      const { payload } = await jwtVerify(token, secret);
-      const role = payload.role as string;
+      const payload = await verifyJWT(token);
+      
+      if (!payload) {
+         throw new Error("Invalid token or signature mismatch");
+      }
+
+      const role = payload.role;
       console.log(`[Middleware] Path: ${pathname}, User Role: ${role}`);
 
       // Check role access
