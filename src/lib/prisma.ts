@@ -8,6 +8,7 @@ const globalForPrisma = globalThis as unknown as {
 
 const createPrismaClient = () => {
   return new PrismaClient({
+    accelerateUrl: process.env.DATABASE_URL,
     log: process.env.NODE_ENV === "development"
       ? ["query", "error", "warn"]
       : ["error"],
