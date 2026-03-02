@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 type Context = {
@@ -26,10 +27,18 @@ export async function GET(_: Request, context: Context) {
 }
 export async function PUT(request: Request, context: Context) {
   try {
+    const session = await getSession();
+    if (!session || session.role !== "GURU") {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { id } = await context.params;
     const body = await request.json();
 
-    const { status, verifiedBy } = body;
+    const { status } = body;
 
     // validasi status
     if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK"].includes(status)) {
@@ -46,7 +55,7 @@ export async function PUT(request: Request, context: Context) {
       where: { id },
       data: {
         status,
-        verifiedBy,
+        verifiedBy: session.id,
       },
       include: {
         student: true,

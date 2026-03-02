@@ -51,7 +51,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             setUpdating(true);
             const response = await verifyAchievement(id, {
                 status: selectedStatus as Achievement["status"],
-                verifiedBy: "Guru Pembimbing", // Placeholder or from session if available
             });
 
             if (response.success) {
@@ -225,8 +224,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                         value={selectedStatus}
                                         onChange={(e) => setSelectedStatus(e.target.value as Achievement["status"])}
                                         className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "TERVERIFIKASI" ? "border-emerald-100 bg-emerald-50 text-emerald-700 focus:border-emerald-500" :
-                                                selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
-                                                    "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
+                                            selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
+                                                "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
                                             }`}
                                     >
                                         <option value="MENUNGGU">🟡 MENUNGGU</option>

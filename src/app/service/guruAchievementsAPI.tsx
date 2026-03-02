@@ -28,7 +28,7 @@ export type Achievement = {
 
 export type VerifyAchievementPayload = {
   status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
-  verifiedBy: string;
+  verifiedBy?: string;
 };
 
 const BASE_URL = "/api/guru/achievement";

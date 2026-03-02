@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 type Context = {
@@ -7,16 +8,24 @@ type Context = {
 
 export async function PUT(req: Request, context: Context) {
   try {
+    const session = await getSession();
+    if (!session || session.role !== "GURU") {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const { id } = await context.params;
     const body = await req.json();
 
-    const { status, rejectionNote, reviewedBy, recommendationLetter } = body;
+    const { status, rejectionNote, recommendationLetter } = body;
 
-    if (!status || !reviewedBy) {
+    if (!status) {
       return NextResponse.json(
         {
           success: false,
-          message: "status dan reviewedBy wajib dikirim",
+          message: "status wajib dikirim",
         },
         { status: 400 }
       );
@@ -59,7 +68,7 @@ export async function PUT(req: Request, context: Context) {
       data: {
         status,
         rejectionNote: status === "DITOLAK" ? rejectionNote : null,
-        reviewedBy,
+        reviewedBy: session.id,
         recommendationLetter
       },
     });

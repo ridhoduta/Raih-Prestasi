@@ -61,7 +61,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             setUpdating(true);
             const response = await reviewIndependentSubmission(id, {
                 status: selectedStatus as "DITERIMA" | "DITOLAK" | "MENUNGGU",
-                reviewedBy: "Guru Pembimbing", // Placeholder or from session if available
                 rejectionNote: selectedStatus === "DITOLAK" ? rejectionNote : undefined,
             });
 

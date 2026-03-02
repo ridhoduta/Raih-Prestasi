@@ -4,7 +4,7 @@ export type IndependentSubmissionStatus = "MENUNGGU" | "DITERIMA" | "DITOLAK";
 
 export type ReviewSubmissionPayload = {
   status: IndependentSubmissionStatus;
-  reviewedBy: string;
+  reviewedBy?: string;
   rejectionNote?: string;
   recommendationLetter?: string;
 };
