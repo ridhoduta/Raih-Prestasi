@@ -68,7 +68,9 @@ export async function POST(request: Request) {
           name: user.name,
           email: nisn ? null : (user as any).email,
           nisn: nisn || null,
-          role: role
+          role: role,
+          kelas: user.kelas,
+          angkatan : user.angkatan,
         }
       },
       { status: 200 }
