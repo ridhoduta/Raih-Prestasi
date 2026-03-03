@@ -93,6 +93,8 @@ export default function NewAnnouncementPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Judul Pengumuman</label>
                         <input
+                            id="anno-title"
+                            name="title"
                             type="text"
                             required
                             placeholder="Contoh: Jadwal Ujian Akhir Semester"
@@ -105,6 +107,8 @@ export default function NewAnnouncementPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Konten / Isi Pengumuman</label>
                         <textarea
+                            id="anno-content"
+                            name="content"
                             required
                             placeholder="Tulis detail pengumuman di sini..."
                             rows={8}
@@ -117,7 +121,8 @@ export default function NewAnnouncementPage() {
                     <div className="flex items-center gap-3 pt-2">
                         <input
                             type="checkbox"
-                            id="isPublished"
+                            id="anno-published"
+                            name="isPublished"
                             checked={formData.isPublished}
                             onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
                             className="w-5 h-5 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
@@ -137,6 +142,7 @@ export default function NewAnnouncementPage() {
                         Batal
                     </button>
                     <button
+                        id="save-anno-btn"
                         type="submit"
                         disabled={loading}
                         className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"

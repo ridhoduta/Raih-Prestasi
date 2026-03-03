@@ -137,6 +137,7 @@ export default function CategoriesPage() {
         </div>
 
         <button
+          id="add-category-btn"
           onClick={openAddModal}
           className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
@@ -215,6 +216,8 @@ export default function CategoriesPage() {
               {formData.id ? "Edit Kategori" : "Tambah Kategori Baru"}
             </h2>
             <input
+              id="category-name"
+              name="name"
               type="text"
               placeholder="Nama Kategori (misal: Robotik)"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans mb-6 text-gray-900"
@@ -231,6 +234,7 @@ export default function CategoriesPage() {
                 Batal
               </button>
               <button
+                id="save-category-btn"
                 onClick={handleSubmit}
                 disabled={!formData.name || isSubmitting}
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"

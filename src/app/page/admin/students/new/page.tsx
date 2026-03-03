@@ -89,6 +89,7 @@ export default function NewStudentPage() {
                                 NISN
                             </label>
                             <input
+                                id="student-nisn"
                                 type="text"
                                 name="nisn"
                                 value={formData.nisn}
@@ -106,6 +107,7 @@ export default function NewStudentPage() {
                                 Nama Lengkap
                             </label>
                             <input
+                                id="student-name"
                                 type="text"
                                 name="name"
                                 value={formData.name}
@@ -122,6 +124,7 @@ export default function NewStudentPage() {
                                 Kelas
                             </label>
                             <input
+                                id="student-kelas"
                                 type="text"
                                 name="kelas"
                                 value={formData.kelas}
@@ -138,6 +141,7 @@ export default function NewStudentPage() {
                                 Angkatan
                             </label>
                             <input
+                                id="student-angkatan"
                                 type="number"
                                 name="angkatan"
                                 value={formData.angkatan}
@@ -158,6 +162,7 @@ export default function NewStudentPage() {
                         Batal
                     </Link>
                     <button
+                        id="save-student-btn"
                         type="submit"
                         disabled={isLoading}
                         className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-8 py-2.5 rounded-xl font-medium transition-all shadow-sm"

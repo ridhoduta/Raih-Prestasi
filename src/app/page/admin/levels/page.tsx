@@ -137,6 +137,7 @@ export default function LevelsPage() {
         </div>
 
         <button
+          id="add-level-btn"
           onClick={openAddModal}
           className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
@@ -221,6 +222,8 @@ export default function LevelsPage() {
               {formData.id ? "Edit Tingkat" : "Tambah Tingkat Baru"}
             </h2>
             <input
+              id="level-name"
+              name="name"
               type="text"
               placeholder="Nama Tingkat (misal: Regional)"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans mb-6 text-gray-900"
@@ -237,6 +240,7 @@ export default function LevelsPage() {
                 Batal
               </button>
               <button
+                id="save-level-btn"
                 onClick={handleSubmit}
                 disabled={!formData.name || isSubmitting}
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"

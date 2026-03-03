@@ -128,6 +128,8 @@ export default function AddNewsPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Judul Berita</label>
             <input
+              id="news-title"
+              name="title"
               type="text"
               required
               placeholder="Contoh: Juara 1 Lomba Robotik Nasional"
@@ -163,6 +165,8 @@ export default function AddNewsPage() {
                     <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP (Max 2MB)</p>
                   </div>
                   <input
+                    id="news-thumbnail"
+                    name="thumbnail"
                     type="file"
                     className="hidden"
                     accept="image/*"
@@ -176,6 +180,8 @@ export default function AddNewsPage() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Isi Berita</label>
             <textarea
+              id="news-content"
+              name="content"
               required
               rows={10}
               placeholder="Tulis isi berita di sini..."
@@ -188,7 +194,8 @@ export default function AddNewsPage() {
           <div className="flex items-center gap-2">
             <input
               type="checkbox"
-              id="isPublished"
+              id="news-published"
+              name="isPublished"
               className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 border-gray-300"
               checked={formData.isPublished}
               onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
@@ -205,6 +212,7 @@ export default function AddNewsPage() {
             Batal
           </Link>
           <button
+            id="save-news-btn"
             type="submit"
             disabled={isLoading}
             className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"

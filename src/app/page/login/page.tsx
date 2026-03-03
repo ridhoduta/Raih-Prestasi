@@ -75,6 +75,7 @@ function LoginContent() {
                                 <input
                                     type="email"
                                     required
+                                    name = "email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="name@example.com"
@@ -94,6 +95,7 @@ function LoginContent() {
                                 <input
                                     type="password"
                                     required
+                                    name= "password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"

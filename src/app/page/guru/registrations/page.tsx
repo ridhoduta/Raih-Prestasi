@@ -212,17 +212,18 @@ export default function GuruRegistrations() {
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <input
-                            type="text"
-                            placeholder="Cari nama atau NISN..."
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                        type="text"
+                        placeholder="Cari nama atau NISN..."
+                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
 
                     <div className="relative">
                         <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <select
+                            id="reg-filter-status"
                             className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none"
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
@@ -237,6 +238,7 @@ export default function GuruRegistrations() {
                     <div className="relative">
                         <ClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <select
+                            id="reg-filter-comp"
                             className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none"
                             value={filterCompetition}
                             onChange={(e) => setFilterCompetition(e.target.value)}
@@ -474,6 +476,7 @@ export default function GuruRegistrations() {
                         <div className="space-y-2">
                             <label className="text-sm font-medium text-gray-700">Catatan (Opsional)</label>
                             <textarea
+                                id="reg-action-note"
                                 className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm h-24 resize-none"
                                 placeholder="Berikan alasan atau instruksi tambahan..."
                                 value={actionState.note}
@@ -489,6 +492,7 @@ export default function GuruRegistrations() {
                                 Batal
                             </button>
                             <button
+                                id="reg-confirm-btn"
                                 onClick={handleStatusUpdate}
                                 disabled={actionState.isLoading}
                                 className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-white transition-all ${actionState.targetStatus === "DITERIMA" ? "bg-emerald-500 hover:bg-emerald-600" : "bg-red-500 hover:bg-red-600"

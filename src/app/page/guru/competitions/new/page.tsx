@@ -196,6 +196,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Judul Kompetisi</label>
                         <input
+                            id="comp-title"
+                            name="title"
                             type="text"
                             required
                             placeholder="Contoh: Olimpiade Sains Nasional"
@@ -208,6 +210,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Deskripsi</label>
                         <textarea
+                            id="comp-description"
+                            name="description"
                             required
                             placeholder="Tulis deskripsi kompetisi di sini..."
                             rows={3}
@@ -243,6 +247,8 @@ export default function AddCompetitionPage() {
                                         <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP (Max 2MB)</p>
                                     </div>
                                     <input
+                                        id="comp-thumbnail"
+                                        name="thumbnail"
                                         type="file"
                                         className="hidden"
                                         accept="image/*"
@@ -256,6 +262,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Mulai</label>
                         <input
+                            id="comp-start-date"
+                            name="startDate"
                             type="date"
                             required
                             className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
@@ -267,6 +275,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Tanggal Berakhir</label>
                         <input
+                            id="comp-end-date"
+                            name="endDate"
                             type="date"
                             required
                             className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
@@ -278,6 +288,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
                         <select
+                            id="comp-category"
+                            name="categoryId"
                             required
                             className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
                             value={formData.categoryId}
@@ -295,6 +307,8 @@ export default function AddCompetitionPage() {
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">Level</label>
                         <select
+                            id="comp-level"
+                            name="levelId"
                             required
                             className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
                             value={formData.levelId}
@@ -316,6 +330,7 @@ export default function AddCompetitionPage() {
                                 <p className="text-sm text-gray-500">Tentukan data apa saja yang harus diisi pendaftar</p>
                             </div>
                             <button
+                                id="add-field-btn"
                                 type="button"
                                 onClick={addField}
                                 className="flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
@@ -410,6 +425,7 @@ export default function AddCompetitionPage() {
                         Batal
                     </button>
                     <button
+                        id="save-comp-btn"
                         type="submit"
                         disabled={loading}
                         className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"

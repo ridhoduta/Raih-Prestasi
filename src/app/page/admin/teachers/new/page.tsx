@@ -82,6 +82,8 @@ export default function AddTeacherPage() {
               required
               placeholder="Contoh: Budi Santoso, S.Pd"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
+              id="teacher-name"
+              name="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             />
@@ -94,6 +96,8 @@ export default function AddTeacherPage() {
               required
               placeholder="nama@sekolah.sch.id"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+              id="teacher-email"
+              name="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
@@ -106,6 +110,8 @@ export default function AddTeacherPage() {
               required
               placeholder="Minimal 8 karakter"
               className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans text-gray-900"
+              id="teacher-password"
+              name="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
