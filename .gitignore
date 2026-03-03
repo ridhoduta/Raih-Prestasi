@@ -49,7 +49,7 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
-/tests/
+tests/
 playwright.config.ts
 setup-test-users.ts
 testing.md
