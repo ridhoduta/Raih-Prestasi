@@ -63,13 +63,18 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
+    let finalRecommendationLetter = recommendationLetter;
+    if (typeof recommendationLetter === "object" && recommendationLetter !== null && "publicUrl" in recommendationLetter) {
+      finalRecommendationLetter = (recommendationLetter as any).publicUrl;
+    }
+
     const updated = await prisma.independentCompetitionSubmission.update({
       where: { id },
       data: {
         status,
         rejectionNote: status === "DITOLAK" ? rejectionNote : null,
         reviewedBy: session.id,
-        recommendationLetter
+        recommendationLetter: finalRecommendationLetter
       },
     });
 
@@ -78,9 +83,9 @@ export async function PUT(req: Request, context: Context) {
       message:
         status === "DITERIMA"
           ? "Pengajuan diterima"
-          : status === "DITOLAK" 
-          ? "Pengajuan ditolak"
-          : "Pengajuan diatur ke menunggu",
+          : status === "DITOLAK"
+            ? "Pengajuan ditolak"
+            : "Pengajuan diatur ke menunggu",
       data: updated,
     });
   } catch (error) {
@@ -131,7 +136,7 @@ export async function GET(_: Request, context: Context) {
   try {
     const { id } = await context.params;
     const submissions = await prisma.independentCompetitionSubmission.findMany({
-      where:{id},
+      where: { id },
       include: {
         student: {
           select: {

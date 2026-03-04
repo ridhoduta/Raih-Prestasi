@@ -2,7 +2,7 @@
 
 import AlertModal from "@/app/components/AlertModal";
 import { getIndependentSubmissionDetail, IndependentSubmission, reviewIndependentSubmission, IndependentSubmissionStatus } from "@/app/service/guruIndependentSubmissionsAPI";
-import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings } from "lucide-react";
+import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings, File as FileIcon, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 
@@ -24,14 +24,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         type: "info"
     });
 
+    // Recommendation letter state
+    const [recommendationLetter, setRecommendationLetter] = useState("");
+    const [uploading, setUploading] = useState(false);
+
     const fetchSubmission = async () => {
         try {
             setLoading(true);
             const response = await getIndependentSubmissionDetail(id);
             setSubmission(response.data ?? []);
             if (response.data && response.data.length > 0) {
-                setSelectedStatus(response.data[0].status);
-                setRejectionNote(response.data[0].rejectionNote || "");
+                const sub = response.data[0];
+                setSelectedStatus(sub.status);
+                setRejectionNote(sub.rejectionNote || "");
+                setRecommendationLetter(sub.recommendationLetter || "");
             }
         } catch (error) {
             setError("Gagal memuat detail pengajuan");
@@ -43,6 +49,48 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     useEffect(() => {
         fetchSubmission();
     }, [id]);
+
+    const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+            const data = await res.json();
+            if (data.success) {
+                setRecommendationLetter(data.url.publicUrl || data.url);
+                setAlertState({
+                    isOpen: true,
+                    title: "Berhasil",
+                    message: "Surat rekomendasi berhasil diunggah.",
+                    type: "success"
+                });
+            } else {
+                setAlertState({
+                    isOpen: true,
+                    title: "Gagal",
+                    message: data.message || "Gagal mengunggah file.",
+                    type: "error"
+                });
+            }
+        } catch (error) {
+            setAlertState({
+                isOpen: true,
+                title: "Error",
+                message: "Terjadi kesalahan saat mengunggah file.",
+                type: "error"
+            });
+        } finally {
+            setUploading(false);
+        }
+    };
 
     const handleUpdateStatus = async () => {
         if (!selectedStatus) return;
@@ -62,6 +110,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             const response = await reviewIndependentSubmission(id, {
                 status: selectedStatus as "DITERIMA" | "DITOLAK" | "MENUNGGU",
                 rejectionNote: selectedStatus === "DITOLAK" ? rejectionNote : undefined,
+                recommendationLetter: recommendationLetter || undefined
             });
 
             if (response.success) {
@@ -238,7 +287,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             <div className="md:w-48">
                                 <button
                                     onClick={handleUpdateStatus}
-                                    disabled={updating || (selectedStatus === submission[0].status && (selectedStatus !== "DITOLAK" || rejectionNote === submission[0].rejectionNote))}
+                                    disabled={updating || uploading || (selectedStatus === submission[0].status && (selectedStatus !== "DITOLAK" || rejectionNote === submission[0].rejectionNote) && recommendationLetter === submission[0].recommendationLetter)}
                                     className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
                                 >
                                     {updating ? (
@@ -248,6 +297,68 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     )}
                                     {updating ? "Proses" : "Simpan"}
                                 </button>
+                            </div>
+                        </div>
+
+                        {/* Recommendation Letter Section */}
+                        <div className="mt-8 pt-6 border-t border-gray-100 space-y-4">
+                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                <FileIcon size={16} className="text-emerald-500" />
+                                Surat Rekomendasi (Wajib jika DITERIMA)
+                            </label>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="relative group">
+                                    <input
+                                        type="file"
+                                        id="recommendation-letter"
+                                        onChange={handleFileUpload}
+                                        disabled={uploading}
+                                        className="hidden"
+                                        accept=".pdf,image/*"
+                                    />
+                                    <label
+                                        htmlFor="recommendation-letter"
+                                        className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${uploading ? 'bg-gray-50 border-gray-200 cursor-not-allowed' :
+                                            recommendationLetter ? 'bg-emerald-50/30 border-emerald-200 hover:border-emerald-400' :
+                                                'bg-gray-50 border-gray-200 hover:border-emerald-400 group-hover:bg-white'
+                                            }`}
+                                    >
+                                        {uploading ? (
+                                            <Loader2 size={24} className="animate-spin text-emerald-500 mb-2" />
+                                        ) : (
+                                            <FileIcon size={24} className={`${recommendationLetter ? 'text-emerald-500' : 'text-gray-400'} mb-2`} />
+                                        )}
+                                        <p className="text-sm font-bold text-gray-700">
+                                            {uploading ? "Mengunggah..." : recommendationLetter ? "Ganti Surat Rekomendasi" : "Unggah Surat Rekomendasi"}
+                                        </p>
+                                        <p className="text-xs text-gray-400 mt-1">PDF atau Gambar (Maks 5MB)</p>
+                                    </label>
+                                </div>
+
+                                {recommendationLetter && (
+                                    <div className="flex flex-col items-center justify-center p-6 bg-emerald-50 border border-emerald-100 rounded-2xl relative overflow-hidden group">
+                                        <div className="absolute top-0 right-0 p-2 opacity-10">
+                                            <CheckCircle size={80} className="text-emerald-500" />
+                                        </div>
+                                        <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2 relative z-10">File Terpilih</p>
+                                        <a
+                                            href={recommendationLetter}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-emerald-700 font-bold hover:underline flex items-center gap-2 relative z-10"
+                                        >
+                                            <Eye size={18} />
+                                            Lihat Surat Rekomendasi
+                                        </a>
+                                        <button
+                                            onClick={() => setRecommendationLetter("")}
+                                            className="mt-3 text-[10px] font-bold text-red-500 hover:text-red-700 uppercase tracking-widest relative z-10"
+                                        >
+                                            Hapus
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
 

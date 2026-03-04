@@ -1,4 +1,4 @@
-import { Trophy, Award, Calendar, Newspaper, Send } from "lucide-react";
+import { Trophy, Award, Calendar, Newspaper, FilePlus, Bell } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -28,8 +28,8 @@ export default async function GuruDashboard() {
   const statCards = [
     { label: "Prestasi Siswa", value: stats.totalPrestasiSiswa, icon: Award, color: "bg-emerald-500", trend: "Bulan ini" },
     { label: "Kompetisi Aktif", value: stats.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Berlangsung" },
-    { label: "Pengajuan Mandiri", value: stats.pendingSubmissions, icon: Send, color: "bg-blue-500", trend: "Menunggu" },
-    { label: "Pengumuman", value: stats.announcements, icon: Newspaper, color: "bg-emerald-400", trend: "Terbaru" },
+    { label: "Pengajuan Mandiri", value: stats.pendingSubmissions, icon: FilePlus, color: "bg-blue-500", trend: "Menunggu" },
+    { label: "Pengumuman", value: stats.announcements, icon: Bell, color: "bg-emerald-400", trend: "Terbaru" },
   ];
 
   return (

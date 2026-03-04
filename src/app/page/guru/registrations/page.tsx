@@ -18,6 +18,7 @@ import {
     Search,
     ChevronRight,
     ClipboardList,
+    Calendar,
     Eye,
     FileText
 } from "lucide-react";
@@ -152,13 +153,25 @@ export default function GuruRegistrations() {
     };
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString("id-ID", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-        });
+        const date = new Date(dateString);
+        return (
+            <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2 text-gray-600 font-medium whitespace-nowrap">
+                    <Calendar size={14} className="text-gray-400" />
+                    {date.toLocaleDateString("id-ID", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                    })}
+                </div>
+                <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
+                    {date.toLocaleTimeString("id-ID", {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })} WIB
+                </span>
+            </div>
+        );
     };
 
     const fetchRegistrationDetail = async (id: string) => {
@@ -212,11 +225,11 @@ export default function GuruRegistrations() {
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <input
-                        type="text"
-                        placeholder="Cari nama atau NISN..."
-                        className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                            type="text"
+                            placeholder="Cari nama atau NISN..."
+                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer  text-gray-900"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
 
@@ -224,7 +237,7 @@ export default function GuruRegistrations() {
                         <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <select
                             id="reg-filter-status"
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none"
+                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer  text-gray-900"
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
                         >
@@ -239,7 +252,7 @@ export default function GuruRegistrations() {
                         <ClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <select
                             id="reg-filter-comp"
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none"
+                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer  text-gray-900"
                             value={filterCompetition}
                             onChange={(e) => setFilterCompetition(e.target.value)}
                         >
@@ -288,7 +301,7 @@ export default function GuruRegistrations() {
                                                 <p className="font-medium text-gray-900">{reg.competition.title}</p>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <p className="text-gray-500">{formatDate(reg.createdAt)}</p>
+                                                <div className="text-gray-500">{formatDate(reg.createdAt)}</div>
                                             </td>
                                             <td className="px-6 py-4">
                                                 {getStatusBadge(reg.status)}

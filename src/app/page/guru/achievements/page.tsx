@@ -1,7 +1,7 @@
 "use client";
 
 import { getAchievements, Achievement, deleteAchievement } from "@/app/service/guruAchievementsAPI";
-import { Award, Eye, File, Loader2, Trash2 } from "lucide-react";
+import { Award, Eye, File, Loader2, Trash2, Calendar, Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import AlertModal from "@/app/components/AlertModal";
@@ -11,6 +11,7 @@ export default function GuruAchievements() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK">("all");
   const router = useRouter();
   const [confirmState, setConfirmState] = useState({
@@ -49,11 +50,16 @@ export default function GuruAchievements() {
   // format tanggal 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("id-ID", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return (
+      <div className="flex items-center gap-2 text-gray-500 whitespace-nowrap">
+        <Calendar size={14} />
+        {date.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </div>
+    );
   };
 
   function handleEdit(achievement: Achievement) {
@@ -88,11 +94,12 @@ export default function GuruAchievements() {
     fetchAchievements();
   }, [filterStatus]);
   const filteredAchievements = achievements.filter((achievement) => {
-    if (filterStatus === "all") return true;
-    if (filterStatus === "MENUNGGU") return achievement.status === "MENUNGGU";
-    if (filterStatus === "TERVERIFIKASI") return achievement.status === "TERVERIFIKASI";
-    if (filterStatus === "DITOLAK") return achievement.status === "DITOLAK";
-    return false;
+    const matchesStatus = filterStatus === "all" || achievement.status === filterStatus;
+    const searchString = searchTerm.toLowerCase();
+    const titleMatch = (achievement.title || "").toLowerCase().includes(searchString);
+    const studentMatch = (achievement.student?.name || "").toLowerCase().includes(searchString);
+    const competitionMatch = (achievement.competitionName || "").toLowerCase().includes(searchString);
+    return matchesStatus && (titleMatch || studentMatch || competitionMatch);
   });
 
 
@@ -106,51 +113,64 @@ export default function GuruAchievements() {
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm text-center">
+        <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="relative w-full">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+              <input
+                type="text"
+                placeholder="Cari judul, nama siswa, atau kompetisi..."
+                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer text-gray-900"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFilterStatus("all")}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                  }`}
+              >
+                Semua
+              </button>
+              <button
+                onClick={() => setFilterStatus("MENUNGGU")}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "MENUNGGU"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                  }`}
+              >
+                Menunggu
+              </button>
+              <button
+                onClick={() => setFilterStatus("TERVERIFIKASI")}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "TERVERIFIKASI"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                  }`}
+              >
+                Terverifikasi
+              </button>
+              <button
+                onClick={() => setFilterStatus("DITOLAK")}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "DITOLAK"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                  }`}
+              >
+                Ditolak
+              </button>
+            </div>
+          </div>
+
           {loading ? (
             <div className="flex justify-center py-12">
               <Loader2 className="animate-spin text-emerald-600" size={32} />
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <div className="flex gap-2 mb-6">
-                <button
-                  onClick={() => setFilterStatus("all")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
-                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                    : "text-gray-600 hover:bg-gray-50 border border-transparent"
-                    }`}
-                >
-                  Semua
-                </button>
-                <button
-                  onClick={() => setFilterStatus("MENUNGGU")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "MENUNGGU"
-                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                    : "text-gray-600 hover:bg-gray-50 border border-transparent"
-                    }`}
-                >
-                  Menunggu
-                </button>
-                <button
-                  onClick={() => setFilterStatus("TERVERIFIKASI")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "TERVERIFIKASI"
-                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                    : "text-gray-600 hover:bg-gray-50 border border-transparent"
-                    }`}
-                >
-                  Terverifikasi
-                </button>
-                <button
-                  onClick={() => setFilterStatus("DITOLAK")}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "DITOLAK"
-                    ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                    : "text-gray-600 hover:bg-gray-50 border border-transparent"
-                    }`}
-                >
-                  Ditolak
-                </button>
-              </div>
               <table className="w-full text-left text-sm text-gray-600">
                 <thead className="bg-gray-50/50 border-b border-gray-100 font-medium text-gray-500 uppercase tracking-wider text-xs">
                   <tr>
@@ -165,91 +185,92 @@ export default function GuruAchievements() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {filteredAchievements.map((achievement) => (
-                    <tr key={achievement.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                            <Award size={16} />
+                  {filteredAchievements.length > 0 ? (
+                    filteredAchievements.map((achievement) => (
+                      <tr key={achievement.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-4 font-medium text-gray-900">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
+                              <Award size={16} />
+                            </div>
+                            {achievement.title}
                           </div>
-                          {achievement.title}
-                        </div>
-                      </td>
+                        </td>
 
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
+                        <td className="px-6 py-4 font-medium text-gray-900">
                           {achievement.student.name}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
+                        </td>
+                        <td className="px-6 py-4 font-medium text-gray-900 max-w-[200px] truncate">
                           {achievement.competitionName}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
+                        </td>
+                        <td className="px-6 py-4 font-medium text-gray-900">
                           {achievement.result}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
-                          <a href={achievement.certificate} target="_blank" rel="noopener noreferrer">
+                        </td>
+                        <td className="px-6 py-4 font-medium text-gray-900">
+                          <a href={achievement.certificate} target="_blank" rel="noopener noreferrer" className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all inline-block">
                             <File size={16} />
                           </a>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${achievement.status === "TERVERIFIKASI"
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-gray-50 text-gray-600 border-gray-100"
-                          }`}>
-                          {achievement.status === "MENUNGGU" ? "MENUNGGU" : achievement.status === "TERVERIFIKASI" ? "TERVERIFIKASI" : "DITOLAK"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${achievement.status === "TERVERIFIKASI"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-100"
+                            : achievement.status === "DITOLAK"
+                              ? "bg-red-50 text-red-700 border-red-100"
+                              : "bg-amber-50 text-amber-700 border-amber-100"
+                            }`}>
+                            {achievement.status ? (achievement.status.charAt(0).toUpperCase() + achievement.status.slice(1).toLowerCase()) : "-"}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4">
                           {formatDate(achievement.createdAt)}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-right flex justify-end gap-2">
-                        <button
-                          onClick={() => handleEdit(achievement)}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                          title="Lihat"
-                        >
-                          <Eye size={16} />
-                        </button>
-                        <button
-                          onClick={() => initiateDelete(achievement.id, achievement.student.name)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                          title="Hapus"
-                        >
-                          <Trash2 size={16} />
-                        </button>
+                        </td>
+                        <td className="px-6 py-4 text-right flex justify-end gap-2">
+                          <button
+                            onClick={() => handleEdit(achievement)}
+                            className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
+                            title="Lihat"
+                          >
+                            <Eye size={16} />
+                          </button>
+                          <button
+                            onClick={() => initiateDelete(achievement.id, achievement.student.name)}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            title="Hapus"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
+                        Tidak ada prestasi ditemukan.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
           )}
         </div>
-        <AlertModal
-          isOpen={alertState.isOpen}
-          title={alertState.title}
-          message={alertState.message}
-          type={alertState.type}
-          onClose={closeAlert}
-        />
-        <ConfirmModal
-          isOpen={confirmState.isOpen}
-          onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
-          onConfirm={handleConfirmDelete}
-          title={confirmState.title}
-          message={confirmState.message}
-          isLoading={isDeleting}
-        />
       </div>
+
+      <AlertModal
+        isOpen={alertState.isOpen}
+        title={alertState.title}
+        message={alertState.message}
+        type={alertState.type}
+        onClose={closeAlert}
+      />
+      <ConfirmModal
+        isOpen={confirmState.isOpen}
+        onClose={() => setConfirmState({ ...confirmState, isOpen: false })}
+        onConfirm={handleConfirmDelete}
+        title={confirmState.title}
+        message={confirmState.message}
+        isLoading={isDeleting}
+      />
     </>
   );
 }

@@ -12,8 +12,10 @@ test.describe('Integration Flow: Admin to Guru', () => {
     await page.goto('/page/login');
     await page.fill('input[name="email"]', 'admin@raihprestasi.id');
     await page.fill('input[name="password"]', 'admin123');
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(/\/page\/admin/);
+    await Promise.all([
+      page.waitForURL('**/page/admin', { timeout: 10000 }),
+      page.click('button[type="submit"]'),
+    ]);
 
     await page.goto('/page/admin/categories');
     await page.click('#add-category-btn');
@@ -34,24 +36,28 @@ test.describe('Integration Flow: Admin to Guru', () => {
     // 4. Guru logs in and creates Competition with new Category/Level
     await page.fill('input[name="email"]', 'wicak@gmail.com');
     await page.fill('input[name="password"]', '12345678');
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(/\/page\/guru/);
+    await Promise.all([
+      page.waitForURL('**/page/guru', { timeout: 10000 }),
+      page.click('button[type="submit"]'),
+    ]);
 
     await page.goto('/page/guru/competitions/new');
     await page.fill('#comp-title', competitionTitle);
     await page.fill('#comp-description', 'Integration test competition.');
     await page.fill('#comp-start-date', '2026-06-01');
     await page.fill('#comp-end-date', '2026-06-30');
-    
+
     // Select the newly created category and level
     await page.selectOption('#comp-category', { label: categoryName });
     await page.selectOption('#comp-level', { label: levelName });
-    
+
     await page.click('#save-comp-btn');
-    
+
     await expect(page.locator('text=Berhasil')).toBeVisible();
-    await page.click('text=OK');
-    await expect(page).toHaveURL(/\/page\/guru\/competitions/);
+    await Promise.all([
+      page.waitForURL('**/page/guru/competitions', { timeout: 10000 }),
+      page.click('text=OK'),
+    ]);
     await expect(page.locator(`text=${competitionTitle}`)).toBeVisible();
   });
 });

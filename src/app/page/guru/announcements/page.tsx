@@ -3,7 +3,7 @@
 import AlertModal from "@/app/components/AlertModal";
 import ConfirmModal from "@/app/components/ConfirmModal";
 import { Announcement, deleteAnnouncement, getAnnouncements } from "@/app/service/guruAnnouncementsAPI";
-import { Edit, Loader2, Newspaper, Plus, Trash2 } from "lucide-react";
+import { Edit, Loader2, Newspaper, Plus, Trash2, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 export default function GuruAnnouncements() {
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | "published" | "draft">("all");
   const router = useRouter();
   const [confirmState, setConfirmState] = useState({
@@ -94,10 +95,10 @@ export default function GuruAnnouncements() {
   }, []);
 
   const filteredAnnouncements = announcements.filter((ann) => {
-    if (filterStatus === "all") return true;
-    if (filterStatus === "published") return ann.isPublished;
-    if (filterStatus === "draft") return !ann.isPublished;
-    return true;
+    const matchesStatus = filterStatus === "all" || (filterStatus === "published" ? ann.isPublished : !ann.isPublished);
+    const searchString = searchTerm.toLowerCase();
+    const titleMatch = (ann.title || "").toLowerCase().includes(searchString);
+    return matchesStatus && titleMatch;
   });
 
   return (
@@ -118,20 +119,32 @@ export default function GuruAnnouncements() {
         </Link>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-        <div className="flex gap-2 mb-6">
-          {(["all", "published", "draft"] as const).map((status) => (
-            <button
-              key={status}
-              onClick={() => setFilterStatus(status)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === status
-                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-                : "text-gray-600 hover:bg-gray-50 border border-transparent"
-                }`}
-            >
-              {status === "all" ? "Semua" : status === "published" ? "Dipublikasikan" : "Draft"}
-            </button>
-          ))}
+      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Cari judul pengumuman..."
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer text-gray-900"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            {(["all", "published", "draft"] as const).map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === status
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                  }`}
+              >
+                {status === "all" ? "Semua" : status === "published" ? "Terbit" : "Draf"}
+              </button>
+            ))}
+          </div>
         </div>
 
         {loading ? (

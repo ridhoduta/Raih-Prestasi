@@ -1,4 +1,4 @@
-import { Users, Trophy, Award, Calendar } from "lucide-react";
+import { Users, Trophy, Award, Calendar, UserCheck, Star } from "lucide-react";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
@@ -27,9 +27,9 @@ export default async function AdminDashboard() {
 
   const statCards = [
     { label: "Total Guru", value: stats.totalGuru, icon: Users, color: "bg-emerald-500", trend: "Data Terbaru" },
-    { label: "Total Siswa", value: stats.totalSiswa, icon: Award, color: "bg-emerald-400", trend: "Data Terbaru" },
+    { label: "Total Siswa", value: stats.totalSiswa, icon: UserCheck, color: "bg-emerald-400", trend: "Data Terbaru" },
     { label: "Kompetisi Aktif", value: stats.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Sedang berjalan" },
-    { label: "Total Prestasi", value: stats.totalPrestasi, icon: Award, color: "bg-emerald-500", trend: "Terverifikasi" },
+    { label: "Total Prestasi", value: stats.totalPrestasi, icon: Star, color: "bg-emerald-500", trend: "Terverifikasi" },
   ];
 
   return (

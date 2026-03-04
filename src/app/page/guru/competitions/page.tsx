@@ -5,7 +5,7 @@ import ConfirmModal from "@/app/components/ConfirmModal";
 import { Category, getCategories } from "@/app/service/categoriesAPI";
 import { Competition, createCompetition, deleteCompetition, getCompetitions, updateCompetition } from "@/app/service/guruCompetitionsAPI";
 import { getLevels, Level } from "@/app/service/levelsAPI";
-import { Edit, Loader2, Plus, Save, Trash2, Trophy } from "lucide-react";
+import { Trophy, Award, Calendar, Search, Loader2, Eye, Edit, Trash2, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ export default function GuruCompetitions() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
   const [confirmState, setConfirmState] = useState({
     isOpen: false,
@@ -96,11 +97,16 @@ export default function GuruCompetitions() {
     if (!dateString) return "-";
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString("id-ID", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return (
+      <div className="flex items-center gap-2 text-gray-500 whitespace-nowrap">
+        <Calendar size={14} />
+        {date.toLocaleDateString("id-ID", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
+      </div>
+    );
   };
 
   const handleEdit = (competition: Competition) => {
@@ -112,10 +118,10 @@ export default function GuruCompetitions() {
   }, []);
 
   const filteredCompetitions = competitions.filter((comp) => {
-    if (filterStatus === "all") return true;
-    if (filterStatus === "active") return comp.isActive;
-    if (filterStatus === "inactive") return !comp.isActive;
-    return true;
+    const matchesStatus = filterStatus === "all" || (filterStatus === "active" ? comp.isActive : !comp.isActive);
+    const searchString = searchTerm.toLowerCase();
+    const titleMatch = (comp.title || "").toLowerCase().includes(searchString);
+    return matchesStatus && titleMatch;
   });
 
   return (
@@ -136,35 +142,47 @@ export default function GuruCompetitions() {
         </Link>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-        <div className="flex gap-2 mb-6">
-          <button
-            onClick={() => setFilterStatus("all")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-              : "text-gray-600 hover:bg-gray-50 border border-transparent"
-              }`}
-          >
-            Semua
-          </button>
-          <button
-            onClick={() => setFilterStatus("active")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "active"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-              : "text-gray-600 hover:bg-gray-50 border border-transparent"
-              }`}
-          >
-            Aktif
-          </button>
-          <button
-            onClick={() => setFilterStatus("inactive")}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "inactive"
-              ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
-              : "text-gray-600 hover:bg-gray-50 border border-transparent"
-              }`}
-          >
-            Nonaktif
-          </button>
+      <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="relative flex-1 max-w-md w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Cari judul kompetisi..."
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer text-gray-900"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setFilterStatus("all")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "all"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+                }`}
+            >
+              Semua
+            </button>
+            <button
+              onClick={() => setFilterStatus("active")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "active"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+                }`}
+            >
+              Aktif
+            </button>
+            <button
+              onClick={() => setFilterStatus("inactive")}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "inactive"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent"
+                }`}
+            >
+              Nonaktif
+            </button>
+          </div>
         </div>
 
         {loading ? (
@@ -206,9 +224,11 @@ export default function GuruCompetitions() {
                       </td>
 
 
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
-                          {formatDate(competition.startDate)} - {formatDate(competition.endDate)}
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1.5 flex-wrap max-w-[200px]">
+                          {formatDate(competition.startDate)}
+                          <span className="text-gray-300 mx-0.5">•</span>
+                          {formatDate(competition.endDate)}
                         </div>
                       </td>
                       <td className="px-6 py-4 font-medium text-gray-900">

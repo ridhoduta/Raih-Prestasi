@@ -1,15 +1,17 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Authentication', () => {
-  
+
   test('TC-G01: Login with valid Guru account', async ({ page }) => {
     await page.goto('/page/login');
     await page.fill('input[name="email"]', 'wicak@gmail.com');
     await page.fill('input[name="password"]', '12345678');
-    await page.click('button[type="submit"]');
-    
+    await Promise.all([
+      page.waitForURL('**/page/guru', { timeout: 10000 }),
+      page.click('button[type="submit"]'),
+    ]);
+
     // Should be redirected to Guru dashboard
-    await expect(page).toHaveURL(/\/page\/guru/);
     await expect(page.locator('h1')).toContainText('Dashboard');
   });
 
@@ -18,7 +20,7 @@ test.describe('Authentication', () => {
     await page.fill('input[name="email"]', 'wicak@gmail.com');
     await page.fill('input[name="password"]', 'wrongpassword');
     await page.click('button[type="submit"]');
-    
+
     // Check for error message
     // Assuming the error message is displayed in the red box
     await expect(page.locator('div.bg-red-50')).toBeVisible();
@@ -29,10 +31,10 @@ test.describe('Authentication', () => {
     await page.goto('/page/login');
     await page.fill('input[name="email"]', 'admin@raihprestasi.id');
     await page.fill('input[name="password"]', 'admin123');
-    await page.click('button[type="submit"]');
-    
-    // Should be redirected to Admin dashboard
-    await expect(page).toHaveURL(/\/page\/admin/);
+    await Promise.all([
+      page.waitForURL('**/page/admin', { timeout: 10000 }),
+      page.click('button[type="submit"]'),
+    ]);
   });
 
   test('TC-S01: Login with valid Student account (NISN)', async ({ page }) => {
@@ -42,9 +44,9 @@ test.describe('Authentication', () => {
     // In LoginPage, it uses email and password for fetch.
     await page.fill('input[name="email"]', '1234567890');
     await page.fill('input[name="password"]', '12345678');
-    await page.click('button[type="submit"]');
-    
-    // Should be redirected to Student dashboard (redirected to / for students based on code)
-    await expect(page).toHaveURL(/\/$/);
+    await Promise.all([
+      page.waitForURL('**/', { timeout: 10000 }),
+      page.click('button[type="submit"]'),
+    ]);
   });
 });

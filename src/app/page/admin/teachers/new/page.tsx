@@ -38,8 +38,28 @@ export default function AddTeacherPage() {
     }
   };
 
+  const validatePassword = (pass: string) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(pass);
+    const hasLowerCase = /[a-z]/.test(pass);
+    const hasNumber = /[0-9]/.test(pass);
+
+    if (pass.length < minLength) return "Password minimal 8 karakter.";
+    if (!hasUpperCase) return "Password harus mengandung huruf besar.";
+    if (!hasLowerCase) return "Password harus mengandung huruf kecil.";
+    if (!hasNumber) return "Password harus mengandung angka.";
+    return null;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) {
+      showAlert("Password Lemah", passwordError, "error");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
