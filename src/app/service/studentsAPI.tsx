@@ -27,6 +27,10 @@ export async function createStudent(payload: StudentPayload) {
     return apiClient.post<Student>(BASE_URL, payload);
 }
 
+export async function createStudentsBulk(payload: StudentPayload[]) {
+    return apiClient.post<{ imported: number }>(`${BASE_URL}/bulk`, payload);
+}
+
 export async function getStudentDetail(id: string) {
     return apiClient.get<Student>(`${BASE_URL}/${id}`);
 }

@@ -23,6 +23,10 @@ export async function createTeacher(payload: TeacherPayload) {
   return apiClient.post<Teacher>(BASE_URL, payload);
 }
 
+export async function createTeachersBulk(payload: TeacherPayload[]) {
+  return apiClient.post<{ imported: number }>(`${BASE_URL}/bulk`, payload);
+}
+
 export async function getTeacherDetail(id: string) {
   return apiClient.get<Teacher>(`${BASE_URL}/${id}`);
 }

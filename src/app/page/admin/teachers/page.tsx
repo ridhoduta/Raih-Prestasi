@@ -4,14 +4,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Search, Edit, Trash2, Mail, Loader2 } from "lucide-react";
 
-import { getTeachers, deleteTeacher, Teacher } from "@/app/service/teachersAPI";
+import { getTeachers, deleteTeacher, Teacher, createTeachersBulk } from "@/app/service/teachersAPI";
 import AlertModal from "@/app/components/AlertModal";
 import ConfirmModal from "@/app/components/ConfirmModal";
+import ImportExcelModal from "@/app/components/ImportExcelModal";
 
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
 
   // Modal States
   const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -84,6 +87,24 @@ export default function TeachersPage() {
     }
   }
 
+  const handleImportSubmit = async (data: any[]) => {
+    setIsImporting(true);
+    try {
+      const response = await createTeachersBulk(data);
+      if (response.success) {
+        showAlert("Berhasil", response.message || "Data guru berhasil diimport.", "success");
+        setIsImportModalOpen(false);
+        fetchTeachers(); // Refresh table
+      } else {
+        showAlert("Peringatan", response.message || "Beberapa data mungkin gagal diimport.", "info");
+      }
+    } catch (error: any) {
+      showAlert("Error", "Terjadi kesalahan saat import data.", "error");
+    } finally {
+      setIsImporting(false);
+    }
+  };
+
 
   const filteredTeachers = teachers.filter(teacher =>
     teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -98,13 +119,21 @@ export default function TeachersPage() {
           <p className="text-gray-500 mt-1">Kelola akun guru dan akses sistem</p>
         </div>
 
-        <Link
-          href="/page/admin/teachers/new"
-          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
-        >
-          <Plus size={18} />
-          Tambah Guru
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsImportModalOpen(true)}
+            className="flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+          >
+            Import Excel
+          </button>
+          <Link
+            href="/page/admin/teachers/new"
+            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+          >
+            <Plus size={18} />
+            Tambah Guru
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -204,6 +233,14 @@ export default function TeachersPage() {
         title={confirmState.title}
         message={confirmState.message}
         isLoading={isDeleting}
+      />
+
+      <ImportExcelModal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        type="guru"
+        onSubmit={handleImportSubmit}
+        isLoading={isImporting}
       />
     </div>
   );

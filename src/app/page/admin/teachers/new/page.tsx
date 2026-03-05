@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 
@@ -38,16 +38,16 @@ export default function AddTeacherPage() {
     }
   };
 
-  const validatePassword = (pass: string) => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(pass);
-    const hasLowerCase = /[a-z]/.test(pass);
-    const hasNumber = /[0-9]/.test(pass);
+  const passwordRules = [
+    { id: 1, text: "Minimal 8 karakter", test: (pw: string) => pw.length >= 8 },
+    { id: 2, text: "Mengandung huruf kapital (A-Z)", test: (pw: string) => /[A-Z]/.test(pw) },
+    { id: 3, text: "Mengandung angka (0-9)", test: (pw: string) => /[0-9]/.test(pw) },
+    { id: 4, text: "Mengandung karakter spesial (!@#$%^&*)", test: (pw: string) => /[!@#$%^&*(),.?":{}|<>]/.test(pw) },
+  ];
 
-    if (pass.length < minLength) return "Password minimal 8 karakter.";
-    if (!hasUpperCase) return "Password harus mengandung huruf besar.";
-    if (!hasLowerCase) return "Password harus mengandung huruf kecil.";
-    if (!hasNumber) return "Password harus mengandung angka.";
+  const validatePassword = (pass: string) => {
+    const failedRules = passwordRules.filter((rule) => !rule.test(pass));
+    if (failedRules.length > 0) return "Password belum memenuhi semua syarat!";
     return null;
   };
 
@@ -135,7 +135,29 @@ export default function AddTeacherPage() {
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
-            <p className="text-xs text-gray-400 mt-1">Password bisa diubah nanti oleh guru.</p>
+            {formData.password.length > 0 && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-xl border border-gray-100">
+                <p className="text-sm font-medium text-gray-700 mb-2">Kriteria Password:</p>
+                <ul className="space-y-2">
+                  {passwordRules.map((rule) => {
+                    const isMet = rule.test(formData.password);
+                    return (
+                      <li key={rule.id} className="flex items-start gap-2 text-sm">
+                        {isMet ? (
+                          <CheckCircle2 size={16} className="text-emerald-500 shrink-0 mt-0.5" />
+                        ) : (
+                          <div className="w-4 h-4 rounded-full border-2 border-gray-300 flex items-center justify-center shrink-0 mt-0.5 ml-0.5" />
+                        )}
+                        <span className={`${isMet ? 'text-emerald-700' : 'text-gray-500'}`}>
+                          {rule.text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+            <p className="text-xs text-gray-400 mt-2">Password bisa diubah nanti oleh guru.</p>
           </div>
         </div>
 

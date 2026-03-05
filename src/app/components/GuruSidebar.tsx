@@ -51,6 +51,7 @@ export default function GuruSidebar() {
     { name: "Pengajuan Kompetisi Mandiri", href: "/page/guru/independent-submissions", icon: Send },
     { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award },
     { name: "Pengumuman", href: "/page/guru/announcements", icon: Newspaper },
+    { name: "Ganti Password", href: "/page/guru/change-password", icon: Settings },
   ];
 
   return (

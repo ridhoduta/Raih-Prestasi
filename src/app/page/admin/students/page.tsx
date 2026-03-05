@@ -4,14 +4,17 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus, Search, Edit, Trash2, User, Loader2, GraduationCap } from "lucide-react";
 
-import { getStudents, deleteStudent, Student } from "@/app/service/studentsAPI";
+import { getStudents, deleteStudent, Student, createStudentsBulk } from "@/app/service/studentsAPI";
 import AlertModal from "@/app/components/AlertModal";
 import ConfirmModal from "@/app/components/ConfirmModal";
+import ImportExcelModal from "@/app/components/ImportExcelModal";
 
 export default function StudentsPage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [students, setStudents] = useState<Student[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+    const [isImporting, setIsImporting] = useState(false);
 
     // Modal States
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -86,6 +89,24 @@ export default function StudentsPage() {
         }
     }
 
+    const handleImportSubmit = async (data: any[]) => {
+        setIsImporting(true);
+        try {
+            const response = await createStudentsBulk(data);
+            if (response.success) {
+                showAlert("Berhasil", response.message || "Data siswa berhasil diimport.", "success");
+                setIsImportModalOpen(false);
+                fetchStudents(); // Refresh table
+            } else {
+                showAlert("Peringatan", response.message || "Beberapa data mungkin gagal diimport.", "info");
+            }
+        } catch (error: any) {
+            showAlert("Error", "Terjadi kesalahan saat import data.", "error");
+        } finally {
+            setIsImporting(false);
+        }
+    };
+
     const filteredStudents = students.filter(student =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.nisn.includes(searchTerm) ||
@@ -100,13 +121,21 @@ export default function StudentsPage() {
                     <p className="text-gray-500 mt-1">Kelola data siswa dan akses prestasi</p>
                 </div>
 
-                <Link
-                    href="/page/admin/students/new"
-                    className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
-                >
-                    <Plus size={18} />
-                    Tambah Siswa
-                </Link>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => setIsImportModalOpen(true)}
+                        className="flex items-center gap-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+                    >
+                        Import Excel
+                    </button>
+                    <Link
+                        href="/page/admin/students/new"
+                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+                    >
+                        <Plus size={18} />
+                        Tambah Siswa
+                    </Link>
+                </div>
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
@@ -205,6 +234,14 @@ export default function StudentsPage() {
                 title={confirmState.title}
                 message={confirmState.message}
                 isLoading={isDeleting}
+            />
+
+            <ImportExcelModal
+                isOpen={isImportModalOpen}
+                onClose={() => setIsImportModalOpen(false)}
+                type="siswa"
+                onSubmit={handleImportSubmit}
+                isLoading={isImporting}
             />
         </div>
     );
