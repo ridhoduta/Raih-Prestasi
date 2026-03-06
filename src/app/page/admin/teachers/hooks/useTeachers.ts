@@ -1,10 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getTeachers, deleteTeacher, Teacher, createTeachersBulk } from "@/app/service/teachersAPI";
+
+const PAGE_LIMIT = 20;
 
 export function useTeachers() {
     const [searchTerm, setSearchTerm] = useState("");
     const [teachers, setTeachers] = useState<Teacher[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [isImporting, setIsImporting] = useState(false);
 
@@ -25,23 +29,59 @@ export function useTeachers() {
     });
     const [isDeleting, setIsDeleting] = useState(false);
 
+    // Debounced search
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // Fetch teachers when search changes (reset list)
     useEffect(() => {
         fetchTeachers();
-    }, []);
+    }, [debouncedSearch]);
 
-    async function fetchTeachers() {
+    const fetchTeachers = useCallback(async () => {
         try {
             setIsLoading(true);
-            const response = await getTeachers();
+            const response = await getTeachers({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
             if (response.success && response.data) {
                 setTeachers(response.data);
+                setNextCursor(response.nextCursor ?? null);
             }
         } catch (error) {
             console.error("Failed to fetch teachers", error);
         } finally {
             setIsLoading(false);
         }
-    }
+    }, [debouncedSearch]);
+
+    // Load more (cursor pagination)
+    const loadMore = useCallback(async () => {
+        if (!nextCursor || isLoadingMore) return;
+        try {
+            setIsLoadingMore(true);
+            const response = await getTeachers({
+                cursor: nextCursor,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setTeachers(prev => [...prev, ...response.data!]);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to load more teachers", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
@@ -100,18 +140,14 @@ export function useTeachers() {
         }
     };
 
-    const filteredTeachers = useMemo(() => {
-        return teachers.filter(teacher =>
-            teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            teacher.email.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-    }, [teachers, searchTerm]);
-
     return {
         searchTerm,
         setSearchTerm,
-        filteredTeachers,
+        teachers,
         isLoading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         isImportModalOpen,
         setIsImportModalOpen,
         isImporting,

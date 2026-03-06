@@ -1,33 +1,61 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
+const guruSelect = {
+  id: true,
+  name: true,
+  email: true,
+  isActive: true,
+  createdAt: true,
+};
+
 // =======================
-// GET - List Guru
+// GET - List Guru (Cursor Pagination + Select + Search)
 // =======================
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    // 👉 GET ALL
+    const { searchParams } = new URL(req.url);
+    const cursor = searchParams.get("cursor");
+    const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
+    const search = searchParams.get("search") || "";
+
+    const where: any = { role: "GURU", isActive: true };
+
+    if (search) {
+      where.OR = [
+        { name: { contains: search, mode: "insensitive" } },
+        { email: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
     const gurus = await prisma.user.findMany({
-      where: { role: "GURU", isActive: true },
+      where,
+      select: guruSelect,
       orderBy: { createdAt: "desc" },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        isActive: true,
-        createdAt: true,
-      },
+      take: limit + 1,
+      ...(cursor
+        ? {
+          cursor: { id: cursor },
+          skip: 1,
+        }
+        : {}),
     });
+
+    const hasMore = gurus.length > limit;
+    const data = hasMore ? gurus.slice(0, limit) : gurus;
+    const nextCursor = hasMore ? data[data.length - 1].id : null;
 
     return NextResponse.json({
       success: true,
-      data: gurus,
+      data,
+      nextCursor,
     });
   } catch (error) {
+    console.error("GET /api/admin/guru error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch gurus" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -40,26 +68,30 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { name, email, password } = body;
 
+    // Rule 7: Input validation
     if (!name || !email || !password) {
       return NextResponse.json(
         { success: false, message: "name, email, password are required" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
+    // Rule 8: Duplicate check with select
     const existing = await prisma.user.findUnique({
       where: { email },
+      select: { id: true },
     });
 
     if (existing) {
       return NextResponse.json(
         { success: false, message: "Email already in use" },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Rule 2: Use select on create return
     const guru = await prisma.user.create({
       data: {
         name,
@@ -67,21 +99,19 @@ export async function POST(req: Request) {
         password: hashedPassword,
         role: "GURU",
       },
+      select: guruSelect,
     });
 
     return NextResponse.json({
       success: true,
       message: "Guru created",
-      data: {
-        id: guru.id,
-        name: guru.name,
-        email: guru.email,
-      },
+      data: guru,
     });
   } catch (error) {
+    console.error("POST /api/admin/guru error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create guru" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

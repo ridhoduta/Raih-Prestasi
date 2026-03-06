@@ -1,14 +1,29 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+const studentSelect = {
+    id: true,
+    nisn: true,
+    name: true,
+    kelas: true,
+    angkatan: true,
+    isActive: true,
+};
+
+// =======================
+// GET - Student Detail
+// =======================
 export async function GET(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const id = (await params).id;
+
+        // Rule 2: Use select
         const student = await prisma.student.findUnique({
             where: { id },
+            select: studentSelect,
         });
 
         if (!student) {
@@ -23,6 +38,8 @@ export async function GET(
             data: student,
         });
     } catch (error) {
+        // Rule 6: Log server errors, don't expose raw DB errors
+        console.error("GET /api/admin/students/[id] error:", error);
         return NextResponse.json(
             { success: false, message: "Gagal mengambil data siswa" },
             { status: 500 }
@@ -30,6 +47,9 @@ export async function GET(
     }
 }
 
+// =======================
+// PUT - Update Student
+// =======================
 export async function PUT(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
@@ -46,10 +66,11 @@ export async function PUT(
         if (angkatan !== undefined) updateData.angkatan = Number(angkatan);
         if (isActive !== undefined) updateData.isActive = isActive;
 
-        // Check if NISN is being used by someone else
+        // Rule 8: Prevent duplicate NISN when updating
         if (nisn) {
             const existing = await prisma.student.findUnique({
                 where: { nisn },
+                select: { id: true },
             });
             if (existing && existing.id !== id) {
                 return NextResponse.json(
@@ -59,9 +80,11 @@ export async function PUT(
             }
         }
 
+        // Rule 2: Use select on update return
         const student = await prisma.student.update({
             where: { id },
             data: updateData,
+            select: studentSelect,
         });
 
         return NextResponse.json({
@@ -69,6 +92,7 @@ export async function PUT(
             data: student,
         });
     } catch (error) {
+        console.error("PUT /api/admin/students/[id] error:", error);
         return NextResponse.json(
             { success: false, message: "Gagal mengupdate data siswa" },
             { status: 500 }
@@ -76,6 +100,9 @@ export async function PUT(
     }
 }
 
+// =======================
+// DELETE - Delete Student
+// =======================
 export async function DELETE(
     req: Request,
     { params }: { params: Promise<{ id: string }> }
@@ -83,9 +110,6 @@ export async function DELETE(
     try {
         const id = (await params).id;
 
-        // Instead of hard delete, maybe just set isActive to false?
-        // Let's stick to true deletion based on how getStudents is mapped 
-        // Or if there are relations, it might fail. Let's just hard delete for now and handle constraints if needed
         await prisma.student.delete({
             where: { id },
         });
@@ -95,8 +119,13 @@ export async function DELETE(
             message: "Siswa berhasil dihapus",
         });
     } catch (error) {
+        console.error("DELETE /api/admin/students/[id] error:", error);
         return NextResponse.json(
-            { success: false, message: "Gagal menghapus siswa. Mungkin masih ada data terkait (seperti registrasi)." },
+            {
+                success: false,
+                message:
+                    "Gagal menghapus siswa. Mungkin masih ada data terkait (seperti registrasi).",
+            },
             { status: 500 }
         );
     }

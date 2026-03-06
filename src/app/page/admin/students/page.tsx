@@ -14,8 +14,11 @@ export default function StudentsPage() {
     const {
         searchTerm,
         setSearchTerm,
-        filteredStudents,
+        students,
         isLoading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         isImportModalOpen,
         setIsImportModalOpen,
         isImporting,
@@ -69,10 +72,23 @@ export default function StudentsPage() {
                 </div>
 
                 <StudentTable
-                    students={filteredStudents}
+                    students={students}
                     isLoading={isLoading}
                     onDelete={initiateDelete}
                 />
+
+                {/* Load More Button for Cursor Pagination */}
+                {nextCursor && !isLoading && (
+                    <div className="p-4 border-t border-gray-100 flex justify-center">
+                        <button
+                            onClick={loadMore}
+                            disabled={isLoadingMore}
+                            className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
+                        >
+                            {isLoadingMore ? "Memuat..." : "Muat Lebih Banyak"}
+                        </button>
+                    </div>
+                )}
             </div>
 
             <AlertModal
