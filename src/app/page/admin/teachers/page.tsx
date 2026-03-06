@@ -1,115 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Plus, Search, Edit, Trash2, Mail, Loader2 } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
-import { getTeachers, deleteTeacher, Teacher, createTeachersBulk } from "@/app/service/teachersAPI";
 import AlertModal from "@/app/components/AlertModal";
 import ConfirmModal from "@/app/components/ConfirmModal";
 import ImportExcelModal from "@/app/components/ImportExcelModal";
 
+import { useTeachers } from "./hooks/useTeachers";
+import { TeacherTable } from "./components/TeacherTable";
+
 export default function TeachersPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-  const [isImporting, setIsImporting] = useState(false);
-
-  // Modal States
-  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
-    isOpen: false,
-    title: "",
-    message: "",
-    type: "info"
-  });
-  const [confirmState, setConfirmState] = useState<{ isOpen: boolean; id: string | null; title: string; message: string }>({
-    isOpen: false,
-    id: null,
-    title: "",
-    message: ""
-  });
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    fetchTeachers();
-  }, []);
-
-  async function fetchTeachers() {
-    try {
-      const response = await getTeachers();
-      if (response.success && response.data) {
-        setTeachers(response.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch teachers", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
-    setAlertState({ isOpen: true, title, message, type });
-  };
-
-  const closeAlert = () => {
-    setAlertState({ ...alertState, isOpen: false });
-  };
-
-  const initiateDelete = (id: string, name: string) => {
-    setConfirmState({
-      isOpen: true,
-      id,
-      title: "Hapus Data Guru",
-      message: `Apakah Anda yakin ingin menghapus data guru "${name}"?`
-    });
-  };
-
-  async function handleConfirmDelete() {
-    if (!confirmState.id) return;
-    setIsDeleting(true);
-
-    try {
-      const response = await deleteTeacher(confirmState.id);
-      if (response.success) {
-        setTeachers(teachers.filter((t) => t.id !== confirmState.id));
-        setConfirmState({ ...confirmState, isOpen: false });
-        showAlert("Dihapus", "Data guru berhasil dihapus.", "success");
-      } else {
-        setConfirmState({ ...confirmState, isOpen: false });
-        showAlert("Gagal", "Gagal menghapus guru: " + response.message, "error");
-      }
-    } catch (error) {
-      setConfirmState({ ...confirmState, isOpen: false });
-      showAlert("Error", "Terjadi kesalahan saat menghapus data.", "error");
-    } finally {
-      setIsDeleting(false);
-    }
-  }
-
-  const handleImportSubmit = async (data: any[]) => {
-    setIsImporting(true);
-    try {
-      const response = await createTeachersBulk(data);
-      if (response.success) {
-        showAlert("Berhasil", response.message || "Data guru berhasil diimport.", "success");
-        setIsImportModalOpen(false);
-        fetchTeachers(); // Refresh table
-      } else {
-        showAlert("Peringatan", response.message || "Beberapa data mungkin gagal diimport.", "info");
-      }
-    } catch (error: any) {
-      showAlert("Error", "Terjadi kesalahan saat import data.", "error");
-    } finally {
-      setIsImporting(false);
-    }
-  };
-
-
-  const filteredTeachers = teachers.filter(teacher =>
-    teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    teacher.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const {
+    searchTerm,
+    setSearchTerm,
+    filteredTeachers,
+    isLoading,
+    isImportModalOpen,
+    setIsImportModalOpen,
+    isImporting,
+    alertState,
+    closeAlert,
+    confirmState,
+    setConfirmState,
+    isDeleting,
+    initiateDelete,
+    handleConfirmDelete,
+    handleImportSubmit,
+  } = useTeachers();
 
   return (
     <div className="space-y-6">
@@ -143,79 +61,18 @@ export default function TeachersPage() {
             <input
               type="text"
               placeholder="Cari nama atau email guru..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-black"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-sans text-gray-900"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
         </div>
 
-        {isLoading ? (
-          <div className="p-12 text-center text-gray-500 flex justify-center">
-            <Loader2 className="animate-spin text-emerald-600" />
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-600">
-              <thead className="bg-gray-50/50 border-b border-gray-100 font-medium text-gray-500 uppercase tracking-wider text-xs">
-                <tr>
-                  <th className="px-6 py-4">Nama Guru</th>
-                  <th className="px-6 py-4">Email</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4 text-right">Aksi</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filteredTeachers.map((teacher) => (
-                  <tr key={teacher.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900 flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">
-                        {teacher.name.substring(0, 2).toUpperCase()}
-                      </div>
-                      {teacher.name}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <Mail size={14} className="text-gray-400" />
-                        {teacher.email}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${teacher.isActive
-                        ? "bg-green-50 text-green-700 border-green-100"
-                        : "bg-gray-50 text-gray-600 border-gray-100"
-                        }`}>
-                        {teacher.isActive ? "Aktif" : "Nonaktif"}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right flex justify-end gap-2">
-                      <Link
-                        href={`/page/admin/teachers/${teacher.id}/edit`}
-                        className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                        title="Edit"
-                      >
-                        <Edit size={16} />
-                      </Link>
-                      <button
-                        onClick={() => initiateDelete(teacher.id, teacher.name)}
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                        title="Hapus"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {!isLoading && filteredTeachers.length === 0 && (
-          <div className="p-12 text-center text-gray-500">
-            Belum ada data guru.
-          </div>
-        )}
+        <TeacherTable
+          teachers={filteredTeachers}
+          isLoading={isLoading}
+          onDelete={initiateDelete}
+        />
       </div>
 
       <AlertModal

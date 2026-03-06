@@ -1,105 +1,35 @@
 "use client";
 
-import AlertModal from "@/app/components/AlertModal";
-import ConfirmModal from "@/app/components/ConfirmModal";
-import { Announcement, deleteAnnouncement, getAnnouncements } from "@/app/service/guruAnnouncementsAPI";
-import { Edit, Loader2, Newspaper, Plus, Trash2, Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+
+import AlertModal from "@/app/components/AlertModal";
+import ConfirmModal from "@/app/components/ConfirmModal";
+import { useAnnouncements } from "./hooks/useAnnouncements";
+import { AnnouncementTable } from "./components/AnnouncementTable";
 
 export default function GuruAnnouncements() {
-  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState<"all" | "published" | "draft">("all");
   const router = useRouter();
-  const [confirmState, setConfirmState] = useState({
-    isOpen: false,
-    id: "",
-    title: "",
-    message: "",
-  });
-  const [isDelete, setIsDelete] = useState(false);
-  const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
-    isOpen: false,
-    title: "",
-    message: "",
-    type: "info"
-  });
-
-  const closeAlert = () => {
-    setAlertState({ ...alertState, isOpen: false });
-  };
-
-  const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
-    setAlertState({ isOpen: true, title, message, type });
-  };
-
-  const initiateDelete = (id: string, title: string) => {
-    setConfirmState({
-      isOpen: true,
-      id,
-      title: "Hapus Pengumuman",
-      message: `Apakah Anda yakin ingin menghapus pengumuman "${title}"?`
-    });
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!confirmState.id) return;
-    setIsDelete(true);
-    try {
-      await deleteAnnouncement(confirmState.id);
-      setConfirmState({ ...confirmState, isOpen: false });
-      showAlert("Success", "Pengumuman berhasil dihapus.", "success");
-      fetchAnnouncements();
-    } catch (error) {
-      setConfirmState({ ...confirmState, isOpen: false });
-      showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
-    } finally {
-      setIsDelete(false);
-    }
-  };
-
-  async function fetchAnnouncements() {
-    setLoading(true);
-    try {
-      const response = await getAnnouncements(true);
-      if (response.success && response.data) {
-        setAnnouncements(response.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch announcements", error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString("id-ID", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  const {
+    searchTerm,
+    setSearchTerm,
+    filterStatus,
+    setFilterStatus,
+    filteredAnnouncements,
+    loading,
+    alertState,
+    closeAlert,
+    confirmState,
+    setConfirmState,
+    isDelete,
+    initiateDelete,
+    handleConfirmDelete,
+  } = useAnnouncements();
 
   const handleEdit = (id: string) => {
     router.push(`/page/guru/announcements/${id}/edit`);
   };
-
-  useEffect(() => {
-    fetchAnnouncements();
-  }, []);
-
-  const filteredAnnouncements = announcements.filter((ann) => {
-    const matchesStatus = filterStatus === "all" || (filterStatus === "published" ? ann.isPublished : !ann.isPublished);
-    const searchString = searchTerm.toLowerCase();
-    const titleMatch = (ann.title || "").toLowerCase().includes(searchString);
-    return matchesStatus && titleMatch;
-  });
 
   return (
     <div className="space-y-8">
@@ -147,77 +77,13 @@ export default function GuruAnnouncements() {
           </div>
         </div>
 
-        {loading ? (
-          <div className="flex justify-center py-12">
-            <Loader2 className="animate-spin text-emerald-600" size={32} />
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-600">
-              <thead className="bg-gray-50/50 border-b border-gray-100 font-medium text-gray-500 uppercase tracking-wider text-xs">
-                <tr>
-                  <th className="px-6 py-4">Judul</th>
-                  <th className="px-6 py-4">Penulis</th>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Tanggal Dibuat</th>
-                  <th className="px-6 py-4 text-right">Aksi</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-50">
-                {filteredAnnouncements.length > 0 ? (
-                  filteredAnnouncements.map((announcement) => (
-                    <tr key={announcement.id} className="hover:bg-gray-50/50 transition-colors">
-                      <td className="px-6 py-4 font-medium text-gray-900">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
-                            <Newspaper size={16} />
-                          </div>
-                          {announcement.title}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        {announcement.guru?.name || "Guru"}
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${announcement.isPublished
-                          ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                          : "bg-gray-50 text-gray-600 border-gray-100"
-                          }`}>
-                          {announcement.isPublished ? "Dipublikasikan" : "Draft"}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        {formatDate(announcement.createdAt)}
-                      </td>
-                      <td className="px-6 py-4 text-right flex justify-end gap-2">
-                        <button
-                          onClick={() => handleEdit(announcement.id)}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-all"
-                          title="Edit"
-                        >
-                          <Edit size={16} />
-                        </button>
-                        <button
-                          onClick={() => initiateDelete(announcement.id, announcement.title)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                          title="Hapus"
-                        >
-                          <Trash2 size={16} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                      Tidak ada pengumuman {filterStatus === 'all' ? '' : filterStatus === 'published' ? 'yang dipublikasikan' : 'draft'} ditemukan.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+        <AnnouncementTable
+          announcements={filteredAnnouncements}
+          loading={loading}
+          filterStatus={filterStatus}
+          onEdit={handleEdit}
+          onDelete={initiateDelete}
+        />
       </div>
 
       <AlertModal
