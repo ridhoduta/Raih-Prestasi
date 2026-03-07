@@ -55,7 +55,7 @@ export function AchievementTable({ achievements, loading, onEdit, onDelete }: Ac
                                         <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center">
                                             <Award size={16} />
                                         </div>
-                                        {achievement.title}
+                                        {achievement.competitionName}
                                     </div>
                                 </td>
 
