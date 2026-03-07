@@ -1,6 +1,37 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const competitionDetailSelect = {
+  id: true,
+  title: true,
+  description: true,
+  thumbnail: true,
+  isActive: true,
+  startDate: true,
+  endDate: true,
+  categoryId: true,
+  levelId: true,
+  createdBy: true,
+  createdAt: true,
+  category: {
+    select: { id: true, name: true },
+  },
+  level: {
+    select: { id: true, name: true },
+  },
+  CompetitionFormField: {
+    select: {
+      id: true,
+      label: true,
+      fieldType: true,
+      isRequired: true,
+      options: true,
+      order: true,
+      competitionId: true,
+    },
+    orderBy: { order: "asc" as const },
+  },
+};
 
 type Context = {
   params: Promise<{ id: string }>;
@@ -10,28 +41,15 @@ export async function GET(req: Request, context: Context) {
   try {
     const { id } = await context.params;
 
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "Competition ID is required" },
-        { status: 400 },
-      );
-    }
-
     const competition = await prisma.competition.findUnique({
       where: { id },
-      include: {
-        category: true,
-        level: true,
-        CompetitionFormField: {
-          orderBy: { order: "asc" }
-        }
-      },
+      select: competitionDetailSelect,
     });
 
     if (!competition) {
       return NextResponse.json(
         { success: false, message: "Competition not found" },
-        { status: 404 },
+        { status: 404 }
       );
     }
 
@@ -40,25 +58,17 @@ export async function GET(req: Request, context: Context) {
       data: competition,
     });
   } catch (error) {
-    console.error(error);
+    console.error("GET /api/guru/competitions/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch competition" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
 
-export async function PUT(req: Request, context : Context) {
+export async function PUT(req: Request, context: Context) {
   try {
-    const {id}= await context.params;
-
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "Competition ID is required" },
-        { status: 400 },
-      );
-    }
-
+    const { id } = await context.params;
     const body = await req.json();
     const {
       title,
@@ -85,15 +95,17 @@ export async function PUT(req: Request, context : Context) {
         isActive,
         CompetitionFormField: {
           deleteMany: {},
-          create: formFields?.map((f: any, idx: number) => ({
-            label: f.label,
-            fieldType: f.fieldType,
-            isRequired: f.isRequired || false,
-            options: f.options,
-            order: f.order || idx,
-          })) || [],
-        }
+          create:
+            formFields?.map((f: any, idx: number) => ({
+              label: f.label,
+              fieldType: f.fieldType,
+              isRequired: f.isRequired || false,
+              options: f.options,
+              order: f.order || idx,
+            })) || [],
+        },
       },
+      select: competitionDetailSelect,
     });
 
     return NextResponse.json({
@@ -102,23 +114,17 @@ export async function PUT(req: Request, context : Context) {
       data: competition,
     });
   } catch (error) {
-    console.error(error);
+    console.error("PUT /api/guru/competitions/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Gagal update kompetisi" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
-export async function DELETE(_: Request, context : Context) {
-  try {
-    const {id} = await context.params;
 
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "Competition ID is required" },
-        { status: 400 },
-      );
-    }
+export async function DELETE(_: Request, context: Context) {
+  try {
+    const { id } = await context.params;
 
     await prisma.competition.delete({
       where: { id },
@@ -129,11 +135,10 @@ export async function DELETE(_: Request, context : Context) {
       message: "Competition deleted",
     });
   } catch (error) {
-    console.error(error);
+    console.error("DELETE /api/guru/competitions/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Gagal menghapus kompetisi" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
-

@@ -2,10 +2,72 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
+const submissionSelect = {
+  id: true,
+  title: true,
+  description: true,
+  documentUrl: true,
+  status: true,
+  rejectionNote: true,
+  recommendationLetter: true,
+  reviewedBy: true,
+  studentId: true,
+  createdAt: true,
+  updatedAt: true,
+  student: {
+    select: {
+      id: true,
+      name: true,
+      nisn: true,
+      kelas: true,
+    },
+  },
+  guru: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+};
+
 type Context = {
   params: Promise<{ id: string }>;
 };
 
+// =======================
+// GET - Detail Submission
+// =======================
+export async function GET(_: Request, context: Context) {
+  try {
+    const { id } = await context.params;
+    const submission = await prisma.independentCompetitionSubmission.findUnique({
+      where: { id },
+      select: submissionSelect,
+    });
+
+    if (!submission) {
+      return NextResponse.json(
+        { success: false, message: "Pengajuan tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      data: submission,
+    });
+  } catch (error) {
+    console.error("GET /api/guru/independent-submissions/[id] error:", error);
+    return NextResponse.json(
+      { success: false, message: "Gagal mengambil detail pengajuan lomba mandiri" },
+      { status: 500 }
+    );
+  }
+}
+
+// =======================
+// PUT - Review Submission
+// =======================
 export async function PUT(req: Request, context: Context) {
   try {
     const session = await getSession();
@@ -18,43 +80,35 @@ export async function PUT(req: Request, context: Context) {
 
     const { id } = await context.params;
     const body = await req.json();
-
     const { status, rejectionNote, recommendationLetter } = body;
 
+    // Rule 7: Input validation
     if (!status) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "status wajib dikirim",
-        },
+        { success: false, message: "status wajib dikirim" },
         { status: 400 }
       );
     }
 
     if (!["MENUNGGU", "DITERIMA", "DITOLAK"].includes(status)) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Status tidak valid",
-        },
+        { success: false, message: "Status tidak valid" },
         { status: 400 }
       );
     }
 
     if (status === "DITOLAK" && !rejectionNote) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Alasan penolakan wajib diisi",
-        },
+        { success: false, message: "Alasan penolakan wajib diisi" },
         { status: 400 }
       );
     }
 
-    const submission =
-      await prisma.independentCompetitionSubmission.findUnique({
-        where: { id },
-      });
+    // Rule 2: Check existence with select
+    const submission = await prisma.independentCompetitionSubmission.findUnique({
+      where: { id },
+      select: { id: true },
+    });
 
     if (!submission) {
       return NextResponse.json(
@@ -74,8 +128,9 @@ export async function PUT(req: Request, context: Context) {
         status,
         rejectionNote: status === "DITOLAK" ? rejectionNote : null,
         reviewedBy: session.id,
-        recommendationLetter: finalRecommendationLetter
+        recommendationLetter: finalRecommendationLetter,
       },
+      select: submissionSelect,
     });
 
     return NextResponse.json({
@@ -89,21 +144,24 @@ export async function PUT(req: Request, context: Context) {
       data: updated,
     });
   } catch (error) {
+    console.error("PUT /api/guru/independent-submissions/[id] error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Gagal memverifikasi pengajuan",
-      },
+      { success: false, message: "Gagal memverifikasi pengajuan" },
       { status: 500 }
     );
   }
 }
 
+// =======================
+// DELETE - Delete Submission
+// =======================
 export async function DELETE(_: Request, context: Context) {
   try {
     const { id } = await context.params;
+
     const submission = await prisma.independentCompetitionSubmission.findUnique({
       where: { id },
+      select: { id: true },
     });
 
     if (!submission) {
@@ -122,52 +180,9 @@ export async function DELETE(_: Request, context: Context) {
       message: "Pengajuan dihapus",
     });
   } catch (error) {
+    console.error("DELETE /api/guru/independent-submissions/[id] error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Gagal menghapus pengajuan",
-      },
-      { status: 500 }
-    );
-  }
-}
-
-export async function GET(_: Request, context: Context) {
-  try {
-    const { id } = await context.params;
-    const submissions = await prisma.independentCompetitionSubmission.findMany({
-      where: { id },
-      include: {
-        student: {
-          select: {
-            id: true,
-            name: true,
-            nisn: true,
-            kelas: true,
-          },
-        },
-        guru: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-
-    return NextResponse.json({
-      success: true,
-      data: submissions,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Gagal mengambil daftar pengajuan lomba mandiri",
-      },
+      { success: false, message: "Gagal menghapus pengajuan" },
       { status: 500 }
     );
   }

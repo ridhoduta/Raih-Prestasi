@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient";
+import { apiClient, ApiResponse } from "./apiClient";
 
 export type IndependentSubmissionStatus = "MENUNGGU" | "DITERIMA" | "DITOLAK";
 
@@ -33,14 +33,42 @@ export type IndependentSubmission = {
 
 const BASE_URL = "/api/guru/independent-submissions";
 
-export async function getIndependentSubmissions() {
-  return apiClient.get<IndependentSubmission[]>(BASE_URL);
+export async function getIndependentSubmissions(params?: {
+  cursor?: string;
+  limit?: number;
+  search?: string;
+}): Promise<ApiResponse<IndependentSubmission[]> & { nextCursor?: string | null }> {
+  const query = new URLSearchParams();
+  if (params?.cursor) query.set("cursor", params.cursor);
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.search) query.set("search", params.search);
+
+  const url = query.toString() ? `${BASE_URL}?${query}` : BASE_URL;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Gagal mengambil data pengajuan",
+      };
+    }
+
+    return {
+      success: true,
+      data: json.data,
+      nextCursor: json.nextCursor ?? null,
+    };
+  } catch (error) {
+    console.error("getIndependentSubmissions error:", error);
+    return { success: false, message: "Network error" };
+  }
 }
 
 export async function getIndependentSubmissionDetail(id: string) {
-  // The API returns array in some cases or object. Let's check route.ts again.
-  // GET [id] returns findMany with where id. 
-  return apiClient.get<IndependentSubmission[]>(`${BASE_URL}/${id}`);
+  return apiClient.get<IndependentSubmission>(`${BASE_URL}/${id}`);
 }
 
 export async function deleteIndependentSubmissions(id: string) {

@@ -1,9 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Competition, getCompetitions, deleteCompetition } from "@/app/service/guruCompetitionsAPI";
+
+const PAGE_LIMIT = 5;
 
 export function useCompetitions() {
     const [competitions, setCompetitions] = useState<Competition[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -28,6 +32,58 @@ export function useCompetitions() {
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
     };
+
+    // Debounced search
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        fetchCompetitions();
+    }, [debouncedSearch]);
+
+    const fetchCompetitions = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await getCompetitions({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setCompetitions(response.data);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to fetch competitions", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [debouncedSearch]);
+
+    const loadMore = useCallback(async () => {
+        if (!nextCursor || isLoadingMore) return;
+        try {
+            setIsLoadingMore(true);
+            const response = await getCompetitions({
+                cursor: nextCursor,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setCompetitions(prev => [...prev, ...response.data!]);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to load more competitions", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const initiateDelete = (id: string, name: string) => {
         setConfirmState({
@@ -54,32 +110,13 @@ export function useCompetitions() {
         }
     };
 
-    async function fetchCompetitions() {
-        setLoading(true);
-        try {
-            const response = await getCompetitions();
-            if (response.success && response.data) {
-                setCompetitions(response.data);
-            }
-        } catch (error) {
-            console.error("Failed to fetch competitions", error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        fetchCompetitions();
-    }, []);
-
+    // Client-side status filter
     const filteredCompetitions = useMemo(() => {
-        return competitions.filter((comp) => {
-            const matchesStatus = filterStatus === "all" || (filterStatus === "active" ? comp.isActive : !comp.isActive);
-            const searchString = searchTerm.toLowerCase();
-            const titleMatch = (comp.title || "").toLowerCase().includes(searchString);
-            return matchesStatus && titleMatch;
-        });
-    }, [competitions, filterStatus, searchTerm]);
+        if (filterStatus === "all") return competitions;
+        return competitions.filter((comp) =>
+            filterStatus === "active" ? comp.isActive : !comp.isActive
+        );
+    }, [competitions, filterStatus]);
 
     return {
         searchTerm,
@@ -88,6 +125,9 @@ export function useCompetitions() {
         setFilterStatus,
         filteredCompetitions,
         loading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         alertState,
         closeAlert,
         confirmState,

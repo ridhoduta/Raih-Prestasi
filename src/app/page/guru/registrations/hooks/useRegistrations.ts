@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
     getAllRegistrations,
     updateRegistrationStatus,
@@ -7,9 +7,13 @@ import {
     RegistrationDetail
 } from "@/app/service/guruCompetitionsAPI";
 
+const PAGE_LIMIT = 20;
+
 export function useRegistrations() {
     const [registrations, setRegistrations] = useState<Registration[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [filterStatus, setFilterStatus] = useState<string>("all");
     const [filterCompetition, setFilterCompetition] = useState<string>("all");
     const [searchTerm, setSearchTerm] = useState("");
@@ -52,23 +56,57 @@ export function useRegistrations() {
         type: "info",
     });
 
-    const fetchRegistrations = async () => {
+    // Debounced search
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        fetchRegistrations();
+    }, [debouncedSearch]);
+
+    const fetchRegistrations = useCallback(async () => {
         setLoading(true);
         try {
-            const res = await getAllRegistrations();
+            const res = await getAllRegistrations({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
             if (res.success && res.data) {
                 setRegistrations(res.data);
+                setNextCursor(res.nextCursor ?? null);
             }
         } catch (error) {
             console.error("Failed to fetch registrations", error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [debouncedSearch]);
 
-    useEffect(() => {
-        fetchRegistrations();
-    }, []);
+    const loadMore = useCallback(async () => {
+        if (!nextCursor || isLoadingMore) return;
+        try {
+            setIsLoadingMore(true);
+            const res = await getAllRegistrations({
+                cursor: nextCursor,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (res.success && res.data) {
+                setRegistrations(prev => [...prev, ...res.data!]);
+                setNextCursor(res.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to load more registrations", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const handleStatusUpdate = async () => {
         if (!actionState.id || !actionState.targetStatus) return;
@@ -138,19 +176,21 @@ export function useRegistrations() {
         return Array.from(new Set(registrations.map(r => JSON.stringify(r.competition)))).map(s => JSON.parse(s));
     }, [registrations]);
 
+    // Client-side status & competition filters
     const filteredRegistrations = useMemo(() => {
         return registrations.filter((reg) => {
             const matchesStatus = filterStatus === "all" || reg.status === filterStatus;
             const matchesCompetition = filterCompetition === "all" || reg.competition.id === filterCompetition;
-            const matchesSearch = reg.student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                reg.student.nisn.includes(searchTerm);
-            return matchesStatus && matchesCompetition && matchesSearch;
+            return matchesStatus && matchesCompetition;
         });
-    }, [registrations, filterStatus, filterCompetition, searchTerm]);
+    }, [registrations, filterStatus, filterCompetition]);
 
     return {
         registrations,
         loading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         filterStatus,
         setFilterStatus,
         filterCompetition,

@@ -1,34 +1,36 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const announcementSelect = {
+  id: true,
+  title: true,
+  content: true,
+  isPublished: true,
+  createdBy: true,
+  createdAt: true,
+  updatedAt: true,
+  guru: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+};
+
 type Context = {
   params: Promise<{ id: string }>;
 };
 
-/**
- * GET DETAIL ANNOUNCEMENT
- */
+// =======================
+// GET - Detail Announcement
+// =======================
 export async function GET(_: Request, context: Context) {
   try {
     const { id } = await context.params;
 
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "ID tidak valid" },
-        { status: 400 }
-      );
-    }
-
     const data = await prisma.announcement.findUnique({
       where: { id },
-      include: {
-        guru: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
+      select: announcementSelect,
     });
 
     if (!data) {
@@ -40,7 +42,7 @@ export async function GET(_: Request, context: Context) {
 
     return NextResponse.json({ success: true, data });
   } catch (error) {
-    console.error(error);
+    console.error("GET /api/guru/announcement/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Gagal mendapatkan data pengumuman" },
       { status: 500 }
@@ -48,21 +50,13 @@ export async function GET(_: Request, context: Context) {
   }
 }
 
-/**
- * UPDATE ANNOUNCEMENT
- */
+// =======================
+// PUT - Update Announcement
+// =======================
 export async function PUT(req: Request, context: Context) {
   try {
     const { id } = await context.params;
     const body = await req.json();
-
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "ID tidak valid" },
-        { status: 400 }
-      );
-    }
-
     const { title, content, isPublished } = body;
 
     if (
@@ -95,6 +89,7 @@ export async function PUT(req: Request, context: Context) {
         ...(content !== undefined && { content }),
         ...(isPublished !== undefined && { isPublished }),
       },
+      select: announcementSelect,
     });
 
     return NextResponse.json({
@@ -103,7 +98,7 @@ export async function PUT(req: Request, context: Context) {
       data: updated,
     });
   } catch (error) {
-    console.error(error);
+    console.error("PUT /api/guru/announcement/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Gagal memperbarui pengumuman" },
       { status: 500 }
@@ -111,19 +106,12 @@ export async function PUT(req: Request, context: Context) {
   }
 }
 
-/**
- * DELETE ANNOUNCEMENT
- */
+// =======================
+// DELETE - Delete Announcement
+// =======================
 export async function DELETE(_: Request, context: Context) {
   try {
     const { id } = await context.params;
-
-    if (!id) {
-      return NextResponse.json(
-        { success: false, message: "ID tidak valid" },
-        { status: 400 }
-      );
-    }
 
     const exists = await prisma.announcement.findUnique({
       where: { id },
@@ -144,7 +132,7 @@ export async function DELETE(_: Request, context: Context) {
       message: "Pengumuman berhasil dihapus",
     });
   } catch (error) {
-    console.error(error);
+    console.error("DELETE /api/guru/announcement/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Gagal menghapus pengumuman" },
       { status: 500 }

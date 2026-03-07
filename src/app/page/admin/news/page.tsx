@@ -11,8 +11,11 @@ export default function NewsPage() {
   const {
     searchTerm,
     setSearchTerm,
-    filteredNews,
+    news,
     isLoading,
+    isLoadingMore,
+    nextCursor,
+    loadMore,
     alertState,
     closeAlert,
     confirmState,
@@ -54,10 +57,22 @@ export default function NewsPage() {
         </div>
 
         <NewsTable
-          news={filteredNews}
+          news={news}
           isLoading={isLoading}
           onDelete={initiateDelete}
         />
+
+        {nextCursor && !isLoading && (
+          <div className="p-4 border-t border-gray-100 flex justify-center">
+            <button
+              onClick={loadMore}
+              disabled={isLoadingMore}
+              className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
+            >
+              {isLoadingMore ? "Memuat..." : "Muat Lebih Banyak"}
+            </button>
+          </div>
+        )}
       </div>
 
       <AlertModal

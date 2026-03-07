@@ -2,29 +2,65 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
+const achievementDetailSelect = {
+  id: true,
+  competitionName: true,
+  result: true,
+  certificate: true,
+  status: true,
+  createdAt: true,
+  updatedAt: true,
+  studentId: true,
+  verifiedBy: true,
+  student: {
+    select: {
+      id: true,
+      name: true,
+      nisn: true,
+      kelas: true,
+      angkatan: true,
+    },
+  },
+  guru: {
+    select: {
+      name: true,
+    },
+  },
+};
+
 type Context = {
   params: Promise<{ id: string }>;
 };
 
 export async function GET(_: Request, context: Context) {
-  const { id } = await context.params;
-  const data = await prisma.achievement.findFirst({
-    where: { id },
-    include: {
-      student: true,
-      guru: {
-        select: {
-          name: true,
-        },
-      },
-    },
-  });
-  return NextResponse.json({
-    success: true,
-    message: "berhasil mengambil data",
-    data: data,
-  });
+  try {
+    const { id } = await context.params;
+    const data = await prisma.achievement.findFirst({
+      where: { id },
+      select: achievementDetailSelect,
+    });
+
+    if (!data) {
+      return NextResponse.json(
+        { success: false, message: "Achievement tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: "berhasil mengambil data",
+      data,
+    });
+  } catch (error) {
+    console.error("GET /api/guru/achievement/[id] error:", error);
+    return NextResponse.json(
+      { success: false, message: "Gagal mengambil data achievement" },
+      { status: 500 }
+    );
+  }
 }
+
 export async function PUT(request: Request, context: Context) {
   try {
     const session = await getSession();
@@ -37,16 +73,12 @@ export async function PUT(request: Request, context: Context) {
 
     const { id } = await context.params;
     const body = await request.json();
-
     const { status } = body;
 
-    // validasi status
+    // Rule 7: Input validation
     if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK"].includes(status)) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "Status tidak valid",
-        },
+        { success: false, message: "Status tidak valid" },
         { status: 400 }
       );
     }
@@ -57,14 +89,7 @@ export async function PUT(request: Request, context: Context) {
         status,
         verifiedBy: session.id,
       },
-      include: {
-        student: true,
-        guru: {
-          select: {
-            name: true,
-          },
-        },
-      },
+      select: achievementDetailSelect,
     });
 
     return NextResponse.json({
@@ -73,36 +98,29 @@ export async function PUT(request: Request, context: Context) {
       data: updated,
     });
   } catch (error) {
-    console.error(error);
+    console.error("PUT /api/guru/achievement/[id] error:", error);
     return NextResponse.json(
-      {
-        success: false,
-        message: "Gagal memverifikasi achievement",
-      },
-      { status: 500 }
-    );
-  }
-}
-export async function DELETE(request: Request, context: Context) {
-  try {
-    const { id } = await context.params;
-    const deleted = await prisma.achievement.delete({
-      where: { id },
-    });
-    return NextResponse.json({
-      success: true,
-      message: "Achievement berhasil dihapus",
-      data: deleted,
-    });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Gagal menghapus achievement",
-      },
+      { success: false, message: "Gagal memverifikasi achievement" },
       { status: 500 }
     );
   }
 }
 
+export async function DELETE(request: Request, context: Context) {
+  try {
+    const { id } = await context.params;
+    await prisma.achievement.delete({
+      where: { id },
+    });
+    return NextResponse.json({
+      success: true,
+      message: "Achievement berhasil dihapus",
+    });
+  } catch (error) {
+    console.error("DELETE /api/guru/achievement/[id] error:", error);
+    return NextResponse.json(
+      { success: false, message: "Gagal menghapus achievement" },
+      { status: 500 }
+    );
+  }
+}

@@ -1,32 +1,65 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+const newsSelect = {
+  id: true,
+  title: true,
+  content: true,
+  thumbnail: true,
+  isPublished: true,
+  createdAt: true,
+  admin: {
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  },
+};
+
 // =======================
-// GET - List News
+// GET - List News (Cursor Pagination + Select + Search)
 // =======================
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
+    const cursor = searchParams.get("cursor");
+    const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
+    const search = searchParams.get("search") || "";
+
+    const where: any = {};
+
+    if (search) {
+      where.title = { contains: search, mode: "insensitive" };
+    }
+
     const newsList = await prisma.news.findMany({
+      where,
+      select: newsSelect,
       orderBy: { createdAt: "desc" },
-      include: {
-        admin: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
+      take: limit + 1,
+      ...(cursor
+        ? {
+          cursor: { id: cursor },
+          skip: 1,
+        }
+        : {}),
     });
+
+    const hasMore = newsList.length > limit;
+    const data = hasMore ? newsList.slice(0, limit) : newsList;
+    const nextCursor = hasMore ? data[data.length - 1].id : null;
 
     return NextResponse.json({
       success: true,
-      data: newsList,
+      data,
+      nextCursor,
     });
   } catch (error) {
+    console.error("GET /api/admin/news error:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch news" },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
@@ -39,13 +72,11 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { title, content, thumbnail, isPublished, createdBy } = body;
 
+    // Rule 7: Input validation
     if (!title || !content) {
       return NextResponse.json(
-        {
-          success: false,
-          message: "title and content are required",
-        },
-        { status: 400 },
+        { success: false, message: "title and content are required" },
+        { status: 400 }
       );
     }
 
@@ -55,23 +86,26 @@ export async function POST(req: Request) {
     if (!authorId) {
       const firstAdmin = await prisma.user.findFirst({
         where: { role: "ADMIN" },
+        select: { id: true },
       });
       if (firstAdmin) {
         authorId = firstAdmin.id;
       } else {
-        // Fallback: use first user (e.g. Guru) if no admin exists (dev only)
-        const firstUser = await prisma.user.findFirst();
+        const firstUser = await prisma.user.findFirst({
+          select: { id: true },
+        });
         if (firstUser) authorId = firstUser.id;
       }
     }
 
     if (!authorId) {
-       return NextResponse.json(
+      return NextResponse.json(
         { success: false, message: "No user found to assign as author" },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
+    // Rule 2: Use select on create return
     const news = await prisma.news.create({
       data: {
         title,
@@ -80,6 +114,7 @@ export async function POST(req: Request) {
         isPublished: isPublished ?? false,
         createdBy: authorId,
       },
+      select: newsSelect,
     });
 
     return NextResponse.json({
@@ -88,11 +123,11 @@ export async function POST(req: Request) {
       data: news,
     });
   } catch (error) {
+    // Rule 6: Log error, don't expose raw error to client
+    console.error("POST /api/admin/news error:", error);
     return NextResponse.json(
-      { success: false, message: error },
-      { status: 500 },
+      { success: false, message: "Gagal membuat berita" },
+      { status: 500 }
     );
   }
 }
-
-

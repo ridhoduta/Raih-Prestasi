@@ -1,9 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Announcement, deleteAnnouncement, getAnnouncements } from "@/app/service/guruAnnouncementsAPI";
+
+const PAGE_LIMIT = 20;
 
 export function useAnnouncements() {
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState<"all" | "published" | "draft">("all");
 
@@ -28,6 +32,60 @@ export function useAnnouncements() {
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
     };
+
+    // Debounced search
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        fetchAnnouncements();
+    }, [debouncedSearch]);
+
+    const fetchAnnouncements = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await getAnnouncements({
+                all: true,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setAnnouncements(response.data);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to fetch announcements", error);
+        } finally {
+            setLoading(false);
+        }
+    }, [debouncedSearch]);
+
+    const loadMore = useCallback(async () => {
+        if (!nextCursor || isLoadingMore) return;
+        try {
+            setIsLoadingMore(true);
+            const response = await getAnnouncements({
+                all: true,
+                cursor: nextCursor,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setAnnouncements(prev => [...prev, ...response.data!]);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to load more announcements", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const initiateDelete = (id: string, title: string) => {
         setConfirmState({
@@ -54,32 +112,13 @@ export function useAnnouncements() {
         }
     };
 
-    async function fetchAnnouncements() {
-        setLoading(true);
-        try {
-            const response = await getAnnouncements(true);
-            if (response.success && response.data) {
-                setAnnouncements(response.data);
-            }
-        } catch (error) {
-            console.error("Failed to fetch announcements", error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        fetchAnnouncements();
-    }, []);
-
+    // Client-side status filter
     const filteredAnnouncements = useMemo(() => {
-        return announcements.filter((ann) => {
-            const matchesStatus = filterStatus === "all" || (filterStatus === "published" ? ann.isPublished : !ann.isPublished);
-            const searchString = searchTerm.toLowerCase();
-            const titleMatch = (ann.title || "").toLowerCase().includes(searchString);
-            return matchesStatus && titleMatch;
-        });
-    }, [announcements, filterStatus, searchTerm]);
+        if (filterStatus === "all") return announcements;
+        return announcements.filter((ann) =>
+            filterStatus === "published" ? ann.isPublished : !ann.isPublished
+        );
+    }, [announcements, filterStatus]);
 
     return {
         searchTerm,
@@ -88,6 +127,9 @@ export function useAnnouncements() {
         setFilterStatus,
         filteredAnnouncements,
         loading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         alertState,
         closeAlert,
         confirmState,

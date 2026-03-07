@@ -1,9 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { getAchievements, Achievement, deleteAchievement } from "@/app/service/guruAchievementsAPI";
+
+const PAGE_LIMIT = 20;
 
 export function useAchievements() {
     const [achievements, setAchievements] = useState<Achievement[]>([]);
     const [loading, setLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState<"all" | "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK">("all");
@@ -33,17 +37,59 @@ export function useAchievements() {
         setAlertState({ isOpen: true, title, message, type });
     };
 
-    const fetchAchievements = async () => {
+    // Debounced search
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // Re-fetch when search changes
+    useEffect(() => {
+        fetchAchievements();
+    }, [debouncedSearch]);
+
+    const fetchAchievements = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await getAchievements();
-            setAchievements(response.data ?? []);
+            const response = await getAchievements({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setAchievements(response.data);
+                setNextCursor(response.nextCursor ?? null);
+            }
         } catch (error) {
             setError("Gagal memuat data prestasi");
+            console.error("Failed to fetch achievements", error);
         } finally {
             setLoading(false);
         }
-    };
+    }, [debouncedSearch]);
+
+    const loadMore = useCallback(async () => {
+        if (!nextCursor || isLoadingMore) return;
+        try {
+            setIsLoadingMore(true);
+            const response = await getAchievements({
+                cursor: nextCursor,
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+            });
+            if (response.success && response.data) {
+                setAchievements(prev => [...prev, ...response.data!]);
+                setNextCursor(response.nextCursor ?? null);
+            }
+        } catch (error) {
+            console.error("Failed to load more achievements", error);
+        } finally {
+            setIsLoadingMore(false);
+        }
+    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const initiateDelete = (id: string, name: string) => {
         setConfirmState({
@@ -70,20 +116,11 @@ export function useAchievements() {
         }
     };
 
-    useEffect(() => {
-        fetchAchievements();
-    }, [filterStatus]);
-
+    // Client-side status filter (backend doesn't support status filter)
     const filteredAchievements = useMemo(() => {
-        return achievements.filter((achievement) => {
-            const matchesStatus = filterStatus === "all" || achievement.status === filterStatus;
-            const searchString = searchTerm.toLowerCase();
-            const titleMatch = (achievement.title || "").toLowerCase().includes(searchString);
-            const studentMatch = (achievement.student?.name || "").toLowerCase().includes(searchString);
-            const competitionMatch = (achievement.competitionName || "").toLowerCase().includes(searchString);
-            return matchesStatus && (titleMatch || studentMatch || competitionMatch);
-        });
-    }, [achievements, filterStatus, searchTerm]);
+        if (filterStatus === "all") return achievements;
+        return achievements.filter((a) => a.status === filterStatus);
+    }, [achievements, filterStatus]);
 
     return {
         searchTerm,
@@ -92,6 +129,9 @@ export function useAchievements() {
         setFilterStatus,
         filteredAchievements,
         loading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
         error,
         alertState,
         closeAlert,

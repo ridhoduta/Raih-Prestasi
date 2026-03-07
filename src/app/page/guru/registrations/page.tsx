@@ -26,7 +26,10 @@ export default function GuruRegistrations() {
         fetchRegistrationDetail,
         uniqueCompetitions,
         filteredRegistrations,
-        loading
+        loading,
+        isLoadingMore,
+        nextCursor,
+        loadMore,
     } = useRegistrations();
 
     const handleActionClick = (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => {
@@ -102,6 +105,18 @@ export default function GuruRegistrations() {
                     onViewDetail={fetchRegistrationDetail}
                     onActionClick={handleActionClick}
                 />
+
+                {nextCursor && !loading && (
+                    <div className="p-4 border-t border-gray-100 flex justify-center">
+                        <button
+                            onClick={loadMore}
+                            disabled={isLoadingMore}
+                            className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
+                        >
+                            {isLoadingMore ? "Memuat..." : "Muat Lebih Banyak"}
+                        </button>
+                    </div>
+                )}
             </div>
 
             <RegistrationDetailModal

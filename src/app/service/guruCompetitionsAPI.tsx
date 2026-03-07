@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient";
+import { apiClient, ApiResponse } from "./apiClient";
 
 export type CompetitionPayload = {
   title: string;
@@ -25,9 +25,11 @@ export type Competition = {
   createdBy: string;
   CompetitionFormField?: FormField[];
   category: {
+    id: string;
     name: string;
   };
   level: {
+    id: string;
     name: string;
   };
 };
@@ -72,8 +74,38 @@ export type RegistrationDetail = Registration & {
 const BASE_URL = "/api/guru/competitions";
 
 // --- Competition Management ---
-export async function getCompetitions() {
-  return apiClient.get<Competition[]>(BASE_URL);
+export async function getCompetitions(params?: {
+  cursor?: string;
+  limit?: number;
+  search?: string;
+}): Promise<ApiResponse<Competition[]> & { nextCursor?: string | null }> {
+  const query = new URLSearchParams();
+  if (params?.cursor) query.set("cursor", params.cursor);
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.search) query.set("search", params.search);
+
+  const url = query.toString() ? `${BASE_URL}?${query}` : BASE_URL;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Gagal mengambil data kompetisi",
+      };
+    }
+
+    return {
+      success: true,
+      data: json.data,
+      nextCursor: json.nextCursor ?? null,
+    };
+  } catch (error) {
+    console.error("getCompetitions error:", error);
+    return { success: false, message: "Network error" };
+  }
 }
 
 export async function createCompetition(payload: CompetitionPayload) {
@@ -102,9 +134,7 @@ export async function updateFormField(competitionId: string, payload: Partial<Fo
 }
 
 export async function deleteFormField(competitionId: string, fieldId: string) {
-  return apiClient.delete<void>(`${BASE_URL}/${competitionId}/form-fields`, { fieldId }); // apiClient.delete needs adjustment to support body if needed, but usually passed via payload or URL.
-  // Actually, our apiClient.delete doesn't support body. The API expects fieldId in body for DELETE.
-  // Let's modify apiClient later or use a different approach. For now, following types.
+  return apiClient.delete<void>(`${BASE_URL}/${competitionId}/form-fields`, { fieldId });
 }
 
 // --- Registrations ---
@@ -112,8 +142,38 @@ export async function getRegistrations(competitionId: string) {
   return apiClient.get<Registration[]>(`${BASE_URL}/${competitionId}/registrations`);
 }
 
-export async function getAllRegistrations() {
-  return apiClient.get<Registration[]>(`/api/guru/registrations`);
+export async function getAllRegistrations(params?: {
+  cursor?: string;
+  limit?: number;
+  search?: string;
+}): Promise<ApiResponse<Registration[]> & { nextCursor?: string | null }> {
+  const query = new URLSearchParams();
+  if (params?.cursor) query.set("cursor", params.cursor);
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.search) query.set("search", params.search);
+
+  const url = query.toString() ? `/api/guru/registrations?${query}` : `/api/guru/registrations`;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Gagal mengambil data pendaftaran",
+      };
+    }
+
+    return {
+      success: true,
+      data: json.data,
+      nextCursor: json.nextCursor ?? null,
+    };
+  } catch (error) {
+    console.error("getAllRegistrations error:", error);
+    return { success: false, message: "Network error" };
+  }
 }
 
 export async function getRegistrationById(id: string) {
@@ -127,4 +187,3 @@ export async function updateRegistrationStatus(id: string, status: string, note?
 export async function getCompetitionById(id: string) {
   return apiClient.get<Competition>(`${BASE_URL}/${id}`);
 }
-

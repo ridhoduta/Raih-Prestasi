@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient";
+import { apiClient, ApiResponse } from "./apiClient";
 
 export type AnnouncementPayload = {
   title: string;
@@ -22,9 +22,40 @@ export type Announcement = {
 
 const BASE_URL = "/api/guru/announcement";
 
-export async function getAnnouncements(all: boolean = false) {
-  const url = all ? `${BASE_URL}?all=true` : BASE_URL;
-  return apiClient.get<Announcement[]>(url);
+export async function getAnnouncements(params?: {
+  all?: boolean;
+  cursor?: string;
+  limit?: number;
+  search?: string;
+}): Promise<ApiResponse<Announcement[]> & { nextCursor?: string | null }> {
+  const query = new URLSearchParams();
+  if (params?.all) query.set("all", "true");
+  if (params?.cursor) query.set("cursor", params.cursor);
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.search) query.set("search", params.search);
+
+  const url = query.toString() ? `${BASE_URL}?${query}` : BASE_URL;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Gagal mengambil data pengumuman",
+      };
+    }
+
+    return {
+      success: true,
+      data: json.data,
+      nextCursor: json.nextCursor ?? null,
+    };
+  } catch (error) {
+    console.error("getAnnouncements error:", error);
+    return { success: false, message: "Network error" };
+  }
 }
 
 export async function createAnnouncement(payload: AnnouncementPayload) {

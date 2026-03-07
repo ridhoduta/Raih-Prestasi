@@ -20,7 +20,12 @@ export async function GET(req: Request, context: Context) {
 
     const registration = await prisma.competitionRegistration.findUnique({
       where: { id },
-      include: {
+      select: {
+        id: true,
+        status: true,
+        note: true,
+        createdAt: true,
+        updatedAt: true,
         student: {
           select: {
             id: true,
@@ -37,8 +42,20 @@ export async function GET(req: Request, context: Context) {
           },
         },
         answers: {
-          include: {
-            field: true,
+          select: {
+            id: true,
+            value: true,
+            field: {
+              select: {
+                id: true,
+                label: true,
+                fieldType: true,
+                isRequired: true,
+                options: true,
+                order: true,
+                competitionId: true,
+              },
+            },
           },
           orderBy: {
             field: {
@@ -99,8 +116,11 @@ export async function PUT(req: Request, context: Context) {
     // Verify ownership
     const registration = await prisma.competitionRegistration.findUnique({
       where: { id },
-      include: {
-        competition: true,
+      select: {
+        id: true,
+        competition: {
+          select: { createdBy: true },
+        },
       },
     });
 
@@ -123,6 +143,12 @@ export async function PUT(req: Request, context: Context) {
       data: {
         status,
         note,
+      },
+      select: {
+        id: true,
+        status: true,
+        note: true,
+        updatedAt: true,
       },
     });
 
