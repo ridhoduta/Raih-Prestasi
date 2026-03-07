@@ -9,7 +9,7 @@ import { use, useEffect, useState } from "react";
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const router = useRouter();
-    const [submission, setSubmission] = useState<IndependentSubmission[]>([]);
+    const [submission, setSubmission] = useState<IndependentSubmission | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -32,9 +32,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         try {
             setLoading(true);
             const response = await getIndependentSubmissionDetail(id);
-            setSubmission(response.data ?? []);
-            if (response.data && response.data.length > 0) {
-                const sub = response.data[0];
+            if (response.success && response.data) {
+                const sub = response.data;
+                setSubmission(sub);
                 setSelectedStatus(sub.status);
                 setRejectionNote(sub.rejectionNote || "");
                 setRecommendationLetter(sub.recommendationLetter || "");
@@ -163,20 +163,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <Loader2 className="animate-spin text-emerald-600 mb-2" size={40} />
                     <p className="text-gray-500">Memuat data...</p>
                 </div>
-            ) : submission.length > 0 ? (
+            ) : submission ? (
                 <>
                     <div className="bg-white shadow-lg border border-gray-100 rounded-2xl overflow-hidden">
                         <div className="p-6 border-b border-gray-100 bg-gray-50 flex justify-between items-start">
                             <div>
-                                <h2 className="text-xl font-bold text-gray-800">{submission[0].title}</h2>
-                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-2 ${submission[0].status === 'DITERIMA' ? 'bg-green-100 text-green-700' :
-                                    submission[0].status === 'DITOLAK' ? 'bg-red-100 text-red-700' :
+                                <h2 className="text-xl font-bold text-gray-800">{submission.title}</h2>
+                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-2 ${submission.status === 'DITERIMA' ? 'bg-green-100 text-green-700' :
+                                    submission.status === 'DITOLAK' ? 'bg-red-100 text-red-700' :
                                         'bg-amber-100 text-amber-700'
                                     }`}>
-                                    {submission[0].status === 'DITERIMA' && <CheckCircle size={14} />}
-                                    {submission[0].status === 'DITOLAK' && <XCircle size={14} />}
-                                    {submission[0].status === 'MENUNGGU' && <Clock size={14} />}
-                                    {submission[0].status}
+                                    {submission.status === 'DITERIMA' && <CheckCircle size={14} />}
+                                    {submission.status === 'DITOLAK' && <XCircle size={14} />}
+                                    {submission.status === 'MENUNGGU' && <Clock size={14} />}
+                                    {submission.status}
                                 </span>
                             </div>
                         </div>
@@ -185,20 +185,20 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             <div className="space-y-6">
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Deskripsi</p>
-                                    <p className="text-gray-700 leading-relaxed">{submission[0].description}</p>
+                                    <p className="text-gray-700 leading-relaxed">{submission.description}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-2">Mahasiswa / Siswa</p>
                                     <div className="bg-gray-50 p-4 rounded-xl border border-gray-100">
-                                        <p className="text-gray-900 font-bold">{submission[0].student.name}</p>
+                                        <p className="text-gray-900 font-bold">{submission.student.name}</p>
                                         <div className="grid grid-cols-2 gap-2 mt-2 text-sm">
                                             <div>
                                                 <p className="text-gray-500 text-xs">NISN</p>
-                                                <p className="text-gray-700">{submission[0].student.nisn}</p>
+                                                <p className="text-gray-700">{submission.student.nisn}</p>
                                             </div>
                                             <div>
                                                 <p className="text-gray-500 text-xs">Kelas</p>
-                                                <p className="text-gray-700">{submission[0].student.kelas}</p>
+                                                <p className="text-gray-700">{submission.student.kelas}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -208,22 +208,22 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             <div className="space-y-6">
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Waktu Pengajuan</p>
-                                    <p className="text-gray-700">{new Date(submission[0].createdAt).toLocaleString('id-ID', {
+                                    <p className="text-gray-700">{new Date(submission.createdAt).toLocaleString('id-ID', {
                                         dateStyle: 'long',
                                         timeStyle: 'short'
                                     })}</p>
                                 </div>
-                                {submission[0].reviewedBy && (
+                                {submission.reviewedBy && (
                                     <div>
                                         <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Direview Oleh</p>
-                                        <p className="text-gray-700">{submission[0].reviewedBy}</p>
+                                        <p className="text-gray-700">{submission.reviewedBy}</p>
                                     </div>
                                 )}
-                                {submission[0].rejectionNote && (
+                                {submission.rejectionNote && (
                                     <div>
                                         <p className="text-xs text-red-400 uppercase tracking-widest font-bold mb-1">Alasan Penolakan</p>
                                         <div className="p-3 bg-red-50 border border-red-100 rounded-lg">
-                                            <p className="text-red-700 text-sm whitespace-pre-wrap">{submission[0].rejectionNote}</p>
+                                            <p className="text-red-700 text-sm whitespace-pre-wrap">{submission.rejectionNote}</p>
                                         </div>
                                     </div>
                                 )}
@@ -233,9 +233,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                         <div className="p-6 bg-gray-50 border-t border-gray-100">
                             <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-3">Dokumen & Lampiran</p>
                             <div className="flex flex-wrap gap-3">
-                                {submission[0].documentUrl && (
+                                {submission.documentUrl && (
                                     <a
-                                        href={submission[0].documentUrl}
+                                        href={submission.documentUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 transition shadow-sm active:scale-95"
@@ -243,9 +243,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                         Lihat Proposal
                                     </a>
                                 )}
-                                {submission[0].recommendationLetter && (
+                                {submission.recommendationLetter && (
                                     <a
-                                        href={submission[0].recommendationLetter}
+                                        href={submission.recommendationLetter}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="px-5 py-2.5 bg-emerald-600 text-white rounded-xl text-sm font-medium hover:bg-emerald-700 transition shadow-sm active:scale-95"
@@ -287,7 +287,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             <div className="md:w-48">
                                 <button
                                     onClick={handleUpdateStatus}
-                                    disabled={updating || uploading || (selectedStatus === submission[0].status && (selectedStatus !== "DITOLAK" || rejectionNote === submission[0].rejectionNote) && recommendationLetter === submission[0].recommendationLetter)}
+                                    disabled={updating || uploading || (selectedStatus === submission.status && (selectedStatus !== "DITOLAK" || rejectionNote === submission.rejectionNote) && recommendationLetter === submission.recommendationLetter)}
                                     className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
                                 >
                                     {updating ? (
