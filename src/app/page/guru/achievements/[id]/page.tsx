@@ -127,7 +127,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     <Award size={24} />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-800">{achievement.title}</h2>
+                                    <h2 className="text-xl font-bold text-gray-800">{achievement.competitionName}</h2>
                                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-2 ${achievement.status === 'TERVERIFIKASI' ? 'bg-green-100 text-green-700' :
                                         achievement.status === 'DITOLAK' ? 'bg-red-100 text-red-700' :
                                             'bg-amber-100 text-amber-700'
