@@ -5,6 +5,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const studentId = searchParams.get("studentId");
+    const cursor = searchParams.get("cursor");
+    const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
 
     if (!studentId) {
       return NextResponse.json(
@@ -16,11 +18,23 @@ export async function GET(req: Request) {
     const submissions = await prisma.independentCompetitionSubmission.findMany({
       where: { studentId },
       orderBy: { createdAt: "desc" },
+      take: limit + 1,
+      ...(cursor
+        ? {
+          cursor: { id: cursor },
+          skip: 1,
+        }
+        : {}),
     });
+
+    const hasMore = submissions.length > limit;
+    const data = hasMore ? submissions.slice(0, limit) : submissions;
+    const nextCursor = hasMore ? data[data.length - 1].id : null;
 
     return NextResponse.json({
       success: true,
-      data: submissions,
+      data,
+      nextCursor,
     });
   } catch (error) {
     return NextResponse.json(
