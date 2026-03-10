@@ -3,7 +3,7 @@ import Link from "next/link";
 
 async function getNews() {
   try {
-    const res = await fetch("https://raih-prestasi-web.vercel.app/api/admin/news?limit=4", {
+    const res = await fetch("https://raih-prestasi.vercel.app/api/admin/news?limit=4", {
       cache: "no-store",
     });
     if (!res.ok) return [];
