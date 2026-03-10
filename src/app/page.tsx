@@ -1,11 +1,9 @@
-"use client"
-
 import Image from "next/image";
 import Link from "next/link";
 
 async function getNews() {
   try {
-    const res = await fetch("http://localhost:3000/api/admin/news?limit=4", {
+    const res = await fetch("https://raih-prestasi-web.vercel.app/api/admin/news?limit=4", {
       cache: "no-store",
     });
     if (!res.ok) return [];
