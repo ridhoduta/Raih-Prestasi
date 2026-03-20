@@ -1,15 +1,63 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Competition, getCompetitions, deleteCompetition } from "@/app/service/guruCompetitionsAPI";
 
 const PAGE_LIMIT = 5;
 
 export function useCompetitions() {
-    const [competitions, setCompetitions] = useState<Competition[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [nextCursor, setNextCursor] = useState<string | null>(null);
-    const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
+    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
+    const [filterStatus, setFilterStatus] = useState<"all" | "active" | "inactive">("all");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    // Debounce searchTerm
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // TanStack Query for fetching competitions with infinite scroll support
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isError,
+    } = useInfiniteQuery({
+        queryKey: ["competitions", debouncedSearch],
+        queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
+            const response = await getCompetitions({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+                cursor: pageParam,
+            });
+            return response;
+        },
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    });
+
+    // Flatten pages into a single competitions array
+    const competitions = useMemo(() => {
+        return data?.pages.flatMap((page) => page.data ?? []) ?? [];
+    }, [data]);
+
+    // Mutation for deleting a competition
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteCompetition(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["competitions"] });
+            showAlert("Success", "Kompetisi berhasil dihapus.", "success");
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+        },
+        onError: () => {
+            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+        }
+    });
 
     const [confirmState, setConfirmState] = useState({
         isOpen: false,
@@ -17,7 +65,7 @@ export function useCompetitions() {
         title: "",
         message: "",
     });
-    const [isDelete, setIsDelete] = useState(false);
+
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
         isOpen: false,
         title: "",
@@ -33,58 +81,6 @@ export function useCompetitions() {
         setAlertState({ isOpen: true, title, message, type });
     };
 
-    // Debounced search
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearch(searchTerm);
-        }, 300);
-        return () => clearTimeout(timer);
-    }, [searchTerm]);
-
-    useEffect(() => {
-        fetchCompetitions();
-    }, [debouncedSearch]);
-
-    const fetchCompetitions = useCallback(async () => {
-        setLoading(true);
-        try {
-            const response = await getCompetitions({
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setCompetitions(response.data);
-                setNextCursor(response.nextCursor ?? null);
-            }
-        } catch (error) {
-            console.error("Failed to fetch competitions", error);
-        } finally {
-            setLoading(false);
-        }
-    }, [debouncedSearch]);
-
-    const loadMore = useCallback(async () => {
-        if (!nextCursor || isLoadingMore) return;
-        try {
-            setIsLoadingMore(true);
-            const response = await getCompetitions({
-                cursor: nextCursor,
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setCompetitions(prev => [...prev, ...response.data!]);
-                setNextCursor(response.nextCursor ?? null);
-            }
-        } catch (error) {
-            console.error("Failed to load more competitions", error);
-        } finally {
-            setIsLoadingMore(false);
-        }
-    }, [nextCursor, isLoadingMore, debouncedSearch]);
-
     const initiateDelete = (id: string, name: string) => {
         setConfirmState({
             isOpen: true,
@@ -96,18 +92,7 @@ export function useCompetitions() {
 
     const handleConfirmDelete = async () => {
         if (!confirmState.id) return;
-        setIsDelete(true);
-        try {
-            await deleteCompetition(confirmState.id);
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Success", "Kompetisi berhasil dihapus.", "success");
-            fetchCompetitions();
-        } catch (error) {
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
-        } finally {
-            setIsDelete(false);
-        }
+        deleteMutation.mutate(confirmState.id);
     };
 
     // Client-side status filter
@@ -124,15 +109,15 @@ export function useCompetitions() {
         filterStatus,
         setFilterStatus,
         filteredCompetitions,
-        loading,
-        isLoadingMore,
-        nextCursor,
-        loadMore,
+        loading: isLoading,
+        isLoadingMore: isFetchingNextPage,
+        nextCursor: hasNextPage,
+        loadMore: fetchNextPage,
         alertState,
         closeAlert,
         confirmState,
         setConfirmState,
-        isDelete,
+        isDelete: deleteMutation.isPending,
         initiateDelete,
         handleConfirmDelete,
     };

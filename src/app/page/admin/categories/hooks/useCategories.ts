@@ -1,14 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getCategories, createCategories, updateCategories, deleteCategories, Category } from "@/app/service/categoriesAPI";
 
 export function useCategories() {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const queryClient = useQueryClient();
+
+    // TanStack Query for fetching categories
+    const { data: categoriesData, isLoading } = useQuery({
+        queryKey: ["categories"],
+        queryFn: async () => {
+            const response = await getCategories();
+            return response.data ?? [];
+        },
+    });
+
+    const categories = categoriesData ?? [];
 
     // Modal States
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState<{ id: string | null; name: string }>({ id: null, name: "" });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Alert State
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -25,25 +35,49 @@ export function useCategories() {
         title: "",
         message: ""
     });
-    const [isDeleting, setIsDeleting] = useState(false);
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    async function fetchCategories() {
-        try {
-            setIsLoading(true);
-            const response = await getCategories();
-            if (response.success && response.data) {
-                setCategories(response.data);
+    // Mutation for create/update
+    const submitMutation = useMutation({
+        mutationFn: async (payload: { name: string; id?: string | null }) => {
+            if (payload.id) {
+                return updateCategories(payload.id, { name: payload.name });
+            } else {
+                return createCategories({ name: payload.name });
             }
-        } catch (error) {
-            console.error("Failed to fetch categories", error);
-        } finally {
-            setIsLoading(false);
+        },
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["categories"] });
+                setIsModalOpen(false);
+                const isEdit = !!formData.id;
+                showAlert("Berhasil", isEdit ? "Kategori berhasil diperbarui." : "Kategori berhasil ditambahkan.", "success");
+            } else {
+                showAlert("Gagal", "Gagal menyimpan kategori: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            showAlert("Error", "Terjadi kesalahan sistem.", "error");
         }
-    }
+    });
+
+    // Mutation for delete
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteCategories(id),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["categories"] });
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Dihapus", "Kategori berhasil dihapus.", "success");
+            } else {
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+        }
+    });
 
     const openAddModal = () => {
         setFormData({ id: null, name: "" });
@@ -65,35 +99,7 @@ export function useCategories() {
 
     const handleSubmit = async () => {
         if (!formData.name) return;
-        setIsSubmitting(true);
-
-        try {
-            const isEdit = !!formData.id;
-            const payload = { name: formData.name };
-
-            let response;
-            if (formData.id) {
-                response = await updateCategories(formData.id, payload);
-            } else {
-                response = await createCategories(payload);
-            }
-
-            if (response.success && response.data) {
-                if (isEdit) {
-                    setCategories(categories.map(c => c.id === formData.id ? (response.data as Category) : c));
-                } else {
-                    setCategories([response.data as Category, ...categories]);
-                }
-                setIsModalOpen(false);
-                showAlert("Berhasil", isEdit ? "Kategori berhasil diperbarui." : "Kategori berhasil ditambahkan.", "success");
-            } else {
-                showAlert("Gagal", "Gagal menyimpan kategori: " + response.message, "error");
-            }
-        } catch (error) {
-            showAlert("Error", "Terjadi kesalahan sistem.", "error");
-        } finally {
-            setIsSubmitting(false);
-        }
+        submitMutation.mutate(formData);
     };
 
     const initiateDelete = (id: string, name: string) => {
@@ -107,23 +113,7 @@ export function useCategories() {
 
     const handleConfirmDelete = async () => {
         if (!confirmState.id) return;
-        setIsDeleting(true);
-        try {
-            const response = await deleteCategories(confirmState.id);
-            if (response.success) {
-                setCategories(categories.filter((c) => c.id !== confirmState.id));
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Dihapus", "Kategori berhasil dihapus.", "success");
-            } else {
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
-            }
-        } catch (error) {
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
-        } finally {
-            setIsDeleting(false);
-        }
+        deleteMutation.mutate(confirmState.id);
     };
 
     return {
@@ -133,12 +123,12 @@ export function useCategories() {
         setIsModalOpen,
         formData,
         setFormData,
-        isSubmitting,
+        isSubmitting: submitMutation.isPending,
         alertState,
         closeAlert,
         confirmState,
         setConfirmState,
-        isDeleting,
+        isDeleting: deleteMutation.isPending,
         openAddModal,
         openEditModal,
         handleSubmit,

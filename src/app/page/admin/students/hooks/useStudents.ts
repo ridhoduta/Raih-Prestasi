@@ -1,16 +1,85 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getStudents, deleteStudent, Student, createStudentsBulk } from "@/app/service/studentsAPI";
 
 const PAGE_LIMIT = 20;
 
 export function useStudents() {
+    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
-    const [students, setStudents] = useState<Student[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [nextCursor, setNextCursor] = useState<string | null>(null);
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
-    const [isImporting, setIsImporting] = useState(false);
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    // Debounce searchTerm
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // TanStack Query for fetching students with infinite scroll support
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isError,
+    } = useInfiniteQuery({
+        queryKey: ["students", debouncedSearch],
+        queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
+            const response = await getStudents({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+                cursor: pageParam,
+            });
+            return response;
+        },
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    });
+
+    // Flatten pages into a single students array
+    const students = useMemo(() => {
+        return data?.pages.flatMap((page) => page.data ?? []) ?? [];
+    }, [data]);
+
+    // Mutation for deleting a student
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteStudent(id),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["students"] });
+                setConfirmState(prev => ({ ...prev, isOpen: false, id: null, name: "" }));
+                showAlert("Dihapus", "Data siswa berhasil dihapus.", "success");
+            } else {
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Gagal", "Gagal menghapus siswa: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+            showAlert("Error", "Terjadi kesalahan saat menghapus data.", "error");
+        }
+    });
+
+    // Mutation for bulk importing students
+    const importMutation = useMutation({
+        mutationFn: (data: any[]) => createStudentsBulk(data),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["students"] });
+                showAlert("Berhasil", response.message || "Data siswa berhasil diimport.", "success");
+                setIsImportModalOpen(false);
+            } else {
+                showAlert("Peringatan", response.message || "Beberapa data mungkin gagal diimport.", "info");
+            }
+        },
+        onError: () => {
+            showAlert("Error", "Terjadi kesalahan saat import data.", "error");
+        }
+    });
 
     // Alert State
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -28,61 +97,6 @@ export function useStudents() {
         title: "",
         message: ""
     });
-    const [isDeleting, setIsDeleting] = useState(false);
-
-    // Debounced search
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearch(searchTerm);
-        }, 300);
-        return () => clearTimeout(timer);
-    }, [searchTerm]);
-
-    // Fetch students when search changes (reset list)
-    useEffect(() => {
-        fetchStudents();
-    }, [debouncedSearch]);
-
-    const fetchStudents = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            const response = await getStudents({
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setStudents(response.data);
-                setNextCursor(response.nextCursor ?? null);
-            }
-        } catch (error) {
-            console.error("Failed to fetch students", error);
-        } finally {
-            setIsLoading(false);
-        }
-    }, [debouncedSearch]);
-
-    // Load more (cursor pagination)
-    const loadMore = useCallback(async () => {
-        if (!nextCursor || isLoadingMore) return;
-        try {
-            setIsLoadingMore(true);
-            const response = await getStudents({
-                cursor: nextCursor,
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setStudents(prev => [...prev, ...response.data!]);
-                setNextCursor(response.nextCursor ?? null);
-            }
-        } catch (error) {
-            console.error("Failed to load more students", error);
-        } finally {
-            setIsLoadingMore(false);
-        }
-    }, [nextCursor, isLoadingMore, debouncedSearch]);
 
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
@@ -102,44 +116,13 @@ export function useStudents() {
         });
     };
 
-    async function handleConfirmDelete() {
+    const handleConfirmDelete = async () => {
         if (!confirmState.id) return;
-        setIsDeleting(true);
-
-        try {
-            const response = await deleteStudent(confirmState.id);
-            if (response.success) {
-                setStudents(students.filter((s) => s.id !== confirmState.id));
-                setConfirmState({ ...confirmState, isOpen: false, id: null, name: "" });
-                showAlert("Dihapus", "Data siswa berhasil dihapus.", "success");
-            } else {
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Gagal", "Gagal menghapus siswa: " + response.message, "error");
-            }
-        } catch (error) {
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Error", "Terjadi kesalahan saat menghapus data.", "error");
-        } finally {
-            setIsDeleting(false);
-        }
-    }
+        deleteMutation.mutate(confirmState.id);
+    };
 
     const handleImportSubmit = async (data: any[]) => {
-        setIsImporting(true);
-        try {
-            const response = await createStudentsBulk(data);
-            if (response.success) {
-                showAlert("Berhasil", response.message || "Data siswa berhasil diimport.", "success");
-                setIsImportModalOpen(false);
-                fetchStudents(); // Refresh table
-            } else {
-                showAlert("Peringatan", response.message || "Beberapa data mungkin gagal diimport.", "info");
-            }
-        } catch (error: any) {
-            showAlert("Error", "Terjadi kesalahan saat import data.", "error");
-        } finally {
-            setIsImporting(false);
-        }
+        importMutation.mutate(data);
     };
 
     return {
@@ -147,19 +130,20 @@ export function useStudents() {
         setSearchTerm,
         students,
         isLoading,
-        isLoadingMore,
-        nextCursor,
-        loadMore,
+        isLoadingMore: isFetchingNextPage,
+        nextCursor: hasNextPage,
+        loadMore: fetchNextPage,
         isImportModalOpen,
         setIsImportModalOpen,
-        isImporting,
+        isImporting: importMutation.isPending,
         alertState,
         closeAlert,
         confirmState,
         setConfirmState,
-        isDeleting,
+        isDeleting: deleteMutation.isPending,
         initiateDelete,
         handleConfirmDelete,
         handleImportSubmit,
+        isError,
     };
 }

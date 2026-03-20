@@ -105,7 +105,7 @@ export default function GuruAchievements() {
           {nextCursor && !loading && (
             <div className="p-4 border-t border-gray-100 flex justify-center">
               <button
-                onClick={loadMore}
+                onClick={() => loadMore()}
                 disabled={isLoadingMore}
                 className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
               >

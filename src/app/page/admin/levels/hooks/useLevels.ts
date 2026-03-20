@@ -1,14 +1,24 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLevels, createLevel, updateLevel, deleteLevel, Level, LevelPayload } from "@/app/service/levelsAPI";
 
 export function useLevels() {
-    const [levels, setLevels] = useState<Level[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const queryClient = useQueryClient();
+
+    // TanStack Query for fetching levels
+    const { data: levelsData, isLoading } = useQuery({
+        queryKey: ["levels"],
+        queryFn: async () => {
+            const response = await getLevels();
+            return response.data ?? [];
+        },
+    });
+
+    const levels = levelsData ?? [];
 
     // Modal States
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [formData, setFormData] = useState<{ id: string | null; name: string }>({ id: null, name: "" });
-    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // Alert State
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -25,25 +35,50 @@ export function useLevels() {
         title: "",
         message: ""
     });
-    const [isDeleting, setIsDeleting] = useState(false);
 
-    useEffect(() => {
-        fetchLevels();
-    }, []);
-
-    async function fetchLevels() {
-        try {
-            setIsLoading(true);
-            const response = await getLevels();
-            if (response.success && response.data) {
-                setLevels(response.data);
+    // Mutation for create/update
+    const submitMutation = useMutation({
+        mutationFn: async (payload: { name: string; id?: string | null }) => {
+            if (payload.id) {
+                return updateLevel(payload.id, { name: payload.name });
+            } else {
+                const createPayload: LevelPayload = { name: payload.name, order: levels.length + 1 };
+                return createLevel(createPayload);
             }
-        } catch (error) {
-            console.error("Failed to fetch levels", error);
-        } finally {
-            setIsLoading(false);
+        },
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["levels"] });
+                setIsModalOpen(false);
+                const isEdit = !!formData.id;
+                showAlert("Berhasil", isEdit ? "Tingkat berhasil diperbarui." : "Tingkat berhasil ditambahkan.", "success");
+            } else {
+                showAlert("Gagal", "Gagal menyimpan tingkat: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            showAlert("Error", "Terjadi kesalahan sistem.", "error");
         }
-    }
+    });
+
+    // Mutation for delete
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteLevel(id),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["levels"] });
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Dihapus", "Tingkat berhasil dihapus.", "success");
+            } else {
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
+        }
+    });
 
     const openAddModal = () => {
         setFormData({ id: null, name: "" });
@@ -65,36 +100,7 @@ export function useLevels() {
 
     const handleSubmit = async () => {
         if (!formData.name) return;
-        setIsSubmitting(true);
-
-        try {
-            const isEdit = !!formData.id;
-            const payload = { name: formData.name };
-
-            let response;
-            if (formData.id) {
-                response = await updateLevel(formData.id, payload);
-            } else {
-                const createPayload: LevelPayload = { ...payload, order: levels.length + 1 };
-                response = await createLevel(createPayload);
-            }
-
-            if (response.success && response.data) {
-                if (isEdit) {
-                    setLevels(levels.map(l => l.id === formData.id ? (response.data as Level) : l));
-                } else {
-                    setLevels([...levels, response.data as Level]);
-                }
-                setIsModalOpen(false);
-                showAlert("Berhasil", isEdit ? "Tingkat berhasil diperbarui." : "Tingkat berhasil ditambahkan.", "success");
-            } else {
-                showAlert("Gagal", "Gagal menyimpan tingkat: " + response.message, "error");
-            }
-        } catch (error) {
-            showAlert("Error", "Terjadi kesalahan sistem.", "error");
-        } finally {
-            setIsSubmitting(false);
-        }
+        submitMutation.mutate(formData);
     };
 
     const initiateDelete = (id: string, name: string) => {
@@ -108,23 +114,7 @@ export function useLevels() {
 
     const handleConfirmDelete = async () => {
         if (!confirmState.id) return;
-        setIsDeleting(true);
-        try {
-            const response = await deleteLevel(confirmState.id);
-            if (response.success) {
-                setLevels(levels.filter((l) => l.id !== confirmState.id));
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Dihapus", "Tingkat berhasil dihapus.", "success");
-            } else {
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
-            }
-        } catch (error) {
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
-        } finally {
-            setIsDeleting(false);
-        }
+        deleteMutation.mutate(confirmState.id);
     };
 
     return {
@@ -134,12 +124,12 @@ export function useLevels() {
         setIsModalOpen,
         formData,
         setFormData,
-        isSubmitting,
+        isSubmitting: submitMutation.isPending,
         alertState,
         closeAlert,
         confirmState,
         setConfirmState,
-        isDeleting,
+        isDeleting: deleteMutation.isPending,
         openAddModal,
         openEditModal,
         handleSubmit,

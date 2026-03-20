@@ -1,14 +1,48 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getNews, deleteNews, NewsItem } from "@/app/service/newsAPI";
 
 const PAGE_LIMIT = 20;
 
 export function useNews() {
+    const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
-    const [news, setNews] = useState<NewsItem[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
-    const [nextCursor, setNextCursor] = useState<string | null>(null);
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+    // Debounce searchTerm
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearch(searchTerm);
+        }, 300);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    // TanStack Query for fetching news with infinite scroll support
+    const {
+        data,
+        fetchNextPage,
+        hasNextPage,
+        isFetchingNextPage,
+        isLoading,
+        isError,
+    } = useInfiniteQuery({
+        queryKey: ["news", debouncedSearch],
+        queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
+            const response = await getNews({
+                limit: PAGE_LIMIT,
+                search: debouncedSearch || undefined,
+                cursor: pageParam,
+            });
+            return response;
+        },
+        initialPageParam: undefined as string | undefined,
+        getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    });
+
+    // Flatten pages into a single news array
+    const news = useMemo(() => {
+        return data?.pages.flatMap((page) => page.data ?? []) ?? [];
+    }, [data]);
 
     // Alert State
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" | "info" }>({
@@ -25,59 +59,25 @@ export function useNews() {
         title: "",
         message: ""
     });
-    const [isDeleting, setIsDeleting] = useState(false);
 
-    // Debounced search
-    const [debouncedSearch, setDebouncedSearch] = useState("");
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedSearch(searchTerm);
-        }, 300);
-        return () => clearTimeout(timer);
-    }, [searchTerm]);
-
-    useEffect(() => {
-        fetchNews();
-    }, [debouncedSearch]);
-
-    const fetchNews = useCallback(async () => {
-        try {
-            setIsLoading(true);
-            const response = await getNews({
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setNews(response.data);
-                setNextCursor(response.nextCursor ?? null);
+    // Mutation for deleting news
+    const deleteMutation = useMutation({
+        mutationFn: (id: string) => deleteNews(id),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["news"] });
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Dihapus", "Berita berhasil dihapus.", "success");
+            } else {
+                setConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
             }
-        } catch (error) {
-            console.error("Failed to fetch news", error);
-        } finally {
-            setIsLoading(false);
+        },
+        onError: () => {
+            setConfirmState(prev => ({ ...prev, isOpen: false }));
+            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
         }
-    }, [debouncedSearch]);
-
-    const loadMore = useCallback(async () => {
-        if (!nextCursor || isLoadingMore) return;
-        try {
-            setIsLoadingMore(true);
-            const response = await getNews({
-                cursor: nextCursor,
-                limit: PAGE_LIMIT,
-                search: debouncedSearch || undefined,
-            });
-            if (response.success && response.data) {
-                setNews(prev => [...prev, ...response.data!]);
-                setNextCursor(response.nextCursor ?? null);
-            }
-        } catch (error) {
-            console.error("Failed to load more news", error);
-        } finally {
-            setIsLoadingMore(false);
-        }
-    }, [nextCursor, isLoadingMore, debouncedSearch]);
+    });
 
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
@@ -98,23 +98,7 @@ export function useNews() {
 
     const handleConfirmDelete = async () => {
         if (!confirmState.id) return;
-        setIsDeleting(true);
-        try {
-            const response = await deleteNews(confirmState.id);
-            if (response.success) {
-                setNews(news.filter((n) => n.id !== confirmState.id));
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Dihapus", "Berita berhasil dihapus.", "success");
-            } else {
-                setConfirmState({ ...confirmState, isOpen: false });
-                showAlert("Gagal", "Gagal menghapus: " + response.message, "error");
-            }
-        } catch (error) {
-            setConfirmState({ ...confirmState, isOpen: false });
-            showAlert("Error", "Terjadi kesalahan saat menghapus.", "error");
-        } finally {
-            setIsDeleting(false);
-        }
+        deleteMutation.mutate(confirmState.id);
     };
 
     return {
@@ -122,15 +106,16 @@ export function useNews() {
         setSearchTerm,
         news,
         isLoading,
-        isLoadingMore,
-        nextCursor,
-        loadMore,
+        isLoadingMore: isFetchingNextPage,
+        nextCursor: hasNextPage,
+        loadMore: fetchNextPage,
         alertState,
         closeAlert,
         confirmState,
         setConfirmState,
-        isDeleting,
+        isDeleting: deleteMutation.isPending,
         initiateDelete,
         handleConfirmDelete,
+        isError,
     };
 }
