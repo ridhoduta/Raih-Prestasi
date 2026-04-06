@@ -61,4 +61,6 @@ download_html.js
 frontend_architecture_rules_optimize.md
 list_file.md
 tmp_landing.html
-# src/lib/serviceAccount.json
+src/lib/serviceAccount.json
+src/app/service/serviceAccountKey.json
+.env
