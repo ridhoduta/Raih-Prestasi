@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { createAndSendNotification } from "@/app/service/pushNotif";
 
 const achievementDetailSelect = {
   id: true,
@@ -90,6 +91,18 @@ export async function PUT(request: Request, context: Context) {
         verifiedBy: session.id,
       },
       select: achievementDetailSelect,
+    });
+
+    // Kirim Notifikasi ke Siswa
+    await createAndSendNotification({
+      studentId: updated.studentId,
+      title: "Update Status Prestasi 🎉",
+      body: `Status prestasi "${updated.competitionName}" kamu sekarang: ${updated.status}`,
+      type: "ACHIEVEMENT",
+      data: {
+        id: updated.id,
+        screen: "achievement_detail",
+      },
     });
 
     return NextResponse.json({

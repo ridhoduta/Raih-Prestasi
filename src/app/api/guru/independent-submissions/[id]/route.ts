@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { createAndSendNotification } from "@/app/service/pushNotif";
 
 const submissionSelect = {
   id: true,
@@ -131,6 +132,18 @@ export async function PUT(req: Request, context: Context) {
         recommendationLetter: finalRecommendationLetter,
       },
       select: submissionSelect,
+    });
+
+    // Kirim Notifikasi ke Siswa
+    await createAndSendNotification({
+      studentId: updated.studentId,
+      title: "Update Pengajuan Lomba Mandiri 📢",
+      body: `Pengajuan "${updated.title}" kamu sekarang: ${updated.status}`,
+      type: "SUBMISSION",
+      data: {
+        id: updated.id,
+        screen: "submission_detail",
+      },
     });
 
     return NextResponse.json({

@@ -261,6 +261,24 @@ exports.Prisma.AcademicScoreScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.FCMTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  studentId: 'studentId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  body: 'body',
+  type: 'type',
+  data: 'data',
+  isRead: 'isRead',
+  studentId: 'studentId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -337,7 +355,9 @@ exports.Prisma.ModelName = {
   IndependentCompetitionSubmission: 'IndependentCompetitionSubmission',
   Announcement: 'Announcement',
   Achievement: 'Achievement',
-  AcademicScore: 'AcademicScore'
+  AcademicScore: 'AcademicScore',
+  FCMToken: 'FCMToken',
+  Notification: 'Notification'
 };
 
 /**

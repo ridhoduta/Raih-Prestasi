@@ -14,11 +14,7 @@ enum UserRole {
   ADMIN
   GURU
 }
-enum RegistrationStatus {
-  MENUNGGU
-  DITERIMA
-  DITOLAK
-}
+
 enum FieldType {
   TEXT
   TEXTAREA
@@ -39,7 +35,11 @@ enum AchievementStatus {
   TERVERIFIKASI
   DITOLAK
 }
-
+enum RegistrationStatus {
+  MENUNGGU
+  DITERIMA
+  DITOLAK
+}
 
 // ==========================
 // USERS (Admin & Guru)
@@ -81,6 +81,10 @@ model Student {
   submissions     IndependentCompetitionSubmission[]
   achievements    Achievement[]
   academicScores  AcademicScore[]
+
+  // Relations for FCM and Notifications
+  fcmTokens       FCMToken[]
+  notifications   Notification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -313,4 +317,34 @@ model AcademicScore {
   createdAt DateTime @default(now())
 
   @@map("academic_scores")
+}
+
+// ==========================
+// FCM TOKENS
+// ==========================
+model FCMToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("fcm_tokens")
+}
+
+// ==========================
+// NOTIFICATIONS
+// ==========================
+model Notification {
+  id        String   @id @default(uuid())
+  title     String
+  body      String
+  type      String   // ACHIEVEMENT | SUBMISSION | REGISTRATION
+  data      Json?
+  isRead    Boolean  @default(false)
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
 }

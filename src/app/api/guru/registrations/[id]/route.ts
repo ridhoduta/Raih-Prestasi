@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { createAndSendNotification } from "@/app/service/pushNotif";
 
 type Context = {
   params: Promise<{ id: string }>;
@@ -149,6 +150,22 @@ export async function PUT(req: Request, context: Context) {
         status: true,
         note: true,
         updatedAt: true,
+        studentId: true,
+        competition: {
+          select: { title: true },
+        },
+      },
+    });
+
+    // Kirim Notifikasi ke Siswa
+    await createAndSendNotification({
+      studentId: updated.studentId,
+      title: "Update Pendaftaran Lomba 🏆",
+      body: `Pendaftaran "${updated.competition.title}" kamu sekarang: ${updated.status}`,
+      type: "REGISTRATION",
+      data: {
+        id: updated.id,
+        screen: "registration_detail",
       },
     });
 

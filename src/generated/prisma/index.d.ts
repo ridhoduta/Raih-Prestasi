@@ -78,6 +78,16 @@ export type Achievement = $Result.DefaultSelection<Prisma.$AchievementPayload>
  * 
  */
 export type AcademicScore = $Result.DefaultSelection<Prisma.$AcademicScorePayload>
+/**
+ * Model FCMToken
+ * 
+ */
+export type FCMToken = $Result.DefaultSelection<Prisma.$FCMTokenPayload>
+/**
+ * Model Notification
+ * 
+ */
+export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
 
 /**
  * Enums
@@ -89,15 +99,6 @@ export namespace $Enums {
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
-export const RegistrationStatus: {
-  MENUNGGU: 'MENUNGGU',
-  DITERIMA: 'DITERIMA',
-  DITOLAK: 'DITOLAK'
-};
-
-export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]
 
 
 export const FieldType: {
@@ -131,15 +132,20 @@ export const AchievementStatus: {
 
 export type AchievementStatus = (typeof AchievementStatus)[keyof typeof AchievementStatus]
 
+
+export const RegistrationStatus: {
+  MENUNGGU: 'MENUNGGU',
+  DITERIMA: 'DITERIMA',
+  DITOLAK: 'DITOLAK'
+};
+
+export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]
+
 }
 
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
-
-export type RegistrationStatus = $Enums.RegistrationStatus
-
-export const RegistrationStatus: typeof $Enums.RegistrationStatus
 
 export type FieldType = $Enums.FieldType
 
@@ -152,6 +158,10 @@ export const SubmissionStatus: typeof $Enums.SubmissionStatus
 export type AchievementStatus = $Enums.AchievementStatus
 
 export const AchievementStatus: typeof $Enums.AchievementStatus
+
+export type RegistrationStatus = $Enums.RegistrationStatus
+
+export const RegistrationStatus: typeof $Enums.RegistrationStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -399,6 +409,26 @@ export class PrismaClient<
     * ```
     */
   get academicScore(): Prisma.AcademicScoreDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.fCMToken`: Exposes CRUD operations for the **FCMToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more FCMTokens
+    * const fCMTokens = await prisma.fCMToken.findMany()
+    * ```
+    */
+  get fCMToken(): Prisma.FCMTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Notifications
+    * const notifications = await prisma.notification.findMany()
+    * ```
+    */
+  get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -845,7 +875,9 @@ export namespace Prisma {
     IndependentCompetitionSubmission: 'IndependentCompetitionSubmission',
     Announcement: 'Announcement',
     Achievement: 'Achievement',
-    AcademicScore: 'AcademicScore'
+    AcademicScore: 'AcademicScore',
+    FCMToken: 'FCMToken',
+    Notification: 'Notification'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -861,7 +893,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore"
+      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "fCMToken" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1827,6 +1859,154 @@ export namespace Prisma {
           }
         }
       }
+      FCMToken: {
+        payload: Prisma.$FCMTokenPayload<ExtArgs>
+        fields: Prisma.FCMTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FCMTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FCMTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.FCMTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FCMTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          findMany: {
+            args: Prisma.FCMTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>[]
+          }
+          create: {
+            args: Prisma.FCMTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          createMany: {
+            args: Prisma.FCMTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FCMTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.FCMTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          update: {
+            args: Prisma.FCMTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.FCMTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FCMTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FCMTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.FCMTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FCMTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.FCMTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFCMToken>
+          }
+          groupBy: {
+            args: Prisma.FCMTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FCMTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FCMTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<FCMTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      Notification: {
+        payload: Prisma.$NotificationPayload<ExtArgs>
+        fields: Prisma.NotificationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.NotificationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.NotificationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findFirst: {
+            args: Prisma.NotificationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.NotificationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          findMany: {
+            args: Prisma.NotificationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          create: {
+            args: Prisma.NotificationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          createMany: {
+            args: Prisma.NotificationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.NotificationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          delete: {
+            args: Prisma.NotificationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          update: {
+            args: Prisma.NotificationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          deleteMany: {
+            args: Prisma.NotificationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.NotificationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.NotificationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>[]
+          }
+          upsert: {
+            args: Prisma.NotificationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$NotificationPayload>
+          }
+          aggregate: {
+            args: Prisma.NotificationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateNotification>
+          }
+          groupBy: {
+            args: Prisma.NotificationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<NotificationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.NotificationCountArgs<ExtArgs>
+            result: $Utils.Optional<NotificationCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1948,6 +2128,8 @@ export namespace Prisma {
     announcement?: AnnouncementOmit
     achievement?: AchievementOmit
     academicScore?: AcademicScoreOmit
+    fCMToken?: FCMTokenOmit
+    notification?: NotificationOmit
   }
 
   /* Types for Logging */
@@ -2099,6 +2281,8 @@ export namespace Prisma {
     submissions: number
     achievements: number
     academicScores: number
+    fcmTokens: number
+    notifications: number
   }
 
   export type StudentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2106,6 +2290,8 @@ export namespace Prisma {
     submissions?: boolean | StudentCountOutputTypeCountSubmissionsArgs
     achievements?: boolean | StudentCountOutputTypeCountAchievementsArgs
     academicScores?: boolean | StudentCountOutputTypeCountAcademicScoresArgs
+    fcmTokens?: boolean | StudentCountOutputTypeCountFcmTokensArgs
+    notifications?: boolean | StudentCountOutputTypeCountNotificationsArgs
   }
 
   // Custom InputTypes
@@ -2145,6 +2331,20 @@ export namespace Prisma {
    */
   export type StudentCountOutputTypeCountAcademicScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AcademicScoreWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountFcmTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FCMTokenWhereInput
+  }
+
+  /**
+   * StudentCountOutputType without action
+   */
+  export type StudentCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
 
@@ -3771,6 +3971,8 @@ export namespace Prisma {
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
     achievements?: boolean | Student$achievementsArgs<ExtArgs>
     academicScores?: boolean | Student$academicScoresArgs<ExtArgs>
+    fcmTokens?: boolean | Student$fcmTokensArgs<ExtArgs>
+    notifications?: boolean | Student$notificationsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["student"]>
 
@@ -3816,6 +4018,8 @@ export namespace Prisma {
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
     achievements?: boolean | Student$achievementsArgs<ExtArgs>
     academicScores?: boolean | Student$academicScoresArgs<ExtArgs>
+    fcmTokens?: boolean | Student$fcmTokensArgs<ExtArgs>
+    notifications?: boolean | Student$notificationsArgs<ExtArgs>
     _count?: boolean | StudentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type StudentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3828,6 +4032,8 @@ export namespace Prisma {
       submissions: Prisma.$IndependentCompetitionSubmissionPayload<ExtArgs>[]
       achievements: Prisma.$AchievementPayload<ExtArgs>[]
       academicScores: Prisma.$AcademicScorePayload<ExtArgs>[]
+      fcmTokens: Prisma.$FCMTokenPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4237,6 +4443,8 @@ export namespace Prisma {
     submissions<T extends Student$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, Student$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IndependentCompetitionSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     achievements<T extends Student$achievementsArgs<ExtArgs> = {}>(args?: Subset<T, Student$achievementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     academicScores<T extends Student$academicScoresArgs<ExtArgs> = {}>(args?: Subset<T, Student$academicScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    fcmTokens<T extends Student$fcmTokensArgs<ExtArgs> = {}>(args?: Subset<T, Student$fcmTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Student$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Student$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4756,6 +4964,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: AcademicScoreScalarFieldEnum | AcademicScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Student.fcmTokens
+   */
+  export type Student$fcmTokensArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    where?: FCMTokenWhereInput
+    orderBy?: FCMTokenOrderByWithRelationInput | FCMTokenOrderByWithRelationInput[]
+    cursor?: FCMTokenWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FCMTokenScalarFieldEnum | FCMTokenScalarFieldEnum[]
+  }
+
+  /**
+   * Student.notifications
+   */
+  export type Student$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
@@ -17132,6 +17388,2144 @@ export namespace Prisma {
 
 
   /**
+   * Model FCMToken
+   */
+
+  export type AggregateFCMToken = {
+    _count: FCMTokenCountAggregateOutputType | null
+    _min: FCMTokenMinAggregateOutputType | null
+    _max: FCMTokenMaxAggregateOutputType | null
+  }
+
+  export type FCMTokenMinAggregateOutputType = {
+    id: string | null
+    token: string | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type FCMTokenMaxAggregateOutputType = {
+    id: string | null
+    token: string | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type FCMTokenCountAggregateOutputType = {
+    id: number
+    token: number
+    studentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type FCMTokenMinAggregateInputType = {
+    id?: true
+    token?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type FCMTokenMaxAggregateInputType = {
+    id?: true
+    token?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type FCMTokenCountAggregateInputType = {
+    id?: true
+    token?: true
+    studentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type FCMTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FCMToken to aggregate.
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FCMTokens to fetch.
+     */
+    orderBy?: FCMTokenOrderByWithRelationInput | FCMTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FCMTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FCMTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FCMTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned FCMTokens
+    **/
+    _count?: true | FCMTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FCMTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FCMTokenMaxAggregateInputType
+  }
+
+  export type GetFCMTokenAggregateType<T extends FCMTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregateFCMToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFCMToken[P]>
+      : GetScalarType<T[P], AggregateFCMToken[P]>
+  }
+
+
+
+
+  export type FCMTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FCMTokenWhereInput
+    orderBy?: FCMTokenOrderByWithAggregationInput | FCMTokenOrderByWithAggregationInput[]
+    by: FCMTokenScalarFieldEnum[] | FCMTokenScalarFieldEnum
+    having?: FCMTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FCMTokenCountAggregateInputType | true
+    _min?: FCMTokenMinAggregateInputType
+    _max?: FCMTokenMaxAggregateInputType
+  }
+
+  export type FCMTokenGroupByOutputType = {
+    id: string
+    token: string
+    studentId: string
+    createdAt: Date
+    _count: FCMTokenCountAggregateOutputType | null
+    _min: FCMTokenMinAggregateOutputType | null
+    _max: FCMTokenMaxAggregateOutputType | null
+  }
+
+  type GetFCMTokenGroupByPayload<T extends FCMTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FCMTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FCMTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FCMTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], FCMTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FCMTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fCMToken"]>
+
+  export type FCMTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fCMToken"]>
+
+  export type FCMTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["fCMToken"]>
+
+  export type FCMTokenSelectScalar = {
+    id?: boolean
+    token?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type FCMTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "studentId" | "createdAt", ExtArgs["result"]["fCMToken"]>
+  export type FCMTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type FCMTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type FCMTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $FCMTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "FCMToken"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      token: string
+      studentId: string
+      createdAt: Date
+    }, ExtArgs["result"]["fCMToken"]>
+    composites: {}
+  }
+
+  type FCMTokenGetPayload<S extends boolean | null | undefined | FCMTokenDefaultArgs> = $Result.GetResult<Prisma.$FCMTokenPayload, S>
+
+  type FCMTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FCMTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FCMTokenCountAggregateInputType | true
+    }
+
+  export interface FCMTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['FCMToken'], meta: { name: 'FCMToken' } }
+    /**
+     * Find zero or one FCMToken that matches the filter.
+     * @param {FCMTokenFindUniqueArgs} args - Arguments to find a FCMToken
+     * @example
+     * // Get one FCMToken
+     * const fCMToken = await prisma.fCMToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FCMTokenFindUniqueArgs>(args: SelectSubset<T, FCMTokenFindUniqueArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one FCMToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FCMTokenFindUniqueOrThrowArgs} args - Arguments to find a FCMToken
+     * @example
+     * // Get one FCMToken
+     * const fCMToken = await prisma.fCMToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FCMTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, FCMTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FCMToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenFindFirstArgs} args - Arguments to find a FCMToken
+     * @example
+     * // Get one FCMToken
+     * const fCMToken = await prisma.fCMToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FCMTokenFindFirstArgs>(args?: SelectSubset<T, FCMTokenFindFirstArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first FCMToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenFindFirstOrThrowArgs} args - Arguments to find a FCMToken
+     * @example
+     * // Get one FCMToken
+     * const fCMToken = await prisma.fCMToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FCMTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, FCMTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more FCMTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all FCMTokens
+     * const fCMTokens = await prisma.fCMToken.findMany()
+     * 
+     * // Get first 10 FCMTokens
+     * const fCMTokens = await prisma.fCMToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const fCMTokenWithIdOnly = await prisma.fCMToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FCMTokenFindManyArgs>(args?: SelectSubset<T, FCMTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a FCMToken.
+     * @param {FCMTokenCreateArgs} args - Arguments to create a FCMToken.
+     * @example
+     * // Create one FCMToken
+     * const FCMToken = await prisma.fCMToken.create({
+     *   data: {
+     *     // ... data to create a FCMToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends FCMTokenCreateArgs>(args: SelectSubset<T, FCMTokenCreateArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many FCMTokens.
+     * @param {FCMTokenCreateManyArgs} args - Arguments to create many FCMTokens.
+     * @example
+     * // Create many FCMTokens
+     * const fCMToken = await prisma.fCMToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FCMTokenCreateManyArgs>(args?: SelectSubset<T, FCMTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many FCMTokens and returns the data saved in the database.
+     * @param {FCMTokenCreateManyAndReturnArgs} args - Arguments to create many FCMTokens.
+     * @example
+     * // Create many FCMTokens
+     * const fCMToken = await prisma.fCMToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many FCMTokens and only return the `id`
+     * const fCMTokenWithIdOnly = await prisma.fCMToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FCMTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, FCMTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a FCMToken.
+     * @param {FCMTokenDeleteArgs} args - Arguments to delete one FCMToken.
+     * @example
+     * // Delete one FCMToken
+     * const FCMToken = await prisma.fCMToken.delete({
+     *   where: {
+     *     // ... filter to delete one FCMToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FCMTokenDeleteArgs>(args: SelectSubset<T, FCMTokenDeleteArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one FCMToken.
+     * @param {FCMTokenUpdateArgs} args - Arguments to update one FCMToken.
+     * @example
+     * // Update one FCMToken
+     * const fCMToken = await prisma.fCMToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FCMTokenUpdateArgs>(args: SelectSubset<T, FCMTokenUpdateArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more FCMTokens.
+     * @param {FCMTokenDeleteManyArgs} args - Arguments to filter FCMTokens to delete.
+     * @example
+     * // Delete a few FCMTokens
+     * const { count } = await prisma.fCMToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FCMTokenDeleteManyArgs>(args?: SelectSubset<T, FCMTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FCMTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many FCMTokens
+     * const fCMToken = await prisma.fCMToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FCMTokenUpdateManyArgs>(args: SelectSubset<T, FCMTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more FCMTokens and returns the data updated in the database.
+     * @param {FCMTokenUpdateManyAndReturnArgs} args - Arguments to update many FCMTokens.
+     * @example
+     * // Update many FCMTokens
+     * const fCMToken = await prisma.fCMToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more FCMTokens and only return the `id`
+     * const fCMTokenWithIdOnly = await prisma.fCMToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FCMTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, FCMTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one FCMToken.
+     * @param {FCMTokenUpsertArgs} args - Arguments to update or create a FCMToken.
+     * @example
+     * // Update or create a FCMToken
+     * const fCMToken = await prisma.fCMToken.upsert({
+     *   create: {
+     *     // ... data to create a FCMToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the FCMToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FCMTokenUpsertArgs>(args: SelectSubset<T, FCMTokenUpsertArgs<ExtArgs>>): Prisma__FCMTokenClient<$Result.GetResult<Prisma.$FCMTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of FCMTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenCountArgs} args - Arguments to filter FCMTokens to count.
+     * @example
+     * // Count the number of FCMTokens
+     * const count = await prisma.fCMToken.count({
+     *   where: {
+     *     // ... the filter for the FCMTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends FCMTokenCountArgs>(
+      args?: Subset<T, FCMTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FCMTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a FCMToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FCMTokenAggregateArgs>(args: Subset<T, FCMTokenAggregateArgs>): Prisma.PrismaPromise<GetFCMTokenAggregateType<T>>
+
+    /**
+     * Group by FCMToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FCMTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FCMTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FCMTokenGroupByArgs['orderBy'] }
+        : { orderBy?: FCMTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FCMTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFCMTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the FCMToken model
+   */
+  readonly fields: FCMTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for FCMToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FCMTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the FCMToken model
+   */
+  interface FCMTokenFieldRefs {
+    readonly id: FieldRef<"FCMToken", 'String'>
+    readonly token: FieldRef<"FCMToken", 'String'>
+    readonly studentId: FieldRef<"FCMToken", 'String'>
+    readonly createdAt: FieldRef<"FCMToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * FCMToken findUnique
+   */
+  export type FCMTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which FCMToken to fetch.
+     */
+    where: FCMTokenWhereUniqueInput
+  }
+
+  /**
+   * FCMToken findUniqueOrThrow
+   */
+  export type FCMTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which FCMToken to fetch.
+     */
+    where: FCMTokenWhereUniqueInput
+  }
+
+  /**
+   * FCMToken findFirst
+   */
+  export type FCMTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which FCMToken to fetch.
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FCMTokens to fetch.
+     */
+    orderBy?: FCMTokenOrderByWithRelationInput | FCMTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FCMTokens.
+     */
+    cursor?: FCMTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FCMTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FCMTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FCMTokens.
+     */
+    distinct?: FCMTokenScalarFieldEnum | FCMTokenScalarFieldEnum[]
+  }
+
+  /**
+   * FCMToken findFirstOrThrow
+   */
+  export type FCMTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which FCMToken to fetch.
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FCMTokens to fetch.
+     */
+    orderBy?: FCMTokenOrderByWithRelationInput | FCMTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for FCMTokens.
+     */
+    cursor?: FCMTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FCMTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FCMTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of FCMTokens.
+     */
+    distinct?: FCMTokenScalarFieldEnum | FCMTokenScalarFieldEnum[]
+  }
+
+  /**
+   * FCMToken findMany
+   */
+  export type FCMTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which FCMTokens to fetch.
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of FCMTokens to fetch.
+     */
+    orderBy?: FCMTokenOrderByWithRelationInput | FCMTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing FCMTokens.
+     */
+    cursor?: FCMTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` FCMTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` FCMTokens.
+     */
+    skip?: number
+    distinct?: FCMTokenScalarFieldEnum | FCMTokenScalarFieldEnum[]
+  }
+
+  /**
+   * FCMToken create
+   */
+  export type FCMTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a FCMToken.
+     */
+    data: XOR<FCMTokenCreateInput, FCMTokenUncheckedCreateInput>
+  }
+
+  /**
+   * FCMToken createMany
+   */
+  export type FCMTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many FCMTokens.
+     */
+    data: FCMTokenCreateManyInput | FCMTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * FCMToken createManyAndReturn
+   */
+  export type FCMTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many FCMTokens.
+     */
+    data: FCMTokenCreateManyInput | FCMTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FCMToken update
+   */
+  export type FCMTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a FCMToken.
+     */
+    data: XOR<FCMTokenUpdateInput, FCMTokenUncheckedUpdateInput>
+    /**
+     * Choose, which FCMToken to update.
+     */
+    where: FCMTokenWhereUniqueInput
+  }
+
+  /**
+   * FCMToken updateMany
+   */
+  export type FCMTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update FCMTokens.
+     */
+    data: XOR<FCMTokenUpdateManyMutationInput, FCMTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which FCMTokens to update
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * Limit how many FCMTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * FCMToken updateManyAndReturn
+   */
+  export type FCMTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update FCMTokens.
+     */
+    data: XOR<FCMTokenUpdateManyMutationInput, FCMTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which FCMTokens to update
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * Limit how many FCMTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * FCMToken upsert
+   */
+  export type FCMTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the FCMToken to update in case it exists.
+     */
+    where: FCMTokenWhereUniqueInput
+    /**
+     * In case the FCMToken found by the `where` argument doesn't exist, create a new FCMToken with this data.
+     */
+    create: XOR<FCMTokenCreateInput, FCMTokenUncheckedCreateInput>
+    /**
+     * In case the FCMToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FCMTokenUpdateInput, FCMTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * FCMToken delete
+   */
+  export type FCMTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+    /**
+     * Filter which FCMToken to delete.
+     */
+    where: FCMTokenWhereUniqueInput
+  }
+
+  /**
+   * FCMToken deleteMany
+   */
+  export type FCMTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which FCMTokens to delete
+     */
+    where?: FCMTokenWhereInput
+    /**
+     * Limit how many FCMTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * FCMToken without action
+   */
+  export type FCMTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FCMToken
+     */
+    select?: FCMTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the FCMToken
+     */
+    omit?: FCMTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FCMTokenInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Notification
+   */
+
+  export type AggregateNotification = {
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  export type NotificationMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    body: string | null
+    type: string | null
+    isRead: boolean | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    body: string | null
+    type: string | null
+    isRead: boolean | null
+    studentId: string | null
+    createdAt: Date | null
+  }
+
+  export type NotificationCountAggregateOutputType = {
+    id: number
+    title: number
+    body: number
+    type: number
+    data: number
+    isRead: number
+    studentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type NotificationMinAggregateInputType = {
+    id?: true
+    title?: true
+    body?: true
+    type?: true
+    isRead?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type NotificationMaxAggregateInputType = {
+    id?: true
+    title?: true
+    body?: true
+    type?: true
+    isRead?: true
+    studentId?: true
+    createdAt?: true
+  }
+
+  export type NotificationCountAggregateInputType = {
+    id?: true
+    title?: true
+    body?: true
+    type?: true
+    data?: true
+    isRead?: true
+    studentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type NotificationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notification to aggregate.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Notifications
+    **/
+    _count?: true | NotificationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: NotificationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type GetNotificationAggregateType<T extends NotificationAggregateArgs> = {
+        [P in keyof T & keyof AggregateNotification]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateNotification[P]>
+      : GetScalarType<T[P], AggregateNotification[P]>
+  }
+
+
+
+
+  export type NotificationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithAggregationInput | NotificationOrderByWithAggregationInput[]
+    by: NotificationScalarFieldEnum[] | NotificationScalarFieldEnum
+    having?: NotificationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: NotificationCountAggregateInputType | true
+    _min?: NotificationMinAggregateInputType
+    _max?: NotificationMaxAggregateInputType
+  }
+
+  export type NotificationGroupByOutputType = {
+    id: string
+    title: string
+    body: string
+    type: string
+    data: JsonValue | null
+    isRead: boolean
+    studentId: string
+    createdAt: Date
+    _count: NotificationCountAggregateOutputType | null
+    _min: NotificationMinAggregateOutputType | null
+    _max: NotificationMaxAggregateOutputType | null
+  }
+
+  type GetNotificationGroupByPayload<T extends NotificationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<NotificationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof NotificationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+            : GetScalarType<T[P], NotificationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    body?: boolean
+    type?: boolean
+    data?: boolean
+    isRead?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    body?: boolean
+    type?: boolean
+    data?: boolean
+    isRead?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    body?: boolean
+    type?: boolean
+    data?: boolean
+    isRead?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["notification"]>
+
+  export type NotificationSelectScalar = {
+    id?: boolean
+    title?: boolean
+    body?: boolean
+    type?: boolean
+    data?: boolean
+    isRead?: boolean
+    studentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "body" | "type" | "data" | "isRead" | "studentId" | "createdAt", ExtArgs["result"]["notification"]>
+  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | StudentDefaultArgs<ExtArgs>
+  }
+
+  export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Notification"
+    objects: {
+      student: Prisma.$StudentPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      body: string
+      type: string
+      data: Prisma.JsonValue | null
+      isRead: boolean
+      studentId: string
+      createdAt: Date
+    }, ExtArgs["result"]["notification"]>
+    composites: {}
+  }
+
+  type NotificationGetPayload<S extends boolean | null | undefined | NotificationDefaultArgs> = $Result.GetResult<Prisma.$NotificationPayload, S>
+
+  type NotificationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<NotificationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: NotificationCountAggregateInputType | true
+    }
+
+  export interface NotificationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Notification'], meta: { name: 'Notification' } }
+    /**
+     * Find zero or one Notification that matches the filter.
+     * @param {NotificationFindUniqueArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends NotificationFindUniqueArgs>(args: SelectSubset<T, NotificationFindUniqueArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Notification that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {NotificationFindUniqueOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends NotificationFindUniqueOrThrowArgs>(args: SelectSubset<T, NotificationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends NotificationFindFirstArgs>(args?: SelectSubset<T, NotificationFindFirstArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Notification that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindFirstOrThrowArgs} args - Arguments to find a Notification
+     * @example
+     * // Get one Notification
+     * const notification = await prisma.notification.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends NotificationFindFirstOrThrowArgs>(args?: SelectSubset<T, NotificationFindFirstOrThrowArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Notifications that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Notifications
+     * const notifications = await prisma.notification.findMany()
+     * 
+     * // Get first 10 Notifications
+     * const notifications = await prisma.notification.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const notificationWithIdOnly = await prisma.notification.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends NotificationFindManyArgs>(args?: SelectSubset<T, NotificationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Notification.
+     * @param {NotificationCreateArgs} args - Arguments to create a Notification.
+     * @example
+     * // Create one Notification
+     * const Notification = await prisma.notification.create({
+     *   data: {
+     *     // ... data to create a Notification
+     *   }
+     * })
+     * 
+     */
+    create<T extends NotificationCreateArgs>(args: SelectSubset<T, NotificationCreateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Notifications.
+     * @param {NotificationCreateManyArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends NotificationCreateManyArgs>(args?: SelectSubset<T, NotificationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Notifications and returns the data saved in the database.
+     * @param {NotificationCreateManyAndReturnArgs} args - Arguments to create many Notifications.
+     * @example
+     * // Create many Notifications
+     * const notification = await prisma.notification.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends NotificationCreateManyAndReturnArgs>(args?: SelectSubset<T, NotificationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Notification.
+     * @param {NotificationDeleteArgs} args - Arguments to delete one Notification.
+     * @example
+     * // Delete one Notification
+     * const Notification = await prisma.notification.delete({
+     *   where: {
+     *     // ... filter to delete one Notification
+     *   }
+     * })
+     * 
+     */
+    delete<T extends NotificationDeleteArgs>(args: SelectSubset<T, NotificationDeleteArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Notification.
+     * @param {NotificationUpdateArgs} args - Arguments to update one Notification.
+     * @example
+     * // Update one Notification
+     * const notification = await prisma.notification.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends NotificationUpdateArgs>(args: SelectSubset<T, NotificationUpdateArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Notifications.
+     * @param {NotificationDeleteManyArgs} args - Arguments to filter Notifications to delete.
+     * @example
+     * // Delete a few Notifications
+     * const { count } = await prisma.notification.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends NotificationDeleteManyArgs>(args?: SelectSubset<T, NotificationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends NotificationUpdateManyArgs>(args: SelectSubset<T, NotificationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Notifications and returns the data updated in the database.
+     * @param {NotificationUpdateManyAndReturnArgs} args - Arguments to update many Notifications.
+     * @example
+     * // Update many Notifications
+     * const notification = await prisma.notification.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Notifications and only return the `id`
+     * const notificationWithIdOnly = await prisma.notification.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends NotificationUpdateManyAndReturnArgs>(args: SelectSubset<T, NotificationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Notification.
+     * @param {NotificationUpsertArgs} args - Arguments to update or create a Notification.
+     * @example
+     * // Update or create a Notification
+     * const notification = await prisma.notification.upsert({
+     *   create: {
+     *     // ... data to create a Notification
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Notification we want to update
+     *   }
+     * })
+     */
+    upsert<T extends NotificationUpsertArgs>(args: SelectSubset<T, NotificationUpsertArgs<ExtArgs>>): Prisma__NotificationClient<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Notifications.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationCountArgs} args - Arguments to filter Notifications to count.
+     * @example
+     * // Count the number of Notifications
+     * const count = await prisma.notification.count({
+     *   where: {
+     *     // ... the filter for the Notifications we want to count
+     *   }
+     * })
+    **/
+    count<T extends NotificationCountArgs>(
+      args?: Subset<T, NotificationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], NotificationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends NotificationAggregateArgs>(args: Subset<T, NotificationAggregateArgs>): Prisma.PrismaPromise<GetNotificationAggregateType<T>>
+
+    /**
+     * Group by Notification.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {NotificationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends NotificationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: NotificationGroupByArgs['orderBy'] }
+        : { orderBy?: NotificationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, NotificationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetNotificationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Notification model
+   */
+  readonly fields: NotificationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Notification.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Notification model
+   */
+  interface NotificationFieldRefs {
+    readonly id: FieldRef<"Notification", 'String'>
+    readonly title: FieldRef<"Notification", 'String'>
+    readonly body: FieldRef<"Notification", 'String'>
+    readonly type: FieldRef<"Notification", 'String'>
+    readonly data: FieldRef<"Notification", 'Json'>
+    readonly isRead: FieldRef<"Notification", 'Boolean'>
+    readonly studentId: FieldRef<"Notification", 'String'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Notification findUnique
+   */
+  export type NotificationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findUniqueOrThrow
+   */
+  export type NotificationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification findFirst
+   */
+  export type NotificationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findFirstOrThrow
+   */
+  export type NotificationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notification to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Notifications.
+     */
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification findMany
+   */
+  export type NotificationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter, which Notifications to fetch.
+     */
+    where?: NotificationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Notifications to fetch.
+     */
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Notifications.
+     */
+    cursor?: NotificationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Notifications from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Notifications.
+     */
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Notification create
+   */
+  export type NotificationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Notification.
+     */
+    data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+  }
+
+  /**
+   * Notification createMany
+   */
+  export type NotificationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Notification createManyAndReturn
+   */
+  export type NotificationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Notifications.
+     */
+    data: NotificationCreateManyInput | NotificationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification update
+   */
+  export type NotificationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Notification.
+     */
+    data: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+    /**
+     * Choose, which Notification to update.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification updateMany
+   */
+  export type NotificationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification updateManyAndReturn
+   */
+  export type NotificationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * The data used to update Notifications.
+     */
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyInput>
+    /**
+     * Filter which Notifications to update
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Notification upsert
+   */
+  export type NotificationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Notification to update in case it exists.
+     */
+    where: NotificationWhereUniqueInput
+    /**
+     * In case the Notification found by the `where` argument doesn't exist, create a new Notification with this data.
+     */
+    create: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
+    /**
+     * In case the Notification was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<NotificationUpdateInput, NotificationUncheckedUpdateInput>
+  }
+
+  /**
+   * Notification delete
+   */
+  export type NotificationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    /**
+     * Filter which Notification to delete.
+     */
+    where: NotificationWhereUniqueInput
+  }
+
+  /**
+   * Notification deleteMany
+   */
+  export type NotificationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Notifications to delete
+     */
+    where?: NotificationWhereInput
+    /**
+     * Limit how many Notifications to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Notification without action
+   */
+  export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -17323,6 +19717,30 @@ export namespace Prisma {
   };
 
   export type AcademicScoreScalarFieldEnum = (typeof AcademicScoreScalarFieldEnum)[keyof typeof AcademicScoreScalarFieldEnum]
+
+
+  export const FCMTokenScalarFieldEnum: {
+    id: 'id',
+    token: 'token',
+    studentId: 'studentId',
+    createdAt: 'createdAt'
+  };
+
+  export type FCMTokenScalarFieldEnum = (typeof FCMTokenScalarFieldEnum)[keyof typeof FCMTokenScalarFieldEnum]
+
+
+  export const NotificationScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    body: 'body',
+    type: 'type',
+    data: 'data',
+    isRead: 'isRead',
+    studentId: 'studentId',
+    createdAt: 'createdAt'
+  };
+
+  export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -17627,6 +20045,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionListRelationFilter
     achievements?: AchievementListRelationFilter
     academicScores?: AcademicScoreListRelationFilter
+    fcmTokens?: FCMTokenListRelationFilter
+    notifications?: NotificationListRelationFilter
   }
 
   export type StudentOrderByWithRelationInput = {
@@ -17643,6 +20063,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionOrderByRelationAggregateInput
     achievements?: AchievementOrderByRelationAggregateInput
     academicScores?: AcademicScoreOrderByRelationAggregateInput
+    fcmTokens?: FCMTokenOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
   }
 
   export type StudentWhereUniqueInput = Prisma.AtLeast<{
@@ -17662,6 +20084,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionListRelationFilter
     achievements?: AchievementListRelationFilter
     academicScores?: AcademicScoreListRelationFilter
+    fcmTokens?: FCMTokenListRelationFilter
+    notifications?: NotificationListRelationFilter
   }, "id" | "nisn">
 
   export type StudentOrderByWithAggregationInput = {
@@ -18487,6 +20911,126 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"AcademicScore"> | Date | string
   }
 
+  export type FCMTokenWhereInput = {
+    AND?: FCMTokenWhereInput | FCMTokenWhereInput[]
+    OR?: FCMTokenWhereInput[]
+    NOT?: FCMTokenWhereInput | FCMTokenWhereInput[]
+    id?: StringFilter<"FCMToken"> | string
+    token?: StringFilter<"FCMToken"> | string
+    studentId?: StringFilter<"FCMToken"> | string
+    createdAt?: DateTimeFilter<"FCMToken"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type FCMTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type FCMTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: FCMTokenWhereInput | FCMTokenWhereInput[]
+    OR?: FCMTokenWhereInput[]
+    NOT?: FCMTokenWhereInput | FCMTokenWhereInput[]
+    studentId?: StringFilter<"FCMToken"> | string
+    createdAt?: DateTimeFilter<"FCMToken"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id" | "token">
+
+  export type FCMTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    _count?: FCMTokenCountOrderByAggregateInput
+    _max?: FCMTokenMaxOrderByAggregateInput
+    _min?: FCMTokenMinOrderByAggregateInput
+  }
+
+  export type FCMTokenScalarWhereWithAggregatesInput = {
+    AND?: FCMTokenScalarWhereWithAggregatesInput | FCMTokenScalarWhereWithAggregatesInput[]
+    OR?: FCMTokenScalarWhereWithAggregatesInput[]
+    NOT?: FCMTokenScalarWhereWithAggregatesInput | FCMTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"FCMToken"> | string
+    token?: StringWithAggregatesFilter<"FCMToken"> | string
+    studentId?: StringWithAggregatesFilter<"FCMToken"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"FCMToken"> | Date | string
+  }
+
+  export type NotificationWhereInput = {
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    body?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    data?: JsonNullableFilter<"Notification">
+    isRead?: BoolFilter<"Notification"> | boolean
+    studentId?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }
+
+  export type NotificationOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    type?: SortOrder
+    data?: SortOrderInput | SortOrder
+    isRead?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    student?: StudentOrderByWithRelationInput
+  }
+
+  export type NotificationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: NotificationWhereInput | NotificationWhereInput[]
+    OR?: NotificationWhereInput[]
+    NOT?: NotificationWhereInput | NotificationWhereInput[]
+    title?: StringFilter<"Notification"> | string
+    body?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    data?: JsonNullableFilter<"Notification">
+    isRead?: BoolFilter<"Notification"> | boolean
+    studentId?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+  }, "id">
+
+  export type NotificationOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    type?: SortOrder
+    data?: SortOrderInput | SortOrder
+    isRead?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+    _count?: NotificationCountOrderByAggregateInput
+    _max?: NotificationMaxOrderByAggregateInput
+    _min?: NotificationMinOrderByAggregateInput
+  }
+
+  export type NotificationScalarWhereWithAggregatesInput = {
+    AND?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    OR?: NotificationScalarWhereWithAggregatesInput[]
+    NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Notification"> | string
+    title?: StringWithAggregatesFilter<"Notification"> | string
+    body?: StringWithAggregatesFilter<"Notification"> | string
+    type?: StringWithAggregatesFilter<"Notification"> | string
+    data?: JsonNullableWithAggregatesFilter<"Notification">
+    isRead?: BoolWithAggregatesFilter<"Notification"> | boolean
+    studentId?: StringWithAggregatesFilter<"Notification"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -18598,6 +21142,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
     achievements?: AchievementCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateInput = {
@@ -18614,6 +21160,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
     achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUpdateInput = {
@@ -18630,6 +21178,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateInput = {
@@ -18646,6 +21196,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentCreateManyInput = {
@@ -19519,6 +22071,130 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type FCMTokenCreateInput = {
+    id?: string
+    token: string
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutFcmTokensInput
+  }
+
+  export type FCMTokenUncheckedCreateInput = {
+    id?: string
+    token: string
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type FCMTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutFcmTokensNestedInput
+  }
+
+  export type FCMTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FCMTokenCreateManyInput = {
+    id?: string
+    token: string
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type FCMTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FCMTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationCreateManyInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    studentId: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    studentId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -19713,11 +22389,31 @@ export namespace Prisma {
     none?: AcademicScoreWhereInput
   }
 
+  export type FCMTokenListRelationFilter = {
+    every?: FCMTokenWhereInput
+    some?: FCMTokenWhereInput
+    none?: FCMTokenWhereInput
+  }
+
+  export type NotificationListRelationFilter = {
+    every?: NotificationWhereInput
+    some?: NotificationWhereInput
+    none?: NotificationWhereInput
+  }
+
   export type CompetitionRegistrationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type AcademicScoreOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type FCMTokenOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -20448,6 +23144,58 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type FCMTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FCMTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type FCMTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    type?: SortOrder
+    data?: SortOrder
+    isRead?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type NotificationMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    body?: SortOrder
+    type?: SortOrder
+    isRead?: SortOrder
+    studentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type NewsCreateNestedManyWithoutAdminInput = {
     create?: XOR<NewsCreateWithoutAdminInput, NewsUncheckedCreateWithoutAdminInput> | NewsCreateWithoutAdminInput[] | NewsUncheckedCreateWithoutAdminInput[]
     connectOrCreate?: NewsCreateOrConnectWithoutAdminInput | NewsCreateOrConnectWithoutAdminInput[]
@@ -20702,6 +23450,20 @@ export namespace Prisma {
     connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
   }
 
+  export type FCMTokenCreateNestedManyWithoutStudentInput = {
+    create?: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput> | FCMTokenCreateWithoutStudentInput[] | FCMTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: FCMTokenCreateOrConnectWithoutStudentInput | FCMTokenCreateOrConnectWithoutStudentInput[]
+    createMany?: FCMTokenCreateManyStudentInputEnvelope
+    connect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+  }
+
+  export type NotificationCreateNestedManyWithoutStudentInput = {
+    create?: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput> | NotificationCreateWithoutStudentInput[] | NotificationUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStudentInput | NotificationCreateOrConnectWithoutStudentInput[]
+    createMany?: NotificationCreateManyStudentInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput = {
     create?: XOR<CompetitionRegistrationCreateWithoutStudentInput, CompetitionRegistrationUncheckedCreateWithoutStudentInput> | CompetitionRegistrationCreateWithoutStudentInput[] | CompetitionRegistrationUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: CompetitionRegistrationCreateOrConnectWithoutStudentInput | CompetitionRegistrationCreateOrConnectWithoutStudentInput[]
@@ -20728,6 +23490,20 @@ export namespace Prisma {
     connectOrCreate?: AcademicScoreCreateOrConnectWithoutStudentInput | AcademicScoreCreateOrConnectWithoutStudentInput[]
     createMany?: AcademicScoreCreateManyStudentInputEnvelope
     connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+  }
+
+  export type FCMTokenUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput> | FCMTokenCreateWithoutStudentInput[] | FCMTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: FCMTokenCreateOrConnectWithoutStudentInput | FCMTokenCreateOrConnectWithoutStudentInput[]
+    createMany?: FCMTokenCreateManyStudentInputEnvelope
+    connect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput> | NotificationCreateWithoutStudentInput[] | NotificationUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStudentInput | NotificationCreateOrConnectWithoutStudentInput[]
+    createMany?: NotificationCreateManyStudentInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -20794,6 +23570,34 @@ export namespace Prisma {
     deleteMany?: AcademicScoreScalarWhereInput | AcademicScoreScalarWhereInput[]
   }
 
+  export type FCMTokenUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput> | FCMTokenCreateWithoutStudentInput[] | FCMTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: FCMTokenCreateOrConnectWithoutStudentInput | FCMTokenCreateOrConnectWithoutStudentInput[]
+    upsert?: FCMTokenUpsertWithWhereUniqueWithoutStudentInput | FCMTokenUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: FCMTokenCreateManyStudentInputEnvelope
+    set?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    disconnect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    delete?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    connect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    update?: FCMTokenUpdateWithWhereUniqueWithoutStudentInput | FCMTokenUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: FCMTokenUpdateManyWithWhereWithoutStudentInput | FCMTokenUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: FCMTokenScalarWhereInput | FCMTokenScalarWhereInput[]
+  }
+
+  export type NotificationUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput> | NotificationCreateWithoutStudentInput[] | NotificationUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStudentInput | NotificationCreateOrConnectWithoutStudentInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutStudentInput | NotificationUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: NotificationCreateManyStudentInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutStudentInput | NotificationUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutStudentInput | NotificationUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput = {
     create?: XOR<CompetitionRegistrationCreateWithoutStudentInput, CompetitionRegistrationUncheckedCreateWithoutStudentInput> | CompetitionRegistrationCreateWithoutStudentInput[] | CompetitionRegistrationUncheckedCreateWithoutStudentInput[]
     connectOrCreate?: CompetitionRegistrationCreateOrConnectWithoutStudentInput | CompetitionRegistrationCreateOrConnectWithoutStudentInput[]
@@ -20848,6 +23652,34 @@ export namespace Prisma {
     update?: AcademicScoreUpdateWithWhereUniqueWithoutStudentInput | AcademicScoreUpdateWithWhereUniqueWithoutStudentInput[]
     updateMany?: AcademicScoreUpdateManyWithWhereWithoutStudentInput | AcademicScoreUpdateManyWithWhereWithoutStudentInput[]
     deleteMany?: AcademicScoreScalarWhereInput | AcademicScoreScalarWhereInput[]
+  }
+
+  export type FCMTokenUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput> | FCMTokenCreateWithoutStudentInput[] | FCMTokenUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: FCMTokenCreateOrConnectWithoutStudentInput | FCMTokenCreateOrConnectWithoutStudentInput[]
+    upsert?: FCMTokenUpsertWithWhereUniqueWithoutStudentInput | FCMTokenUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: FCMTokenCreateManyStudentInputEnvelope
+    set?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    disconnect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    delete?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    connect?: FCMTokenWhereUniqueInput | FCMTokenWhereUniqueInput[]
+    update?: FCMTokenUpdateWithWhereUniqueWithoutStudentInput | FCMTokenUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: FCMTokenUpdateManyWithWhereWithoutStudentInput | FCMTokenUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: FCMTokenScalarWhereInput | FCMTokenScalarWhereInput[]
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput> | NotificationCreateWithoutStudentInput[] | NotificationUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutStudentInput | NotificationCreateOrConnectWithoutStudentInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutStudentInput | NotificationUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: NotificationCreateManyStudentInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutStudentInput | NotificationUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutStudentInput | NotificationUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type CompetitionCreateNestedManyWithoutCategoryInput = {
@@ -21342,6 +24174,34 @@ export namespace Prisma {
     upsert?: StudentUpsertWithoutAcademicScoresInput
     connect?: StudentWhereUniqueInput
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAcademicScoresInput, StudentUpdateWithoutAcademicScoresInput>, StudentUncheckedUpdateWithoutAcademicScoresInput>
+  }
+
+  export type StudentCreateNestedOneWithoutFcmTokensInput = {
+    create?: XOR<StudentCreateWithoutFcmTokensInput, StudentUncheckedCreateWithoutFcmTokensInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutFcmTokensInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type StudentUpdateOneRequiredWithoutFcmTokensNestedInput = {
+    create?: XOR<StudentCreateWithoutFcmTokensInput, StudentUncheckedCreateWithoutFcmTokensInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutFcmTokensInput
+    upsert?: StudentUpsertWithoutFcmTokensInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutFcmTokensInput, StudentUpdateWithoutFcmTokensInput>, StudentUncheckedUpdateWithoutFcmTokensInput>
+  }
+
+  export type StudentCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<StudentCreateWithoutNotificationsInput, StudentUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutNotificationsInput
+    connect?: StudentWhereUniqueInput
+  }
+
+  export type StudentUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: XOR<StudentCreateWithoutNotificationsInput, StudentUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: StudentCreateOrConnectWithoutNotificationsInput
+    upsert?: StudentUpsertWithoutNotificationsInput
+    connect?: StudentWhereUniqueInput
+    update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutNotificationsInput, StudentUpdateWithoutNotificationsInput>, StudentUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -22091,6 +24951,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type FCMTokenCreateWithoutStudentInput = {
+    id?: string
+    token: string
+    createdAt?: Date | string
+  }
+
+  export type FCMTokenUncheckedCreateWithoutStudentInput = {
+    id?: string
+    token: string
+    createdAt?: Date | string
+  }
+
+  export type FCMTokenCreateOrConnectWithoutStudentInput = {
+    where: FCMTokenWhereUniqueInput
+    create: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput>
+  }
+
+  export type FCMTokenCreateManyStudentInputEnvelope = {
+    data: FCMTokenCreateManyStudentInput | FCMTokenCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NotificationCreateWithoutStudentInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationUncheckedCreateWithoutStudentInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateOrConnectWithoutStudentInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput>
+  }
+
+  export type NotificationCreateManyStudentInputEnvelope = {
+    data: NotificationCreateManyStudentInput | NotificationCreateManyStudentInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompetitionRegistrationUpsertWithWhereUniqueWithoutStudentInput = {
     where: CompetitionRegistrationWhereUniqueInput
     update: XOR<CompetitionRegistrationUpdateWithoutStudentInput, CompetitionRegistrationUncheckedUpdateWithoutStudentInput>
@@ -22179,6 +25091,62 @@ export namespace Prisma {
     semester?: StringFilter<"AcademicScore"> | string
     year?: IntFilter<"AcademicScore"> | number
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
+  }
+
+  export type FCMTokenUpsertWithWhereUniqueWithoutStudentInput = {
+    where: FCMTokenWhereUniqueInput
+    update: XOR<FCMTokenUpdateWithoutStudentInput, FCMTokenUncheckedUpdateWithoutStudentInput>
+    create: XOR<FCMTokenCreateWithoutStudentInput, FCMTokenUncheckedCreateWithoutStudentInput>
+  }
+
+  export type FCMTokenUpdateWithWhereUniqueWithoutStudentInput = {
+    where: FCMTokenWhereUniqueInput
+    data: XOR<FCMTokenUpdateWithoutStudentInput, FCMTokenUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type FCMTokenUpdateManyWithWhereWithoutStudentInput = {
+    where: FCMTokenScalarWhereInput
+    data: XOR<FCMTokenUpdateManyMutationInput, FCMTokenUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type FCMTokenScalarWhereInput = {
+    AND?: FCMTokenScalarWhereInput | FCMTokenScalarWhereInput[]
+    OR?: FCMTokenScalarWhereInput[]
+    NOT?: FCMTokenScalarWhereInput | FCMTokenScalarWhereInput[]
+    id?: StringFilter<"FCMToken"> | string
+    token?: StringFilter<"FCMToken"> | string
+    studentId?: StringFilter<"FCMToken"> | string
+    createdAt?: DateTimeFilter<"FCMToken"> | Date | string
+  }
+
+  export type NotificationUpsertWithWhereUniqueWithoutStudentInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutStudentInput, NotificationUncheckedUpdateWithoutStudentInput>
+    create: XOR<NotificationCreateWithoutStudentInput, NotificationUncheckedCreateWithoutStudentInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutStudentInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutStudentInput, NotificationUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutStudentInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type NotificationScalarWhereInput = {
+    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    OR?: NotificationScalarWhereInput[]
+    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+    id?: StringFilter<"Notification"> | string
+    title?: StringFilter<"Notification"> | string
+    body?: StringFilter<"Notification"> | string
+    type?: StringFilter<"Notification"> | string
+    data?: JsonNullableFilter<"Notification">
+    isRead?: BoolFilter<"Notification"> | boolean
+    studentId?: StringFilter<"Notification"> | string
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
   export type CompetitionCreateWithoutCategoryInput = {
@@ -22707,6 +25675,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
     achievements?: AchievementCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutRegistrationsInput = {
@@ -22722,6 +25692,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
     achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutRegistrationsInput = {
@@ -22820,6 +25792,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutRegistrationsInput = {
@@ -22835,6 +25809,8 @@ export namespace Prisma {
     submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type RegistrationAnswerUpsertWithWhereUniqueWithoutRegistrationInput = {
@@ -23113,6 +26089,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationCreateNestedManyWithoutStudentInput
     achievements?: AchievementCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutSubmissionsInput = {
@@ -23128,6 +26106,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput
     achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutSubmissionsInput = {
@@ -23194,6 +26174,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutSubmissionsInput = {
@@ -23209,6 +26191,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutReviewedSubmissionsInput = {
@@ -23341,6 +26325,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationCreateNestedManyWithoutStudentInput
     submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAchievementsInput = {
@@ -23356,6 +26342,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput
     submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
     academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAchievementsInput = {
@@ -23422,6 +26410,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUpdateManyWithoutStudentNestedInput
     submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAchievementsInput = {
@@ -23437,6 +26427,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutVerifiedAchievementsInput = {
@@ -23493,6 +26485,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationCreateNestedManyWithoutStudentInput
     submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
     achievements?: AchievementCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
   }
 
   export type StudentUncheckedCreateWithoutAcademicScoresInput = {
@@ -23508,6 +26502,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput
     submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
     achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type StudentCreateOrConnectWithoutAcademicScoresInput = {
@@ -23539,6 +26535,8 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUpdateManyWithoutStudentNestedInput
     submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
   }
 
   export type StudentUncheckedUpdateWithoutAcademicScoresInput = {
@@ -23554,6 +26552,176 @@ export namespace Prisma {
     registrations?: CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput
     submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentCreateWithoutFcmTokensInput = {
+    id?: string
+    nisn: string
+    password: string
+    name: string
+    kelas: string
+    angkatan: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: CompetitionRegistrationCreateNestedManyWithoutStudentInput
+    submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
+    achievements?: AchievementCreateNestedManyWithoutStudentInput
+    academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    notifications?: NotificationCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutFcmTokensInput = {
+    id?: string
+    nisn: string
+    password: string
+    name: string
+    kelas: string
+    angkatan: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
+    academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutFcmTokensInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutFcmTokensInput, StudentUncheckedCreateWithoutFcmTokensInput>
+  }
+
+  export type StudentUpsertWithoutFcmTokensInput = {
+    update: XOR<StudentUpdateWithoutFcmTokensInput, StudentUncheckedUpdateWithoutFcmTokensInput>
+    create: XOR<StudentCreateWithoutFcmTokensInput, StudentUncheckedCreateWithoutFcmTokensInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutFcmTokensInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutFcmTokensInput, StudentUncheckedUpdateWithoutFcmTokensInput>
+  }
+
+  export type StudentUpdateWithoutFcmTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kelas?: StringFieldUpdateOperationsInput | string
+    angkatan?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: CompetitionRegistrationUpdateManyWithoutStudentNestedInput
+    submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
+    achievements?: AchievementUpdateManyWithoutStudentNestedInput
+    academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutFcmTokensInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kelas?: StringFieldUpdateOperationsInput | string
+    angkatan?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
+    academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentCreateWithoutNotificationsInput = {
+    id?: string
+    nisn: string
+    password: string
+    name: string
+    kelas: string
+    angkatan: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: CompetitionRegistrationCreateNestedManyWithoutStudentInput
+    submissions?: IndependentCompetitionSubmissionCreateNestedManyWithoutStudentInput
+    achievements?: AchievementCreateNestedManyWithoutStudentInput
+    academicScores?: AcademicScoreCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentUncheckedCreateWithoutNotificationsInput = {
+    id?: string
+    nisn: string
+    password: string
+    name: string
+    kelas: string
+    angkatan: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    registrations?: CompetitionRegistrationUncheckedCreateNestedManyWithoutStudentInput
+    submissions?: IndependentCompetitionSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    achievements?: AchievementUncheckedCreateNestedManyWithoutStudentInput
+    academicScores?: AcademicScoreUncheckedCreateNestedManyWithoutStudentInput
+    fcmTokens?: FCMTokenUncheckedCreateNestedManyWithoutStudentInput
+  }
+
+  export type StudentCreateOrConnectWithoutNotificationsInput = {
+    where: StudentWhereUniqueInput
+    create: XOR<StudentCreateWithoutNotificationsInput, StudentUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type StudentUpsertWithoutNotificationsInput = {
+    update: XOR<StudentUpdateWithoutNotificationsInput, StudentUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<StudentCreateWithoutNotificationsInput, StudentUncheckedCreateWithoutNotificationsInput>
+    where?: StudentWhereInput
+  }
+
+  export type StudentUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: StudentWhereInput
+    data: XOR<StudentUpdateWithoutNotificationsInput, StudentUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type StudentUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kelas?: StringFieldUpdateOperationsInput | string
+    angkatan?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: CompetitionRegistrationUpdateManyWithoutStudentNestedInput
+    submissions?: IndependentCompetitionSubmissionUpdateManyWithoutStudentNestedInput
+    achievements?: AchievementUpdateManyWithoutStudentNestedInput
+    academicScores?: AcademicScoreUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUpdateManyWithoutStudentNestedInput
+  }
+
+  export type StudentUncheckedUpdateWithoutNotificationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nisn?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    kelas?: StringFieldUpdateOperationsInput | string
+    angkatan?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrations?: CompetitionRegistrationUncheckedUpdateManyWithoutStudentNestedInput
+    submissions?: IndependentCompetitionSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
+    academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
+    fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type NewsCreateManyAdminInput = {
@@ -23830,6 +26998,22 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type FCMTokenCreateManyStudentInput = {
+    id?: string
+    token: string
+    createdAt?: Date | string
+  }
+
+  export type NotificationCreateManyStudentInput = {
+    id?: string
+    title: string
+    body: string
+    type: string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: boolean
+    createdAt?: Date | string
+  }
+
   export type CompetitionRegistrationUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
@@ -23955,6 +27139,54 @@ export namespace Prisma {
     score?: FloatFieldUpdateOperationsInput | number
     semester?: StringFieldUpdateOperationsInput | string
     year?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FCMTokenUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FCMTokenUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type FCMTokenUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    data?: NullableJsonNullValueInput | InputJsonValue
+    isRead?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
