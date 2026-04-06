@@ -1,5 +1,5 @@
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secret = new TextEncoder().encode(
@@ -32,12 +32,24 @@ export async function verifyJWT(token: string) {
 }
 
 export async function getSession() {
+  // 1. Try to get token from cookies (for Web)
   const cookieStore = await cookies();
-  const token = cookieStore.get("auth_token")?.value;
+  const tokenFromCookie = cookieStore.get("auth_token")?.value;
 
-  if (!token) return null;
+  if (tokenFromCookie) {
+    return await verifyJWT(tokenFromCookie);
+  }
 
-  return await verifyJWT(token);
+  // 2. Try to get token from Authorization header (for Flutter/Mobile)
+  const headerList = await headers();
+  const authHeader = headerList.get("authorization");
+  
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const tokenFromHeader = authHeader.substring(7); // "Bearer <token>"
+    return await verifyJWT(tokenFromHeader);
+  }
+
+  return null;
 }
 
 export async function logout() {
