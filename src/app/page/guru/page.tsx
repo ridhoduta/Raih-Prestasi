@@ -1,42 +1,61 @@
-import { Trophy, Award, Calendar, Newspaper, FilePlus, Bell } from "lucide-react";
-import { getSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function GuruDashboard() {
-  const session = await getSession();
+import { Trophy, Award, Calendar, Bell, FilePlus, Loader2 } from "lucide-react";
+import { useGuruDashboard } from "./hooks/useGuruDashboard";
 
-  if (!session || session.role !== "GURU") {
-    redirect("/page/login");
-  }
-
-  // Fetch real stats from database
-  const [totalPrestasiSiswa, activeCompetitions, pendingSubmissions, announcementsCount] = await Promise.all([
-    prisma.achievement.count({ where: { status: "TERVERIFIKASI" } }),
-    prisma.competition.count({ where: { isActive: true } }),
-    prisma.independentCompetitionSubmission.count({ where: { status: "MENUNGGU" } }),
-    prisma.announcement.count({ where: { isPublished: true } }),
-  ]);
-
-  const stats = {
-    totalPrestasiSiswa,
-    activeCompetitions,
-    pendingSubmissions,
-    announcements: announcementsCount,
-  };
+export default function GuruDashboard() {
+  const { session, stats, loading } = useGuruDashboard();
 
   const statCards = [
-    { label: "Prestasi Siswa", value: stats.totalPrestasiSiswa, icon: Award, color: "bg-emerald-500", trend: "Bulan ini" },
-    { label: "Kompetisi Aktif", value: stats.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Berlangsung" },
-    { label: "Pengajuan Mandiri", value: stats.pendingSubmissions, icon: FilePlus, color: "bg-blue-500", trend: "Menunggu" },
-    { label: "Pengumuman", value: stats.announcements, icon: Bell, color: "bg-emerald-400", trend: "Terbaru" },
+    { label: "Prestasi Siswa", value: stats?.totalPrestasiSiswa, icon: Award, color: "bg-emerald-500", trend: "Bulan ini" },
+    { label: "Kompetisi Aktif", value: stats?.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Berlangsung" },
+    { label: "Pengajuan Mandiri", value: stats?.pendingSubmissions, icon: FilePlus, color: "bg-blue-500", trend: "Menunggu" },
+    { label: "Pengumuman", value: stats?.announcements, icon: Bell, color: "bg-emerald-400", trend: "Terbaru" },
   ];
+
+  if (loading) {
+    return (
+      <div className="space-y-8 animate-pulse">
+        <div>
+          <div className="h-8 w-48 bg-gray-200 rounded-lg"></div>
+          <div className="h-4 w-64 bg-gray-100 rounded-lg mt-2"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex justify-between items-start">
+                <div className="space-y-2">
+                  <div className="h-4 w-24 bg-gray-100 rounded"></div>
+                  <div className="h-8 w-12 bg-gray-200 rounded"></div>
+                </div>
+                <div className="p-3 rounded-xl bg-gray-100 h-12 w-12"></div>
+              </div>
+              <div className="mt-4 h-4 w-16 bg-gray-50 rounded-full"></div>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {[1, 2].map((i) => (
+            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm h-48">
+              <div className="h-6 w-32 bg-gray-100 rounded mb-4"></div>
+              <div className="space-y-4">
+                <div className="h-12 bg-gray-50 rounded-xl"></div>
+                <div className="h-12 bg-gray-50 rounded-xl"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dashboard Guru</h1>
-        <p className="text-gray-500 mt-1">Selamat datang {session.name}, mari pantau prestasi siswa!</p>
+        <p className="text-gray-500 mt-1">Selamat datang {session?.name}, mari pantau prestasi siswa!</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
