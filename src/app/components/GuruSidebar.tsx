@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LayoutDashboard,
   Trophy,
@@ -21,6 +21,11 @@ export default function GuruSidebar() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [pendingCounts, setPendingCounts] = useState({
+    registrations: 0,
+    submissions: 0,
+    achievements: 0,
+  });
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -43,13 +48,28 @@ export default function GuruSidebar() {
       setIsLoggingOut(false);
     }
   };
+  const fetchPendingCounts = async () => {
+    try {
+      const response = await fetch("/api/guru/stats/pending-counts");
+      const json = await response.json();
+      if (json.success) {
+        setPendingCounts(json.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch pending counts", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPendingCounts();
+  }, []);
 
   const menuItems = [
     { name: "Dashboard", href: "/page/guru", icon: LayoutDashboard },
     { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy },
-    { name: "Pendaftaran", href: "/page/guru/registrations", icon: User },
-    { name: "Pengajuan Kompetisi Mandiri", href: "/page/guru/independent-submissions", icon: Send },
-    { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award },
+    { name: "Pendaftaran", href: "/page/guru/registrations", icon: User, count: pendingCounts.registrations },
+    { name: "Pengajuan Mandiri", href: "/page/guru/independent-submissions", icon: Send, count: pendingCounts.submissions },
+    { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award, count: pendingCounts.achievements },
     { name: "Pengumuman", href: "/page/guru/announcements", icon: Newspaper },
     { name: "Ganti Password", href: "/page/guru/change-password", icon: Settings },
   ];
@@ -112,7 +132,14 @@ export default function GuruSidebar() {
                   }`}
               >
                 <Icon size={20} className={isActive ? "text-emerald-600" : "text-gray-400 group-hover:text-gray-600"} />
-                <span>{item.name}</span>
+                <div className="flex-1 flex items-center justify-between">
+                  <span>{item.name}</span>
+                  {(item.count ?? 0) > 0 && (
+                    <span className="flex items-center justify-center min-w-[20px] h-[20px] px-1.5 text-[10px] font-bold text-white bg-red-500 rounded-full shadow-sm animate-in zoom-in duration-300">
+                      {item.count}
+                    </span>
+                  )}
+                </div>
               </Link>
             );
           })}

@@ -83,5 +83,18 @@ export const apiClient = {
       return { success: false, message: "Network error" };
     }
   },
-
+  async uploadFile<T>(url: string, file: File): Promise<ApiResponse<T>> {
+    const formData = new FormData();
+    formData.append("file", file);
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+      return await handleResponse<T>(res);
+    } catch (error) {
+      console.error(`UPLOAD ${url} failed:`, error);
+      return { success: false, message: "Network error" };
+    }
+  },
 };

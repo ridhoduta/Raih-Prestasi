@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const competitionListSelect = {
@@ -51,7 +52,7 @@ export async function GET(req: NextRequest) {
     const data = await prisma.competition.findMany({
       where,
       select: competitionListSelect,
-      orderBy: { createdAt: "asc" },
+      orderBy: { createdAt: "desc" },
       take: limit + 1,
       ...(cursor
         ? {
@@ -84,6 +85,14 @@ export async function GET(req: NextRequest) {
 // =======================
 export async function POST(req: Request) {
   try {
+    const session = await getSession();
+    if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
+      return NextResponse.json(
+        { success: false, message: "Unauthorized: Hanya Guru atau Admin yang dapat membuat kompetisi" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const {
       title,
@@ -93,12 +102,11 @@ export async function POST(req: Request) {
       levelId,
       startDate,
       endDate,
-      createdById,
       formFields,
     } = body;
 
     // Rule 7: Input validation
-    if (!title || !categoryId || !levelId || !startDate || !endDate || !createdById) {
+    if (!title || !categoryId || !levelId || !startDate || !endDate) {
       return NextResponse.json(
         { success: false, message: "Field wajib belum lengkap" },
         { status: 400 }
@@ -115,7 +123,7 @@ export async function POST(req: Request) {
         levelId,
         startDate: new Date(startDate),
         endDate: new Date(endDate),
-        createdBy: createdById,
+        createdBy: session.id,
         CompetitionFormField: {
           create:
             formFields?.map((f: any, idx: number) => ({

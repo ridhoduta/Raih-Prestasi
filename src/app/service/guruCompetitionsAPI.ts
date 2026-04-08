@@ -187,3 +187,7 @@ export async function updateRegistrationStatus(id: string, status: string, note?
 export async function getCompetitionById(id: string) {
   return apiClient.get<Competition>(`${BASE_URL}/${id}`);
 }
+
+export async function uploadThumbnail(file: File) {
+  return apiClient.uploadFile<{ url: { publicUrl: string } }>("/api/upload", file);
+}
