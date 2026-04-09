@@ -1,46 +1,43 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getGuruDashboardStats, GuruDashboardStats } from "@/app/service/guruDashboardAPI";
+import { useQuery } from "@tanstack/react-query";
+import { getSession } from "@/app/service/authService";
 
 export const useGuruDashboard = () => {
     const router = useRouter();
-    const [session, setSession] = useState<any>(null);
-    const [stats, setStats] = useState<GuruDashboardStats | null>(null);
-    const [loading, setLoading] = useState(true);
 
-    const fetchDashboardData = async () => {
-        setLoading(true);
-        try {
-            const [sessionRes, statsRes] = await Promise.all([
-                fetch("/api/auth/session").then(res => res.json()),
-                getGuruDashboardStats()
-            ]);
+    // 1. Fetch Session
+    const sessionQuery = useQuery({
+        queryKey: ["session"],
+        queryFn: getSession,
+        retry: false,
+    });
 
-            if (sessionRes.success) {
-                setSession(sessionRes.data);
-            } else {
-                router.push("/page/login");
-                return;
-            }
-
-            if (statsRes.success && statsRes.data) {
-                setStats(statsRes.data);
-            }
-        } catch (error) {
-            console.error("Dashboard data fetch error:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
+    // 2. Automated Redirect if Unauthorized
     useEffect(() => {
-        fetchDashboardData();
-    }, []);
+        if (sessionQuery.isFetched && !sessionQuery.data?.success) {
+            router.push("/page/login");
+        }
+    }, [sessionQuery.isFetched, sessionQuery.data, router]);
+
+    // 3. Fetch Dashboard Stats (only if session is successful)
+    const statsQuery = useQuery({
+        queryKey: ["guruDashboardStats"],
+        queryFn: async () => {
+            const response = await getGuruDashboardStats();
+            return response.data ?? null;
+        },
+        enabled: !!sessionQuery.data?.success,
+    });
 
     return {
-        session,
-        stats,
-        loading,
-        refresh: fetchDashboardData
+        session: sessionQuery.data?.data ?? null,
+        stats: statsQuery.data,
+        loading: sessionQuery.isLoading || statsQuery.isLoading,
+        refresh: () => {
+            sessionQuery.refetch();
+            statsQuery.refetch();
+        }
     };
 };

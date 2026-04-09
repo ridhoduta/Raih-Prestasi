@@ -61,6 +61,9 @@ export default function GuruDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat) => {
           const Icon = stat.icon;
+          const colorClass = stat.color.replace('bg-', 'text-');
+          const borderClass = stat.color.replace('bg-', 'border-');
+
           return (
             <div key={stat.label} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
               <div className="flex justify-between items-start">
@@ -68,12 +71,12 @@ export default function GuruDashboard() {
                   <p className="text-sm font-medium text-gray-500">{stat.label}</p>
                   <h3 className="text-3xl font-bold text-gray-900 mt-1">{stat.value}</h3>
                 </div>
-                <div className={`p-3 rounded-xl ${stat.color} bg-opacity-10 text-${stat.color.replace('bg-', '')}`}>
-                  <Icon size={24} className={stat.color.replace('bg-', 'text-')} />
+                <div className={`p-3 rounded-xl border-2 ${borderClass} ${colorClass} bg-transparent`}>
+                  <Icon size={24} />
                 </div>
               </div>
               <div className="mt-4 flex items-center gap-1 text-sm">
-                <span className="text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-full text-xs">
+                <span className={`font-medium px-2 py-0.5 rounded-full text-xs ${colorClass} ${stat.color.replace('bg-', 'bg-').replace('500', '50').replace('600', '50').replace('400', '50')}`}>
                   {stat.trend}
                 </span>
               </div>

@@ -7,7 +7,7 @@ export type GuruDashboardStats = {
   announcements: number;
 };
 
-const BASE_URL = "/api/guru/dashboard/stats";
+const BASE_URL = "/api/guru/dashboard";
 
 export async function getGuruDashboardStats() {
   return apiClient.get<GuruDashboardStats>(BASE_URL);
