@@ -3,7 +3,6 @@ import { apiClient, ApiResponse } from "./apiClient";
 export type AnnouncementPayload = {
   title: string;
   content: string;
-  createdBy: string;
   isPublished?: boolean;
 };
 
@@ -12,7 +11,6 @@ export type Announcement = {
   title: string;
   content: string;
   isPublished: boolean;
-  createdBy: string;
   createdAt: string;
   guru?: {
     id: string;

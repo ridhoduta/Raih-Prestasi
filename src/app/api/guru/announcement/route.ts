@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendNotification } from "@/app/service/pushNotif";
+import { getSession } from "@/lib/auth";
 
 const announcementSelect = {
   id: true,
@@ -16,6 +18,8 @@ const announcementSelect = {
     },
   },
 };
+
+
 
 // =======================
 // GET - List Announcements (Cursor Pagination + Select + Search)
@@ -70,14 +74,20 @@ export async function GET(req: NextRequest) {
 // =======================
 export async function POST(req: Request) {
   try {
+    const session = await getSession();
+    if (!session) {
+      return NextResponse.json(
+        { success: false, message: "Anda harus login terlebih dahulu" },
+        { status: 401 }
+      );
+    }
     const body = await req.json();
-    const { title, content, createdBy, isPublished = true } = body;
+    const { title, content, isPublished = true } = body;
 
     // Rule 7: Input validation
     if (
       typeof title !== "string" ||
-      typeof content !== "string" ||
-      typeof createdBy !== "string"
+      typeof content !== "string"
     ) {
       return NextResponse.json(
         { success: false, message: "Format data tidak valid" },
@@ -101,7 +111,7 @@ export async function POST(req: Request) {
 
     // Rule 8: Check guru exists with select
     const guru = await prisma.user.findUnique({
-      where: { id: createdBy },
+      where: { id: session.id },
       select: { id: true },
     });
 
@@ -117,11 +127,43 @@ export async function POST(req: Request) {
       data: {
         title: title.trim(),
         content: content.trim(),
-        createdBy,
+        createdBy: session.id,
         isPublished,
       },
       select: announcementSelect,
     });
+
+    // Create and send notification to all students
+    const students = await prisma.student.findMany({
+      where: { isActive: true },
+      select: { id: true, fcmTokens: true },
+    });
+
+
+    const notificationPromises = students.map(async (student: any) => {
+      const notification = await prisma.notification.create({
+        data: {
+          title: announcement.title,
+          body: announcement.content,
+          type: "ANNOUNCEMENT",
+          isRead: false,
+          studentId: student.id,
+        },
+      });
+
+      // Send push notification if FCM tokens exist
+      if (student.fcmTokens && student.fcmTokens.length > 0) {
+        await sendNotification(
+          student.fcmTokens.map((t: any) => t.token),
+          announcement.title,
+          announcement.content
+        );
+      }
+
+      return notification;
+    });
+
+    await Promise.all(notificationPromises);
 
     return NextResponse.json({
       success: true,
