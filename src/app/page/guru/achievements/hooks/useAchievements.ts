@@ -50,6 +50,7 @@ export function useAchievements() {
         mutationFn: (id: string) => deleteAchievement(id),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["achievements"] });
+            queryClient.invalidateQueries({ queryKey: ["guru", "pending-counts"] });
             showAlert("Success", "Pengajuan berhasil dihapus.", "success");
             setConfirmState(prev => ({ ...prev, isOpen: false }));
         },

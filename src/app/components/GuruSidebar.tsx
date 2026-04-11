@@ -15,17 +15,15 @@ import {
   Send,
   User
 } from "lucide-react";
+import { usePendingCounts } from "@/app/page/guru/hooks/usePendingCounts";
 
 export default function GuruSidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [pendingCounts, setPendingCounts] = useState({
-    registrations: 0,
-    submissions: 0,
-    achievements: 0,
-  });
+
+  const { data: pendingCounts = { registrations: 0, submissions: 0, achievements: 0 } } = usePendingCounts();
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -48,22 +46,6 @@ export default function GuruSidebar() {
       setIsLoggingOut(false);
     }
   };
-  const fetchPendingCounts = async () => {
-    try {
-      const response = await fetch("/api/guru/stats/pending-counts");
-      const json = await response.json();
-      if (json.success) {
-        setPendingCounts(json.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch pending counts", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchPendingCounts();
-  }, []);
-
   const menuItems = [
     { name: "Dashboard", href: "/page/guru", icon: LayoutDashboard },
     { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy },

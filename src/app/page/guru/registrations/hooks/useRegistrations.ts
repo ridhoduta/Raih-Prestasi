@@ -59,6 +59,7 @@ export function useRegistrations() {
         onSuccess: (res, variables) => {
             if (res.success) {
                 queryClient.invalidateQueries({ queryKey: ["registrations"] });
+                queryClient.invalidateQueries({ queryKey: ["guru", "pending-counts"] });
                 setAlertState({
                     isOpen: true,
                     title: "Berhasil",

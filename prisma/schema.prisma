@@ -7,9 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-// ==========================
-// ENUM
-// ==========================
 enum UserRole {
   ADMIN
   GURU
@@ -41,9 +38,6 @@ enum RegistrationStatus {
   DITOLAK
 }
 
-// ==========================
-// USERS (Admin & Guru)
-// ==========================
 model User {
   id         String   @id @default(uuid())
   name       String
@@ -52,9 +46,9 @@ model User {
   role       UserRole
   isActive   Boolean  @default(true)
 
-  // Relations
+
   news                  News[]        @relation("AdminNews")
-  competitions           Competition[] // guru create competition
+  competitions           Competition[]
   reviewedSubmissions    IndependentCompetitionSubmission[]
   announcements          Announcement[]
   verifiedAchievements   Achievement[]
@@ -65,9 +59,6 @@ model User {
   @@map("users")
 }
 
-// ==========================
-// STUDENTS
-// ==========================
 model Student {
   id        String   @id @default(uuid())
   nisn      String   @unique
@@ -82,7 +73,7 @@ model Student {
   achievements    Achievement[]
   academicScores  AcademicScore[]
 
-  // Relations for FCM and Notifications
+
   fcmTokens       FCMToken[]
   notifications   Notification[]
 
@@ -92,9 +83,6 @@ model Student {
   @@map("students")
 }
 
-// ==========================
-// COMPETITION CATEGORIES
-// ==========================
 model CompetitionCategory {
   id        String   @id @default(uuid())
   name      String
@@ -108,9 +96,6 @@ model CompetitionCategory {
   @@map("competition_categories")
 }
 
-// ==========================
-// COMPETITION LEVELS
-// ==========================
 model CompetitionLevel {
   id        String   @id @default(uuid())
   name      String
@@ -125,9 +110,6 @@ model CompetitionLevel {
   @@map("competition_levels")
 }
 
-// ==========================
-// NEWS
-// ==========================
 model News {
   id          String   @id @default(uuid())
   title       String
@@ -144,9 +126,6 @@ model News {
   @@map("news")
 }
 
-// ==========================
-// COMPETITIONS (Guru)
-// ==========================
 model Competition {
   id          String   @id @default(uuid())
   title       String
@@ -174,9 +153,6 @@ model Competition {
   @@map("competitions")
 }
 
-// ==========================
-// REGISTRATIONS
-// ==========================
 
 
 model CompetitionRegistration {
@@ -191,7 +167,7 @@ model CompetitionRegistration {
   status        RegistrationStatus @default(MENUNGGU)
   note          String?
 
-  answers       RegistrationAnswer[] // ⭐ BARU
+  answers       RegistrationAnswer[]
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
@@ -229,9 +205,6 @@ model RegistrationAnswer {
 
 
 
-// ==========================
-// INDEPENDENT SUBMISSIONS
-// ==========================
 
 
 model IndependentCompetitionSubmission {
@@ -257,9 +230,6 @@ model IndependentCompetitionSubmission {
   @@map("independent_competition_submissions")
 }
 
-// ==========================
-// ANNOUNCEMENTS
-// ==========================
 model Announcement {
   id          String   @id @default(uuid())
   title       String
@@ -275,9 +245,6 @@ model Announcement {
   @@map("announcements")
 }
 
-// ==========================
-// ACHIEVEMENTS
-// ==========================
 
 
 model Achievement {
@@ -300,9 +267,6 @@ model Achievement {
   @@map("achievements")
 }
 
-// ==========================
-// ACADEMIC SCORES
-// ==========================
 model AcademicScore {
   id        String   @id @default(uuid())
 
@@ -319,9 +283,6 @@ model AcademicScore {
   @@map("academic_scores")
 }
 
-// ==========================
-// FCM TOKENS
-// ==========================
 model FCMToken {
   id        String   @id @default(uuid())
   token     String   @unique
@@ -332,14 +293,11 @@ model FCMToken {
   @@map("fcm_tokens")
 }
 
-// ==========================
-// NOTIFICATIONS
-// ==========================
 model Notification {
   id        String   @id @default(uuid())
   title     String
   body      String
-  type      String   // ACHIEVEMENT | SUBMISSION | REGISTRATION
+  type      String  
   data      Json?
   isRead    Boolean  @default(false)
   studentId String

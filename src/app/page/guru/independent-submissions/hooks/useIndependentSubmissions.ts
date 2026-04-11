@@ -51,6 +51,7 @@ export function useIndependentSubmissions() {
         onSuccess: (response) => {
             if (response.success) {
                 queryClient.invalidateQueries({ queryKey: ["independent-submissions"] });
+                queryClient.invalidateQueries({ queryKey: ["guru", "pending-counts"] });
                 setConfirmState(prev => ({ ...prev, isOpen: false }));
                 showAlert("Dihapus", "Pengajuan berhasil dihapus.", "success");
             } else {
