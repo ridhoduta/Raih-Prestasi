@@ -6,17 +6,17 @@ interface ActionState {
     studentName: string;
     targetStatus: "DITERIMA" | "DITOLAK" | "";
     note: string;
-    isLoading: boolean;
 }
 
 interface RegistrationActionModalProps {
     actionState: ActionState;
+    isLoading: boolean;
     onClose: () => void;
     onNoteChange: (note: string) => void;
     onConfirm: () => void;
 }
 
-export function RegistrationActionModal({ actionState, onClose, onNoteChange, onConfirm }: RegistrationActionModalProps) {
+export function RegistrationActionModal({ actionState, isLoading, onClose, onNoteChange, onConfirm }: RegistrationActionModalProps) {
     if (!actionState.isOpen) return null;
 
     return (
@@ -39,7 +39,7 @@ export function RegistrationActionModal({ actionState, onClose, onNoteChange, on
                     <label className="text-sm font-medium text-gray-700">Catatan (Opsional)</label>
                     <textarea
                         id="reg-action-note"
-                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm h-24 resize-none"
+                        className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm h-24 resize-none text-gray-600"
                         placeholder="Berikan alasan atau instruksi tambahan..."
                         value={actionState.note}
                         onChange={(e) => onNoteChange(e.target.value)}
@@ -56,11 +56,11 @@ export function RegistrationActionModal({ actionState, onClose, onNoteChange, on
                     <button
                         id="reg-confirm-btn"
                         onClick={onConfirm}
-                        disabled={actionState.isLoading}
+                        disabled={isLoading}
                         className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-white transition-all ${actionState.targetStatus === "DITERIMA" ? "bg-emerald-500 hover:bg-emerald-600" : "bg-red-500 hover:bg-red-600"
                             } disabled:opacity-50`}
                     >
-                        {actionState.isLoading ? <Loader2 size={18} className="animate-spin" /> : "Konfirmasi"}
+                        {isLoading ? <Loader2 size={18} className="animate-spin" /> : "Konfirmasi"}
                     </button>
                 </div>
             </div>

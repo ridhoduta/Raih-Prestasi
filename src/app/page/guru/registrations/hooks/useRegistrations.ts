@@ -118,14 +118,12 @@ export function useRegistrations() {
         studentName: string;
         targetStatus: "DITERIMA" | "DITOLAK" | "";
         note: string;
-        isLoading: boolean;
     }>({
         isOpen: false,
         id: "",
         studentName: "",
         targetStatus: "",
         note: "",
-        isLoading: false,
     });
 
     const [alertState, setAlertState] = useState<{
@@ -181,7 +179,7 @@ export function useRegistrations() {
         setSearchTerm,
         detailModal,
         setDetailModal,
-        actionState,
+        actionState ,
         setActionState,
         alertState,
         setAlertState,

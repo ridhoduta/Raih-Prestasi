@@ -30,6 +30,7 @@ export default function GuruRegistrations() {
         isLoadingMore,
         nextCursor,
         loadMore,
+        isStatusUpdating,
     } = useRegistrations();
 
     const handleActionClick = (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => {
@@ -39,7 +40,6 @@ export default function GuruRegistrations() {
             studentName,
             targetStatus,
             note: "",
-            isLoading: false
         });
     };
 
@@ -128,6 +128,7 @@ export default function GuruRegistrations() {
 
             <RegistrationActionModal
                 actionState={actionState}
+                isLoading={isStatusUpdating}
                 onClose={() => setActionState(prev => ({ ...prev, isOpen: false }))}
                 onNoteChange={(note) => setActionState(prev => ({ ...prev, note }))}
                 onConfirm={handleStatusUpdate}
