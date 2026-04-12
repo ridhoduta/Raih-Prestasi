@@ -142,14 +142,16 @@ export async function POST(req: Request) {
 
     const notificationPromises = students.map(async (student: any) => {
       const notification = await prisma.notification.create({
-        title: announcement.title,
-        body: announcement.content,
-        type: "ANNOUNCEMENT",
         data: {
-          screen: "announcement_detail",
-          id: announcement.id,
+          title: announcement.title,
+          body: announcement.content,
+          type: "ANNOUNCEMENT",
+          data: {
+            screen: "announcement_detail",
+            id: announcement.id,
+          },
+          studentId: student.id,
         },
-        studentId: student.id,
       });
 
       // Send push notification if FCM tokens exist

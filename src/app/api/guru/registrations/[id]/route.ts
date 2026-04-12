@@ -10,7 +10,7 @@ type Context = {
 export async function GET(req: Request, context: Context) {
   try {
     const session = await getSession();
-    if (!session || session.role !== "GURU") {
+    if (!session) {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
         { status: 401 }
