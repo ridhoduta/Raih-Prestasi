@@ -272,6 +272,132 @@ async function main() {
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 10),
             createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Olimpiade Astronomi Internasional",
+            description: "Kompetisi astronomi tingkat internasional.",
+            categoryId: categoriesMap["Sains"],
+            levelId: levelsMap["Internasional"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 20),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Tari Tradisional Provinsi",
+            description: "Ajang pelestarian budaya melalui tari tradisional.",
+            categoryId: categoriesMap["Seni"],
+            levelId: levelsMap["Provinsi"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Kejuaraan Bulutangkis Kabupaten",
+            description: "Turnamen bulutangkis antar pelajar kabupaten.",
+            categoryId: categoriesMap["Olahraga"],
+            levelId: levelsMap["Kabupaten/Kota"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Pidato Bahasa Indonesia Sekolah",
+            description: "Meningkatkan kemampuan orasi dan bahasa Indonesia.",
+            categoryId: categoriesMap["Akademik"],
+            levelId: levelsMap["Sekolah"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Cyber Security Capture The Flag",
+            description: "Kompetisi keamanan siber tingkat nasional.",
+            categoryId: categoriesMap["Teknologi"],
+            levelId: levelsMap["Nasional"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 3),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Olimpiade Ekonomi Nasional",
+            description: "Kompetisi pemahaman ekonomi untuk siswa SMA.",
+            categoryId: categoriesMap["Akademik"],
+            levelId: levelsMap["Nasional"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Vokal Solo Kecamatan",
+            description: "Pencarian bakat menyanyi tingkat kecamatan.",
+            categoryId: categoriesMap["Seni"],
+            levelId: levelsMap["Kecamatan"],
+            startDate: past,
+            endDate: now,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Kejuaraan Renang Tingkat Provinsi",
+            description: "Kompetisi renang antar atlet pelajar provinsi.",
+            categoryId: categoriesMap["Olahraga"],
+            levelId: levelsMap["Provinsi"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 5),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Karya Ilmiah Remaja (KIR)",
+            description: "Penelitian ilmiah inovatif tingkat kabupaten.",
+            categoryId: categoriesMap["Sains"],
+            levelId: levelsMap["Kabupaten/Kota"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Game Development Competition",
+            description: "Membangun game kreatif tingkat internasional.",
+            categoryId: categoriesMap["Teknologi"],
+            levelId: levelsMap["Internasional"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 14),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Kaligrafi Sekolah",
+            description: "Seni menulis indah dalam rangka hari besar.",
+            categoryId: categoriesMap["Seni"],
+            levelId: levelsMap["Sekolah"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 2),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Olimpiade Geografi Nasional",
+            description: "Kompetisi pemahaman bumi dan keruangan.",
+            categoryId: categoriesMap["Sains"],
+            levelId: levelsMap["Nasional"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Turnamen Mobile Legends Lokal",
+            description: "Kompetisi e-sport antar komunitas lokal.",
+            categoryId: categoriesMap["Olahraga"],
+            levelId: levelsMap["Kabupaten/Kota"],
+            startDate: now,
+            endDate: future,
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+        },
+        {
+            title: "Lomba Menulis Cerpen Nasional",
+            description: "Ajang kreativitas menulis cerita pendek.",
+            categoryId: categoriesMap["Akademik"],
+            levelId: levelsMap["Nasional"],
+            startDate: future,
+            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 15),
+            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
         }
     ];
 

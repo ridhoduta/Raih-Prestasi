@@ -6,9 +6,10 @@ interface StatCardProps {
     icon: LucideIcon;
     color: string;
     trend: string;
+    description?: string;
 }
 
-export function StatCard({ label, value, icon: Icon, color, trend }: StatCardProps) {
+export function StatCard({ label, value, icon: Icon, color, trend, description }: StatCardProps) {
     // Extract base color name (e.g., "emerald" from "bg-emerald-500")
     const colorBase = color.replace("bg-", "").replace("-400", "").replace("-500", "").replace("-600", "");
 
@@ -23,10 +24,13 @@ export function StatCard({ label, value, icon: Icon, color, trend }: StatCardPro
                     <Icon size={24} className={`text-${colorBase}-600`} />
                 </div>
             </div>
-            <div className="mt-4 flex items-center gap-1 text-sm">
-                <span className={`text-${colorBase}-600 font-medium bg-${colorBase}-50 px-2 py-0.5 rounded-full text-xs`}>
-                    {trend}
-                </span>
+            <div className="mt-4 flex flex-col gap-2">
+                <div className="flex items-center gap-1 text-sm">
+                    <span className={`text-${colorBase}-600 font-medium bg-${colorBase}-50 px-2 py-0.5 rounded-full text-xs`}>
+                        {trend}
+                    </span>
+                </div>
+                {description && <p className="text-xs text-gray-400 font-medium">{description}</p>}
             </div>
         </div>
     );

@@ -103,7 +103,7 @@ export async function PUT(req: Request, context: Context) {
   // ... existing PUT implementation ...
   try {
     const session = await getSession();
-    if (!session || session.role !== "GURU") {
+    if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
         { status: 401 }
@@ -132,7 +132,7 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
-    if (registration.competition.createdBy !== session.id) {
+    if (session.role !== "ADMIN" && registration.competition.createdBy !== session.id) {
       return NextResponse.json(
         { success: false, message: "Forbidden" },
         { status: 403 }

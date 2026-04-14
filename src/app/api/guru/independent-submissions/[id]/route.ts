@@ -72,7 +72,7 @@ export async function GET(_: Request, context: Context) {
 export async function PUT(req: Request, context: Context) {
   try {
     const session = await getSession();
-    if (!session || session.role !== "GURU") {
+    if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
         { status: 401 }
