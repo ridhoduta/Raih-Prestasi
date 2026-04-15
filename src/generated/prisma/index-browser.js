@@ -244,6 +244,7 @@ exports.Prisma.AchievementScalarFieldEnum = {
   studentId: 'studentId',
   competitionName: 'competitionName',
   result: 'result',
+  points: 'points',
   certificate: 'certificate',
   status: 'status',
   verifiedBy: 'verifiedBy',
@@ -256,8 +257,16 @@ exports.Prisma.AcademicScoreScalarFieldEnum = {
   studentId: 'studentId',
   subject: 'subject',
   score: 'score',
+  academicYear: 'academicYear',
   semester: 'semester',
-  year: 'year',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AcademicFileScalarFieldEnum = {
+  id: 'id',
+  fileUrl: 'fileUrl',
+  academicYear: 'academicYear',
+  semester: 'semester',
   createdAt: 'createdAt'
 };
 
@@ -342,6 +351,11 @@ exports.AchievementStatus = exports.$Enums.AchievementStatus = {
   DITOLAK: 'DITOLAK'
 };
 
+exports.Semester = exports.$Enums.Semester = {
+  GANJIL: 'GANJIL',
+  GENAP: 'GENAP'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Student: 'Student',
@@ -356,6 +370,7 @@ exports.Prisma.ModelName = {
   Announcement: 'Announcement',
   Achievement: 'Achievement',
   AcademicScore: 'AcademicScore',
+  AcademicFile: 'AcademicFile',
   FCMToken: 'FCMToken',
   Notification: 'Notification'
 };

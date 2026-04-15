@@ -79,6 +79,11 @@ export type Achievement = $Result.DefaultSelection<Prisma.$AchievementPayload>
  */
 export type AcademicScore = $Result.DefaultSelection<Prisma.$AcademicScorePayload>
 /**
+ * Model AcademicFile
+ * 
+ */
+export type AcademicFile = $Result.DefaultSelection<Prisma.$AcademicFilePayload>
+/**
  * Model FCMToken
  * 
  */
@@ -141,6 +146,14 @@ export const RegistrationStatus: {
 
 export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]
 
+
+export const Semester: {
+  GANJIL: 'GANJIL',
+  GENAP: 'GENAP'
+};
+
+export type Semester = (typeof Semester)[keyof typeof Semester]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -162,6 +175,10 @@ export const AchievementStatus: typeof $Enums.AchievementStatus
 export type RegistrationStatus = $Enums.RegistrationStatus
 
 export const RegistrationStatus: typeof $Enums.RegistrationStatus
+
+export type Semester = $Enums.Semester
+
+export const Semester: typeof $Enums.Semester
 
 /**
  * ##  Prisma Client ʲˢ
@@ -409,6 +426,16 @@ export class PrismaClient<
     * ```
     */
   get academicScore(): Prisma.AcademicScoreDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.academicFile`: Exposes CRUD operations for the **AcademicFile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AcademicFiles
+    * const academicFiles = await prisma.academicFile.findMany()
+    * ```
+    */
+  get academicFile(): Prisma.AcademicFileDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.fCMToken`: Exposes CRUD operations for the **FCMToken** model.
@@ -876,6 +903,7 @@ export namespace Prisma {
     Announcement: 'Announcement',
     Achievement: 'Achievement',
     AcademicScore: 'AcademicScore',
+    AcademicFile: 'AcademicFile',
     FCMToken: 'FCMToken',
     Notification: 'Notification'
   };
@@ -893,7 +921,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "fCMToken" | "notification"
+      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "academicFile" | "fCMToken" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1859,6 +1887,80 @@ export namespace Prisma {
           }
         }
       }
+      AcademicFile: {
+        payload: Prisma.$AcademicFilePayload<ExtArgs>
+        fields: Prisma.AcademicFileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AcademicFileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AcademicFileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          findFirst: {
+            args: Prisma.AcademicFileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AcademicFileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          findMany: {
+            args: Prisma.AcademicFileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>[]
+          }
+          create: {
+            args: Prisma.AcademicFileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          createMany: {
+            args: Prisma.AcademicFileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AcademicFileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>[]
+          }
+          delete: {
+            args: Prisma.AcademicFileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          update: {
+            args: Prisma.AcademicFileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          deleteMany: {
+            args: Prisma.AcademicFileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AcademicFileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AcademicFileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>[]
+          }
+          upsert: {
+            args: Prisma.AcademicFileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicFilePayload>
+          }
+          aggregate: {
+            args: Prisma.AcademicFileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAcademicFile>
+          }
+          groupBy: {
+            args: Prisma.AcademicFileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AcademicFileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AcademicFileCountArgs<ExtArgs>
+            result: $Utils.Optional<AcademicFileCountAggregateOutputType> | number
+          }
+        }
+      }
       FCMToken: {
         payload: Prisma.$FCMTokenPayload<ExtArgs>
         fields: Prisma.FCMTokenFieldRefs
@@ -2128,6 +2230,7 @@ export namespace Prisma {
     announcement?: AnnouncementOmit
     achievement?: AchievementOmit
     academicScore?: AcademicScoreOmit
+    academicFile?: AcademicFileOmit
     fCMToken?: FCMTokenOmit
     notification?: NotificationOmit
   }
@@ -15134,8 +15237,18 @@ export namespace Prisma {
 
   export type AggregateAchievement = {
     _count: AchievementCountAggregateOutputType | null
+    _avg: AchievementAvgAggregateOutputType | null
+    _sum: AchievementSumAggregateOutputType | null
     _min: AchievementMinAggregateOutputType | null
     _max: AchievementMaxAggregateOutputType | null
+  }
+
+  export type AchievementAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type AchievementSumAggregateOutputType = {
+    points: number | null
   }
 
   export type AchievementMinAggregateOutputType = {
@@ -15143,6 +15256,7 @@ export namespace Prisma {
     studentId: string | null
     competitionName: string | null
     result: string | null
+    points: number | null
     certificate: string | null
     status: $Enums.AchievementStatus | null
     verifiedBy: string | null
@@ -15155,6 +15269,7 @@ export namespace Prisma {
     studentId: string | null
     competitionName: string | null
     result: string | null
+    points: number | null
     certificate: string | null
     status: $Enums.AchievementStatus | null
     verifiedBy: string | null
@@ -15167,6 +15282,7 @@ export namespace Prisma {
     studentId: number
     competitionName: number
     result: number
+    points: number
     certificate: number
     status: number
     verifiedBy: number
@@ -15176,11 +15292,20 @@ export namespace Prisma {
   }
 
 
+  export type AchievementAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type AchievementSumAggregateInputType = {
+    points?: true
+  }
+
   export type AchievementMinAggregateInputType = {
     id?: true
     studentId?: true
     competitionName?: true
     result?: true
+    points?: true
     certificate?: true
     status?: true
     verifiedBy?: true
@@ -15193,6 +15318,7 @@ export namespace Prisma {
     studentId?: true
     competitionName?: true
     result?: true
+    points?: true
     certificate?: true
     status?: true
     verifiedBy?: true
@@ -15205,6 +15331,7 @@ export namespace Prisma {
     studentId?: true
     competitionName?: true
     result?: true
+    points?: true
     certificate?: true
     status?: true
     verifiedBy?: true
@@ -15251,6 +15378,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: AchievementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AchievementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: AchievementMinAggregateInputType
@@ -15281,6 +15420,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: AchievementCountAggregateInputType | true
+    _avg?: AchievementAvgAggregateInputType
+    _sum?: AchievementSumAggregateInputType
     _min?: AchievementMinAggregateInputType
     _max?: AchievementMaxAggregateInputType
   }
@@ -15290,12 +15431,15 @@ export namespace Prisma {
     studentId: string
     competitionName: string
     result: string
+    points: number
     certificate: string | null
     status: $Enums.AchievementStatus
     verifiedBy: string | null
     createdAt: Date
     updatedAt: Date
     _count: AchievementCountAggregateOutputType | null
+    _avg: AchievementAvgAggregateOutputType | null
+    _sum: AchievementSumAggregateOutputType | null
     _min: AchievementMinAggregateOutputType | null
     _max: AchievementMaxAggregateOutputType | null
   }
@@ -15319,6 +15463,7 @@ export namespace Prisma {
     studentId?: boolean
     competitionName?: boolean
     result?: boolean
+    points?: boolean
     certificate?: boolean
     status?: boolean
     verifiedBy?: boolean
@@ -15333,6 +15478,7 @@ export namespace Prisma {
     studentId?: boolean
     competitionName?: boolean
     result?: boolean
+    points?: boolean
     certificate?: boolean
     status?: boolean
     verifiedBy?: boolean
@@ -15347,6 +15493,7 @@ export namespace Prisma {
     studentId?: boolean
     competitionName?: boolean
     result?: boolean
+    points?: boolean
     certificate?: boolean
     status?: boolean
     verifiedBy?: boolean
@@ -15361,6 +15508,7 @@ export namespace Prisma {
     studentId?: boolean
     competitionName?: boolean
     result?: boolean
+    points?: boolean
     certificate?: boolean
     status?: boolean
     verifiedBy?: boolean
@@ -15368,7 +15516,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type AchievementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "competitionName" | "result" | "certificate" | "status" | "verifiedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["achievement"]>
+  export type AchievementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "competitionName" | "result" | "points" | "certificate" | "status" | "verifiedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["achievement"]>
   export type AchievementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
@@ -15393,6 +15541,7 @@ export namespace Prisma {
       studentId: string
       competitionName: string
       result: string
+      points: number
       certificate: string | null
       status: $Enums.AchievementStatus
       verifiedBy: string | null
@@ -15827,6 +15976,7 @@ export namespace Prisma {
     readonly studentId: FieldRef<"Achievement", 'String'>
     readonly competitionName: FieldRef<"Achievement", 'String'>
     readonly result: FieldRef<"Achievement", 'String'>
+    readonly points: FieldRef<"Achievement", 'Int'>
     readonly certificate: FieldRef<"Achievement", 'String'>
     readonly status: FieldRef<"Achievement", 'AchievementStatus'>
     readonly verifiedBy: FieldRef<"Achievement", 'String'>
@@ -16279,12 +16429,10 @@ export namespace Prisma {
 
   export type AcademicScoreAvgAggregateOutputType = {
     score: number | null
-    year: number | null
   }
 
   export type AcademicScoreSumAggregateOutputType = {
     score: number | null
-    year: number | null
   }
 
   export type AcademicScoreMinAggregateOutputType = {
@@ -16292,8 +16440,8 @@ export namespace Prisma {
     studentId: string | null
     subject: string | null
     score: number | null
-    semester: string | null
-    year: number | null
+    academicYear: string | null
+    semester: $Enums.Semester | null
     createdAt: Date | null
   }
 
@@ -16302,8 +16450,8 @@ export namespace Prisma {
     studentId: string | null
     subject: string | null
     score: number | null
-    semester: string | null
-    year: number | null
+    academicYear: string | null
+    semester: $Enums.Semester | null
     createdAt: Date | null
   }
 
@@ -16312,8 +16460,8 @@ export namespace Prisma {
     studentId: number
     subject: number
     score: number
+    academicYear: number
     semester: number
-    year: number
     createdAt: number
     _all: number
   }
@@ -16321,12 +16469,10 @@ export namespace Prisma {
 
   export type AcademicScoreAvgAggregateInputType = {
     score?: true
-    year?: true
   }
 
   export type AcademicScoreSumAggregateInputType = {
     score?: true
-    year?: true
   }
 
   export type AcademicScoreMinAggregateInputType = {
@@ -16334,8 +16480,8 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
+    academicYear?: true
     semester?: true
-    year?: true
     createdAt?: true
   }
 
@@ -16344,8 +16490,8 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
+    academicYear?: true
     semester?: true
-    year?: true
     createdAt?: true
   }
 
@@ -16354,8 +16500,8 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
+    academicYear?: true
     semester?: true
-    year?: true
     createdAt?: true
     _all?: true
   }
@@ -16451,8 +16597,8 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt: Date
     _count: AcademicScoreCountAggregateOutputType | null
     _avg: AcademicScoreAvgAggregateOutputType | null
@@ -16480,8 +16626,8 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
+    academicYear?: boolean
     semester?: boolean
-    year?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
@@ -16491,8 +16637,8 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
+    academicYear?: boolean
     semester?: boolean
-    year?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
@@ -16502,8 +16648,8 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
+    academicYear?: boolean
     semester?: boolean
-    year?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
@@ -16513,12 +16659,12 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
+    academicYear?: boolean
     semester?: boolean
-    year?: boolean
     createdAt?: boolean
   }
 
-  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subject" | "score" | "semester" | "year" | "createdAt", ExtArgs["result"]["academicScore"]>
+  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subject" | "score" | "academicYear" | "semester" | "createdAt", ExtArgs["result"]["academicScore"]>
   export type AcademicScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
   }
@@ -16539,8 +16685,8 @@ export namespace Prisma {
       studentId: string
       subject: string
       score: number
-      semester: string
-      year: number
+      academicYear: string
+      semester: $Enums.Semester
       createdAt: Date
     }, ExtArgs["result"]["academicScore"]>
     composites: {}
@@ -16970,8 +17116,8 @@ export namespace Prisma {
     readonly studentId: FieldRef<"AcademicScore", 'String'>
     readonly subject: FieldRef<"AcademicScore", 'String'>
     readonly score: FieldRef<"AcademicScore", 'Float'>
-    readonly semester: FieldRef<"AcademicScore", 'String'>
-    readonly year: FieldRef<"AcademicScore", 'Int'>
+    readonly academicYear: FieldRef<"AcademicScore", 'String'>
+    readonly semester: FieldRef<"AcademicScore", 'Semester'>
     readonly createdAt: FieldRef<"AcademicScore", 'DateTime'>
   }
     
@@ -17384,6 +17530,1001 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: AcademicScoreInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AcademicFile
+   */
+
+  export type AggregateAcademicFile = {
+    _count: AcademicFileCountAggregateOutputType | null
+    _min: AcademicFileMinAggregateOutputType | null
+    _max: AcademicFileMaxAggregateOutputType | null
+  }
+
+  export type AcademicFileMinAggregateOutputType = {
+    id: string | null
+    fileUrl: string | null
+    academicYear: string | null
+    semester: $Enums.Semester | null
+    createdAt: Date | null
+  }
+
+  export type AcademicFileMaxAggregateOutputType = {
+    id: string | null
+    fileUrl: string | null
+    academicYear: string | null
+    semester: $Enums.Semester | null
+    createdAt: Date | null
+  }
+
+  export type AcademicFileCountAggregateOutputType = {
+    id: number
+    fileUrl: number
+    academicYear: number
+    semester: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AcademicFileMinAggregateInputType = {
+    id?: true
+    fileUrl?: true
+    academicYear?: true
+    semester?: true
+    createdAt?: true
+  }
+
+  export type AcademicFileMaxAggregateInputType = {
+    id?: true
+    fileUrl?: true
+    academicYear?: true
+    semester?: true
+    createdAt?: true
+  }
+
+  export type AcademicFileCountAggregateInputType = {
+    id?: true
+    fileUrl?: true
+    academicYear?: true
+    semester?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AcademicFileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicFile to aggregate.
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicFiles to fetch.
+     */
+    orderBy?: AcademicFileOrderByWithRelationInput | AcademicFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AcademicFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AcademicFiles
+    **/
+    _count?: true | AcademicFileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AcademicFileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AcademicFileMaxAggregateInputType
+  }
+
+  export type GetAcademicFileAggregateType<T extends AcademicFileAggregateArgs> = {
+        [P in keyof T & keyof AggregateAcademicFile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAcademicFile[P]>
+      : GetScalarType<T[P], AggregateAcademicFile[P]>
+  }
+
+
+
+
+  export type AcademicFileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AcademicFileWhereInput
+    orderBy?: AcademicFileOrderByWithAggregationInput | AcademicFileOrderByWithAggregationInput[]
+    by: AcademicFileScalarFieldEnum[] | AcademicFileScalarFieldEnum
+    having?: AcademicFileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AcademicFileCountAggregateInputType | true
+    _min?: AcademicFileMinAggregateInputType
+    _max?: AcademicFileMaxAggregateInputType
+  }
+
+  export type AcademicFileGroupByOutputType = {
+    id: string
+    fileUrl: string
+    academicYear: string
+    semester: $Enums.Semester
+    createdAt: Date
+    _count: AcademicFileCountAggregateOutputType | null
+    _min: AcademicFileMinAggregateOutputType | null
+    _max: AcademicFileMaxAggregateOutputType | null
+  }
+
+  type GetAcademicFileGroupByPayload<T extends AcademicFileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AcademicFileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AcademicFileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AcademicFileGroupByOutputType[P]>
+            : GetScalarType<T[P], AcademicFileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AcademicFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fileUrl?: boolean
+    academicYear?: boolean
+    semester?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["academicFile"]>
+
+  export type AcademicFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fileUrl?: boolean
+    academicYear?: boolean
+    semester?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["academicFile"]>
+
+  export type AcademicFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fileUrl?: boolean
+    academicYear?: boolean
+    semester?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["academicFile"]>
+
+  export type AcademicFileSelectScalar = {
+    id?: boolean
+    fileUrl?: boolean
+    academicYear?: boolean
+    semester?: boolean
+    createdAt?: boolean
+  }
+
+  export type AcademicFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fileUrl" | "academicYear" | "semester" | "createdAt", ExtArgs["result"]["academicFile"]>
+
+  export type $AcademicFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AcademicFile"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      fileUrl: string
+      academicYear: string
+      semester: $Enums.Semester
+      createdAt: Date
+    }, ExtArgs["result"]["academicFile"]>
+    composites: {}
+  }
+
+  type AcademicFileGetPayload<S extends boolean | null | undefined | AcademicFileDefaultArgs> = $Result.GetResult<Prisma.$AcademicFilePayload, S>
+
+  type AcademicFileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AcademicFileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AcademicFileCountAggregateInputType | true
+    }
+
+  export interface AcademicFileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AcademicFile'], meta: { name: 'AcademicFile' } }
+    /**
+     * Find zero or one AcademicFile that matches the filter.
+     * @param {AcademicFileFindUniqueArgs} args - Arguments to find a AcademicFile
+     * @example
+     * // Get one AcademicFile
+     * const academicFile = await prisma.academicFile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AcademicFileFindUniqueArgs>(args: SelectSubset<T, AcademicFileFindUniqueArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AcademicFile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AcademicFileFindUniqueOrThrowArgs} args - Arguments to find a AcademicFile
+     * @example
+     * // Get one AcademicFile
+     * const academicFile = await prisma.academicFile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AcademicFileFindUniqueOrThrowArgs>(args: SelectSubset<T, AcademicFileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicFile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileFindFirstArgs} args - Arguments to find a AcademicFile
+     * @example
+     * // Get one AcademicFile
+     * const academicFile = await prisma.academicFile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AcademicFileFindFirstArgs>(args?: SelectSubset<T, AcademicFileFindFirstArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicFile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileFindFirstOrThrowArgs} args - Arguments to find a AcademicFile
+     * @example
+     * // Get one AcademicFile
+     * const academicFile = await prisma.academicFile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AcademicFileFindFirstOrThrowArgs>(args?: SelectSubset<T, AcademicFileFindFirstOrThrowArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AcademicFiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AcademicFiles
+     * const academicFiles = await prisma.academicFile.findMany()
+     * 
+     * // Get first 10 AcademicFiles
+     * const academicFiles = await prisma.academicFile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const academicFileWithIdOnly = await prisma.academicFile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AcademicFileFindManyArgs>(args?: SelectSubset<T, AcademicFileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AcademicFile.
+     * @param {AcademicFileCreateArgs} args - Arguments to create a AcademicFile.
+     * @example
+     * // Create one AcademicFile
+     * const AcademicFile = await prisma.academicFile.create({
+     *   data: {
+     *     // ... data to create a AcademicFile
+     *   }
+     * })
+     * 
+     */
+    create<T extends AcademicFileCreateArgs>(args: SelectSubset<T, AcademicFileCreateArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AcademicFiles.
+     * @param {AcademicFileCreateManyArgs} args - Arguments to create many AcademicFiles.
+     * @example
+     * // Create many AcademicFiles
+     * const academicFile = await prisma.academicFile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AcademicFileCreateManyArgs>(args?: SelectSubset<T, AcademicFileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AcademicFiles and returns the data saved in the database.
+     * @param {AcademicFileCreateManyAndReturnArgs} args - Arguments to create many AcademicFiles.
+     * @example
+     * // Create many AcademicFiles
+     * const academicFile = await prisma.academicFile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AcademicFiles and only return the `id`
+     * const academicFileWithIdOnly = await prisma.academicFile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AcademicFileCreateManyAndReturnArgs>(args?: SelectSubset<T, AcademicFileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AcademicFile.
+     * @param {AcademicFileDeleteArgs} args - Arguments to delete one AcademicFile.
+     * @example
+     * // Delete one AcademicFile
+     * const AcademicFile = await prisma.academicFile.delete({
+     *   where: {
+     *     // ... filter to delete one AcademicFile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AcademicFileDeleteArgs>(args: SelectSubset<T, AcademicFileDeleteArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AcademicFile.
+     * @param {AcademicFileUpdateArgs} args - Arguments to update one AcademicFile.
+     * @example
+     * // Update one AcademicFile
+     * const academicFile = await prisma.academicFile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AcademicFileUpdateArgs>(args: SelectSubset<T, AcademicFileUpdateArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AcademicFiles.
+     * @param {AcademicFileDeleteManyArgs} args - Arguments to filter AcademicFiles to delete.
+     * @example
+     * // Delete a few AcademicFiles
+     * const { count } = await prisma.academicFile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AcademicFileDeleteManyArgs>(args?: SelectSubset<T, AcademicFileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AcademicFiles
+     * const academicFile = await prisma.academicFile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AcademicFileUpdateManyArgs>(args: SelectSubset<T, AcademicFileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicFiles and returns the data updated in the database.
+     * @param {AcademicFileUpdateManyAndReturnArgs} args - Arguments to update many AcademicFiles.
+     * @example
+     * // Update many AcademicFiles
+     * const academicFile = await prisma.academicFile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AcademicFiles and only return the `id`
+     * const academicFileWithIdOnly = await prisma.academicFile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AcademicFileUpdateManyAndReturnArgs>(args: SelectSubset<T, AcademicFileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AcademicFile.
+     * @param {AcademicFileUpsertArgs} args - Arguments to update or create a AcademicFile.
+     * @example
+     * // Update or create a AcademicFile
+     * const academicFile = await prisma.academicFile.upsert({
+     *   create: {
+     *     // ... data to create a AcademicFile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AcademicFile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AcademicFileUpsertArgs>(args: SelectSubset<T, AcademicFileUpsertArgs<ExtArgs>>): Prisma__AcademicFileClient<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AcademicFiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileCountArgs} args - Arguments to filter AcademicFiles to count.
+     * @example
+     * // Count the number of AcademicFiles
+     * const count = await prisma.academicFile.count({
+     *   where: {
+     *     // ... the filter for the AcademicFiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends AcademicFileCountArgs>(
+      args?: Subset<T, AcademicFileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AcademicFileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AcademicFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AcademicFileAggregateArgs>(args: Subset<T, AcademicFileAggregateArgs>): Prisma.PrismaPromise<GetAcademicFileAggregateType<T>>
+
+    /**
+     * Group by AcademicFile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicFileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AcademicFileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AcademicFileGroupByArgs['orderBy'] }
+        : { orderBy?: AcademicFileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AcademicFileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAcademicFileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AcademicFile model
+   */
+  readonly fields: AcademicFileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AcademicFile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AcademicFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AcademicFile model
+   */
+  interface AcademicFileFieldRefs {
+    readonly id: FieldRef<"AcademicFile", 'String'>
+    readonly fileUrl: FieldRef<"AcademicFile", 'String'>
+    readonly academicYear: FieldRef<"AcademicFile", 'String'>
+    readonly semester: FieldRef<"AcademicFile", 'Semester'>
+    readonly createdAt: FieldRef<"AcademicFile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AcademicFile findUnique
+   */
+  export type AcademicFileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicFile to fetch.
+     */
+    where: AcademicFileWhereUniqueInput
+  }
+
+  /**
+   * AcademicFile findUniqueOrThrow
+   */
+  export type AcademicFileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicFile to fetch.
+     */
+    where: AcademicFileWhereUniqueInput
+  }
+
+  /**
+   * AcademicFile findFirst
+   */
+  export type AcademicFileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicFile to fetch.
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicFiles to fetch.
+     */
+    orderBy?: AcademicFileOrderByWithRelationInput | AcademicFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicFiles.
+     */
+    cursor?: AcademicFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicFiles.
+     */
+    distinct?: AcademicFileScalarFieldEnum | AcademicFileScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicFile findFirstOrThrow
+   */
+  export type AcademicFileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicFile to fetch.
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicFiles to fetch.
+     */
+    orderBy?: AcademicFileOrderByWithRelationInput | AcademicFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicFiles.
+     */
+    cursor?: AcademicFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicFiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicFiles.
+     */
+    distinct?: AcademicFileScalarFieldEnum | AcademicFileScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicFile findMany
+   */
+  export type AcademicFileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter, which AcademicFiles to fetch.
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicFiles to fetch.
+     */
+    orderBy?: AcademicFileOrderByWithRelationInput | AcademicFileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AcademicFiles.
+     */
+    cursor?: AcademicFileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicFiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicFiles.
+     */
+    skip?: number
+    distinct?: AcademicFileScalarFieldEnum | AcademicFileScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicFile create
+   */
+  export type AcademicFileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * The data needed to create a AcademicFile.
+     */
+    data: XOR<AcademicFileCreateInput, AcademicFileUncheckedCreateInput>
+  }
+
+  /**
+   * AcademicFile createMany
+   */
+  export type AcademicFileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AcademicFiles.
+     */
+    data: AcademicFileCreateManyInput | AcademicFileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AcademicFile createManyAndReturn
+   */
+  export type AcademicFileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * The data used to create many AcademicFiles.
+     */
+    data: AcademicFileCreateManyInput | AcademicFileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AcademicFile update
+   */
+  export type AcademicFileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * The data needed to update a AcademicFile.
+     */
+    data: XOR<AcademicFileUpdateInput, AcademicFileUncheckedUpdateInput>
+    /**
+     * Choose, which AcademicFile to update.
+     */
+    where: AcademicFileWhereUniqueInput
+  }
+
+  /**
+   * AcademicFile updateMany
+   */
+  export type AcademicFileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AcademicFiles.
+     */
+    data: XOR<AcademicFileUpdateManyMutationInput, AcademicFileUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicFiles to update
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * Limit how many AcademicFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicFile updateManyAndReturn
+   */
+  export type AcademicFileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * The data used to update AcademicFiles.
+     */
+    data: XOR<AcademicFileUpdateManyMutationInput, AcademicFileUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicFiles to update
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * Limit how many AcademicFiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicFile upsert
+   */
+  export type AcademicFileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * The filter to search for the AcademicFile to update in case it exists.
+     */
+    where: AcademicFileWhereUniqueInput
+    /**
+     * In case the AcademicFile found by the `where` argument doesn't exist, create a new AcademicFile with this data.
+     */
+    create: XOR<AcademicFileCreateInput, AcademicFileUncheckedCreateInput>
+    /**
+     * In case the AcademicFile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AcademicFileUpdateInput, AcademicFileUncheckedUpdateInput>
+  }
+
+  /**
+   * AcademicFile delete
+   */
+  export type AcademicFileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Filter which AcademicFile to delete.
+     */
+    where: AcademicFileWhereUniqueInput
+  }
+
+  /**
+   * AcademicFile deleteMany
+   */
+  export type AcademicFileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicFiles to delete
+     */
+    where?: AcademicFileWhereInput
+    /**
+     * Limit how many AcademicFiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicFile without action
+   */
+  export type AcademicFileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
   }
 
 
@@ -19696,6 +20837,7 @@ export namespace Prisma {
     studentId: 'studentId',
     competitionName: 'competitionName',
     result: 'result',
+    points: 'points',
     certificate: 'certificate',
     status: 'status',
     verifiedBy: 'verifiedBy',
@@ -19711,12 +20853,23 @@ export namespace Prisma {
     studentId: 'studentId',
     subject: 'subject',
     score: 'score',
+    academicYear: 'academicYear',
     semester: 'semester',
-    year: 'year',
     createdAt: 'createdAt'
   };
 
   export type AcademicScoreScalarFieldEnum = (typeof AcademicScoreScalarFieldEnum)[keyof typeof AcademicScoreScalarFieldEnum]
+
+
+  export const AcademicFileScalarFieldEnum: {
+    id: 'id',
+    fileUrl: 'fileUrl',
+    academicYear: 'academicYear',
+    semester: 'semester',
+    createdAt: 'createdAt'
+  };
+
+  export type AcademicFileScalarFieldEnum = (typeof AcademicFileScalarFieldEnum)[keyof typeof AcademicFileScalarFieldEnum]
 
 
   export const FCMTokenScalarFieldEnum: {
@@ -19940,6 +21093,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Semester'
+   */
+  export type EnumSemesterFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Semester'>
+    
+
+
+  /**
+   * Reference to a field of type 'Semester[]'
+   */
+  export type ListEnumSemesterFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Semester[]'>
     
   /**
    * Deep Input Types
@@ -20774,6 +21941,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Achievement"> | string
     competitionName?: StringFilter<"Achievement"> | string
     result?: StringFilter<"Achievement"> | string
+    points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
@@ -20788,6 +21956,7 @@ export namespace Prisma {
     studentId?: SortOrder
     competitionName?: SortOrder
     result?: SortOrder
+    points?: SortOrder
     certificate?: SortOrderInput | SortOrder
     status?: SortOrder
     verifiedBy?: SortOrderInput | SortOrder
@@ -20805,6 +21974,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Achievement"> | string
     competitionName?: StringFilter<"Achievement"> | string
     result?: StringFilter<"Achievement"> | string
+    points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
@@ -20819,14 +21989,17 @@ export namespace Prisma {
     studentId?: SortOrder
     competitionName?: SortOrder
     result?: SortOrder
+    points?: SortOrder
     certificate?: SortOrderInput | SortOrder
     status?: SortOrder
     verifiedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AchievementCountOrderByAggregateInput
+    _avg?: AchievementAvgOrderByAggregateInput
     _max?: AchievementMaxOrderByAggregateInput
     _min?: AchievementMinOrderByAggregateInput
+    _sum?: AchievementSumOrderByAggregateInput
   }
 
   export type AchievementScalarWhereWithAggregatesInput = {
@@ -20837,6 +22010,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"Achievement"> | string
     competitionName?: StringWithAggregatesFilter<"Achievement"> | string
     result?: StringWithAggregatesFilter<"Achievement"> | string
+    points?: IntWithAggregatesFilter<"Achievement"> | number
     certificate?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusWithAggregatesFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
@@ -20852,8 +22026,8 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    semester?: StringFilter<"AcademicScore"> | string
-    year?: IntFilter<"AcademicScore"> | number
+    academicYear?: StringFilter<"AcademicScore"> | string
+    semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
   }
@@ -20863,8 +22037,8 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
+    academicYear?: SortOrder
     semester?: SortOrder
-    year?: SortOrder
     createdAt?: SortOrder
     student?: StudentOrderByWithRelationInput
   }
@@ -20877,8 +22051,8 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    semester?: StringFilter<"AcademicScore"> | string
-    year?: IntFilter<"AcademicScore"> | number
+    academicYear?: StringFilter<"AcademicScore"> | string
+    semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
   }, "id">
@@ -20888,8 +22062,8 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
+    academicYear?: SortOrder
     semester?: SortOrder
-    year?: SortOrder
     createdAt?: SortOrder
     _count?: AcademicScoreCountOrderByAggregateInput
     _avg?: AcademicScoreAvgOrderByAggregateInput
@@ -20906,9 +22080,61 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"AcademicScore"> | string
     subject?: StringWithAggregatesFilter<"AcademicScore"> | string
     score?: FloatWithAggregatesFilter<"AcademicScore"> | number
-    semester?: StringWithAggregatesFilter<"AcademicScore"> | string
-    year?: IntWithAggregatesFilter<"AcademicScore"> | number
+    academicYear?: StringWithAggregatesFilter<"AcademicScore"> | string
+    semester?: EnumSemesterWithAggregatesFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeWithAggregatesFilter<"AcademicScore"> | Date | string
+  }
+
+  export type AcademicFileWhereInput = {
+    AND?: AcademicFileWhereInput | AcademicFileWhereInput[]
+    OR?: AcademicFileWhereInput[]
+    NOT?: AcademicFileWhereInput | AcademicFileWhereInput[]
+    id?: StringFilter<"AcademicFile"> | string
+    fileUrl?: StringFilter<"AcademicFile"> | string
+    academicYear?: StringFilter<"AcademicFile"> | string
+    semester?: EnumSemesterFilter<"AcademicFile"> | $Enums.Semester
+    createdAt?: DateTimeFilter<"AcademicFile"> | Date | string
+  }
+
+  export type AcademicFileOrderByWithRelationInput = {
+    id?: SortOrder
+    fileUrl?: SortOrder
+    academicYear?: SortOrder
+    semester?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AcademicFileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AcademicFileWhereInput | AcademicFileWhereInput[]
+    OR?: AcademicFileWhereInput[]
+    NOT?: AcademicFileWhereInput | AcademicFileWhereInput[]
+    fileUrl?: StringFilter<"AcademicFile"> | string
+    academicYear?: StringFilter<"AcademicFile"> | string
+    semester?: EnumSemesterFilter<"AcademicFile"> | $Enums.Semester
+    createdAt?: DateTimeFilter<"AcademicFile"> | Date | string
+  }, "id">
+
+  export type AcademicFileOrderByWithAggregationInput = {
+    id?: SortOrder
+    fileUrl?: SortOrder
+    academicYear?: SortOrder
+    semester?: SortOrder
+    createdAt?: SortOrder
+    _count?: AcademicFileCountOrderByAggregateInput
+    _max?: AcademicFileMaxOrderByAggregateInput
+    _min?: AcademicFileMinOrderByAggregateInput
+  }
+
+  export type AcademicFileScalarWhereWithAggregatesInput = {
+    AND?: AcademicFileScalarWhereWithAggregatesInput | AcademicFileScalarWhereWithAggregatesInput[]
+    OR?: AcademicFileScalarWhereWithAggregatesInput[]
+    NOT?: AcademicFileScalarWhereWithAggregatesInput | AcademicFileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AcademicFile"> | string
+    fileUrl?: StringWithAggregatesFilter<"AcademicFile"> | string
+    academicYear?: StringWithAggregatesFilter<"AcademicFile"> | string
+    semester?: EnumSemesterWithAggregatesFilter<"AcademicFile"> | $Enums.Semester
+    createdAt?: DateTimeWithAggregatesFilter<"AcademicFile"> | Date | string
   }
 
   export type FCMTokenWhereInput = {
@@ -21924,6 +23150,7 @@ export namespace Prisma {
     id?: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
@@ -21937,6 +23164,7 @@ export namespace Prisma {
     studentId: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
@@ -21948,6 +23176,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21961,6 +23190,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21973,6 +23203,7 @@ export namespace Prisma {
     studentId: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
@@ -21984,6 +23215,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21995,6 +23227,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22006,8 +23239,8 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
     student: StudentCreateNestedOneWithoutAcademicScoresInput
   }
@@ -22017,8 +23250,8 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
   }
 
@@ -22026,8 +23259,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
   }
@@ -22037,8 +23270,8 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22047,8 +23280,8 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
   }
 
@@ -22056,8 +23289,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -22066,8 +23299,64 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileCreateInput = {
+    id?: string
+    fileUrl: string
+    academicYear: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileUncheckedCreateInput = {
+    id?: string
+    fileUrl: string
+    academicYear: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileCreateManyInput = {
+    id?: string
+    fileUrl: string
+    academicYear: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -23036,6 +24325,7 @@ export namespace Prisma {
     studentId?: SortOrder
     competitionName?: SortOrder
     result?: SortOrder
+    points?: SortOrder
     certificate?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
@@ -23043,11 +24333,16 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type AchievementAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
   export type AchievementMaxOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
     competitionName?: SortOrder
     result?: SortOrder
+    points?: SortOrder
     certificate?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
@@ -23060,11 +24355,16 @@ export namespace Prisma {
     studentId?: SortOrder
     competitionName?: SortOrder
     result?: SortOrder
+    points?: SortOrder
     certificate?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type AchievementSumOrderByAggregateInput = {
+    points?: SortOrder
   }
 
   export type EnumAchievementStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -23088,19 +24388,25 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type EnumSemesterFilter<$PrismaModel = never> = {
+    equals?: $Enums.Semester | EnumSemesterFieldRefInput<$PrismaModel>
+    in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    not?: NestedEnumSemesterFilter<$PrismaModel> | $Enums.Semester
+  }
+
   export type AcademicScoreCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
+    academicYear?: SortOrder
     semester?: SortOrder
-    year?: SortOrder
     createdAt?: SortOrder
   }
 
   export type AcademicScoreAvgOrderByAggregateInput = {
     score?: SortOrder
-    year?: SortOrder
   }
 
   export type AcademicScoreMaxOrderByAggregateInput = {
@@ -23108,8 +24414,8 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
+    academicYear?: SortOrder
     semester?: SortOrder
-    year?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -23118,14 +24424,13 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
+    academicYear?: SortOrder
     semester?: SortOrder
-    year?: SortOrder
     createdAt?: SortOrder
   }
 
   export type AcademicScoreSumOrderByAggregateInput = {
     score?: SortOrder
-    year?: SortOrder
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -23142,6 +24447,40 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type EnumSemesterWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Semester | EnumSemesterFieldRefInput<$PrismaModel>
+    in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    not?: NestedEnumSemesterWithAggregatesFilter<$PrismaModel> | $Enums.Semester
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSemesterFilter<$PrismaModel>
+    _max?: NestedEnumSemesterFilter<$PrismaModel>
+  }
+
+  export type AcademicFileCountOrderByAggregateInput = {
+    id?: SortOrder
+    fileUrl?: SortOrder
+    academicYear?: SortOrder
+    semester?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AcademicFileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fileUrl?: SortOrder
+    academicYear?: SortOrder
+    semester?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AcademicFileMinOrderByAggregateInput = {
+    id?: SortOrder
+    fileUrl?: SortOrder
+    academicYear?: SortOrder
+    semester?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type FCMTokenCountOrderByAggregateInput = {
@@ -24168,6 +25507,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type EnumSemesterFieldUpdateOperationsInput = {
+    set?: $Enums.Semester
+  }
+
   export type StudentUpdateOneRequiredWithoutAcademicScoresNestedInput = {
     create?: XOR<StudentCreateWithoutAcademicScoresInput, StudentUncheckedCreateWithoutAcademicScoresInput>
     connectOrCreate?: StudentCreateOrConnectWithoutAcademicScoresInput
@@ -24484,6 +25827,13 @@ export namespace Prisma {
     _max?: NestedEnumAchievementStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumSemesterFilter<$PrismaModel = never> = {
+    equals?: $Enums.Semester | EnumSemesterFieldRefInput<$PrismaModel>
+    in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    not?: NestedEnumSemesterFilter<$PrismaModel> | $Enums.Semester
+  }
+
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -24498,6 +25848,16 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSemesterWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Semester | EnumSemesterFieldRefInput<$PrismaModel>
+    in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
+    not?: NestedEnumSemesterWithAggregatesFilter<$PrismaModel> | $Enums.Semester
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSemesterFilter<$PrismaModel>
+    _max?: NestedEnumSemesterFilter<$PrismaModel>
   }
 
   export type NewsCreateWithoutAdminInput = {
@@ -24640,6 +26000,7 @@ export namespace Prisma {
     id?: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
@@ -24652,6 +26013,7 @@ export namespace Prisma {
     studentId: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
@@ -24818,6 +26180,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Achievement"> | string
     competitionName?: StringFilter<"Achievement"> | string
     result?: StringFilter<"Achievement"> | string
+    points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
@@ -24895,6 +26258,7 @@ export namespace Prisma {
     id?: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
@@ -24906,6 +26270,7 @@ export namespace Prisma {
     id?: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
@@ -24927,8 +26292,8 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
   }
 
@@ -24936,8 +26301,8 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
   }
 
@@ -25088,8 +26453,8 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    semester?: StringFilter<"AcademicScore"> | string
-    year?: IntFilter<"AcademicScore"> | number
+    academicYear?: StringFilter<"AcademicScore"> | string
+    semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
   }
 
@@ -26775,6 +28140,7 @@ export namespace Prisma {
     studentId: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
@@ -26927,6 +28293,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26939,6 +28306,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26950,6 +28318,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26982,6 +28351,7 @@ export namespace Prisma {
     id?: string
     competitionName: string
     result: string
+    points?: number
     certificate?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
@@ -26993,8 +28363,8 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    semester: string
-    year: number
+    academicYear: string
+    semester: $Enums.Semester
     createdAt?: Date | string
   }
 
@@ -27086,6 +28456,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27097,6 +28468,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27108,6 +28480,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     competitionName?: StringFieldUpdateOperationsInput | string
     result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
@@ -27119,8 +28492,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27128,8 +28501,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -27137,8 +28510,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    semester?: StringFieldUpdateOperationsInput | string
-    year?: IntFieldUpdateOperationsInput | number
+    academicYear?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

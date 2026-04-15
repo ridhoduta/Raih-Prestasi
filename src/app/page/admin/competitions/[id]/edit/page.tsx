@@ -192,12 +192,12 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
     const closeAlert = () => {
         setAlertState({ ...alertState, isOpen: false });
         if (alertState.shouldRedirect) {
-            router.push("/page/guru/competitions");
+            router.push("/page/admin/competitions");
         }
     };
 
     const handleCancel = () => {
-        router.push("/page/guru/competitions");
+        router.push("/page/admin/competitions");
     };
 
     if (loading) {

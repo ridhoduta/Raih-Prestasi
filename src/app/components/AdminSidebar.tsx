@@ -64,6 +64,7 @@ export default function AdminSidebar() {
         { name: "Pendaftaran", href: "/page/admin/registrations", icon: ClipboardList, count: pendingCounts.registrations },
         { name: "Pengajuan Mandiri", href: "/page/admin/independent-submissions", icon: FileText, count: pendingCounts.submissions },
         { name: "Prestasi Siswa", href: "/page/admin/achievements", icon: Award, count: pendingCounts.achievements },
+        { name: "Akademik", href: "/page/admin/academic", icon: TrendingUp },
       ]
     },
     {

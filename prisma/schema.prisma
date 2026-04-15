@@ -32,12 +32,17 @@ enum AchievementStatus {
   TERVERIFIKASI
   DITOLAK
 }
+
 enum RegistrationStatus {
   MENUNGGU
   DITERIMA
   DITOLAK
 }
 
+enum Semester {
+  GANJIL
+  GENAP
+}
 model User {
   id         String   @id @default(uuid())
   name       String
@@ -72,7 +77,6 @@ model Student {
   submissions     IndependentCompetitionSubmission[]
   achievements    Achievement[]
   academicScores  AcademicScore[]
-
 
   fcmTokens       FCMToken[]
   notifications   Notification[]
@@ -255,6 +259,7 @@ model Achievement {
 
   competitionName String
   result      String
+  points      Int     @default(0)
   certificate String?
 
   status      AchievementStatus @default(MENUNGGU)
@@ -268,19 +273,31 @@ model Achievement {
 }
 
 model AcademicScore {
-  id        String   @id @default(uuid())
+  id           String   @id @default(uuid())
 
-  studentId String
-  student   Student @relation(fields: [studentId], references: [id])
+  studentId    String
+  student      Student  @relation(fields: [studentId], references: [id])
 
-  subject   String
-  score     Float
-  semester  String
-  year      Int
+  subject      String
+  score        Float
+  academicYear String
+  semester     Semester
 
-  createdAt DateTime @default(now())
+  createdAt    DateTime @default(now())
 
   @@map("academic_scores")
+}
+
+model AcademicFile {
+  id           String   @id @default(uuid())
+
+  fileUrl      String
+  academicYear String
+  semester     Semester
+
+  createdAt    DateTime @default(now())
+
+  @@map("academic_files")
 }
 
 model FCMToken {
