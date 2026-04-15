@@ -29,7 +29,7 @@ function LoginContent() {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error("Failed to login");
+                throw new Error(data.message);
             }
 
             // Successful login
