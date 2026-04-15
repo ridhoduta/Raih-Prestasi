@@ -14,7 +14,7 @@ export async function GET(_: Request, context: Context) {
   if (!studentId) {
     return NextResponse.json({
       success: false,
-      message: "student ID required",
+      message: "ID siswa wajib diisi",
     });
   }
   const data = await prisma.achievement.findMany({
@@ -29,7 +29,7 @@ export async function GET(_: Request, context: Context) {
   });
   return NextResponse.json({
     success: true,
-    message: "berhasil mengmabil data",
+    message: "Berhasil mengambil data",
     data: { data },
   });
 }

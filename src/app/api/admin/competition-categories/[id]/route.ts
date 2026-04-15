@@ -15,7 +15,7 @@ export async function GET(_: Request,  context: Context) {
 
   if (!category) {
     return NextResponse.json(
-      { success: false, message: "Category not found" },
+      { success: false, message: "Kategori tidak ditemukan" },
       { status: 404 }
     );
   }
@@ -52,6 +52,6 @@ export async function DELETE(_: Request, context: Context) {
 
   return NextResponse.json({
     success: true,
-    message: "Category deactivated",
+    message: "Kategori berhasil dinonaktifkan",
   });
 }

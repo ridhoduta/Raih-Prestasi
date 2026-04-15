@@ -8,7 +8,7 @@ export async function GET() {
 
     if (!session || session.role !== "ADMIN") {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }
@@ -144,7 +144,7 @@ export async function GET() {
   } catch (error) {
     console.error("Dashboard Stats Error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch dashboard stats" },
+      { success: false, message: "Gagal mengambil data dashboard" },
       { status: 500 }
     );
   }

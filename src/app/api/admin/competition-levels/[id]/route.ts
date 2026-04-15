@@ -13,7 +13,7 @@ export async function GET(_: Request, context: Context) {
 
   if (!level) {
     return NextResponse.json(
-      { success: false, message: "Competition level not found" },
+      { success: false, message: "Tingkat kompetisi tidak ditemukan" },
       { status: 404 },
     );
   }
@@ -29,7 +29,7 @@ export async function PUT(req: Request, context: Context) {
 
     if (!id) {
       return NextResponse.json(
-        { success: false, message: "Level ID is required" },
+        { success: false, message: "ID tingkat kompetisi wajib diisi" },
         { status: 400 },
       );
     }
@@ -48,12 +48,12 @@ export async function PUT(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Competition level updated",
+      message: "Tingkat kompetisi berhasil diperbarui",
       data: level,
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to update competition level" },
+      { success: false, message: "Gagal memperbarui tingkat kompetisi" },
       { status: 500 },
     );
   }
@@ -65,7 +65,7 @@ export async function DELETE(req: Request, context: Context) {
 
     if (!id) {
       return NextResponse.json(
-        { success: false, message: "Level ID is required" },
+        { success: false, message: "ID tingkat kompetisi wajib diisi" },
         { status: 400 },
       );
     }
@@ -77,11 +77,11 @@ export async function DELETE(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Competition level disabled",
+      message: "Tingkat kompetisi berhasil dinonaktifkan",
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to delete competition level" },
+      { success: false, message: "Gagal menonaktifkan tingkat kompetisi" },
       { status: 500 },
     );
   }

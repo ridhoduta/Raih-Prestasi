@@ -103,7 +103,7 @@ export async function PUT(req: Request, context: Context) {
 
     if (!field) {
       return NextResponse.json(
-        { success: false, message: "Form field not found" },
+        { success: false, message: "Field formulir tidak ditemukan" },
         { status: 404 },
       );
     }
@@ -127,7 +127,7 @@ export async function PUT(req: Request, context: Context) {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: "Failed to update form field" },
+      { success: false, message: "Gagal memperbarui field formulir" },
       { status: 500 },
     );
   }
@@ -155,7 +155,7 @@ export async function DELETE(req: Request, context: Context) {
 
     if (!field) {
       return NextResponse.json(
-        { success: false, message: "Form field not found" },
+        { success: false, message: "Field formulir tidak ditemukan" },
         { status: 404 },
       );
     }
@@ -166,12 +166,12 @@ export async function DELETE(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Form field deleted",
+      message: "Field formulir berhasil dihapus",
     });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: "Failed to delete form field" },
+      { success: false, message: "Gagal menghapus field formulir" },
       { status: 500 },
     );
   }

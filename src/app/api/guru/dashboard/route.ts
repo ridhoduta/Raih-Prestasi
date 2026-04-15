@@ -8,7 +8,7 @@ export async function GET() {
 
     if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }

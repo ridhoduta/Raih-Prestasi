@@ -15,13 +15,13 @@ export async function POST(req: Request) {
     });
     return NextResponse.json({
       success: true,
-      message: "berhasil mengajukan laporan prestasi",
+      message: "Berhasil mengajukan laporan prestasi",
       data: { achievement },
     });
   } catch (e) {
     return NextResponse.json({
       success: false,
-      message: "gagal mengajukan laporan prestasi coba koreksi",
+      message: "Gagal mengajukan laporan prestasi, periksa kembali data Anda",
     });
   }
 }

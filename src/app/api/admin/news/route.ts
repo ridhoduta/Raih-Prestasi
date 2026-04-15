@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("GET /api/admin/news error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch news" },
+      { success: false, message: "Gagal mengambil daftar berita" },
       { status: 500 }
     );
   }
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
     // Rule 7: Input validation
     if (!title || !content) {
       return NextResponse.json(
-        { success: false, message: "title and content are required" },
+        { success: false, message: "Judul dan konten wajib diisi" },
         { status: 400 }
       );
     }
@@ -100,7 +100,7 @@ export async function POST(req: Request) {
 
     if (!authorId) {
       return NextResponse.json(
-        { success: false, message: "No user found to assign as author" },
+        { success: false, message: "Admin tidak ditemukan untuk mengaitkan penulis" },
         { status: 500 }
       );
     }
@@ -119,7 +119,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "News created",
+      message: "Berita berhasil dibuat",
       data: news,
     });
   } catch (error) {

@@ -88,7 +88,7 @@ export async function POST(req: Request) {
     const session = await getSession();
     if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized: Hanya Guru atau Admin yang dapat membuat kompetisi" },
+        { success: false, message: "Anda tidak memiliki akses: Hanya Guru atau Admin yang dapat membuat kompetisi" },
         { status: 401 }
       );
     }

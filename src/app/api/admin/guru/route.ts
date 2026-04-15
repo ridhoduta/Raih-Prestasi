@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     console.error("GET /api/admin/guru error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch gurus" },
+      { success: false, message: "Gagal mengambil daftar guru" },
       { status: 500 }
     );
   }
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
     // Rule 7: Input validation
     if (!name || !email || !password) {
       return NextResponse.json(
-        { success: false, message: "name, email, password are required" },
+        { success: false, message: "Nama, email, dan password wajib diisi" },
         { status: 400 }
       );
     }
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
 
     if (existing) {
       return NextResponse.json(
-        { success: false, message: "Email already in use" },
+        { success: false, message: "Email sudah digunakan" },
         { status: 400 }
       );
     }
@@ -104,13 +104,13 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Guru created",
+      message: "Guru berhasil ditambahkan",
       data: guru,
     });
   } catch (error) {
     console.error("POST /api/admin/guru error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to create guru" },
+      { success: false, message: "Gagal menambahkan guru" },
       { status: 500 }
     );
   }

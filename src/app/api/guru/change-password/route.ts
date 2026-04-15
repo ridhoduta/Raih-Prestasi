@@ -9,7 +9,7 @@ export async function PUT(req: Request) {
 
         if (!session || session.role !== "GURU") {
             return NextResponse.json(
-                { success: false, message: "Unauthorized" },
+                { success: false, message: "Anda tidak memiliki akses" },
                 { status: 401 }
             );
         }

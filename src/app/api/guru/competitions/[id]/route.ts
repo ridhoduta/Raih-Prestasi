@@ -48,7 +48,7 @@ export async function GET(req: Request, context: Context) {
 
     if (!competition) {
       return NextResponse.json(
-        { success: false, message: "Competition not found" },
+        { success: false, message: "Kompetisi tidak ditemukan" },
         { status: 404 }
       );
     }
@@ -60,7 +60,7 @@ export async function GET(req: Request, context: Context) {
   } catch (error) {
     console.error("GET /api/guru/competitions/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch competition" },
+      { success: false, message: "Gagal mengambil data kompetisi" },
       { status: 500 }
     );
   }
@@ -110,7 +110,7 @@ export async function PUT(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Competition updated",
+      message: "Kompetisi berhasil diperbarui",
       data: competition,
     });
   } catch (error) {
@@ -132,7 +132,7 @@ export async function DELETE(_: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Competition deleted",
+      message: "Kompetisi berhasil dihapus",
     });
   } catch (error) {
     console.error("DELETE /api/guru/competitions/[id] error:", error);

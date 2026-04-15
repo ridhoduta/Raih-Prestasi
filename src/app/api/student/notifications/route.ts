@@ -6,7 +6,7 @@ export async function GET(req: Request) {
   try {
     const session = await getSession();
     if (!session || !session.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ success: false, message: "Anda tidak memiliki akses" }, { status: 401 });
     }
 
     const { searchParams } = new URL(req.url);
@@ -33,7 +33,7 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     console.error("GET /api/student/notifications error:", error);
-    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Terjadi kesalahan pada server" }, { status: 500 });
   }
 }
 
@@ -41,7 +41,7 @@ export async function PATCH(req: Request) {
   try {
     const session = await getSession();
     if (!session || !session.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ success: false, message: "Anda tidak memiliki akses" }, { status: 401 });
     }
 
     const body = await req.json();
@@ -61,9 +61,9 @@ export async function PATCH(req: Request) {
       });
     }
 
-    return NextResponse.json({ success: true, message: "Notification updated" });
+    return NextResponse.json({ success: true, message: "Notifikasi berhasil diperbarui" });
   } catch (error) {
     console.error("PATCH /api/student/notifications error:", error);
-    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Terjadi kesalahan pada server" }, { status: 500 });
   }
 }

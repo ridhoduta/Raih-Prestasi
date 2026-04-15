@@ -6,14 +6,14 @@ export async function POST(req: Request) {
   try {
     const session = await getSession();
     if (!session || !session.id) {
-      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ success: false, message: "Anda tidak memiliki akses" }, { status: 401 });
     }
 
     const body = await req.json();
     const { token } = body;
     
     if (!token) {
-      return NextResponse.json({ success: false, message: "Token is required" }, { status: 400 });
+      return NextResponse.json({ success: false, message: "Token wajib diisi" }, { status: 400 });
     }
 
     // Upsert token: if exists, it stays. If not, create.
@@ -23,9 +23,9 @@ export async function POST(req: Request) {
       create: { token, studentId: session.id },
     });
 
-    return NextResponse.json({ success: true, message: "Token saved successfully" });
+    return NextResponse.json({ success: true, message: "Token berhasil disimpan" });
   } catch (error) {
     console.error("POST /api/student/fcm-token error:", error);
-    return NextResponse.json({ success: false, message: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ success: false, message: "Terjadi kesalahan pada server" }, { status: 500 });
   }
 }

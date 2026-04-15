@@ -32,7 +32,7 @@ export async function GET(_: Request, context: Context) {
 
     if (!news) {
       return NextResponse.json(
-        { success: false, message: "News not found" },
+        { success: false, message: "Berita tidak ditemukan" },
         { status: 404 }
       );
     }
@@ -44,7 +44,7 @@ export async function GET(_: Request, context: Context) {
   } catch (error) {
     console.error("GET /api/admin/news/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch news" },
+      { success: false, message: "Gagal mengambil data berita" },
       { status: 500 }
     );
   }
@@ -67,13 +67,13 @@ export async function PUT(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "News updated",
+      message: "Berita berhasil diperbarui",
       data: news,
     });
   } catch (error) {
     console.error("PUT /api/admin/news/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to update news" },
+      { success: false, message: "Gagal memperbarui berita" },
       { status: 500 }
     );
   }
@@ -92,12 +92,12 @@ export async function DELETE(_: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "News deleted",
+      message: "Berita berhasil dihapus",
     });
   } catch (error) {
     console.error("DELETE /api/admin/news/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to delete news" },
+      { success: false, message: "Gagal menghapus berita" },
       { status: 500 }
     );
   }

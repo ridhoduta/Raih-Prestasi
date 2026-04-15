@@ -29,7 +29,7 @@ export async function GET(_: Request, context: Context) {
 
     if (!guru) {
       return NextResponse.json(
-        { success: false, message: "Guru not found" },
+        { success: false, message: "Guru tidak ditemukan" },
         { status: 404 }
       );
     }
@@ -41,7 +41,7 @@ export async function GET(_: Request, context: Context) {
   } catch (error) {
     console.error("GET /api/admin/guru/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch guru" },
+      { success: false, message: "Gagal mengambil data guru" },
       { status: 500 }
     );
   }
@@ -73,7 +73,7 @@ export async function PUT(req: Request, context: Context) {
 
       if (existing) {
         return NextResponse.json(
-          { success: false, message: "Email already in use" },
+          { success: false, message: "Email sudah digunakan" },
           { status: 400 }
         );
       }
@@ -92,13 +92,13 @@ export async function PUT(req: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Guru updated",
+      message: "Data guru berhasil diperbarui",
       data: guru,
     });
   } catch (error) {
     console.error("PUT /api/admin/guru/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to update guru" },
+      { success: false, message: "Gagal memperbarui data guru" },
       { status: 500 }
     );
   }
@@ -119,12 +119,12 @@ export async function DELETE(_: Request, context: Context) {
 
     return NextResponse.json({
       success: true,
-      message: "Guru deactivated",
+      message: "Akun guru berhasil dinonaktifkan",
     });
   } catch (error) {
     console.error("DELETE /api/admin/guru/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to delete guru" },
+      { success: false, message: "Gagal menonaktifkan guru" },
       { status: 500 }
     );
   }

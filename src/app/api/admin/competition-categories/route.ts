@@ -15,7 +15,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to fetch categories" },
+      { success: false, message: "Gagal mengambil daftar kategori" },
       { status: 500 }
     );
   }
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
     if (!name) {
       return NextResponse.json(
-        { success: false, message: "Name is required" },
+        { success: false, message: "Nama kategori wajib diisi" },
         { status: 400 }
       );
     }
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to create category" },
+      { success: false, message: "Gagal membuat kategori" },
       { status: 500 }
     );
   }

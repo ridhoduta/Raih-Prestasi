@@ -17,7 +17,7 @@ export async function GET() {
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to fetch competition levels" },
+      { success: false, message: "Gagal mengambil daftar tingkat kompetisi" },
       { status: 500 },
     );
   }
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     if (!name || order === undefined) {
       return NextResponse.json(
-        { success: false, message: "Name and order are required" },
+        { success: false, message: "Nama dan urutan wajib diisi" },
         { status: 400 },
       );
     }
@@ -47,12 +47,12 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      message: "Competition level created",
+      message: "Tingkat kompetisi berhasil ditambahkan",
       data: level,
     });
   } catch (error) {
     return NextResponse.json(
-      { success: false, message: "Failed to create competition level" },
+      { success: false, message: "Gagal menambahkan tingkat kompetisi" },
       { status: 500 },
     );
   }

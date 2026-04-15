@@ -9,7 +9,7 @@ export async function POST(request: Request) {
 
     if ((!email && !nisn) || !password) {
       return NextResponse.json(
-        { message: "Email/NISN and password are required" },
+        { message: "Email/NISN dan password wajib diisi" },
         { status: 400 }
       );
     }
@@ -31,14 +31,14 @@ export async function POST(request: Request) {
 
     if (!user) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Email/NISN atau kata sandi salah" },
         { status: 401 }
       );
     }
 
     if (!user.isActive) {
       return NextResponse.json(
-        { message: "Account is inactive" },
+        { message: "Akun tidak aktif" },
         { status: 403 }
       );
     }
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
     if (!passwordMatch) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Email/NISN atau kata sandi salah" },
         { status: 401 }
       );
     }
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
     const response = NextResponse.json(
       { 
-        message: "Login successful",
+        message: "Login berhasil",
         token: token,
         user: {
           id: user.id,
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(
-      { message: "Internal server error" },
+      { message: "Terjadi kesalahan pada server" },
       { status: 500 }
     );
   }

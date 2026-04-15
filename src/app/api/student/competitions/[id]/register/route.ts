@@ -38,11 +38,14 @@ export async function POST(req: Request, context: Context) {
       );
     }
 
-    // 🔒 Cegah double daftar
+    // 🔒 Cegah double daftar (kecuali jika sebelumnya ditolak)
     const existing = await prisma.competitionRegistration.findFirst({
       where: {
         competitionId,
         studentId,
+        status: {
+          not: "DITOLAK",
+        },
       },
     });
 

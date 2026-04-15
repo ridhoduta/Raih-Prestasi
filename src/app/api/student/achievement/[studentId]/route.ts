@@ -14,7 +14,7 @@ export async function GET(req: Request, context: Context) {
   if (!studentId) {
     return NextResponse.json({
       success: false,
-      message: "student ID required",
+      message: "ID siswa wajib diisi",
     }, { status: 400 });
   }
 
@@ -43,7 +43,7 @@ export async function GET(req: Request, context: Context) {
 
   return NextResponse.json({
     success: true,
-    message: "berhasil mengambil data",
+    message: "Berhasil mengambil data",
     data,
     nextCursor,
   });

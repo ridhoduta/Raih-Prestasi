@@ -12,7 +12,7 @@ export async function GET(req: Request, context: Context) {
     const session = await getSession();
     if (!session) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }
@@ -80,7 +80,7 @@ export async function GET(req: Request, context: Context) {
     /*
     if (registration.competition.createdBy !== session.id) {
        return NextResponse.json(
-        { success: false, message: "Forbidden" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 403 }
       );
     }
@@ -105,7 +105,7 @@ export async function PUT(req: Request, context: Context) {
     const session = await getSession();
     if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }
@@ -134,7 +134,7 @@ export async function PUT(req: Request, context: Context) {
 
     if (session.role !== "ADMIN" && registration.competition.createdBy !== session.id) {
       return NextResponse.json(
-        { success: false, message: "Forbidden" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 403 }
       );
     }

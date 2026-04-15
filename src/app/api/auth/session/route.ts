@@ -7,7 +7,7 @@ export async function GET() {
     
     if (!session) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }
@@ -19,7 +19,7 @@ export async function GET() {
   } catch (error) {
     console.error("Session fetch error:", error);
     return NextResponse.json(
-      { success: false, message: "Internal server error" },
+      { success: false, message: "Terjadi kesalahan pada server" },
       { status: 500 }
     );
   }

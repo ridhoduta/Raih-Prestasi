@@ -67,7 +67,7 @@ export async function PUT(request: Request, context: Context) {
     const session = await getSession();
     if (!session || session.role !== "GURU") {
       return NextResponse.json(
-        { success: false, message: "Unauthorized" },
+        { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
       );
     }
