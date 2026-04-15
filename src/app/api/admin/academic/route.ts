@@ -6,7 +6,7 @@ import { getSession } from "@/app/service/authService";
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") || undefined;
-    const academicYear = searchParams.get("academicYear") || undefined;
+    const yearId = searchParams.get("yearId") || undefined;
     const semester = (searchParams.get("semester") as Semester) || undefined;
 
     try {
@@ -28,7 +28,7 @@ export async function GET(request: Request) {
             include: {
                 academicScores: {
                     where: {
-                        academicYear: academicYear,
+                        yearId: yearId,
                         semester: semester,
                     },
                 },
@@ -60,13 +60,13 @@ export async function POST(request: Request) {
         const { action, data } = body;
 
         if (action === "saveScores") {
-            const { studentId, scores, academicYear, semester } = data;
+            const { studentId, scores, yearId, semester } = data;
 
             // Upsert pattern or Delete and Create
             await prisma.academicScore.deleteMany({
                 where: {
                     studentId,
-                    academicYear,
+                    yearId,
                     semester,
                 }
             });
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
                     studentId,
                     subject: s.subject,
                     score: parseFloat(s.score),
-                    academicYear,
+                    yearId,
                     semester,
                 }))
             });
@@ -85,11 +85,11 @@ export async function POST(request: Request) {
         }
 
         if (action === "saveAcademicFile") {
-            const { fileUrl, academicYear, semester } = data;
+            const { fileUrl, yearId, semester } = data;
             const result = await prisma.academicFile.create({
                 data: {
                     fileUrl,
-                    academicYear,
+                    yearId,
                     semester,
                 }
             });

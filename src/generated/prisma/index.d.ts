@@ -84,6 +84,11 @@ export type AcademicScore = $Result.DefaultSelection<Prisma.$AcademicScorePayloa
  */
 export type AcademicFile = $Result.DefaultSelection<Prisma.$AcademicFilePayload>
 /**
+ * Model AcademicYear
+ * 
+ */
+export type AcademicYear = $Result.DefaultSelection<Prisma.$AcademicYearPayload>
+/**
  * Model FCMToken
  * 
  */
@@ -436,6 +441,16 @@ export class PrismaClient<
     * ```
     */
   get academicFile(): Prisma.AcademicFileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.academicYear`: Exposes CRUD operations for the **AcademicYear** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AcademicYears
+    * const academicYears = await prisma.academicYear.findMany()
+    * ```
+    */
+  get academicYear(): Prisma.AcademicYearDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.fCMToken`: Exposes CRUD operations for the **FCMToken** model.
@@ -904,6 +919,7 @@ export namespace Prisma {
     Achievement: 'Achievement',
     AcademicScore: 'AcademicScore',
     AcademicFile: 'AcademicFile',
+    AcademicYear: 'AcademicYear',
     FCMToken: 'FCMToken',
     Notification: 'Notification'
   };
@@ -921,7 +937,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "academicFile" | "fCMToken" | "notification"
+      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "academicFile" | "academicYear" | "fCMToken" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1961,6 +1977,80 @@ export namespace Prisma {
           }
         }
       }
+      AcademicYear: {
+        payload: Prisma.$AcademicYearPayload<ExtArgs>
+        fields: Prisma.AcademicYearFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AcademicYearFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AcademicYearFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          findFirst: {
+            args: Prisma.AcademicYearFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AcademicYearFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          findMany: {
+            args: Prisma.AcademicYearFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          create: {
+            args: Prisma.AcademicYearCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          createMany: {
+            args: Prisma.AcademicYearCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AcademicYearCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          delete: {
+            args: Prisma.AcademicYearDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          update: {
+            args: Prisma.AcademicYearUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          deleteMany: {
+            args: Prisma.AcademicYearDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AcademicYearUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AcademicYearUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>[]
+          }
+          upsert: {
+            args: Prisma.AcademicYearUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AcademicYearPayload>
+          }
+          aggregate: {
+            args: Prisma.AcademicYearAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAcademicYear>
+          }
+          groupBy: {
+            args: Prisma.AcademicYearGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AcademicYearGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AcademicYearCountArgs<ExtArgs>
+            result: $Utils.Optional<AcademicYearCountAggregateOutputType> | number
+          }
+        }
+      }
       FCMToken: {
         payload: Prisma.$FCMTokenPayload<ExtArgs>
         fields: Prisma.FCMTokenFieldRefs
@@ -2231,6 +2321,7 @@ export namespace Prisma {
     achievement?: AchievementOmit
     academicScore?: AcademicScoreOmit
     academicFile?: AcademicFileOmit
+    academicYear?: AcademicYearOmit
     fCMToken?: FCMTokenOmit
     notification?: NotificationOmit
   }
@@ -2612,6 +2703,46 @@ export namespace Prisma {
    */
   export type CompetitionFormFieldCountOutputTypeCountRegistrationAnswerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RegistrationAnswerWhereInput
+  }
+
+
+  /**
+   * Count Type AcademicYearCountOutputType
+   */
+
+  export type AcademicYearCountOutputType = {
+    academicScore: number
+    academicFile: number
+  }
+
+  export type AcademicYearCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    academicScore?: boolean | AcademicYearCountOutputTypeCountAcademicScoreArgs
+    academicFile?: boolean | AcademicYearCountOutputTypeCountAcademicFileArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYearCountOutputType
+     */
+    select?: AcademicYearCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeCountAcademicScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AcademicScoreWhereInput
+  }
+
+  /**
+   * AcademicYearCountOutputType without action
+   */
+  export type AcademicYearCountOutputTypeCountAcademicFileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AcademicFileWhereInput
   }
 
 
@@ -16440,7 +16571,7 @@ export namespace Prisma {
     studentId: string | null
     subject: string | null
     score: number | null
-    academicYear: string | null
+    yearId: string | null
     semester: $Enums.Semester | null
     createdAt: Date | null
   }
@@ -16450,7 +16581,7 @@ export namespace Prisma {
     studentId: string | null
     subject: string | null
     score: number | null
-    academicYear: string | null
+    yearId: string | null
     semester: $Enums.Semester | null
     createdAt: Date | null
   }
@@ -16460,7 +16591,7 @@ export namespace Prisma {
     studentId: number
     subject: number
     score: number
-    academicYear: number
+    yearId: number
     semester: number
     createdAt: number
     _all: number
@@ -16480,7 +16611,7 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
   }
@@ -16490,7 +16621,7 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
   }
@@ -16500,7 +16631,7 @@ export namespace Prisma {
     studentId?: true
     subject?: true
     score?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
     _all?: true
@@ -16597,7 +16728,7 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt: Date
     _count: AcademicScoreCountAggregateOutputType | null
@@ -16626,10 +16757,11 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16637,10 +16769,11 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16648,10 +16781,11 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectScalar = {
@@ -16659,33 +16793,37 @@ export namespace Prisma {
     studentId?: boolean
     subject?: boolean
     score?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
   }
 
-  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subject" | "score" | "academicYear" | "semester" | "createdAt", ExtArgs["result"]["academicScore"]>
+  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subject" | "score" | "yearId" | "semester" | "createdAt", ExtArgs["result"]["academicScore"]>
   export type AcademicScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
   export type AcademicScoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
   export type AcademicScoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
 
   export type $AcademicScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AcademicScore"
     objects: {
       student: Prisma.$StudentPayload<ExtArgs>
+      academicYear: Prisma.$AcademicYearPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       studentId: string
       subject: string
       score: number
-      academicYear: string
+      yearId: string
       semester: $Enums.Semester
       createdAt: Date
     }, ExtArgs["result"]["academicScore"]>
@@ -17083,6 +17221,7 @@ export namespace Prisma {
   export interface Prisma__AcademicScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    academicYear<T extends AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYearDefaultArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17116,7 +17255,7 @@ export namespace Prisma {
     readonly studentId: FieldRef<"AcademicScore", 'String'>
     readonly subject: FieldRef<"AcademicScore", 'String'>
     readonly score: FieldRef<"AcademicScore", 'Float'>
-    readonly academicYear: FieldRef<"AcademicScore", 'String'>
+    readonly yearId: FieldRef<"AcademicScore", 'String'>
     readonly semester: FieldRef<"AcademicScore", 'Semester'>
     readonly createdAt: FieldRef<"AcademicScore", 'DateTime'>
   }
@@ -17546,7 +17685,7 @@ export namespace Prisma {
   export type AcademicFileMinAggregateOutputType = {
     id: string | null
     fileUrl: string | null
-    academicYear: string | null
+    yearId: string | null
     semester: $Enums.Semester | null
     createdAt: Date | null
   }
@@ -17554,7 +17693,7 @@ export namespace Prisma {
   export type AcademicFileMaxAggregateOutputType = {
     id: string | null
     fileUrl: string | null
-    academicYear: string | null
+    yearId: string | null
     semester: $Enums.Semester | null
     createdAt: Date | null
   }
@@ -17562,7 +17701,7 @@ export namespace Prisma {
   export type AcademicFileCountAggregateOutputType = {
     id: number
     fileUrl: number
-    academicYear: number
+    yearId: number
     semester: number
     createdAt: number
     _all: number
@@ -17572,7 +17711,7 @@ export namespace Prisma {
   export type AcademicFileMinAggregateInputType = {
     id?: true
     fileUrl?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
   }
@@ -17580,7 +17719,7 @@ export namespace Prisma {
   export type AcademicFileMaxAggregateInputType = {
     id?: true
     fileUrl?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
   }
@@ -17588,7 +17727,7 @@ export namespace Prisma {
   export type AcademicFileCountAggregateInputType = {
     id?: true
     fileUrl?: true
-    academicYear?: true
+    yearId?: true
     semester?: true
     createdAt?: true
     _all?: true
@@ -17669,7 +17808,7 @@ export namespace Prisma {
   export type AcademicFileGroupByOutputType = {
     id: string
     fileUrl: string
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt: Date
     _count: AcademicFileCountAggregateOutputType | null
@@ -17694,44 +17833,58 @@ export namespace Prisma {
   export type AcademicFileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fileUrl?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicFile"]>
 
   export type AcademicFileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fileUrl?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicFile"]>
 
   export type AcademicFileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     fileUrl?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicFile"]>
 
   export type AcademicFileSelectScalar = {
     id?: boolean
     fileUrl?: boolean
-    academicYear?: boolean
+    yearId?: boolean
     semester?: boolean
     createdAt?: boolean
   }
 
-  export type AcademicFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fileUrl" | "academicYear" | "semester" | "createdAt", ExtArgs["result"]["academicFile"]>
+  export type AcademicFileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fileUrl" | "yearId" | "semester" | "createdAt", ExtArgs["result"]["academicFile"]>
+  export type AcademicFileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
+  }
+  export type AcademicFileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
+  }
+  export type AcademicFileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
+  }
 
   export type $AcademicFilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AcademicFile"
-    objects: {}
+    objects: {
+      academicYear: Prisma.$AcademicYearPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       fileUrl: string
-      academicYear: string
+      yearId: string
       semester: $Enums.Semester
       createdAt: Date
     }, ExtArgs["result"]["academicFile"]>
@@ -18128,6 +18281,7 @@ export namespace Prisma {
    */
   export interface Prisma__AcademicFileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    academicYear<T extends AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYearDefaultArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18159,7 +18313,7 @@ export namespace Prisma {
   interface AcademicFileFieldRefs {
     readonly id: FieldRef<"AcademicFile", 'String'>
     readonly fileUrl: FieldRef<"AcademicFile", 'String'>
-    readonly academicYear: FieldRef<"AcademicFile", 'String'>
+    readonly yearId: FieldRef<"AcademicFile", 'String'>
     readonly semester: FieldRef<"AcademicFile", 'Semester'>
     readonly createdAt: FieldRef<"AcademicFile", 'DateTime'>
   }
@@ -18179,6 +18333,10 @@ export namespace Prisma {
      */
     omit?: AcademicFileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicFile to fetch.
      */
     where: AcademicFileWhereUniqueInput
@@ -18197,6 +18355,10 @@ export namespace Prisma {
      */
     omit?: AcademicFileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicFile to fetch.
      */
     where: AcademicFileWhereUniqueInput
@@ -18214,6 +18376,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicFile
      */
     omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
     /**
      * Filter, which AcademicFile to fetch.
      */
@@ -18263,6 +18429,10 @@ export namespace Prisma {
      */
     omit?: AcademicFileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicFile to fetch.
      */
     where?: AcademicFileWhereInput
@@ -18311,6 +18481,10 @@ export namespace Prisma {
      */
     omit?: AcademicFileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    /**
      * Filter, which AcademicFiles to fetch.
      */
     where?: AcademicFileWhereInput
@@ -18354,6 +18528,10 @@ export namespace Prisma {
      */
     omit?: AcademicFileOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    /**
      * The data needed to create a AcademicFile.
      */
     data: XOR<AcademicFileCreateInput, AcademicFileUncheckedCreateInput>
@@ -18387,6 +18565,10 @@ export namespace Prisma {
      */
     data: AcademicFileCreateManyInput | AcademicFileCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -18401,6 +18583,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicFile
      */
     omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
     /**
      * The data needed to update a AcademicFile.
      */
@@ -18453,6 +18639,10 @@ export namespace Prisma {
      * Limit how many AcademicFiles to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -18467,6 +18657,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicFile
      */
     omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
     /**
      * The filter to search for the AcademicFile to update in case it exists.
      */
@@ -18493,6 +18687,10 @@ export namespace Prisma {
      * Omit specific fields from the AcademicFile
      */
     omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
     /**
      * Filter which AcademicFile to delete.
      */
@@ -18525,6 +18723,1095 @@ export namespace Prisma {
      * Omit specific fields from the AcademicFile
      */
     omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AcademicYear
+   */
+
+  export type AggregateAcademicYear = {
+    _count: AcademicYearCountAggregateOutputType | null
+    _min: AcademicYearMinAggregateOutputType | null
+    _max: AcademicYearMaxAggregateOutputType | null
+  }
+
+  export type AcademicYearMinAggregateOutputType = {
+    id: string | null
+    year: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AcademicYearMaxAggregateOutputType = {
+    id: string | null
+    year: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type AcademicYearCountAggregateOutputType = {
+    id: number
+    year: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type AcademicYearMinAggregateInputType = {
+    id?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AcademicYearMaxAggregateInputType = {
+    id?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type AcademicYearCountAggregateInputType = {
+    id?: true
+    year?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type AcademicYearAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicYear to aggregate.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AcademicYears
+    **/
+    _count?: true | AcademicYearCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AcademicYearMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AcademicYearMaxAggregateInputType
+  }
+
+  export type GetAcademicYearAggregateType<T extends AcademicYearAggregateArgs> = {
+        [P in keyof T & keyof AggregateAcademicYear]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAcademicYear[P]>
+      : GetScalarType<T[P], AggregateAcademicYear[P]>
+  }
+
+
+
+
+  export type AcademicYearGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AcademicYearWhereInput
+    orderBy?: AcademicYearOrderByWithAggregationInput | AcademicYearOrderByWithAggregationInput[]
+    by: AcademicYearScalarFieldEnum[] | AcademicYearScalarFieldEnum
+    having?: AcademicYearScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AcademicYearCountAggregateInputType | true
+    _min?: AcademicYearMinAggregateInputType
+    _max?: AcademicYearMaxAggregateInputType
+  }
+
+  export type AcademicYearGroupByOutputType = {
+    id: string
+    year: string
+    createdAt: Date
+    updatedAt: Date
+    _count: AcademicYearCountAggregateOutputType | null
+    _min: AcademicYearMinAggregateOutputType | null
+    _max: AcademicYearMaxAggregateOutputType | null
+  }
+
+  type GetAcademicYearGroupByPayload<T extends AcademicYearGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AcademicYearGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AcademicYearGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AcademicYearGroupByOutputType[P]>
+            : GetScalarType<T[P], AcademicYearGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AcademicYearSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    academicScore?: boolean | AcademicYear$academicScoreArgs<ExtArgs>
+    academicFile?: boolean | AcademicYear$academicFileArgs<ExtArgs>
+    _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["academicYear"]>
+
+  export type AcademicYearSelectScalar = {
+    id?: boolean
+    year?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type AcademicYearOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "createdAt" | "updatedAt", ExtArgs["result"]["academicYear"]>
+  export type AcademicYearInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    academicScore?: boolean | AcademicYear$academicScoreArgs<ExtArgs>
+    academicFile?: boolean | AcademicYear$academicFileArgs<ExtArgs>
+    _count?: boolean | AcademicYearCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type AcademicYearIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type AcademicYearIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $AcademicYearPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AcademicYear"
+    objects: {
+      academicScore: Prisma.$AcademicScorePayload<ExtArgs>[]
+      academicFile: Prisma.$AcademicFilePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      year: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["academicYear"]>
+    composites: {}
+  }
+
+  type AcademicYearGetPayload<S extends boolean | null | undefined | AcademicYearDefaultArgs> = $Result.GetResult<Prisma.$AcademicYearPayload, S>
+
+  type AcademicYearCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AcademicYearFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AcademicYearCountAggregateInputType | true
+    }
+
+  export interface AcademicYearDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AcademicYear'], meta: { name: 'AcademicYear' } }
+    /**
+     * Find zero or one AcademicYear that matches the filter.
+     * @param {AcademicYearFindUniqueArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AcademicYearFindUniqueArgs>(args: SelectSubset<T, AcademicYearFindUniqueArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one AcademicYear that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AcademicYearFindUniqueOrThrowArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AcademicYearFindUniqueOrThrowArgs>(args: SelectSubset<T, AcademicYearFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicYear that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindFirstArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AcademicYearFindFirstArgs>(args?: SelectSubset<T, AcademicYearFindFirstArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first AcademicYear that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindFirstOrThrowArgs} args - Arguments to find a AcademicYear
+     * @example
+     * // Get one AcademicYear
+     * const academicYear = await prisma.academicYear.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AcademicYearFindFirstOrThrowArgs>(args?: SelectSubset<T, AcademicYearFindFirstOrThrowArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more AcademicYears that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AcademicYears
+     * const academicYears = await prisma.academicYear.findMany()
+     * 
+     * // Get first 10 AcademicYears
+     * const academicYears = await prisma.academicYear.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AcademicYearFindManyArgs>(args?: SelectSubset<T, AcademicYearFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a AcademicYear.
+     * @param {AcademicYearCreateArgs} args - Arguments to create a AcademicYear.
+     * @example
+     * // Create one AcademicYear
+     * const AcademicYear = await prisma.academicYear.create({
+     *   data: {
+     *     // ... data to create a AcademicYear
+     *   }
+     * })
+     * 
+     */
+    create<T extends AcademicYearCreateArgs>(args: SelectSubset<T, AcademicYearCreateArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many AcademicYears.
+     * @param {AcademicYearCreateManyArgs} args - Arguments to create many AcademicYears.
+     * @example
+     * // Create many AcademicYears
+     * const academicYear = await prisma.academicYear.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AcademicYearCreateManyArgs>(args?: SelectSubset<T, AcademicYearCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AcademicYears and returns the data saved in the database.
+     * @param {AcademicYearCreateManyAndReturnArgs} args - Arguments to create many AcademicYears.
+     * @example
+     * // Create many AcademicYears
+     * const academicYear = await prisma.academicYear.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AcademicYears and only return the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AcademicYearCreateManyAndReturnArgs>(args?: SelectSubset<T, AcademicYearCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a AcademicYear.
+     * @param {AcademicYearDeleteArgs} args - Arguments to delete one AcademicYear.
+     * @example
+     * // Delete one AcademicYear
+     * const AcademicYear = await prisma.academicYear.delete({
+     *   where: {
+     *     // ... filter to delete one AcademicYear
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AcademicYearDeleteArgs>(args: SelectSubset<T, AcademicYearDeleteArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one AcademicYear.
+     * @param {AcademicYearUpdateArgs} args - Arguments to update one AcademicYear.
+     * @example
+     * // Update one AcademicYear
+     * const academicYear = await prisma.academicYear.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AcademicYearUpdateArgs>(args: SelectSubset<T, AcademicYearUpdateArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more AcademicYears.
+     * @param {AcademicYearDeleteManyArgs} args - Arguments to filter AcademicYears to delete.
+     * @example
+     * // Delete a few AcademicYears
+     * const { count } = await prisma.academicYear.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AcademicYearDeleteManyArgs>(args?: SelectSubset<T, AcademicYearDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicYears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AcademicYears
+     * const academicYear = await prisma.academicYear.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AcademicYearUpdateManyArgs>(args: SelectSubset<T, AcademicYearUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AcademicYears and returns the data updated in the database.
+     * @param {AcademicYearUpdateManyAndReturnArgs} args - Arguments to update many AcademicYears.
+     * @example
+     * // Update many AcademicYears
+     * const academicYear = await prisma.academicYear.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more AcademicYears and only return the `id`
+     * const academicYearWithIdOnly = await prisma.academicYear.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AcademicYearUpdateManyAndReturnArgs>(args: SelectSubset<T, AcademicYearUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one AcademicYear.
+     * @param {AcademicYearUpsertArgs} args - Arguments to update or create a AcademicYear.
+     * @example
+     * // Update or create a AcademicYear
+     * const academicYear = await prisma.academicYear.upsert({
+     *   create: {
+     *     // ... data to create a AcademicYear
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AcademicYear we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AcademicYearUpsertArgs>(args: SelectSubset<T, AcademicYearUpsertArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of AcademicYears.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearCountArgs} args - Arguments to filter AcademicYears to count.
+     * @example
+     * // Count the number of AcademicYears
+     * const count = await prisma.academicYear.count({
+     *   where: {
+     *     // ... the filter for the AcademicYears we want to count
+     *   }
+     * })
+    **/
+    count<T extends AcademicYearCountArgs>(
+      args?: Subset<T, AcademicYearCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AcademicYearCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AcademicYear.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AcademicYearAggregateArgs>(args: Subset<T, AcademicYearAggregateArgs>): Prisma.PrismaPromise<GetAcademicYearAggregateType<T>>
+
+    /**
+     * Group by AcademicYear.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AcademicYearGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AcademicYearGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AcademicYearGroupByArgs['orderBy'] }
+        : { orderBy?: AcademicYearGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AcademicYearGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAcademicYearGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AcademicYear model
+   */
+  readonly fields: AcademicYearFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AcademicYear.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AcademicYearClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    academicScore<T extends AcademicYear$academicScoreArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYear$academicScoreArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    academicFile<T extends AcademicYear$academicFileArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYear$academicFileArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AcademicFilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AcademicYear model
+   */
+  interface AcademicYearFieldRefs {
+    readonly id: FieldRef<"AcademicYear", 'String'>
+    readonly year: FieldRef<"AcademicYear", 'String'>
+    readonly createdAt: FieldRef<"AcademicYear", 'DateTime'>
+    readonly updatedAt: FieldRef<"AcademicYear", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AcademicYear findUnique
+   */
+  export type AcademicYearFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear findUniqueOrThrow
+   */
+  export type AcademicYearFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear findFirst
+   */
+  export type AcademicYearFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicYears.
+     */
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear findFirstOrThrow
+   */
+  export type AcademicYearFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter, which AcademicYear to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AcademicYears.
+     */
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear findMany
+   */
+  export type AcademicYearFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter, which AcademicYears to fetch.
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AcademicYears to fetch.
+     */
+    orderBy?: AcademicYearOrderByWithRelationInput | AcademicYearOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AcademicYears.
+     */
+    cursor?: AcademicYearWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AcademicYears from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AcademicYears.
+     */
+    skip?: number
+    distinct?: AcademicYearScalarFieldEnum | AcademicYearScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear create
+   */
+  export type AcademicYearCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * The data needed to create a AcademicYear.
+     */
+    data: XOR<AcademicYearCreateInput, AcademicYearUncheckedCreateInput>
+  }
+
+  /**
+   * AcademicYear createMany
+   */
+  export type AcademicYearCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AcademicYears.
+     */
+    data: AcademicYearCreateManyInput | AcademicYearCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AcademicYear createManyAndReturn
+   */
+  export type AcademicYearCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data used to create many AcademicYears.
+     */
+    data: AcademicYearCreateManyInput | AcademicYearCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AcademicYear update
+   */
+  export type AcademicYearUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * The data needed to update a AcademicYear.
+     */
+    data: XOR<AcademicYearUpdateInput, AcademicYearUncheckedUpdateInput>
+    /**
+     * Choose, which AcademicYear to update.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear updateMany
+   */
+  export type AcademicYearUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AcademicYears.
+     */
+    data: XOR<AcademicYearUpdateManyMutationInput, AcademicYearUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicYears to update
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear updateManyAndReturn
+   */
+  export type AcademicYearUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * The data used to update AcademicYears.
+     */
+    data: XOR<AcademicYearUpdateManyMutationInput, AcademicYearUncheckedUpdateManyInput>
+    /**
+     * Filter which AcademicYears to update
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear upsert
+   */
+  export type AcademicYearUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * The filter to search for the AcademicYear to update in case it exists.
+     */
+    where: AcademicYearWhereUniqueInput
+    /**
+     * In case the AcademicYear found by the `where` argument doesn't exist, create a new AcademicYear with this data.
+     */
+    create: XOR<AcademicYearCreateInput, AcademicYearUncheckedCreateInput>
+    /**
+     * In case the AcademicYear was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AcademicYearUpdateInput, AcademicYearUncheckedUpdateInput>
+  }
+
+  /**
+   * AcademicYear delete
+   */
+  export type AcademicYearDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
+    /**
+     * Filter which AcademicYear to delete.
+     */
+    where: AcademicYearWhereUniqueInput
+  }
+
+  /**
+   * AcademicYear deleteMany
+   */
+  export type AcademicYearDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AcademicYears to delete
+     */
+    where?: AcademicYearWhereInput
+    /**
+     * Limit how many AcademicYears to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * AcademicYear.academicScore
+   */
+  export type AcademicYear$academicScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicScore
+     */
+    select?: AcademicScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicScore
+     */
+    omit?: AcademicScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicScoreInclude<ExtArgs> | null
+    where?: AcademicScoreWhereInput
+    orderBy?: AcademicScoreOrderByWithRelationInput | AcademicScoreOrderByWithRelationInput[]
+    cursor?: AcademicScoreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AcademicScoreScalarFieldEnum | AcademicScoreScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear.academicFile
+   */
+  export type AcademicYear$academicFileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicFile
+     */
+    select?: AcademicFileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicFile
+     */
+    omit?: AcademicFileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicFileInclude<ExtArgs> | null
+    where?: AcademicFileWhereInput
+    orderBy?: AcademicFileOrderByWithRelationInput | AcademicFileOrderByWithRelationInput[]
+    cursor?: AcademicFileWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AcademicFileScalarFieldEnum | AcademicFileScalarFieldEnum[]
+  }
+
+  /**
+   * AcademicYear without action
+   */
+  export type AcademicYearDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicYear
+     */
+    select?: AcademicYearSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicYear
+     */
+    omit?: AcademicYearOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicYearInclude<ExtArgs> | null
   }
 
 
@@ -20853,7 +22140,7 @@ export namespace Prisma {
     studentId: 'studentId',
     subject: 'subject',
     score: 'score',
-    academicYear: 'academicYear',
+    yearId: 'yearId',
     semester: 'semester',
     createdAt: 'createdAt'
   };
@@ -20864,12 +22151,22 @@ export namespace Prisma {
   export const AcademicFileScalarFieldEnum: {
     id: 'id',
     fileUrl: 'fileUrl',
-    academicYear: 'academicYear',
+    yearId: 'yearId',
     semester: 'semester',
     createdAt: 'createdAt'
   };
 
   export type AcademicFileScalarFieldEnum = (typeof AcademicFileScalarFieldEnum)[keyof typeof AcademicFileScalarFieldEnum]
+
+
+  export const AcademicYearScalarFieldEnum: {
+    id: 'id',
+    year: 'year',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type AcademicYearScalarFieldEnum = (typeof AcademicYearScalarFieldEnum)[keyof typeof AcademicYearScalarFieldEnum]
 
 
   export const FCMTokenScalarFieldEnum: {
@@ -22026,10 +23323,11 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    academicYear?: StringFilter<"AcademicScore"> | string
+    yearId?: StringFilter<"AcademicScore"> | string
     semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
   }
 
   export type AcademicScoreOrderByWithRelationInput = {
@@ -22037,10 +23335,11 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
     student?: StudentOrderByWithRelationInput
+    academicYear?: AcademicYearOrderByWithRelationInput
   }
 
   export type AcademicScoreWhereUniqueInput = Prisma.AtLeast<{
@@ -22051,10 +23350,11 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    academicYear?: StringFilter<"AcademicScore"> | string
+    yearId?: StringFilter<"AcademicScore"> | string
     semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
   }, "id">
 
   export type AcademicScoreOrderByWithAggregationInput = {
@@ -22062,7 +23362,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
     _count?: AcademicScoreCountOrderByAggregateInput
@@ -22080,7 +23380,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"AcademicScore"> | string
     subject?: StringWithAggregatesFilter<"AcademicScore"> | string
     score?: FloatWithAggregatesFilter<"AcademicScore"> | number
-    academicYear?: StringWithAggregatesFilter<"AcademicScore"> | string
+    yearId?: StringWithAggregatesFilter<"AcademicScore"> | string
     semester?: EnumSemesterWithAggregatesFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeWithAggregatesFilter<"AcademicScore"> | Date | string
   }
@@ -22091,17 +23391,19 @@ export namespace Prisma {
     NOT?: AcademicFileWhereInput | AcademicFileWhereInput[]
     id?: StringFilter<"AcademicFile"> | string
     fileUrl?: StringFilter<"AcademicFile"> | string
-    academicYear?: StringFilter<"AcademicFile"> | string
+    yearId?: StringFilter<"AcademicFile"> | string
     semester?: EnumSemesterFilter<"AcademicFile"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicFile"> | Date | string
+    academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
   }
 
   export type AcademicFileOrderByWithRelationInput = {
     id?: SortOrder
     fileUrl?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
+    academicYear?: AcademicYearOrderByWithRelationInput
   }
 
   export type AcademicFileWhereUniqueInput = Prisma.AtLeast<{
@@ -22110,15 +23412,16 @@ export namespace Prisma {
     OR?: AcademicFileWhereInput[]
     NOT?: AcademicFileWhereInput | AcademicFileWhereInput[]
     fileUrl?: StringFilter<"AcademicFile"> | string
-    academicYear?: StringFilter<"AcademicFile"> | string
+    yearId?: StringFilter<"AcademicFile"> | string
     semester?: EnumSemesterFilter<"AcademicFile"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicFile"> | Date | string
+    academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
   }, "id">
 
   export type AcademicFileOrderByWithAggregationInput = {
     id?: SortOrder
     fileUrl?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
     _count?: AcademicFileCountOrderByAggregateInput
@@ -22132,9 +23435,62 @@ export namespace Prisma {
     NOT?: AcademicFileScalarWhereWithAggregatesInput | AcademicFileScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AcademicFile"> | string
     fileUrl?: StringWithAggregatesFilter<"AcademicFile"> | string
-    academicYear?: StringWithAggregatesFilter<"AcademicFile"> | string
+    yearId?: StringWithAggregatesFilter<"AcademicFile"> | string
     semester?: EnumSemesterWithAggregatesFilter<"AcademicFile"> | $Enums.Semester
     createdAt?: DateTimeWithAggregatesFilter<"AcademicFile"> | Date | string
+  }
+
+  export type AcademicYearWhereInput = {
+    AND?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    OR?: AcademicYearWhereInput[]
+    NOT?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    id?: StringFilter<"AcademicYear"> | string
+    year?: StringFilter<"AcademicYear"> | string
+    createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    academicScore?: AcademicScoreListRelationFilter
+    academicFile?: AcademicFileListRelationFilter
+  }
+
+  export type AcademicYearOrderByWithRelationInput = {
+    id?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    academicScore?: AcademicScoreOrderByRelationAggregateInput
+    academicFile?: AcademicFileOrderByRelationAggregateInput
+  }
+
+  export type AcademicYearWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    OR?: AcademicYearWhereInput[]
+    NOT?: AcademicYearWhereInput | AcademicYearWhereInput[]
+    year?: StringFilter<"AcademicYear"> | string
+    createdAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeFilter<"AcademicYear"> | Date | string
+    academicScore?: AcademicScoreListRelationFilter
+    academicFile?: AcademicFileListRelationFilter
+  }, "id">
+
+  export type AcademicYearOrderByWithAggregationInput = {
+    id?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: AcademicYearCountOrderByAggregateInput
+    _max?: AcademicYearMaxOrderByAggregateInput
+    _min?: AcademicYearMinOrderByAggregateInput
+  }
+
+  export type AcademicYearScalarWhereWithAggregatesInput = {
+    AND?: AcademicYearScalarWhereWithAggregatesInput | AcademicYearScalarWhereWithAggregatesInput[]
+    OR?: AcademicYearScalarWhereWithAggregatesInput[]
+    NOT?: AcademicYearScalarWhereWithAggregatesInput | AcademicYearScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AcademicYear"> | string
+    year?: StringWithAggregatesFilter<"AcademicYear"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"AcademicYear"> | Date | string
   }
 
   export type FCMTokenWhereInput = {
@@ -23239,10 +24595,10 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    academicYear: string
     semester: $Enums.Semester
     createdAt?: Date | string
     student: StudentCreateNestedOneWithoutAcademicScoresInput
+    academicYear: AcademicYearCreateNestedOneWithoutAcademicScoreInput
   }
 
   export type AcademicScoreUncheckedCreateInput = {
@@ -23250,7 +24606,7 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -23259,10 +24615,10 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
+    academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput
   }
 
   export type AcademicScoreUncheckedUpdateInput = {
@@ -23270,7 +24626,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23280,7 +24636,7 @@ export namespace Prisma {
     studentId: string
     subject: string
     score: number
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -23289,7 +24645,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23299,7 +24654,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23307,15 +24662,15 @@ export namespace Prisma {
   export type AcademicFileCreateInput = {
     id?: string
     fileUrl: string
-    academicYear: string
     semester: $Enums.Semester
     createdAt?: Date | string
+    academicYear: AcademicYearCreateNestedOneWithoutAcademicFileInput
   }
 
   export type AcademicFileUncheckedCreateInput = {
     id?: string
     fileUrl: string
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -23323,15 +24678,15 @@ export namespace Prisma {
   export type AcademicFileUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicFileNestedInput
   }
 
   export type AcademicFileUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23339,7 +24694,7 @@ export namespace Prisma {
   export type AcademicFileCreateManyInput = {
     id?: string
     fileUrl: string
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -23347,7 +24702,6 @@ export namespace Prisma {
   export type AcademicFileUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23355,9 +24709,66 @@ export namespace Prisma {
   export type AcademicFileUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearCreateInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreCreateNestedManyWithoutAcademicYearInput
+    academicFile?: AcademicFileCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearUncheckedCreateInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedManyWithoutAcademicYearInput
+    academicFile?: AcademicFileUncheckedCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUpdateManyWithoutAcademicYearNestedInput
+    academicFile?: AcademicFileUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateManyWithoutAcademicYearNestedInput
+    academicFile?: AcademicFileUncheckedUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearCreateManyInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AcademicYearUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicYearUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FCMTokenCreateInput = {
@@ -24395,12 +25806,17 @@ export namespace Prisma {
     not?: NestedEnumSemesterFilter<$PrismaModel> | $Enums.Semester
   }
 
+  export type AcademicYearScalarRelationFilter = {
+    is?: AcademicYearWhereInput
+    isNot?: AcademicYearWhereInput
+  }
+
   export type AcademicScoreCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
   }
@@ -24414,7 +25830,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
   }
@@ -24424,7 +25840,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
   }
@@ -24462,7 +25878,7 @@ export namespace Prisma {
   export type AcademicFileCountOrderByAggregateInput = {
     id?: SortOrder
     fileUrl?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
   }
@@ -24470,7 +25886,7 @@ export namespace Prisma {
   export type AcademicFileMaxOrderByAggregateInput = {
     id?: SortOrder
     fileUrl?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
   }
@@ -24478,9 +25894,40 @@ export namespace Prisma {
   export type AcademicFileMinOrderByAggregateInput = {
     id?: SortOrder
     fileUrl?: SortOrder
-    academicYear?: SortOrder
+    yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
+  }
+
+  export type AcademicFileListRelationFilter = {
+    every?: AcademicFileWhereInput
+    some?: AcademicFileWhereInput
+    none?: AcademicFileWhereInput
+  }
+
+  export type AcademicFileOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AcademicYearCountOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearMaxOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type AcademicYearMinOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type FCMTokenCountOrderByAggregateInput = {
@@ -25499,6 +26946,12 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput
   }
 
+  export type AcademicYearCreateNestedOneWithoutAcademicScoreInput = {
+    create?: XOR<AcademicYearCreateWithoutAcademicScoreInput, AcademicYearUncheckedCreateWithoutAcademicScoreInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutAcademicScoreInput
+    connect?: AcademicYearWhereUniqueInput
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -25517,6 +26970,112 @@ export namespace Prisma {
     upsert?: StudentUpsertWithoutAcademicScoresInput
     connect?: StudentWhereUniqueInput
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAcademicScoresInput, StudentUpdateWithoutAcademicScoresInput>, StudentUncheckedUpdateWithoutAcademicScoresInput>
+  }
+
+  export type AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput = {
+    create?: XOR<AcademicYearCreateWithoutAcademicScoreInput, AcademicYearUncheckedCreateWithoutAcademicScoreInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutAcademicScoreInput
+    upsert?: AcademicYearUpsertWithoutAcademicScoreInput
+    connect?: AcademicYearWhereUniqueInput
+    update?: XOR<XOR<AcademicYearUpdateToOneWithWhereWithoutAcademicScoreInput, AcademicYearUpdateWithoutAcademicScoreInput>, AcademicYearUncheckedUpdateWithoutAcademicScoreInput>
+  }
+
+  export type AcademicYearCreateNestedOneWithoutAcademicFileInput = {
+    create?: XOR<AcademicYearCreateWithoutAcademicFileInput, AcademicYearUncheckedCreateWithoutAcademicFileInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutAcademicFileInput
+    connect?: AcademicYearWhereUniqueInput
+  }
+
+  export type AcademicYearUpdateOneRequiredWithoutAcademicFileNestedInput = {
+    create?: XOR<AcademicYearCreateWithoutAcademicFileInput, AcademicYearUncheckedCreateWithoutAcademicFileInput>
+    connectOrCreate?: AcademicYearCreateOrConnectWithoutAcademicFileInput
+    upsert?: AcademicYearUpsertWithoutAcademicFileInput
+    connect?: AcademicYearWhereUniqueInput
+    update?: XOR<XOR<AcademicYearUpdateToOneWithWhereWithoutAcademicFileInput, AcademicYearUpdateWithoutAcademicFileInput>, AcademicYearUncheckedUpdateWithoutAcademicFileInput>
+  }
+
+  export type AcademicScoreCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput> | AcademicScoreCreateWithoutAcademicYearInput[] | AcademicScoreUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAcademicYearInput | AcademicScoreCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: AcademicScoreCreateManyAcademicYearInputEnvelope
+    connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+  }
+
+  export type AcademicFileCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput> | AcademicFileCreateWithoutAcademicYearInput[] | AcademicFileUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicFileCreateOrConnectWithoutAcademicYearInput | AcademicFileCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: AcademicFileCreateManyAcademicYearInputEnvelope
+    connect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+  }
+
+  export type AcademicScoreUncheckedCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput> | AcademicScoreCreateWithoutAcademicYearInput[] | AcademicScoreUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAcademicYearInput | AcademicScoreCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: AcademicScoreCreateManyAcademicYearInputEnvelope
+    connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+  }
+
+  export type AcademicFileUncheckedCreateNestedManyWithoutAcademicYearInput = {
+    create?: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput> | AcademicFileCreateWithoutAcademicYearInput[] | AcademicFileUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicFileCreateOrConnectWithoutAcademicYearInput | AcademicFileCreateOrConnectWithoutAcademicYearInput[]
+    createMany?: AcademicFileCreateManyAcademicYearInputEnvelope
+    connect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+  }
+
+  export type AcademicScoreUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput> | AcademicScoreCreateWithoutAcademicYearInput[] | AcademicScoreUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAcademicYearInput | AcademicScoreCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: AcademicScoreUpsertWithWhereUniqueWithoutAcademicYearInput | AcademicScoreUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: AcademicScoreCreateManyAcademicYearInputEnvelope
+    set?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    disconnect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    delete?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    update?: AcademicScoreUpdateWithWhereUniqueWithoutAcademicYearInput | AcademicScoreUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: AcademicScoreUpdateManyWithWhereWithoutAcademicYearInput | AcademicScoreUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: AcademicScoreScalarWhereInput | AcademicScoreScalarWhereInput[]
+  }
+
+  export type AcademicFileUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput> | AcademicFileCreateWithoutAcademicYearInput[] | AcademicFileUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicFileCreateOrConnectWithoutAcademicYearInput | AcademicFileCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: AcademicFileUpsertWithWhereUniqueWithoutAcademicYearInput | AcademicFileUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: AcademicFileCreateManyAcademicYearInputEnvelope
+    set?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    disconnect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    delete?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    connect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    update?: AcademicFileUpdateWithWhereUniqueWithoutAcademicYearInput | AcademicFileUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: AcademicFileUpdateManyWithWhereWithoutAcademicYearInput | AcademicFileUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: AcademicFileScalarWhereInput | AcademicFileScalarWhereInput[]
+  }
+
+  export type AcademicScoreUncheckedUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput> | AcademicScoreCreateWithoutAcademicYearInput[] | AcademicScoreUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAcademicYearInput | AcademicScoreCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: AcademicScoreUpsertWithWhereUniqueWithoutAcademicYearInput | AcademicScoreUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: AcademicScoreCreateManyAcademicYearInputEnvelope
+    set?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    disconnect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    delete?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    connect?: AcademicScoreWhereUniqueInput | AcademicScoreWhereUniqueInput[]
+    update?: AcademicScoreUpdateWithWhereUniqueWithoutAcademicYearInput | AcademicScoreUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: AcademicScoreUpdateManyWithWhereWithoutAcademicYearInput | AcademicScoreUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: AcademicScoreScalarWhereInput | AcademicScoreScalarWhereInput[]
+  }
+
+  export type AcademicFileUncheckedUpdateManyWithoutAcademicYearNestedInput = {
+    create?: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput> | AcademicFileCreateWithoutAcademicYearInput[] | AcademicFileUncheckedCreateWithoutAcademicYearInput[]
+    connectOrCreate?: AcademicFileCreateOrConnectWithoutAcademicYearInput | AcademicFileCreateOrConnectWithoutAcademicYearInput[]
+    upsert?: AcademicFileUpsertWithWhereUniqueWithoutAcademicYearInput | AcademicFileUpsertWithWhereUniqueWithoutAcademicYearInput[]
+    createMany?: AcademicFileCreateManyAcademicYearInputEnvelope
+    set?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    disconnect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    delete?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    connect?: AcademicFileWhereUniqueInput | AcademicFileWhereUniqueInput[]
+    update?: AcademicFileUpdateWithWhereUniqueWithoutAcademicYearInput | AcademicFileUpdateWithWhereUniqueWithoutAcademicYearInput[]
+    updateMany?: AcademicFileUpdateManyWithWhereWithoutAcademicYearInput | AcademicFileUpdateManyWithWhereWithoutAcademicYearInput[]
+    deleteMany?: AcademicFileScalarWhereInput | AcademicFileScalarWhereInput[]
   }
 
   export type StudentCreateNestedOneWithoutFcmTokensInput = {
@@ -26292,16 +27851,16 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    academicYear: string
     semester: $Enums.Semester
     createdAt?: Date | string
+    academicYear: AcademicYearCreateNestedOneWithoutAcademicScoreInput
   }
 
   export type AcademicScoreUncheckedCreateWithoutStudentInput = {
     id?: string
     subject: string
     score: number
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -26453,7 +28012,7 @@ export namespace Prisma {
     studentId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
-    academicYear?: StringFilter<"AcademicScore"> | string
+    yearId?: StringFilter<"AcademicScore"> | string
     semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
   }
@@ -27876,6 +29435,27 @@ export namespace Prisma {
     create: XOR<StudentCreateWithoutAcademicScoresInput, StudentUncheckedCreateWithoutAcademicScoresInput>
   }
 
+  export type AcademicYearCreateWithoutAcademicScoreInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicFile?: AcademicFileCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearUncheckedCreateWithoutAcademicScoreInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicFile?: AcademicFileUncheckedCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearCreateOrConnectWithoutAcademicScoreInput = {
+    where: AcademicYearWhereUniqueInput
+    create: XOR<AcademicYearCreateWithoutAcademicScoreInput, AcademicYearUncheckedCreateWithoutAcademicScoreInput>
+  }
+
   export type StudentUpsertWithoutAcademicScoresInput = {
     update: XOR<StudentUpdateWithoutAcademicScoresInput, StudentUncheckedUpdateWithoutAcademicScoresInput>
     create: XOR<StudentCreateWithoutAcademicScoresInput, StudentUncheckedCreateWithoutAcademicScoresInput>
@@ -27919,6 +29499,176 @@ export namespace Prisma {
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
     fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type AcademicYearUpsertWithoutAcademicScoreInput = {
+    update: XOR<AcademicYearUpdateWithoutAcademicScoreInput, AcademicYearUncheckedUpdateWithoutAcademicScoreInput>
+    create: XOR<AcademicYearCreateWithoutAcademicScoreInput, AcademicYearUncheckedCreateWithoutAcademicScoreInput>
+    where?: AcademicYearWhereInput
+  }
+
+  export type AcademicYearUpdateToOneWithWhereWithoutAcademicScoreInput = {
+    where?: AcademicYearWhereInput
+    data: XOR<AcademicYearUpdateWithoutAcademicScoreInput, AcademicYearUncheckedUpdateWithoutAcademicScoreInput>
+  }
+
+  export type AcademicYearUpdateWithoutAcademicScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicFile?: AcademicFileUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearUncheckedUpdateWithoutAcademicScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicFile?: AcademicFileUncheckedUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearCreateWithoutAcademicFileInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearUncheckedCreateWithoutAcademicFileInput = {
+    id?: string
+    year: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedManyWithoutAcademicYearInput
+  }
+
+  export type AcademicYearCreateOrConnectWithoutAcademicFileInput = {
+    where: AcademicYearWhereUniqueInput
+    create: XOR<AcademicYearCreateWithoutAcademicFileInput, AcademicYearUncheckedCreateWithoutAcademicFileInput>
+  }
+
+  export type AcademicYearUpsertWithoutAcademicFileInput = {
+    update: XOR<AcademicYearUpdateWithoutAcademicFileInput, AcademicYearUncheckedUpdateWithoutAcademicFileInput>
+    create: XOR<AcademicYearCreateWithoutAcademicFileInput, AcademicYearUncheckedCreateWithoutAcademicFileInput>
+    where?: AcademicYearWhereInput
+  }
+
+  export type AcademicYearUpdateToOneWithWhereWithoutAcademicFileInput = {
+    where?: AcademicYearWhereInput
+    data: XOR<AcademicYearUpdateWithoutAcademicFileInput, AcademicYearUncheckedUpdateWithoutAcademicFileInput>
+  }
+
+  export type AcademicYearUpdateWithoutAcademicFileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicYearUncheckedUpdateWithoutAcademicFileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    year?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateManyWithoutAcademicYearNestedInput
+  }
+
+  export type AcademicScoreCreateWithoutAcademicYearInput = {
+    id?: string
+    subject: string
+    score: number
+    semester: $Enums.Semester
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutAcademicScoresInput
+  }
+
+  export type AcademicScoreUncheckedCreateWithoutAcademicYearInput = {
+    id?: string
+    studentId: string
+    subject: string
+    score: number
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicScoreCreateOrConnectWithoutAcademicYearInput = {
+    where: AcademicScoreWhereUniqueInput
+    create: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type AcademicScoreCreateManyAcademicYearInputEnvelope = {
+    data: AcademicScoreCreateManyAcademicYearInput | AcademicScoreCreateManyAcademicYearInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AcademicFileCreateWithoutAcademicYearInput = {
+    id?: string
+    fileUrl: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileUncheckedCreateWithoutAcademicYearInput = {
+    id?: string
+    fileUrl: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileCreateOrConnectWithoutAcademicYearInput = {
+    where: AcademicFileWhereUniqueInput
+    create: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type AcademicFileCreateManyAcademicYearInputEnvelope = {
+    data: AcademicFileCreateManyAcademicYearInput | AcademicFileCreateManyAcademicYearInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AcademicScoreUpsertWithWhereUniqueWithoutAcademicYearInput = {
+    where: AcademicScoreWhereUniqueInput
+    update: XOR<AcademicScoreUpdateWithoutAcademicYearInput, AcademicScoreUncheckedUpdateWithoutAcademicYearInput>
+    create: XOR<AcademicScoreCreateWithoutAcademicYearInput, AcademicScoreUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type AcademicScoreUpdateWithWhereUniqueWithoutAcademicYearInput = {
+    where: AcademicScoreWhereUniqueInput
+    data: XOR<AcademicScoreUpdateWithoutAcademicYearInput, AcademicScoreUncheckedUpdateWithoutAcademicYearInput>
+  }
+
+  export type AcademicScoreUpdateManyWithWhereWithoutAcademicYearInput = {
+    where: AcademicScoreScalarWhereInput
+    data: XOR<AcademicScoreUpdateManyMutationInput, AcademicScoreUncheckedUpdateManyWithoutAcademicYearInput>
+  }
+
+  export type AcademicFileUpsertWithWhereUniqueWithoutAcademicYearInput = {
+    where: AcademicFileWhereUniqueInput
+    update: XOR<AcademicFileUpdateWithoutAcademicYearInput, AcademicFileUncheckedUpdateWithoutAcademicYearInput>
+    create: XOR<AcademicFileCreateWithoutAcademicYearInput, AcademicFileUncheckedCreateWithoutAcademicYearInput>
+  }
+
+  export type AcademicFileUpdateWithWhereUniqueWithoutAcademicYearInput = {
+    where: AcademicFileWhereUniqueInput
+    data: XOR<AcademicFileUpdateWithoutAcademicYearInput, AcademicFileUncheckedUpdateWithoutAcademicYearInput>
+  }
+
+  export type AcademicFileUpdateManyWithWhereWithoutAcademicYearInput = {
+    where: AcademicFileScalarWhereInput
+    data: XOR<AcademicFileUpdateManyMutationInput, AcademicFileUncheckedUpdateManyWithoutAcademicYearInput>
+  }
+
+  export type AcademicFileScalarWhereInput = {
+    AND?: AcademicFileScalarWhereInput | AcademicFileScalarWhereInput[]
+    OR?: AcademicFileScalarWhereInput[]
+    NOT?: AcademicFileScalarWhereInput | AcademicFileScalarWhereInput[]
+    id?: StringFilter<"AcademicFile"> | string
+    fileUrl?: StringFilter<"AcademicFile"> | string
+    yearId?: StringFilter<"AcademicFile"> | string
+    semester?: EnumSemesterFilter<"AcademicFile"> | $Enums.Semester
+    createdAt?: DateTimeFilter<"AcademicFile"> | Date | string
   }
 
   export type StudentCreateWithoutFcmTokensInput = {
@@ -28363,7 +30113,7 @@ export namespace Prisma {
     id?: string
     subject: string
     score: number
-    academicYear: string
+    yearId: string
     semester: $Enums.Semester
     createdAt?: Date | string
   }
@@ -28492,16 +30242,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput
   }
 
   export type AcademicScoreUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28510,7 +30260,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
-    academicYear?: StringFieldUpdateOperationsInput | string
+    yearId?: StringFieldUpdateOperationsInput | string
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28816,6 +30566,70 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     registrationId?: StringFieldUpdateOperationsInput | string
     value?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicScoreCreateManyAcademicYearInput = {
+    id?: string
+    studentId: string
+    subject: string
+    score: number
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicFileCreateManyAcademicYearInput = {
+    id?: string
+    fileUrl: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicScoreUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
+  }
+
+  export type AcademicScoreUncheckedUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicScoreUncheckedUpdateManyWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileUncheckedUpdateWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AcademicFileUncheckedUpdateManyWithoutAcademicYearInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fileUrl?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

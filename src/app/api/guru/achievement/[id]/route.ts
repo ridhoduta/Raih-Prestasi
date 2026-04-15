@@ -65,7 +65,7 @@ export async function GET(_: Request, context: Context) {
 export async function PUT(request: Request, context: Context) {
   try {
     const session = await getSession();
-    if (!session || session.role !== "GURU") {
+    if (!session || session.role !== "GURU" && session.role !== "ADMIN") {
       return NextResponse.json(
         { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }

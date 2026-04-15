@@ -30,7 +30,7 @@ export default function AdminAchievements() {
   } = useAchievements();
 
   const handleEdit = (achievement: any) => {
-    router.push(`/page/guru/achievements/${achievement.id}`);
+    router.push(`/page/admin/achievements/${achievement.id}`);
   };
 
   return (

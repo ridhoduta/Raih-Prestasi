@@ -4,12 +4,12 @@ export const academicService = {
   // Fetch students who have achievements
   getStudentsWithAchievements: async (params: {
     search?: string;
-    academicYear?: string;
+    yearId?: string;
     semester?: Semester;
   }) => {
-    const { search = "", academicYear = "", semester = "" } = params;
+    const { search = "", yearId = "", semester = "" } = params;
     const res = await fetch(
-      `/api/admin/academic?search=${search}&academicYear=${academicYear}&semester=${semester}`
+      `/api/admin/academic?search=${search}&yearId=${yearId}&semester=${semester}`
     );
     if (!res.ok) throw new Error("Failed to fetch students");
     return await res.json();
@@ -19,7 +19,7 @@ export const academicService = {
   saveScores: async (data: {
     studentId: string;
     scores: { subject: string; score: number }[];
-    academicYear: string;
+    yearId: string;
     semester: Semester;
   }) => {
     const res = await fetch("/api/admin/academic", {
@@ -36,7 +36,7 @@ export const academicService = {
   },
 
   // Upload file and save to AcademicFile model
-  uploadAndSaveAcademicFile: async (file: File, academicYear: string, semester: Semester) => {
+  uploadAndSaveAcademicFile: async (file: File, yearId: string, semester: Semester) => {
     // 1. Upload to general upload API
     const formData = new FormData();
     formData.append("file", file);
@@ -60,7 +60,7 @@ export const academicService = {
         action: "saveAcademicFile",
         data: {
           fileUrl,
-          academicYear,
+          yearId,
           semester,
         },
       }),
@@ -71,5 +71,27 @@ export const academicService = {
     }
 
     return saveResult;
-  }
+  },
+
+  getAcademicYears: async () => {
+    const res = await fetch("/api/admin/academic/year");
+    if (!res.ok) throw new Error("Failed to fetch academic years");
+    return await res.json();
+  },
+  createAcademicYear: async (data: { yearId: string;}) => {
+    const res = await fetch("/api/admin/academic/year", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error("Failed to create academic year");
+    return await res.json();
+  },
+  deleteAcademicYear: async (id: string) => {
+    const res = await fetch(`/api/admin/academic/year/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) throw new Error("Failed to delete academic year");
+    return await res.json();
+  },
 };

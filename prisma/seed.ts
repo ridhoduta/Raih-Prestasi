@@ -43,33 +43,33 @@ async function main() {
     console.log('Levels seeded.');
 
     // 3. Seed Guru User
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash('guru123', salt);
-    // const guru = await prisma.user.upsert({
-    //     where: { email: 'guru@example.com' },
-    //     update: {},
-    //     create: {
-    //         email: 'guru@example.com',
-    //         name: 'Guru Pengampu',
-    //         password: hashedPassword,
-    //         role: UserRole.GURU,
-    //     },
-    // });
-    // console.log('Guru user seeded.');
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash('guru123', salt);
+    const guru = await prisma.user.upsert({
+        where: { email: 'guru@example.com' },
+        update: {},
+        create: {
+            email: 'guru@example.com',
+            name: 'Guru Pengampu',
+            password: hashedPassword,
+            role: UserRole.GURU,
+        },
+    });
+    console.log('Guru user seeded.');
 
-    // // const salt = await bcrypt.genSalt(10);
-    // const adminHashedPassword = await bcrypt.hash('admin123', salt);
-    // const admin = await prisma.user.upsert({
-    //     where: { email: 'admin@example.com' },
-    //     update: {},
-    //     create: {
-    //         email: 'admin@example.com',
-    //         name: 'Admin',
-    //         password: adminHashedPassword,
-    //         role: UserRole.ADMIN,
-    //     },
-    // });
-    // console.log('Admin user seeded.');
+    // const salt = await bcrypt.genSalt(10);
+    const adminHashedPassword = await bcrypt.hash('admin123', salt);
+    const admin = await prisma.user.upsert({
+        where: { email: 'admin@example.com' },
+        update: {},
+        create: {
+            email: 'admin@example.com',
+            name: 'Admin',
+            password: adminHashedPassword,
+            role: UserRole.ADMIN,
+        },
+    });
+    console.log('Admin user seeded.');
 
     // 4. Seed Competitions
     const now = new Date();
@@ -84,7 +84,7 @@ async function main() {
             levelId: levelsMap['Nasional'],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
             formFields: [
                 { label: 'Link Portofolio', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Alasan Mengikuti', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -97,7 +97,7 @@ async function main() {
             levelId: levelsMap['Provinsi'],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
             formFields: [
                 { label: 'Ukuran Kaos', fieldType: FieldType.SELECT, isRequired: true, order: 1, options: ['S', 'M', 'L', 'XL'] },
             ],
@@ -109,7 +109,7 @@ async function main() {
             levelId: levelsMap['Sekolah'],
             startDate: past,
             endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
         },
         {
             title: 'Lomba Karya Tulis Ilmiah Populer',
@@ -118,7 +118,7 @@ async function main() {
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
         },
         {
             title: 'Robotics International Contest',
@@ -127,7 +127,7 @@ async function main() {
             levelId: levelsMap['Internasional'],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 14),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
         },
         {
             title: "Olimpiade Fisika Nasional",
@@ -136,7 +136,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: now,
             endDate: future,
-            "createdBy": "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            "createdBy": "9827dc6c-1402-480e-874a-ae0dc9900dfa",
             "formFields": [
                 { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
             ]
@@ -148,7 +148,7 @@ async function main() {
             levelId: levelsMap["Provinsi"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 5),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Kejuaraan Basket Antar Sekolah",
@@ -157,7 +157,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Hackathon Pelajar Indonesia",
@@ -166,7 +166,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 3),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
             formFields: [
                 { label: "Link GitHub", fieldType: FieldType.TEXT, isRequired: true, order: 1 }
             ]
@@ -178,7 +178,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: past,
             endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 1),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Desain Poster Digital",
@@ -187,7 +187,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10",
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa",
             formFields: [
                 { label: "Link Karya", fieldType: FieldType.TEXT, isRequired: true, order: 1 }
             ]
@@ -199,7 +199,7 @@ async function main() {
             levelId: levelsMap["Provinsi"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Kompetisi Coding untuk Pemula",
@@ -208,7 +208,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Turnamen Futsal Pelajar",
@@ -217,7 +217,7 @@ async function main() {
             levelId: levelsMap["Provinsi"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 4),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Fotografi Alam",
@@ -226,7 +226,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Seminar Inovasi Teknologi Pelajar",
@@ -235,7 +235,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Puisi Pelajar",
@@ -244,7 +244,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: past,
             endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Kompetisi Startup Pelajar",
@@ -253,7 +253,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 6),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Olimpiade Kimia Sekolah",
@@ -262,7 +262,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Esai Nasional Pelajar",
@@ -271,7 +271,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 10),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Olimpiade Astronomi Internasional",
@@ -280,7 +280,7 @@ async function main() {
             levelId: levelsMap["Internasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 20),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Tari Tradisional Provinsi",
@@ -289,7 +289,7 @@ async function main() {
             levelId: levelsMap["Provinsi"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Kejuaraan Bulutangkis Kabupaten",
@@ -298,7 +298,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Pidato Bahasa Indonesia Sekolah",
@@ -307,7 +307,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Cyber Security Capture The Flag",
@@ -316,7 +316,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 3),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Olimpiade Ekonomi Nasional",
@@ -325,7 +325,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Vokal Solo Kecamatan",
@@ -334,7 +334,7 @@ async function main() {
             levelId: levelsMap["Kecamatan"],
             startDate: past,
             endDate: now,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Kejuaraan Renang Tingkat Provinsi",
@@ -343,7 +343,7 @@ async function main() {
             levelId: levelsMap["Provinsi"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 5),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Karya Ilmiah Remaja (KIR)",
@@ -352,7 +352,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Game Development Competition",
@@ -361,7 +361,7 @@ async function main() {
             levelId: levelsMap["Internasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 14),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Kaligrafi Sekolah",
@@ -370,7 +370,7 @@ async function main() {
             levelId: levelsMap["Sekolah"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Olimpiade Geografi Nasional",
@@ -379,7 +379,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Turnamen Mobile Legends Lokal",
@@ -388,7 +388,7 @@ async function main() {
             levelId: levelsMap["Kabupaten/Kota"],
             startDate: now,
             endDate: future,
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         },
         {
             title: "Lomba Menulis Cerpen Nasional",
@@ -397,7 +397,7 @@ async function main() {
             levelId: levelsMap["Nasional"],
             startDate: future,
             endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 15),
-            createdBy: "43dc7078-59bc-4e02-aa1e-ad57ad910b10"
+            createdBy: "9827dc6c-1402-480e-874a-ae0dc9900dfa"
         }
     ];
 

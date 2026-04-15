@@ -3,26 +3,41 @@
 import { useAcademic } from "./hooks/useAcademic";
 import { AcademicTable } from "./component/academicTable";
 import AlertModal from "@/app/components/AlertModal";
-import { Search, Filter, Upload, Loader2 } from "lucide-react";
-import { useRef } from "react";
+import { Search, Filter, Upload, Loader2, Plus, Trash2, Check, X } from "lucide-react";
+import { useRef, useState } from "react";
 
 export default function AcademicAdminPage() {
-  const {
+    const {
     students,
+    academicYears,
     loading,
     search,
     setSearch,
-    academicYear,
-    setAcademicYear,
+    yearId,
+    setYearId,
     semester,
     setSemester,
     fetchStudents,
     handleSaveScores,
     handleUploadFile,
+    handleCreateYear,
+    handleDeleteYear,
     isSaving,
+    isDeleting,
     alertState,
     closeAlert,
   } = useAcademic();
+
+  const [showAddYear, setShowAddYear] = useState(false);
+  const [newYear, setNewYear] = useState("");
+
+  const onAddYear = () => {
+    const trimmed = newYear.trim();
+    if (!trimmed) return;
+    handleCreateYear(trimmed);
+    setNewYear("");
+    setShowAddYear(false);
+  };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -74,17 +89,87 @@ export default function AcademicAdminPage() {
               />
             </div>
             
-            <div className="relative">
-              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <select
-                className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none appearance-none text-gray-700 font-medium"
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
+            {/* Academic Year Selector */}
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <select
+                  className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none appearance-none text-gray-700 font-medium disabled:text-gray-400"
+                  value={yearId}
+                  onChange={(e) => setYearId(e.target.value)}
+                  disabled={academicYears.length === 0}
+                >
+                  {academicYears.length === 0 && (
+                    <option value="">— Belum ada tahun ajaran —</option>
+                  )}
+                  {academicYears.map((ay: any) => (
+                    <option key={ay.id} value={ay.id}>
+                      {ay.year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Hapus tahun yang dipilih */}
+              {yearId && (
+                <button
+                  onClick={() => {
+                    if (confirm(`Hapus tahun ajaran ini? Semua data nilai terkait akan ikut terhapus.`)) {
+                      handleDeleteYear(yearId);
+                    }
+                  }}
+                  disabled={isDeleting}
+                  title="Hapus tahun ajaran"
+                  className="flex items-center justify-center w-12 h-12 rounded-2xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-100 transition-all disabled:opacity-50 flex-shrink-0"
+                >
+                  {isDeleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
+                </button>
+              )}
+
+              {/* Tambah tahun baru */}
+              <button
+                onClick={() => setShowAddYear((v) => !v)}
+                title="Tambah tahun ajaran"
+                className={`flex items-center justify-center w-12 h-12 rounded-2xl border transition-all flex-shrink-0 ${
+                  showAddYear
+                    ? "bg-emerald-600 border-emerald-600 text-white"
+                    : "bg-emerald-50 border-emerald-100 text-emerald-600 hover:bg-emerald-100"
+                }`}
               >
-                <option value="2023/2024">2023/2024</option>
-                <option value="2024/2025">2024/2025</option>
-              </select>
+                {showAddYear ? <X size={16} /> : <Plus size={16} />}
+              </button>
             </div>
+
+            {/* Form tambah tahun ajaran inline */}
+            {showAddYear && (
+              <div className="lg:col-span-4 flex gap-3 items-center p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
+                <div className="flex-1">
+                  <input
+                    type="text"
+                    placeholder="Contoh: 2025/2026"
+                    value={newYear}
+                    onChange={(e) => setNewYear(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && onAddYear()}
+                    autoFocus
+                    className="w-full px-4 py-2.5 bg-white border border-emerald-200 rounded-xl focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 outline-none text-sm text-gray-900 font-medium placeholder:text-gray-400"
+                  />
+                </div>
+                <button
+                  onClick={onAddYear}
+                  disabled={!newYear.trim() || isSaving}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-all disabled:opacity-50 shadow-sm"
+                >
+                  {isSaving ? <Loader2 size={15} className="animate-spin" /> : <Check size={15} />}
+                  Simpan
+                </button>
+                <button
+                  onClick={() => { setShowAddYear(false); setNewYear(""); }}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-gray-500 hover:bg-gray-50 rounded-xl font-bold text-sm transition-all"
+                >
+                  Batal
+                </button>
+              </div>
+            )}
 
             <div className="flex gap-2 p-1.5 bg-gray-50/80 rounded-2xl border border-gray-100">
               <button
@@ -119,8 +204,9 @@ export default function AcademicAdminPage() {
         ) : students?.length > 0 ? (
           <AcademicTable 
             students={students} 
+            academicYears={academicYears}
             onSaveScores={handleSaveScores}
-            academicYear={academicYear}
+            yearId={yearId}
             semester={semester}
           />
         ) : (

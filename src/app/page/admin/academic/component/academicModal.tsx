@@ -5,7 +5,8 @@ interface AcademicModalProps {
   isOpen: boolean;
   onClose: () => void;
   student: any;
-  onSave: (studentId: string, scores: any[], academicYear: string, semester: any) => void;
+  academicYears?: any[];
+  onSave: (studentId: string, scores: any[], yearId: string, semester: any) => void;
   defaultYear?: string;
   defaultSemester?: any;
 }
@@ -14,22 +15,23 @@ export const AcademicModal = ({
   isOpen, 
   onClose, 
   student, 
+  academicYears = [],
   onSave, 
   defaultYear = "2023/2024", 
   defaultSemester = "GANJIL" 
 }: AcademicModalProps) => {
   const [tempScores, setTempScores] = useState<{ subject: string; score: string }[]>([]);
-  const [academicYear, setAcademicYear] = useState(defaultYear);
+  const [yearId, setYearId] = useState(defaultYear);
   const [semester, setSemester] = useState(defaultSemester);
 
   useEffect(() => {
     if (isOpen && student) {
-      setAcademicYear(defaultYear);
+      setYearId(defaultYear);
       setSemester(defaultSemester);
       
       if (student.academicScores && student.academicScores.length > 0) {
         const existingScores = student.academicScores.filter((s: any) => 
-          s.academicYear === defaultYear && s.semester === defaultSemester
+          s.yearId === defaultYear && s.semester === defaultSemester
         );
 
         if (existingScores.length > 0) {
@@ -48,15 +50,13 @@ export const AcademicModal = ({
 
   if (!isOpen) return null;
 
-  const addScoreField = () => {
-    setTempScores([...tempScores, { subject: "", score: "" }]);
-  };
 
-  const removeScoreField = (index: number) => {
-    setTempScores(tempScores.filter((_, i) => i !== index));
-  };
 
   const handleScoreChange = (index: number, field: "subject" | "score", value: string) => {
+    if (field === "score") {
+      // Tolak nilai negatif atau lebih dari 100
+      if (value !== "" && (parseFloat(value) < 0 || parseFloat(value) > 100)) return;
+    }
     const newScores = [...tempScores];
     newScores[index][field] = value;
     setTempScores(newScores);
@@ -66,8 +66,10 @@ export const AcademicModal = ({
     if (!student?.id) return;
     const validScores = tempScores
       .filter(s => s.subject && s.score)
+      .filter(s => parseFloat(s.score) >= 0 && parseFloat(s.score) <= 100)
       .map(s => ({ subject: s.subject, score: parseFloat(s.score) }));
-    onSave(student.id, validScores, academicYear, semester);
+    if (validScores.length === 0) return;
+    onSave(student.id, validScores, yearId, semester);
     onClose();
   };
 
@@ -96,11 +98,15 @@ export const AcademicModal = ({
               <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Tahun Ajaran</label>
               <select 
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-sm text-gray-700 font-semibold"
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
+                value={yearId}
+                onChange={(e) => setYearId(e.target.value)}
+                disabled={academicYears.length === 0}
               >
-                <option value="2023/2024">2023/2024</option>
-                <option value="2024/2025">2024/2025</option>
+                {academicYears.map((ay: any) => (
+                  <option key={ay.id} value={ay.id}>
+                    {ay.year}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
@@ -148,27 +154,20 @@ export const AcademicModal = ({
                   <input
                     type="number"
                     placeholder="Nilai"
+                    min={0}
+                    max={100}
+                    step={0.1}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-sm text-gray-900 font-bold text-center"
                     value={item.score}
                     onChange={(e) => handleScoreChange(index, "score", e.target.value)}
+                    onKeyDown={(e) => {
+                      // Blokir karakter minus dan tanda plus di keyboard
+                      if (e.key === "-" || e.key === "+") e.preventDefault();
+                    }}
                   />
                 </div>
-                <button 
-                  onClick={() => removeScoreField(index)}
-                  className="p-2 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
-                >
-                  <X size={16} />
-                </button>
               </div>
             ))}
-            
-            <button
-              onClick={addScoreField}
-              className="w-full py-3 border-2 border-dashed border-gray-200 rounded-2xl text-gray-400 hover:text-emerald-600 hover:border-emerald-200 hover:bg-emerald-50 transition-all text-sm font-bold flex items-center justify-center gap-2"
-            >
-              <Plus size={18} />
-              Tambah Mata Pelajaran
-            </button>
           </div>
         </div>
 

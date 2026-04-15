@@ -280,7 +280,8 @@ model AcademicScore {
 
   subject      String
   score        Float
-  academicYear String
+  yearId       String
+  academicYear AcademicYear @relation(fields: [yearId], references: [id])
   semester     Semester
 
   createdAt    DateTime @default(now())
@@ -292,12 +293,24 @@ model AcademicFile {
   id           String   @id @default(uuid())
 
   fileUrl      String
-  academicYear String
+  yearId       String
+  academicYear AcademicYear @relation(fields: [yearId], references: [id])
   semester     Semester
 
   createdAt    DateTime @default(now())
 
   @@map("academic_files")
+}
+
+model AcademicYear{
+  id String @id @default(uuid())
+  year String
+  academicScore AcademicScore[]
+  academicFile AcademicFile[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("academic_years")
 }
 
 model FCMToken {

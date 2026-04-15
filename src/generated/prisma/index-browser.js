@@ -257,7 +257,7 @@ exports.Prisma.AcademicScoreScalarFieldEnum = {
   studentId: 'studentId',
   subject: 'subject',
   score: 'score',
-  academicYear: 'academicYear',
+  yearId: 'yearId',
   semester: 'semester',
   createdAt: 'createdAt'
 };
@@ -265,9 +265,16 @@ exports.Prisma.AcademicScoreScalarFieldEnum = {
 exports.Prisma.AcademicFileScalarFieldEnum = {
   id: 'id',
   fileUrl: 'fileUrl',
-  academicYear: 'academicYear',
+  yearId: 'yearId',
   semester: 'semester',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.AcademicYearScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FCMTokenScalarFieldEnum = {
@@ -371,6 +378,7 @@ exports.Prisma.ModelName = {
   Achievement: 'Achievement',
   AcademicScore: 'AcademicScore',
   AcademicFile: 'AcademicFile',
+  AcademicYear: 'AcademicYear',
   FCMToken: 'FCMToken',
   Notification: 'Notification'
 };
