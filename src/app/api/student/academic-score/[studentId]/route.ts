@@ -71,7 +71,7 @@ export async function GET(req: Request, context: Context) {
     }
 
     // Fetch academic scores and files in parallel
-    const [scores, files] = await Promise.all([
+    const [scores, files, achievement] = await Promise.all([
       prisma.academicScore.findMany({
         where: scoreFilter,
         include: {
@@ -86,6 +86,13 @@ export async function GET(req: Request, context: Context) {
         },
         orderBy: { createdAt: "desc" },
       }),
+      prisma.achievement.findMany({
+        where: {
+          studentId,
+          status: "TERVERIFIKASI",
+        },
+        orderBy: { createdAt: "desc" },
+      })
     ]);
 
     return NextResponse.json({
@@ -94,6 +101,7 @@ export async function GET(req: Request, context: Context) {
       data: {
         scores,
         files,
+        achievement,
       },
     });
   } catch (error) {

@@ -13,6 +13,7 @@ export const pusher = new Pusher({
 export const CHANNELS = {
   PRESTASI: "prestasi-channel",
   DASHBOARD: "dashboard-channel",
+  AKADEMIK: "akademik-channel",
 } as const;
 
 /** Event Names */
@@ -45,6 +46,10 @@ export const EVENTS = {
   NOTIF_CREATE: "notif:create",
   // Dashboard
   DASHBOARD_UPDATE: "dashboard:update",
+  // Akademik
+  NILAI_CREATE: "nilai:create",
+  NILAI_UPDATE: "nilai:update",
+  NILAI_DELETE: "nilai:delete",
 } as const;
 
 /**

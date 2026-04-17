@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Semester } from "@/generated/prisma";
 import { getSession } from "@/app/service/authService";
+import { CHANNELS, EVENTS, triggerPusher } from "@/lib/pusher";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -79,6 +80,12 @@ export async function POST(request: Request) {
                     yearId,
                     semester,
                 }))
+            });
+
+            triggerPusher(CHANNELS.AKADEMIK, EVENTS.NILAI_CREATE, {
+                studentId: studentId,
+                title: "Nilai Akademik",
+                isPublished: true,
             });
 
             return NextResponse.json({ success: true, result: createdScores });
