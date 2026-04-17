@@ -2,16 +2,18 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/app/service/authService";
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+type Context = {
+  params: Promise<{ id: string }>;
+};
+
+export async function DELETE(request: Request, context: Context) {
     try {
         const session = await getSession();
         if (!session) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        // Must await params in latest Next.js correctly
-        const params = await context.params;
-        const id = params.id;
+        const { id } = await context.params; 
 
         if (!id) {
             return NextResponse.json({ error: "ID is required" }, { status: 400 });

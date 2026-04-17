@@ -7,7 +7,7 @@ type Context = {
 
 // GET /api/admin/competition-categories/:id
 export async function GET(_: Request,  context: Context) {
-  const { id } = await context.params; // ✅ WAJIB await
+  const { id } = await context.params; 
 
   const category = await prisma.competitionCategory.findUnique({
     where: { id },
