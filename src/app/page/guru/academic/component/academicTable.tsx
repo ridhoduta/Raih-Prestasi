@@ -4,12 +4,12 @@ import { AcademicModal } from "./academicModal";
 
 interface AcademicTableProps {
   students: any[];
-  onSaveScores: (studentId: string, scores: any[], academicYear: string, semester: any) => void;
-  academicYear: string;
+  onSaveScores: (studentId: string, scores: any[], yearId: string, semester: any) => void;
+  yearId: string;
   semester: any;
 }
 
-export const AcademicTable = ({ students, onSaveScores, academicYear, semester }: AcademicTableProps) => {
+export const AcademicTable = ({ students, onSaveScores, yearId, semester }: AcademicTableProps) => {
   const [selectedStudent, setSelectedStudent] = useState<any>(null);
   const [isScoreModalOpen, setIsScoreModalOpen] = useState(false);
 
@@ -85,7 +85,7 @@ export const AcademicTable = ({ students, onSaveScores, academicYear, semester }
         onClose={() => setIsScoreModalOpen(false)}
         student={selectedStudent}
         onSave={onSaveScores}
-        defaultYear={academicYear}
+        defaultYear={yearId}
         defaultSemester={semester}
       />
     </div>

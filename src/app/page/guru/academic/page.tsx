@@ -12,8 +12,8 @@ export default function AcademicAdminPage() {
     loading,
     search,
     setSearch,
-    academicYear,
-    setAcademicYear,
+    yearId,
+    setYearId,
     semester,
     setSemester,
     fetchStudents,
@@ -78,8 +78,8 @@ export default function AcademicAdminPage() {
               <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <select
                 className="w-full pl-12 pr-4 py-3.5 bg-gray-50/50 border border-gray-100 rounded-2xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none appearance-none text-gray-700 font-medium"
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
+                value={yearId}
+                onChange={(e) => setYearId(e.target.value)}
               >
                 <option value="2023/2024">2023/2024</option>
                 <option value="2024/2025">2024/2025</option>
@@ -120,7 +120,7 @@ export default function AcademicAdminPage() {
           <AcademicTable 
             students={students} 
             onSaveScores={handleSaveScores}
-            academicYear={academicYear}
+            yearId={yearId}
             semester={semester}
           />
         ) : (

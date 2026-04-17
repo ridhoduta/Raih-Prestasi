@@ -6,7 +6,7 @@ import { Semester } from "@/generated/prisma";
 export const useAcademic = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
-  const [academicYear, setAcademicYear] = useState("2023/2024");
+  const [yearId, setYearId] = useState("2023/2024");
   const [semester, setSemester] = useState<Semester>("GANJIL");
 
   const [alertState, setAlertState] = useState({
@@ -18,8 +18,8 @@ export const useAcademic = () => {
 
   // Query: Get students with achievements
   const { data: students = [], isLoading: loadingStudents, refetch: fetchStudents } = useQuery({
-    queryKey: ["academic", "students", search, academicYear, semester],
-    queryFn: () => academicService.getStudentsWithAchievements({ search, academicYear, semester }),
+    queryKey: ["academic", "students", search, yearId, semester],
+    queryFn: () => academicService.getStudentsWithAchievements({ search, yearId: yearId, semester }),
   });
 
   const showAlert = (title: string, message: string, type: "success" | "error") => {
@@ -32,7 +32,7 @@ export const useAcademic = () => {
 
   // Mutation: Save scores
   const saveScoresMutation = useMutation({
-    mutationFn: (payload: { studentId: string; scores: any[]; academicYear: string; semester: Semester }) => 
+    mutationFn: (payload: { studentId: string; scores: any[]; yearId: string; semester: Semester }) => 
       academicService.saveScores(payload),
     onSuccess: () => {
       showAlert("Berhasil", "Nilai akademik berhasil disimpan", "success");
@@ -46,7 +46,7 @@ export const useAcademic = () => {
   // Mutation: Upload and save file
   const uploadFileMutation = useMutation({
     mutationFn: (file: File) => 
-      academicService.uploadAndSaveAcademicFile(file, academicYear, semester),
+      academicService.uploadAndSaveAcademicFile(file, yearId, semester),
     onSuccess: () => {
       showAlert("Berhasil", "File akademik berhasil diunggah", "success");
       queryClient.invalidateQueries({ queryKey: ["academic", "files"] });
@@ -61,13 +61,13 @@ export const useAcademic = () => {
     loading: loadingStudents,
     search,
     setSearch,
-    academicYear,
-    setAcademicYear,
+    yearId,
+    setYearId,
     semester,
     setSemester,
     fetchStudents,
     handleSaveScores: (studentId: string, scores: any[], year: string, sem: any) => 
-      saveScoresMutation.mutate({ studentId, scores, academicYear: year, semester: sem }),
+      saveScoresMutation.mutate({ studentId, scores, yearId: year, semester: sem }),
     handleUploadFile: (file: File) => uploadFileMutation.mutate(file),
     isSaving: saveScoresMutation.isPending || uploadFileMutation.isPending,
     alertState,

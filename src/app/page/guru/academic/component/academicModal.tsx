@@ -5,7 +5,7 @@ interface AcademicModalProps {
   isOpen: boolean;
   onClose: () => void;
   student: any;
-  onSave: (studentId: string, scores: any[], academicYear: string, semester: any) => void;
+  onSave: (studentId: string, scores: any[], yearId: string, semester: any) => void;
   defaultYear?: string;
   defaultSemester?: any;
 }
@@ -19,7 +19,7 @@ export const AcademicModal = ({
   defaultSemester = "GANJIL" 
 }: AcademicModalProps) => {
   const [tempScores, setTempScores] = useState<{ subject: string; score: string }[]>([]);
-  const [academicYear, setAcademicYear] = useState(defaultYear);
+  const [yearId, setYearId] = useState(defaultYear);
   const [semester, setSemester] = useState(defaultSemester);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export const AcademicModal = ({
       
       if (student.academicScores && student.academicScores.length > 0) {
         const existingScores = student.academicScores.filter((s: any) => 
-          s.academicYear === defaultYear && s.semester === defaultSemester
+          s.yearId === defaultYear && s.semester === defaultSemester
         );
 
         if (existingScores.length > 0) {
@@ -67,7 +67,7 @@ export const AcademicModal = ({
     const validScores = tempScores
       .filter(s => s.subject && s.score)
       .map(s => ({ subject: s.subject, score: parseFloat(s.score) }));
-    onSave(student.id, validScores, academicYear, semester);
+    onSave(student.id, validScores, yearId, semester);
     onClose();
   };
 
@@ -96,8 +96,8 @@ export const AcademicModal = ({
               <label className="block text-xs font-bold text-gray-400 uppercase mb-2 ml-1">Tahun Ajaran</label>
               <select 
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none text-sm text-gray-700 font-semibold"
-                value={academicYear}
-                onChange={(e) => setAcademicYear(e.target.value)}
+                value={yearId}
+                onChange={(e) => setYearId(e.target.value)}
               >
                 <option value="2023/2024">2023/2024</option>
                 <option value="2024/2025">2024/2025</option>
