@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { createAndSendNotification } from "@/app/service/pushNotif";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const submissionSelect = {
   id: true,
@@ -146,6 +147,12 @@ export async function PUT(req: Request, context: Context) {
       },
     });
 
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_UPDATE, {
+      id: updated.id,
+      studentId: updated.studentId,
+      status: updated.status,
+    });
+
     return NextResponse.json({
       success: true,
       message:
@@ -187,6 +194,8 @@ export async function DELETE(_: Request, context: Context) {
     await prisma.independentCompetitionSubmission.delete({
       where: { id },
     });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_DELETE, { id });
 
     return NextResponse.json({
       success: true,

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const competitionDetailSelect = {
   id: true,
@@ -108,6 +109,12 @@ export async function PUT(req: Request, context: Context) {
       select: competitionDetailSelect,
     });
 
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.KOMPETISI_UPDATE, {
+      id: competition.id,
+      title: competition.title,
+      isActive: competition.isActive,
+    });
+
     return NextResponse.json({
       success: true,
       message: "Kompetisi berhasil diperbarui",
@@ -129,6 +136,8 @@ export async function DELETE(_: Request, context: Context) {
     await prisma.competition.delete({
       where: { id },
     });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.KOMPETISI_DELETE, { id });
 
     return NextResponse.json({
       success: true,

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { createAndSendNotification } from "@/app/service/pushNotif";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 type Context = {
   params: Promise<{ id: string }>;
@@ -167,6 +168,12 @@ export async function PUT(req: Request, context: Context) {
         id: updated.id,
         screen: "registration_detail",
       },
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.REGISTRASI_UPDATE, {
+      id: updated.id,
+      studentId: updated.studentId,
+      status: updated.status,
     });
 
     return NextResponse.json({

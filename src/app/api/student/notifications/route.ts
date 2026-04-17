@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 export async function GET(req: Request) {
   try {
@@ -60,6 +61,11 @@ export async function PATCH(req: Request) {
         data: { isRead: true },
       });
     }
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.NOTIF_UPDATE, {
+      studentId: session.id,
+      notificationId: id || "all",
+    });
 
     return NextResponse.json({ success: true, message: "Notifikasi berhasil diperbarui" });
   } catch (error) {

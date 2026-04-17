@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 export async function GET(req: Request) {
   try {
@@ -64,6 +65,12 @@ export async function POST(req: Request) {
         documentUrl,
         status: "MENUNGGU",
       },
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_CREATE, {
+      id: submission.id,
+      studentId: submission.studentId,
+      title: submission.title,
     });
 
     return NextResponse.json({

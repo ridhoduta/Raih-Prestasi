@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendNotification } from "@/app/service/pushNotif";
 import { getSession } from "@/lib/auth";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const announcementSelect = {
   id: true,
@@ -167,6 +168,12 @@ export async function POST(req: Request) {
     });
 
     await Promise.all(notificationPromises);
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGUMUMAN_CREATE, {
+      id: announcement.id,
+      title: announcement.title,
+      isPublished: announcement.isPublished,
+    });
 
     return NextResponse.json({
       success: true,

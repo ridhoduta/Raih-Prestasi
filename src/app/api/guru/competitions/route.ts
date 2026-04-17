@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const competitionListSelect = {
   id: true,
@@ -136,6 +137,17 @@ export async function POST(req: Request) {
         },
       },
       select: competitionListSelect,
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.KOMPETISI_CREATE, {
+      id: competition.id,
+      title: competition.title,
+      isActive: competition.isActive,
+    });
+
+    triggerPusher(CHANNELS.DASHBOARD, EVENTS.DASHBOARD_UPDATE, {
+      resource: "competition",
+      action: "create",
     });
 
     return NextResponse.json({

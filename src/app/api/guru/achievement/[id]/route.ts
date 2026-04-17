@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { NextResponse } from "next/server";
 import { createAndSendNotification } from "@/app/service/pushNotif";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const achievementDetailSelect = {
   id: true,
@@ -105,6 +106,12 @@ export async function PUT(request: Request, context: Context) {
       },
     });
 
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PRESTASI_UPDATE, {
+      id: updated.id,
+      studentId: updated.studentId,
+      status: updated.status,
+    });
+
     return NextResponse.json({
       success: true,
       message: "Achievement berhasil diperbarui",
@@ -125,6 +132,9 @@ export async function DELETE(request: Request, context: Context) {
     await prisma.achievement.delete({
       where: { id },
     });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PRESTASI_DELETE, { id });
+
     return NextResponse.json({
       success: true,
       message: "Achievement berhasil dihapus",

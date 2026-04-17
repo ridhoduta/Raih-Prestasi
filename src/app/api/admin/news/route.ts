@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const newsSelect = {
   id: true,
@@ -115,6 +116,11 @@ export async function POST(req: Request) {
         createdBy: authorId,
       },
       select: newsSelect,
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.BERITA_CREATE, {
+      id: news.id,
+      title: news.title,
     });
 
     return NextResponse.json({

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 type Context = {
   params: Promise<{ id: string }>;
@@ -75,6 +76,12 @@ export async function POST(req: Request, context: Context) {
 
     await prisma.registrationAnswer.createMany({
       data: answerData,
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.REGISTRASI_CREATE, {
+      id: registration.id,
+      competitionId,
+      studentId,
     });
 
     return NextResponse.json({

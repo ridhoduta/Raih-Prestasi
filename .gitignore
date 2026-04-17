@@ -64,3 +64,5 @@ tmp_landing.html
 src/lib/serviceAccount.json
 src/app/service/serviceAccountKey.json
 .env
+api_endpoints_documentation.md
+plan-add-pusher.md

@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 export async function POST(req: Request) {
   try {
@@ -13,6 +14,18 @@ export async function POST(req: Request) {
         certificate,
       },
     });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PRESTASI_CREATE, {
+      id: achievement.id,
+      studentId: achievement.studentId,
+      competitionName: achievement.competitionName,
+    });
+
+    triggerPusher(CHANNELS.DASHBOARD, EVENTS.DASHBOARD_UPDATE, {
+      resource: "achievement",
+      action: "create",
+    });
+
     return NextResponse.json({
       success: true,
       message: "Berhasil mengajukan laporan prestasi",
@@ -25,4 +38,5 @@ export async function POST(req: Request) {
     });
   }
 }
+
 

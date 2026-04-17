@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 const announcementSelect = {
   id: true,
@@ -92,6 +93,11 @@ export async function PUT(req: Request, context: Context) {
       select: announcementSelect,
     });
 
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGUMUMAN_UPDATE, {
+      id: updated.id,
+      title: updated.title,
+    });
+
     return NextResponse.json({
       success: true,
       message: "Pengumuman berhasil diperbarui",
@@ -126,6 +132,8 @@ export async function DELETE(_: Request, context: Context) {
     }
 
     await prisma.announcement.delete({ where: { id } });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGUMUMAN_DELETE, { id });
 
     return NextResponse.json({
       success: true,

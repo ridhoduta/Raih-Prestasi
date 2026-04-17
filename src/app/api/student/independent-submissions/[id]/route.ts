@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { triggerPusher, CHANNELS, EVENTS } from "@/lib/pusher";
 
 type Context = {
   params: Promise<{ id: string }>;
@@ -76,6 +77,11 @@ export async function PUT(req: Request, context: Context) {
       },
     });
 
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_UPDATE, {
+      id: updated.id,
+      studentId: updated.studentId,
+    });
+
     return NextResponse.json({
       success: true,
       message: "Pengajuan berhasil diperbarui",
@@ -117,6 +123,11 @@ export async function DELETE(_: Request, context: Context) {
 
     await prisma.independentCompetitionSubmission.delete({
       where: { id },
+    });
+
+    triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_DELETE, {
+      id,
+      studentId: submission.studentId,
     });
 
     return NextResponse.json({
