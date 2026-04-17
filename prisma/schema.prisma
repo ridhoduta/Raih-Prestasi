@@ -266,6 +266,8 @@ model Achievement {
   verifiedBy  String?
   guru        User?   @relation(fields: [verifiedBy], references: [id])
 
+  academicScore AcademicScore?
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -277,6 +279,9 @@ model AcademicScore {
 
   studentId    String
   student      Student  @relation(fields: [studentId], references: [id])
+
+  achievementId String @unique
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
 
   subject      String
   score        Float

@@ -15602,6 +15602,7 @@ export namespace Prisma {
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
+    academicScore?: boolean | Achievement$academicScoreArgs<ExtArgs>
   }, ExtArgs["result"]["achievement"]>
 
   export type AchievementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -15651,6 +15652,7 @@ export namespace Prisma {
   export type AchievementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
+    academicScore?: boolean | Achievement$academicScoreArgs<ExtArgs>
   }
   export type AchievementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
@@ -15666,6 +15668,7 @@ export namespace Prisma {
     objects: {
       student: Prisma.$StudentPayload<ExtArgs>
       guru: Prisma.$UserPayload<ExtArgs> | null
+      academicScore: Prisma.$AcademicScorePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16074,6 +16077,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     guru<T extends Achievement$guruArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$guruArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    academicScore<T extends Achievement$academicScoreArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$academicScoreArgs<ExtArgs>>): Prisma__AcademicScoreClient<$Result.GetResult<Prisma.$AcademicScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16528,6 +16532,25 @@ export namespace Prisma {
   }
 
   /**
+   * Achievement.academicScore
+   */
+  export type Achievement$academicScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AcademicScore
+     */
+    select?: AcademicScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AcademicScore
+     */
+    omit?: AcademicScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AcademicScoreInclude<ExtArgs> | null
+    where?: AcademicScoreWhereInput
+  }
+
+  /**
    * Achievement without action
    */
   export type AchievementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -16569,6 +16592,7 @@ export namespace Prisma {
   export type AcademicScoreMinAggregateOutputType = {
     id: string | null
     studentId: string | null
+    achievementId: string | null
     subject: string | null
     score: number | null
     yearId: string | null
@@ -16579,6 +16603,7 @@ export namespace Prisma {
   export type AcademicScoreMaxAggregateOutputType = {
     id: string | null
     studentId: string | null
+    achievementId: string | null
     subject: string | null
     score: number | null
     yearId: string | null
@@ -16589,6 +16614,7 @@ export namespace Prisma {
   export type AcademicScoreCountAggregateOutputType = {
     id: number
     studentId: number
+    achievementId: number
     subject: number
     score: number
     yearId: number
@@ -16609,6 +16635,7 @@ export namespace Prisma {
   export type AcademicScoreMinAggregateInputType = {
     id?: true
     studentId?: true
+    achievementId?: true
     subject?: true
     score?: true
     yearId?: true
@@ -16619,6 +16646,7 @@ export namespace Prisma {
   export type AcademicScoreMaxAggregateInputType = {
     id?: true
     studentId?: true
+    achievementId?: true
     subject?: true
     score?: true
     yearId?: true
@@ -16629,6 +16657,7 @@ export namespace Prisma {
   export type AcademicScoreCountAggregateInputType = {
     id?: true
     studentId?: true
+    achievementId?: true
     subject?: true
     score?: true
     yearId?: true
@@ -16726,6 +16755,7 @@ export namespace Prisma {
   export type AcademicScoreGroupByOutputType = {
     id: string
     studentId: string
+    achievementId: string
     subject: string
     score: number
     yearId: string
@@ -16755,42 +16785,49 @@ export namespace Prisma {
   export type AcademicScoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    achievementId?: boolean
     subject?: boolean
     score?: boolean
     yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    achievementId?: boolean
     subject?: boolean
     score?: boolean
     yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    achievementId?: boolean
     subject?: boolean
     score?: boolean
     yearId?: boolean
     semester?: boolean
     createdAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["academicScore"]>
 
   export type AcademicScoreSelectScalar = {
     id?: boolean
     studentId?: boolean
+    achievementId?: boolean
     subject?: boolean
     score?: boolean
     yearId?: boolean
@@ -16798,17 +16835,20 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subject" | "score" | "yearId" | "semester" | "createdAt", ExtArgs["result"]["academicScore"]>
+  export type AcademicScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "achievementId" | "subject" | "score" | "yearId" | "semester" | "createdAt", ExtArgs["result"]["academicScore"]>
   export type AcademicScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
   export type AcademicScoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
   export type AcademicScoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    achievement?: boolean | AchievementDefaultArgs<ExtArgs>
     academicYear?: boolean | AcademicYearDefaultArgs<ExtArgs>
   }
 
@@ -16816,11 +16856,13 @@ export namespace Prisma {
     name: "AcademicScore"
     objects: {
       student: Prisma.$StudentPayload<ExtArgs>
+      achievement: Prisma.$AchievementPayload<ExtArgs>
       academicYear: Prisma.$AcademicYearPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       studentId: string
+      achievementId: string
       subject: string
       score: number
       yearId: string
@@ -17221,6 +17263,7 @@ export namespace Prisma {
   export interface Prisma__AcademicScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    achievement<T extends AchievementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AchievementDefaultArgs<ExtArgs>>): Prisma__AchievementClient<$Result.GetResult<Prisma.$AchievementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     academicYear<T extends AcademicYearDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AcademicYearDefaultArgs<ExtArgs>>): Prisma__AcademicYearClient<$Result.GetResult<Prisma.$AcademicYearPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -17253,6 +17296,7 @@ export namespace Prisma {
   interface AcademicScoreFieldRefs {
     readonly id: FieldRef<"AcademicScore", 'String'>
     readonly studentId: FieldRef<"AcademicScore", 'String'>
+    readonly achievementId: FieldRef<"AcademicScore", 'String'>
     readonly subject: FieldRef<"AcademicScore", 'String'>
     readonly score: FieldRef<"AcademicScore", 'Float'>
     readonly yearId: FieldRef<"AcademicScore", 'String'>
@@ -22138,6 +22182,7 @@ export namespace Prisma {
   export const AcademicScoreScalarFieldEnum: {
     id: 'id',
     studentId: 'studentId',
+    achievementId: 'achievementId',
     subject: 'subject',
     score: 'score',
     yearId: 'yearId',
@@ -23246,6 +23291,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Achievement"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     guru?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    academicScore?: XOR<AcademicScoreNullableScalarRelationFilter, AcademicScoreWhereInput> | null
   }
 
   export type AchievementOrderByWithRelationInput = {
@@ -23261,6 +23307,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     student?: StudentOrderByWithRelationInput
     guru?: UserOrderByWithRelationInput
+    academicScore?: AcademicScoreOrderByWithRelationInput
   }
 
   export type AchievementWhereUniqueInput = Prisma.AtLeast<{
@@ -23279,6 +23326,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Achievement"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
     guru?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    academicScore?: XOR<AcademicScoreNullableScalarRelationFilter, AcademicScoreWhereInput> | null
   }, "id">
 
   export type AchievementOrderByWithAggregationInput = {
@@ -23321,29 +23369,34 @@ export namespace Prisma {
     NOT?: AcademicScoreWhereInput | AcademicScoreWhereInput[]
     id?: StringFilter<"AcademicScore"> | string
     studentId?: StringFilter<"AcademicScore"> | string
+    achievementId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
     yearId?: StringFilter<"AcademicScore"> | string
     semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    achievement?: XOR<AchievementScalarRelationFilter, AchievementWhereInput>
     academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
   }
 
   export type AcademicScoreOrderByWithRelationInput = {
     id?: SortOrder
     studentId?: SortOrder
+    achievementId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
     yearId?: SortOrder
     semester?: SortOrder
     createdAt?: SortOrder
     student?: StudentOrderByWithRelationInput
+    achievement?: AchievementOrderByWithRelationInput
     academicYear?: AcademicYearOrderByWithRelationInput
   }
 
   export type AcademicScoreWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    achievementId?: string
     AND?: AcademicScoreWhereInput | AcademicScoreWhereInput[]
     OR?: AcademicScoreWhereInput[]
     NOT?: AcademicScoreWhereInput | AcademicScoreWhereInput[]
@@ -23354,12 +23407,14 @@ export namespace Prisma {
     semester?: EnumSemesterFilter<"AcademicScore"> | $Enums.Semester
     createdAt?: DateTimeFilter<"AcademicScore"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    achievement?: XOR<AchievementScalarRelationFilter, AchievementWhereInput>
     academicYear?: XOR<AcademicYearScalarRelationFilter, AcademicYearWhereInput>
-  }, "id">
+  }, "id" | "achievementId">
 
   export type AcademicScoreOrderByWithAggregationInput = {
     id?: SortOrder
     studentId?: SortOrder
+    achievementId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
     yearId?: SortOrder
@@ -23378,6 +23433,7 @@ export namespace Prisma {
     NOT?: AcademicScoreScalarWhereWithAggregatesInput | AcademicScoreScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AcademicScore"> | string
     studentId?: StringWithAggregatesFilter<"AcademicScore"> | string
+    achievementId?: StringWithAggregatesFilter<"AcademicScore"> | string
     subject?: StringWithAggregatesFilter<"AcademicScore"> | string
     score?: FloatWithAggregatesFilter<"AcademicScore"> | number
     yearId?: StringWithAggregatesFilter<"AcademicScore"> | string
@@ -24513,6 +24569,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutAchievementsInput
     guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
+    academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementUncheckedCreateInput = {
@@ -24526,6 +24583,7 @@ export namespace Prisma {
     verifiedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementUpdateInput = {
@@ -24539,6 +24597,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
     guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
+    academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementUncheckedUpdateInput = {
@@ -24552,6 +24611,7 @@ export namespace Prisma {
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementCreateManyInput = {
@@ -24598,12 +24658,14 @@ export namespace Prisma {
     semester: $Enums.Semester
     createdAt?: Date | string
     student: StudentCreateNestedOneWithoutAcademicScoresInput
+    achievement: AchievementCreateNestedOneWithoutAcademicScoreInput
     academicYear: AcademicYearCreateNestedOneWithoutAcademicScoreInput
   }
 
   export type AcademicScoreUncheckedCreateInput = {
     id?: string
     studentId: string
+    achievementId: string
     subject: string
     score: number
     yearId: string
@@ -24618,12 +24680,14 @@ export namespace Prisma {
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
+    achievement?: AchievementUpdateOneRequiredWithoutAcademicScoreNestedInput
     academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput
   }
 
   export type AcademicScoreUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     yearId?: StringFieldUpdateOperationsInput | string
@@ -24634,6 +24698,7 @@ export namespace Prisma {
   export type AcademicScoreCreateManyInput = {
     id?: string
     studentId: string
+    achievementId: string
     subject: string
     score: number
     yearId: string
@@ -24652,6 +24717,7 @@ export namespace Prisma {
   export type AcademicScoreUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     yearId?: StringFieldUpdateOperationsInput | string
@@ -25731,6 +25797,11 @@ export namespace Prisma {
     not?: NestedEnumAchievementStatusFilter<$PrismaModel> | $Enums.AchievementStatus
   }
 
+  export type AcademicScoreNullableScalarRelationFilter = {
+    is?: AcademicScoreWhereInput | null
+    isNot?: AcademicScoreWhereInput | null
+  }
+
   export type AchievementCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
@@ -25806,6 +25877,11 @@ export namespace Prisma {
     not?: NestedEnumSemesterFilter<$PrismaModel> | $Enums.Semester
   }
 
+  export type AchievementScalarRelationFilter = {
+    is?: AchievementWhereInput
+    isNot?: AchievementWhereInput
+  }
+
   export type AcademicYearScalarRelationFilter = {
     is?: AcademicYearWhereInput
     isNot?: AcademicYearWhereInput
@@ -25814,6 +25890,7 @@ export namespace Prisma {
   export type AcademicScoreCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    achievementId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
     yearId?: SortOrder
@@ -25828,6 +25905,7 @@ export namespace Prisma {
   export type AcademicScoreMaxOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    achievementId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
     yearId?: SortOrder
@@ -25838,6 +25916,7 @@ export namespace Prisma {
   export type AcademicScoreMinOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    achievementId?: SortOrder
     subject?: SortOrder
     score?: SortOrder
     yearId?: SortOrder
@@ -26918,6 +26997,18 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AcademicScoreCreateNestedOneWithoutAchievementInput = {
+    create?: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAchievementInput
+    connect?: AcademicScoreWhereUniqueInput
+  }
+
+  export type AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput = {
+    create?: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAchievementInput
+    connect?: AcademicScoreWhereUniqueInput
+  }
+
   export type EnumAchievementStatusFieldUpdateOperationsInput = {
     set?: $Enums.AchievementStatus
   }
@@ -26940,10 +27031,36 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVerifiedAchievementsInput, UserUpdateWithoutVerifiedAchievementsInput>, UserUncheckedUpdateWithoutVerifiedAchievementsInput>
   }
 
+  export type AcademicScoreUpdateOneWithoutAchievementNestedInput = {
+    create?: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAchievementInput
+    upsert?: AcademicScoreUpsertWithoutAchievementInput
+    disconnect?: AcademicScoreWhereInput | boolean
+    delete?: AcademicScoreWhereInput | boolean
+    connect?: AcademicScoreWhereUniqueInput
+    update?: XOR<XOR<AcademicScoreUpdateToOneWithWhereWithoutAchievementInput, AcademicScoreUpdateWithoutAchievementInput>, AcademicScoreUncheckedUpdateWithoutAchievementInput>
+  }
+
+  export type AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput = {
+    create?: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+    connectOrCreate?: AcademicScoreCreateOrConnectWithoutAchievementInput
+    upsert?: AcademicScoreUpsertWithoutAchievementInput
+    disconnect?: AcademicScoreWhereInput | boolean
+    delete?: AcademicScoreWhereInput | boolean
+    connect?: AcademicScoreWhereUniqueInput
+    update?: XOR<XOR<AcademicScoreUpdateToOneWithWhereWithoutAchievementInput, AcademicScoreUpdateWithoutAchievementInput>, AcademicScoreUncheckedUpdateWithoutAchievementInput>
+  }
+
   export type StudentCreateNestedOneWithoutAcademicScoresInput = {
     create?: XOR<StudentCreateWithoutAcademicScoresInput, StudentUncheckedCreateWithoutAcademicScoresInput>
     connectOrCreate?: StudentCreateOrConnectWithoutAcademicScoresInput
     connect?: StudentWhereUniqueInput
+  }
+
+  export type AchievementCreateNestedOneWithoutAcademicScoreInput = {
+    create?: XOR<AchievementCreateWithoutAcademicScoreInput, AchievementUncheckedCreateWithoutAcademicScoreInput>
+    connectOrCreate?: AchievementCreateOrConnectWithoutAcademicScoreInput
+    connect?: AchievementWhereUniqueInput
   }
 
   export type AcademicYearCreateNestedOneWithoutAcademicScoreInput = {
@@ -26970,6 +27087,14 @@ export namespace Prisma {
     upsert?: StudentUpsertWithoutAcademicScoresInput
     connect?: StudentWhereUniqueInput
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAcademicScoresInput, StudentUpdateWithoutAcademicScoresInput>, StudentUncheckedUpdateWithoutAcademicScoresInput>
+  }
+
+  export type AchievementUpdateOneRequiredWithoutAcademicScoreNestedInput = {
+    create?: XOR<AchievementCreateWithoutAcademicScoreInput, AchievementUncheckedCreateWithoutAcademicScoreInput>
+    connectOrCreate?: AchievementCreateOrConnectWithoutAcademicScoreInput
+    upsert?: AchievementUpsertWithoutAcademicScoreInput
+    connect?: AchievementWhereUniqueInput
+    update?: XOR<XOR<AchievementUpdateToOneWithWhereWithoutAcademicScoreInput, AchievementUpdateWithoutAcademicScoreInput>, AchievementUncheckedUpdateWithoutAcademicScoreInput>
   }
 
   export type AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput = {
@@ -27565,6 +27690,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutAchievementsInput
+    academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementUncheckedCreateWithoutGuruInput = {
@@ -27577,6 +27703,7 @@ export namespace Prisma {
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementCreateOrConnectWithoutGuruInput = {
@@ -27823,6 +27950,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
+    academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementUncheckedCreateWithoutStudentInput = {
@@ -27835,6 +27963,7 @@ export namespace Prisma {
     verifiedBy?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput
   }
 
   export type AchievementCreateOrConnectWithoutStudentInput = {
@@ -27853,11 +27982,13 @@ export namespace Prisma {
     score: number
     semester: $Enums.Semester
     createdAt?: Date | string
+    achievement: AchievementCreateNestedOneWithoutAcademicScoreInput
     academicYear: AcademicYearCreateNestedOneWithoutAcademicScoreInput
   }
 
   export type AcademicScoreUncheckedCreateWithoutStudentInput = {
     id?: string
+    achievementId: string
     subject: string
     score: number
     yearId: string
@@ -28010,6 +28141,7 @@ export namespace Prisma {
     NOT?: AcademicScoreScalarWhereInput | AcademicScoreScalarWhereInput[]
     id?: StringFilter<"AcademicScore"> | string
     studentId?: StringFilter<"AcademicScore"> | string
+    achievementId?: StringFilter<"AcademicScore"> | string
     subject?: StringFilter<"AcademicScore"> | string
     score?: FloatFilter<"AcademicScore"> | number
     yearId?: StringFilter<"AcademicScore"> | string
@@ -29310,6 +29442,31 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutVerifiedAchievementsInput, UserUncheckedCreateWithoutVerifiedAchievementsInput>
   }
 
+  export type AcademicScoreCreateWithoutAchievementInput = {
+    id?: string
+    subject: string
+    score: number
+    semester: $Enums.Semester
+    createdAt?: Date | string
+    student: StudentCreateNestedOneWithoutAcademicScoresInput
+    academicYear: AcademicYearCreateNestedOneWithoutAcademicScoreInput
+  }
+
+  export type AcademicScoreUncheckedCreateWithoutAchievementInput = {
+    id?: string
+    studentId: string
+    subject: string
+    score: number
+    yearId: string
+    semester: $Enums.Semester
+    createdAt?: Date | string
+  }
+
+  export type AcademicScoreCreateOrConnectWithoutAchievementInput = {
+    where: AcademicScoreWhereUniqueInput
+    create: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+  }
+
   export type StudentUpsertWithoutAchievementsInput = {
     update: XOR<StudentUpdateWithoutAchievementsInput, StudentUncheckedUpdateWithoutAchievementsInput>
     create: XOR<StudentCreateWithoutAchievementsInput, StudentUncheckedCreateWithoutAchievementsInput>
@@ -29396,6 +29553,37 @@ export namespace Prisma {
     announcements?: AnnouncementUncheckedUpdateManyWithoutGuruNestedInput
   }
 
+  export type AcademicScoreUpsertWithoutAchievementInput = {
+    update: XOR<AcademicScoreUpdateWithoutAchievementInput, AcademicScoreUncheckedUpdateWithoutAchievementInput>
+    create: XOR<AcademicScoreCreateWithoutAchievementInput, AcademicScoreUncheckedCreateWithoutAchievementInput>
+    where?: AcademicScoreWhereInput
+  }
+
+  export type AcademicScoreUpdateToOneWithWhereWithoutAchievementInput = {
+    where?: AcademicScoreWhereInput
+    data: XOR<AcademicScoreUpdateWithoutAchievementInput, AcademicScoreUncheckedUpdateWithoutAchievementInput>
+  }
+
+  export type AcademicScoreUpdateWithoutAchievementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
+    academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput
+  }
+
+  export type AcademicScoreUncheckedUpdateWithoutAchievementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    score?: FloatFieldUpdateOperationsInput | number
+    yearId?: StringFieldUpdateOperationsInput | string
+    semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StudentCreateWithoutAcademicScoresInput = {
     id?: string
     nisn: string
@@ -29433,6 +29621,37 @@ export namespace Prisma {
   export type StudentCreateOrConnectWithoutAcademicScoresInput = {
     where: StudentWhereUniqueInput
     create: XOR<StudentCreateWithoutAcademicScoresInput, StudentUncheckedCreateWithoutAcademicScoresInput>
+  }
+
+  export type AchievementCreateWithoutAcademicScoreInput = {
+    id?: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    status?: $Enums.AchievementStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: StudentCreateNestedOneWithoutAchievementsInput
+    guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
+  }
+
+  export type AchievementUncheckedCreateWithoutAcademicScoreInput = {
+    id?: string
+    studentId: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    status?: $Enums.AchievementStatus
+    verifiedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AchievementCreateOrConnectWithoutAcademicScoreInput = {
+    where: AchievementWhereUniqueInput
+    create: XOR<AchievementCreateWithoutAcademicScoreInput, AchievementUncheckedCreateWithoutAcademicScoreInput>
   }
 
   export type AcademicYearCreateWithoutAcademicScoreInput = {
@@ -29499,6 +29718,43 @@ export namespace Prisma {
     achievements?: AchievementUncheckedUpdateManyWithoutStudentNestedInput
     fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type AchievementUpsertWithoutAcademicScoreInput = {
+    update: XOR<AchievementUpdateWithoutAcademicScoreInput, AchievementUncheckedUpdateWithoutAcademicScoreInput>
+    create: XOR<AchievementCreateWithoutAcademicScoreInput, AchievementUncheckedCreateWithoutAcademicScoreInput>
+    where?: AchievementWhereInput
+  }
+
+  export type AchievementUpdateToOneWithWhereWithoutAcademicScoreInput = {
+    where?: AchievementWhereInput
+    data: XOR<AchievementUpdateWithoutAcademicScoreInput, AchievementUncheckedUpdateWithoutAcademicScoreInput>
+  }
+
+  export type AchievementUpdateWithoutAcademicScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
+  }
+
+  export type AchievementUncheckedUpdateWithoutAcademicScoreInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AcademicYearUpsertWithoutAcademicScoreInput = {
@@ -29583,11 +29839,13 @@ export namespace Prisma {
     semester: $Enums.Semester
     createdAt?: Date | string
     student: StudentCreateNestedOneWithoutAcademicScoresInput
+    achievement: AchievementCreateNestedOneWithoutAcademicScoreInput
   }
 
   export type AcademicScoreUncheckedCreateWithoutAcademicYearInput = {
     id?: string
     studentId: string
+    achievementId: string
     subject: string
     score: number
     semester: $Enums.Semester
@@ -30049,6 +30307,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementUncheckedUpdateWithoutGuruInput = {
@@ -30061,6 +30320,7 @@ export namespace Prisma {
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementUncheckedUpdateManyWithoutGuruInput = {
@@ -30111,6 +30371,7 @@ export namespace Prisma {
 
   export type AcademicScoreCreateManyStudentInput = {
     id?: string
+    achievementId: string
     subject: string
     score: number
     yearId: string
@@ -30212,6 +30473,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
+    academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementUncheckedUpdateWithoutStudentInput = {
@@ -30224,6 +30486,7 @@ export namespace Prisma {
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput
   }
 
   export type AchievementUncheckedUpdateManyWithoutStudentInput = {
@@ -30244,11 +30507,13 @@ export namespace Prisma {
     score?: FloatFieldUpdateOperationsInput | number
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    achievement?: AchievementUpdateOneRequiredWithoutAcademicScoreNestedInput
     academicYear?: AcademicYearUpdateOneRequiredWithoutAcademicScoreNestedInput
   }
 
   export type AcademicScoreUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     yearId?: StringFieldUpdateOperationsInput | string
@@ -30258,6 +30523,7 @@ export namespace Prisma {
 
   export type AcademicScoreUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     yearId?: StringFieldUpdateOperationsInput | string
@@ -30572,6 +30838,7 @@ export namespace Prisma {
   export type AcademicScoreCreateManyAcademicYearInput = {
     id?: string
     studentId: string
+    achievementId: string
     subject: string
     score: number
     semester: $Enums.Semester
@@ -30592,11 +30859,13 @@ export namespace Prisma {
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAcademicScoresNestedInput
+    achievement?: AchievementUpdateOneRequiredWithoutAcademicScoreNestedInput
   }
 
   export type AcademicScoreUncheckedUpdateWithoutAcademicYearInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester
@@ -30606,6 +30875,7 @@ export namespace Prisma {
   export type AcademicScoreUncheckedUpdateManyWithoutAcademicYearInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
+    achievementId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     score?: FloatFieldUpdateOperationsInput | number
     semester?: EnumSemesterFieldUpdateOperationsInput | $Enums.Semester

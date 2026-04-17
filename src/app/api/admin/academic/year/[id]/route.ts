@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { getSession } from "@/app/service/authService";
+import { getSession } from "@/lib/auth";
 
 type Context = {
   params: Promise<{ id: string }>;

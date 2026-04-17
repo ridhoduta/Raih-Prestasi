@@ -15,10 +15,12 @@ export const academicService = {
     return await res.json();
   },
 
-  // Save academic scores for a student
+  // Save academic reward score for a specific achievement
   saveScores: async (data: {
     studentId: string;
-    scores: { subject: string; score: number }[];
+    achievementId: string;
+    subject: string;
+    score: number;
     yearId: string;
     semester: Semester;
   }) => {
@@ -31,7 +33,7 @@ export const academicService = {
       }),
     });
     const result = await res.json();
-    if (!res.ok || result.error) throw new Error(result.error || "Failed to save scores");
+    if (!res.ok || result.error) throw new Error(result.error || "Failed to save reward score");
     return result;
   },
 

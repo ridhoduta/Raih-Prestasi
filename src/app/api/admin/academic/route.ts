@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Semester } from "@/generated/prisma";
-import { getSession } from "@/app/service/authService";
 import { CHANNELS, EVENTS, triggerPusher } from "@/lib/pusher";
+import { getSession } from "@/lib/auth";
+
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -27,15 +28,20 @@ export async function GET(request: Request) {
                 ] : undefined,
             },
             include: {
-                academicScores: {
-                    where: {
-                        yearId: yearId,
-                        semester: semester,
-                    },
-                },
                 achievements: {
                     where: {
                         status: 'TERVERIFIKASI'
+                    },
+                    include: {
+                        academicScore: {
+                            where: {
+                                yearId: yearId || undefined,
+                                semester: semester || undefined,
+                            },
+                            include: {
+                                academicYear: true
+                            }
+                        }
                     }
                 }
             },
@@ -61,34 +67,40 @@ export async function POST(request: Request) {
         const { action, data } = body;
 
         if (action === "saveScores") {
-            const { studentId, scores, yearId, semester } = data;
+            const { studentId, achievementId, subject, score, yearId, semester } = data;
 
-            // Upsert pattern or Delete and Create
-            await prisma.academicScore.deleteMany({
+            if (!achievementId) {
+                return NextResponse.json({ error: "Achievement ID is required" }, { status: 400 });
+            }
+
+            const result = await prisma.academicScore.upsert({
                 where: {
+                    achievementId: achievementId
+                },
+                update: {
+                    subject,
+                    score: parseFloat(score),
+                    yearId,
+                    semester,
+                    studentId, // Ensure it's linked correctly
+                },
+                create: {
+                    achievementId,
                     studentId,
+                    subject,
+                    score: parseFloat(score),
                     yearId,
                     semester,
                 }
             });
 
-            const createdScores = await prisma.academicScore.createMany({
-                data: scores.map((s: any) => ({
-                    studentId,
-                    subject: s.subject,
-                    score: parseFloat(s.score),
-                    yearId,
-                    semester,
-                }))
-            });
-
             triggerPusher(CHANNELS.AKADEMIK, EVENTS.NILAI_CREATE, {
                 studentId: studentId,
-                title: "Nilai Akademik",
+                title: "Nilai Akademik Reward",
                 isPublished: true,
             });
 
-            return NextResponse.json({ success: true, result: createdScores });
+            return NextResponse.json({ success: true, result });
         }
 
         if (action === "saveAcademicFile") {

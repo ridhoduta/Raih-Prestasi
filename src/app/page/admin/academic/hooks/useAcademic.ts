@@ -46,10 +46,10 @@ export const useAcademic = () => {
 
   // Mutation: Save scores
   const saveScoresMutation = useMutation({
-    mutationFn: (payload: { studentId: string; scores: any[]; yearId: string; semester: Semester }) => 
+    mutationFn: (payload: { studentId: string; achievementId: string; subject: string; score: number; yearId: string; semester: Semester }) => 
       academicService.saveScores(payload),
     onSuccess: () => {
-      showAlert("Berhasil", "Nilai akademik berhasil disimpan", "success");
+      showAlert("Berhasil", "Nilai reward berhasil disimpan", "success");
       queryClient.invalidateQueries({ queryKey: ["academic", "students"] });
     },
     onError: (error: any) => {
@@ -106,8 +106,8 @@ export const useAcademic = () => {
     semester,
     setSemester,
     fetchStudents,
-    handleSaveScores: (studentId: string, scores: any[], yearIdParam: string, sem: any) => 
-      saveScoresMutation.mutate({ studentId, scores, yearId: yearIdParam, semester: sem }),
+    handleSaveScores: (payload: any) => 
+      saveScoresMutation.mutate(payload),
     handleUploadFile: (file: File) => uploadFileMutation.mutate(file),
     handleCreateYear: (year: string) => createYearMutation.mutate(year),
     handleDeleteYear: (id: string) => deleteYearMutation.mutate(id),
