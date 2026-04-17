@@ -24,7 +24,7 @@ export const AcademicModal = ({
 
   useEffect(() => {
     if (isOpen && student) {
-      setAcademicYear(defaultYear);
+      setYearId(defaultYear);
       setSemester(defaultSemester);
       
       if (student.academicScores && student.academicScores.length > 0) {
