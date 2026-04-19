@@ -66,12 +66,14 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const studentId = searchParams.get("studentId");
+    const competitionId = searchParams.get("competitionId");
     const cursor = searchParams.get("cursor");
     const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
     const search = searchParams.get("search") || "";
 
     const where: any = {};
     if (studentId) where.studentId = studentId;
+    if (competitionId) where.competitionId = competitionId;
 
     if (search) {
       where.OR = [

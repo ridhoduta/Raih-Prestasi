@@ -42,6 +42,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
         fetchData();
     }, []);
 
+
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -213,7 +214,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
             <div className="max-w-2xl mx-auto space-y-6">
                 <div className="flex items-center gap-4 mb-8">
                     <Link
-                        href="/page/guru/competitions"
+                        href="/page/admin/competitions"
                         className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
                     >
                         <ArrowLeft size={20} />

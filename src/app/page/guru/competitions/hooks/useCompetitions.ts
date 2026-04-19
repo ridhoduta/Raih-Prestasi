@@ -94,7 +94,6 @@ export function useCompetitions() {
         if (!confirmState.id) return;
         deleteMutation.mutate(confirmState.id);
     };
-
     // Client-side status filter
     const filteredCompetitions = useMemo(() => {
         if (filterStatus === "all") return competitions;

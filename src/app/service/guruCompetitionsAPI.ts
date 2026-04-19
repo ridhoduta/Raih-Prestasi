@@ -32,6 +32,12 @@ export type Competition = {
     id: string;
     name: string;
   };
+  _count?: {
+    registrations: number;
+    pendingRegistrations?: number;
+    acceptedRegistrations?: number;
+    rejectedRegistrations?: number;
+  };
 };
 
 export type FormFieldPayload = {
@@ -62,6 +68,7 @@ export type Registration = {
     id: string;
     title: string;
   };
+  note?: string;
 };
 
 export type RegistrationDetail = Registration & {
@@ -139,9 +146,8 @@ export async function deleteFormField(competitionId: string, fieldId: string) {
 
 // --- Registrations ---
 export async function getRegistrations(competitionId: string) {
-  return apiClient.get<Registration[]>(`${BASE_URL}/${competitionId}/registrations`);
+  return apiClient.get<RegistrationDetail[]>(`/api/guru/registrations?competitionId=${competitionId}`);
 }
-
 export async function getAllRegistrations(params?: {
   cursor?: string;
   limit?: number;

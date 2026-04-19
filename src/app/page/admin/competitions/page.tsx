@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useCompetitions } from "./hooks/useCompetitions";
 import { CompetitionTable } from "./components/CompetitionTable";
 
-export default function AdminCompetition() {
+export default function GuruCompetitions() {
   const router = useRouter();
   const {
     searchTerm,
@@ -32,6 +32,10 @@ export default function AdminCompetition() {
 
   const handleEdit = (competition: any) => {
     router.push(`/page/admin/competitions/${competition.id}/edit`);
+  };
+
+  const handleView = (competition: any) => {
+    router.push(`/page/admin/competitions/${competition.id}/registration`);
   };
 
   return (
@@ -101,6 +105,7 @@ export default function AdminCompetition() {
           filterStatus={filterStatus}
           onEdit={handleEdit}
           onDelete={initiateDelete}
+          onView={handleView}
         />
 
         {nextCursor && !loading && (

@@ -42,6 +42,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
         fetchData();
     }, []);
 
+
     const fetchData = async () => {
         setLoading(true);
         try {

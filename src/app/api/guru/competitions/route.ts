@@ -32,6 +32,16 @@ const competitionListSelect = {
       competitionId: true,
     },
   },
+  _count: {
+    select: {
+      registrations: true,
+    },
+  },
+  registrations: {
+    select: {
+      status: true,
+    },
+  },
 };
 
 // =======================
@@ -53,7 +63,16 @@ export async function GET(req: NextRequest) {
     const data = await prisma.competition.findMany({
       where,
       select: competitionListSelect,
-      orderBy: { createdAt: "desc" },
+      orderBy: [
+        {
+          registrations: {
+            _count: "desc",
+          },
+        },
+        {
+          createdAt: "desc",
+        },
+      ],
       take: limit + 1,
       ...(cursor
         ? {
@@ -64,8 +83,33 @@ export async function GET(req: NextRequest) {
     });
 
     const hasMore = data.length > limit;
-    const results = hasMore ? data.slice(0, limit) : data;
-    const nextCursor = hasMore ? results[results.length - 1].id : null;
+    const rawResults = hasMore ? data.slice(0, limit) : data;
+    
+    const results = rawResults.map((comp: any) => {
+      let pending = 0;
+      let accepted = 0;
+      let rejected = 0;
+
+      comp.registrations.forEach((r: any) => {
+        if (r.status === "MENUNGGU") pending++;
+        else if (r.status === "DITERIMA") accepted++;
+        else if (r.status === "DITOLAK") rejected++;
+      });
+
+      const { registrations, ...rest } = comp;
+
+      return {
+        ...rest,
+        _count: {
+          ...rest._count,
+          pendingRegistrations: pending,
+          acceptedRegistrations: accepted,
+          rejectedRegistrations: rejected,
+        }
+      };
+    });
+
+    const nextCursor = hasMore ? rawResults[rawResults.length - 1].id : null;
 
     return NextResponse.json({
       success: true,

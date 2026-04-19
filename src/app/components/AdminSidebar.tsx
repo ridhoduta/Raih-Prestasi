@@ -60,8 +60,8 @@ export default function AdminSidebar() {
     {
       title: "Manajemen Kompetisi",
       items: [
-        { name: "Kompetisi", href: "/page/admin/competitions", icon: Trophy },
-        { name: "Pendaftaran", href: "/page/admin/registrations", icon: ClipboardList, count: pendingCounts.registrations },
+        { name: "Kompetisi", href: "/page/admin/competitions", icon: Trophy, count: pendingCounts.registrations },
+        // { name: "Pendaftaran", href: "/page/admin/registrations", icon: ClipboardList, count: pendingCounts.registrations },
         { name: "Pengajuan Mandiri", href: "/page/admin/independent-submissions", icon: FileText, count: pendingCounts.submissions },
         { name: "Prestasi Siswa", href: "/page/admin/achievements", icon: Award, count: pendingCounts.achievements },
         { name: "Akademik", href: "/page/admin/academic", icon: TrendingUp },

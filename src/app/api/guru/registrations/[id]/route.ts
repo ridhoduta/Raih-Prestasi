@@ -104,7 +104,7 @@ export async function PUT(req: Request, context: Context) {
   // ... existing PUT implementation ...
   try {
     const session = await getSession();
-    if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
+    if (!session ) {
       return NextResponse.json(
         { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
@@ -133,12 +133,14 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
+    /*
     if (session.role !== "ADMIN" && registration.competition.createdBy !== session.id) {
       return NextResponse.json(
         { success: false, message: "Anda tidak memiliki akses" },
         { status: 403 }
       );
     }
+    */
 
     const updated = await prisma.competitionRegistration.update({
       where: { id },

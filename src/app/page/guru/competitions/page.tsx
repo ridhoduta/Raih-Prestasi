@@ -34,6 +34,10 @@ export default function GuruCompetitions() {
     router.push(`/page/guru/competitions/${competition.id}/edit`);
   };
 
+  const handleView = (competition: any) => {
+    router.push(`/page/guru/competitions/${competition.id}/registration`);
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center">
@@ -101,6 +105,7 @@ export default function GuruCompetitions() {
           filterStatus={filterStatus}
           onEdit={handleEdit}
           onDelete={initiateDelete}
+          onView={handleView}
         />
 
         {nextCursor && !loading && (
