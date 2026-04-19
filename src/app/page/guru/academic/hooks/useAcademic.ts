@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { academicService } from "@/app/service/academicService";
 import { Semester } from "@/generated/prisma";
@@ -6,7 +6,7 @@ import { Semester } from "@/generated/prisma";
 export const useAcademic = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
-  const [yearId, setYearId] = useState("2023/2024");
+  const [yearId, setYearId] = useState("");
   const [semester, setSemester] = useState<Semester>("GANJIL");
 
   const [alertState, setAlertState] = useState({
@@ -16,10 +16,24 @@ export const useAcademic = () => {
     type: "success" as "success" | "error",
   });
 
+  // Query: Get academic years
+  const { data: academicYears = [], isLoading: loadingYears, refetch: fetchAcademicYears } = useQuery({
+    queryKey: ["academic", "years"],
+    queryFn: () => academicService.getAcademicYears(),
+  });
+
+  // Set default expected yearId
+  useEffect(() => {
+    if (academicYears.length > 0 && !yearId) {
+      setYearId(academicYears[0].id);
+    }
+  }, [academicYears, yearId]);
+
   // Query: Get students with achievements
   const { data: students = [], isLoading: loadingStudents, refetch: fetchStudents } = useQuery({
     queryKey: ["academic", "students", search, yearId, semester],
-    queryFn: () => academicService.getStudentsWithAchievements({ search, yearId: yearId, semester }),
+    queryFn: () => yearId ? academicService.getStudentsWithAchievements({ search, yearId, semester }) : Promise.resolve([]),
+    enabled: !!yearId,
   });
 
   const showAlert = (title: string, message: string, type: "success" | "error") => {
@@ -32,10 +46,10 @@ export const useAcademic = () => {
 
   // Mutation: Save scores
   const saveScoresMutation = useMutation({
-    mutationFn: (payload: { studentId: string; scores: any[]; yearId: string; semester: Semester }) => 
+    mutationFn: (payload: { studentId: string; achievementId: string; subject: string; score: number; yearId: string; semester: Semester }) => 
       academicService.saveScores(payload),
     onSuccess: () => {
-      showAlert("Berhasil", "Nilai akademik berhasil disimpan", "success");
+      showAlert("Berhasil", "Nilai reward berhasil disimpan", "success");
       queryClient.invalidateQueries({ queryKey: ["academic", "students"] });
     },
     onError: (error: any) => {
@@ -56,9 +70,35 @@ export const useAcademic = () => {
     },
   });
 
+  // Mutation: Create academic year
+  const createYearMutation = useMutation({
+    mutationFn: (year: string) => academicService.createAcademicYear({ yearId: year }),
+    onSuccess: () => {
+      showAlert("Berhasil", "Tahun ajaran berhasil ditambahkan", "success");
+      queryClient.invalidateQueries({ queryKey: ["academic", "years"] });
+    },
+    onError: (error: any) => {
+      showAlert("Gagal", error.message, "error");
+    },
+  });
+
+  // Mutation: Delete academic year
+  const deleteYearMutation = useMutation({
+    mutationFn: (id: string) => academicService.deleteAcademicYear(id),
+    onSuccess: () => {
+      showAlert("Berhasil", "Tahun ajaran berhasil dihapus", "success");
+      setYearId("");
+      queryClient.invalidateQueries({ queryKey: ["academic", "years"] });
+    },
+    onError: (error: any) => {
+      showAlert("Gagal", error.message, "error");
+    },
+  });
+
   return {
     students,
-    loading: loadingStudents,
+    academicYears,
+    loading: loadingStudents || loadingYears,
     search,
     setSearch,
     yearId,
@@ -66,10 +106,13 @@ export const useAcademic = () => {
     semester,
     setSemester,
     fetchStudents,
-    handleSaveScores: (studentId: string, scores: any[], year: string, sem: any) => 
-      saveScoresMutation.mutate({ studentId, scores, yearId: year, semester: sem }),
+    handleSaveScores: (payload: any) => 
+      saveScoresMutation.mutate(payload),
     handleUploadFile: (file: File) => uploadFileMutation.mutate(file),
-    isSaving: saveScoresMutation.isPending || uploadFileMutation.isPending,
+    handleCreateYear: (year: string) => createYearMutation.mutate(year),
+    handleDeleteYear: (id: string) => deleteYearMutation.mutate(id),
+    isSaving: saveScoresMutation.isPending || uploadFileMutation.isPending || createYearMutation.isPending,
+    isDeleting: deleteYearMutation.isPending,
     alertState,
     closeAlert,
   };
