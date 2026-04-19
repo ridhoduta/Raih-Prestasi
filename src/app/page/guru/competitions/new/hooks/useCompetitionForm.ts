@@ -22,9 +22,9 @@ export const useCompetitionForm = () => {
 
     const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
     const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-    const [formFields, setFormFields] = useState<{ label: string; fieldType: string; isRequired: boolean }[]>([
-        { label: "Nama Lengkap", fieldType: "TEXT", isRequired: true },
-        { label: "NISN", fieldType: "TEXT", isRequired: true },
+    const [formFields, setFormFields] = useState<{ label: string; fieldType: string; isRequired: boolean; options?: string | string[] }[]>([
+        { label: "Nama Lengkap", fieldType: "TEXT", isRequired: true, options: "" },
+        { label: "NISN", fieldType: "TEXT", isRequired: true, options: "" },
     ]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [levels, setLevels] = useState<Level[]>([]);
@@ -44,7 +44,7 @@ export const useCompetitionForm = () => {
     const closeAlert = () => {
         setAlertState({ ...alertState, isOpen: false });
         if (alertState.shouldRedirect) {
-            router.push("/page/guru/competitions");
+            router.push("/page/admin/competitions");
         }
     };
 
@@ -70,7 +70,7 @@ export const useCompetitionForm = () => {
     }, []);
 
     const addField = () => {
-        setFormFields([...formFields, { label: "", fieldType: "TEXT", isRequired: false }]);
+        setFormFields([...formFields, { label: "", fieldType: "TEXT", isRequired: false, options: "" }]);
     };
 
     const removeField = (index: number) => {
@@ -134,7 +134,11 @@ export const useCompetitionForm = () => {
                 startDate: formData.startDate,
                 endDate: formData.endDate,
                 isActive: formData.isActive,
-                formFields: formFields.map((f, idx) => ({ ...f, order: idx }))
+                formFields: formFields.map((f, idx) => ({ 
+                    ...f, 
+                    order: idx,
+                    options: typeof f.options === "string" ? f.options.split(",").map(s => s.trim()).filter(s => s !== "") : f.options
+                }))
             };
 
             const response = await createCompetition(payload as any);
@@ -153,7 +157,7 @@ export const useCompetitionForm = () => {
     };
 
     const handleCancel = () => {
-        router.push("/page/guru/competitions");
+        router.push("/page/admin/competitions");
     };
 
     return {

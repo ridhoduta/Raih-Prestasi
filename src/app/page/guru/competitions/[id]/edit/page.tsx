@@ -26,7 +26,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
     });
     const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
     const [thumbnailPreview, setThumbnailPreview] = useState<string | null>(null);
-    const [formFields, setFormFields] = useState<{ label: string; fieldType: string; isRequired: boolean }[]>([]);
+    const [formFields, setFormFields] = useState<{ label: string; fieldType: string; isRequired: boolean; options?: string | string[] }[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [levels, setLevels] = useState<Level[]>([]);
     const [loading, setLoading] = useState(false);
@@ -73,7 +73,8 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
                     setFormFields(competition.CompetitionFormField.map((f: any) => ({
                         label: f.label,
                         fieldType: f.fieldType,
-                        isRequired: f.isRequired
+                        isRequired: f.isRequired,
+                        options: Array.isArray(f.options) ? f.options.join(", ") : ""
                     })));
                 }
             }
@@ -88,7 +89,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
     };
 
     const addField = () => {
-        setFormFields([...formFields, { label: "", fieldType: "TEXT", isRequired: false }]);
+        setFormFields([...formFields, { label: "", fieldType: "TEXT", isRequired: false, options: "" }]);
     };
 
     const removeField = (index: number) => {
@@ -172,7 +173,11 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
                 endDate: formData.endDate,
                 isActive: formData.isActive,
                 createdById: formData.createdById,
-                formFields: formFields.map((f, idx) => ({ ...f, order: idx }))
+                formFields: formFields.map((f, idx) => ({
+                    ...f,
+                    order: idx,
+                    options: typeof f.options === "string" ? f.options.split(",").map(s => s.trim()).filter(s => s !== "") : f.options
+                }))
             };
 
             const response = await updateCompetition(id, payload as any);
@@ -193,12 +198,12 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
     const closeAlert = () => {
         setAlertState({ ...alertState, isOpen: false });
         if (alertState.shouldRedirect) {
-            router.push("/page/guru/competitions");
+            router.push("/page/admin/competitions");
         }
     };
 
     const handleCancel = () => {
-        router.push("/page/guru/competitions");
+        router.push("/page/admin/competitions");
     };
 
     if (loading) {
@@ -214,7 +219,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
             <div className="max-w-2xl mx-auto space-y-6">
                 <div className="flex items-center gap-4 mb-8">
                     <Link
-                        href="/page/guru/competitions"
+                        href="/page/admin/competitions"
                         className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
                     >
                         <ArrowLeft size={20} />
@@ -377,7 +382,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
                                                     type="text"
                                                     required
                                                     placeholder="Contoh: Nomor HP"
-                                                    className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                                    className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
                                                     value={field.label}
                                                     onChange={(e) => updateField(index, { label: e.target.value })}
                                                 />
@@ -385,7 +390,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
                                             <div>
                                                 <label className="block text-xs font-medium text-gray-500 mb-1">Tipe Field</label>
                                                 <select
-                                                    className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                                    className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
                                                     value={field.fieldType}
                                                     onChange={(e) => updateField(index, { fieldType: e.target.value })}
                                                 >
@@ -393,10 +398,27 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
                                                     <option value="TEXTAREA">Teks Panjang</option>
                                                     <option value="NUMBER">Angka</option>
                                                     <option value="FILE">Upload File</option>
+                                                    <option value="SELECT">Dropdown</option>
+                                                    <option value="CHECKBOX">Checklist</option>
+                                                    <option value="RADIO">Radio</option>
                                                     <option value="DATE">Tanggal</option>
                                                 </select>
                                             </div>
                                         </div>
+
+                                        {(field.fieldType === "SELECT" || field.fieldType === "CHECKBOX" || field.fieldType === "RADIO") && (
+                                            <div>
+                                                <label className="block text-xs font-medium text-gray-500 mb-1">Pilihan</label>
+                                                <input
+                                                    type="text"
+                                                    placeholder="Pilihan 1, Pilihan 2, Pilihan 3 (Pisahkan dengan koma)"
+                                                    className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
+                                                    value={typeof field.options === "string" ? field.options : (Array.isArray(field.options) ? field.options.join(", ") : "")}
+                                                    onChange={(e) => updateField(index, { options: e.target.value })}
+                                                />
+                                                <p className="text-[10px] text-gray-400 mt-1">Pisahkan setiap pilihan dengan tanda koma (,)</p>
+                                            </div>
+                                        )}
 
                                         <div className="flex items-center gap-2">
                                             <input

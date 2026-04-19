@@ -11,7 +11,7 @@ async function main() {
     console.log('Start seeding...');
 
     // 1. Seed Categories
-    const categoryNames = ['Sains', 'Seni', 'Olahraga', 'Akademik', 'Teknologi'];
+    const categoryNames = ['Olahraga', 'Akademik', 'Teknologi', 'Seni', 'Keagamaan'];
     const categoriesMap: Record<string, string> = {};
 
     for (const name of categoryNames) {
@@ -23,7 +23,7 @@ async function main() {
     }
     console.log('Categories seeded.');
 
-    // 2. Seed Levels
+    // // 2. Seed Levels
     const levelsData = [
         { name: 'Sekolah', order: 1 },
         { name: 'Kecamatan', order: 2 },
@@ -46,25 +46,24 @@ async function main() {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash('guru123', salt);
     const guru = await prisma.user.upsert({
-        where: { email: 'guru@example.com' },
+        where: { email: 'guru@raihprestasi.com' },
         update: {},
         create: {
-            email: 'guru@example.com',
-            name: 'Guru Pengampu',
+            email: 'guru@raihprestasi.com',
+            name: 'Guru Raih Prestasi',
             password: hashedPassword,
             role: UserRole.GURU,
         },
     });
     console.log('Guru user seeded.');
 
-    // const salt = await bcrypt.genSalt(10);
     const adminHashedPassword = await bcrypt.hash('admin123', salt);
     const admin = await prisma.user.upsert({
-        where: { email: 'admin@example.com' },
+        where: { email: 'admin@raihprestasi.com' },
         update: {},
         create: {
-            email: 'admin@example.com',
-            name: 'Admin',
+            email: 'admin@raihprestasi.com',
+            name: 'Admin Raih Prestasi',
             password: adminHashedPassword,
             role: UserRole.ADMIN,
         },
@@ -75,354 +74,177 @@ async function main() {
     const now = new Date();
     const past = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 30); // 30 days ago
     const future = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30); // 30 days from now
-
     const competitionsData = [
         {
-            title: 'Lomba Matematika Nasional 2026',
-            description: 'Kompetisi matematika tingkat nasional untuk siswa SMA/MA.',
-            categoryId: categoriesMap['Sains'],
-            levelId: levelsMap['Nasional'],
+            title: 'Lomba Bulutangkis',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/1.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vMS5wbmciLCJpYXQiOjE3NzY2MTY4NzAsImV4cCI6MTgwODE1Mjg3MH0.f6k1XgPySlY40EjQnosry4cUOWJVnTnPFAWiLZH8QhU',
+            description: 'Kompetisi bulutangkis tingkat nasional yang ditujukan untuk siswa SMA/MA dari berbagai daerah. Peserta akan bertanding secara individu maupun ganda dengan sistem eliminasi. Ajang ini bertujuan untuk meningkatkan sportivitas dan kemampuan teknik bermain.',
+            categoryId: categoriesMap['Olahraga'],
+            levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
+            createdBy: admin.id,
             formFields: [
-                { label: 'Link Portofolio', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
-                { label: 'Alasan Mengikuti', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
+                { label: 'Nama Lengkap', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Tanggal Lahir', fieldType: FieldType.DATE, isRequired: true, order: 2 },
+                { label: 'Jenis Kelamin', fieldType: FieldType.RADIO, isRequired: true, order: 3, options: ['Laki-laki', 'Perempuan'] },
+                { label: 'Kategori Pertandingan', fieldType: FieldType.SELECT, isRequired: true, order: 4, options: ['Tunggal Putra', 'Tunggal Putri', 'Ganda Putra', 'Ganda Putri', 'Campuran'] },
+                { label: 'Upload Kartu Pelajar', fieldType: FieldType.FILE, isRequired: true, order: 5 },
             ],
         },
         {
-            title: 'Festival Lukis Digital Provinsi',
-            description: 'Unjuk bakat melukis digital tingkat provinsi.',
+            title: 'Pameran Karya Siswa',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/10.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vMTAucG5nIiwiaWF0IjoxNzc2NjE2ODgzLCJleHAiOjE4MDgxNTI4ODN9.RoOKfxTrcZwIBSTwTlKaOE07aH-e-7PTYNMtiYFUgN4',
+            description: 'Pameran ini menampilkan berbagai karya inovatif siswa di bidang seni, teknologi, dan kreativitas. Setiap peserta diberikan kesempatan untuk mempresentasikan hasil karyanya kepada pengunjung. Kegiatan ini bertujuan untuk meningkatkan apresiasi terhadap kreativitas pelajar.',
             categoryId: categoriesMap['Seni'],
-            levelId: levelsMap['Provinsi'],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
+            levelId: levelsMap['Sekolah'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
             formFields: [
-                { label: 'Ukuran Kaos', fieldType: FieldType.SELECT, isRequired: true, order: 1, options: ['S', 'M', 'L', 'XL'] },
+                { label: 'Judul Karya', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Deskripsi Karya', fieldType: FieldType.TEXTAREA, isRequired: true, order: 2 },
+                { label: 'Kategori Karya', fieldType: FieldType.SELECT, isRequired: true, order: 3, options: ['Lukisan', 'Patung', 'Kriya', 'Digital Art', 'Lainnya'] },
+                { label: 'Upload Foto Karya', fieldType: FieldType.FILE, isRequired: true, order: 4 },
+                { label: 'Butuh Stand?', fieldType: FieldType.CHECKBOX, isRequired: false, order: 5, options: ['Ya, saya butuh stand'] },
             ],
         },
         {
-            title: 'Turnamen Catur Sekolah 2025',
-            description: 'Pencarian bakat catur internal sekolah.',
-            categoryId: categoriesMap['Olahraga'],
-            levelId: levelsMap['Sekolah'],
-            startDate: past,
-            endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
+            title: 'Turnamen Esport',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/2.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vMi5wbmciLCJpYXQiOjE3NzY2MTY4OTQsImV4cCI6MTgwODE1Mjg5NH0.uuy6rcXs0-ZyG-dJAisizNAGXmd30R5cktLTPPfgZ1s',
+            description: 'Turnamen esport ini mempertemukan tim-tim pelajar dalam berbagai game populer yang kompetitif. Setiap tim akan bertanding dalam sistem bracket untuk menentukan juara. Kegiatan ini juga melatih kerja sama tim dan strategi bermain.',
+            categoryId: categoriesMap['Teknologi'],
+            levelId: levelsMap['Provinsi'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
             formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-
-
+                { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Game yang Diikuti', fieldType: FieldType.SELECT, isRequired: true, order: 2, options: ['Mobile Legends', 'PUBG Mobile', 'Valorant', 'Free Fire'] },
+                { label: 'Jumlah Anggota', fieldType: FieldType.NUMBER, isRequired: true, order: 3 },
+                { label: 'Upload Logo Tim', fieldType: FieldType.FILE, isRequired: false, order: 4 },
+                { label: 'Platform', fieldType: FieldType.RADIO, isRequired: true, order: 5, options: ['Mobile', 'PC'] },
+            ],
         },
         {
-            title: 'Lomba Karya Tulis Ilmiah Populer',
-            description: 'Menulis artikel ilmiah dengan bahasa yang mudah dimengerti.',
+            title: 'Lari Marathon 5K',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/3.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vMy5wbmciLCJpYXQiOjE3NzY2MTY5MDMsImV4cCI6MTgwODE1MjkwM30.bzatUs_aUNSn2AubkB1SKxzz-gtHzIlrbDmV-H0mN8Q',
+            description: 'Lomba lari jarak 5 kilometer yang terbuka untuk pelajar dengan kondisi fisik yang sehat. Peserta akan mengikuti rute yang telah ditentukan oleh panitia. Kegiatan ini bertujuan untuk meningkatkan kesehatan dan semangat olahraga.',
+            categoryId: categoriesMap['Olahraga'],
+            levelId: levelsMap['Kabupaten/Kota'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
+            formFields: [
+                { label: 'Usia Peserta', fieldType: FieldType.NUMBER, isRequired: true, order: 1 },
+                { label: 'Riwayat Kesehatan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
+                { label: 'Tanggal Lahir', fieldType: FieldType.DATE, isRequired: true, order: 3 },
+                { label: 'Jenis Kelamin', fieldType: FieldType.RADIO, isRequired: true, order: 4, options: ['Laki-laki', 'Perempuan'] },
+                { label: 'Upload Surat Sehat', fieldType: FieldType.FILE, isRequired: true, order: 5 },
+            ],
+        },
+        {
+            title: 'Lomba Basket',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/4.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNC5wbmciLCJpYXQiOjE3NzY2MTY5MTYsImV4cCI6MTgwODE1MjkxNn0.NtW7TnVWces3GukepM5TqSTfyPZgj_7YbYzhEZoBE7g',
+            description: 'Kompetisi bola basket antar sekolah yang menampilkan tim terbaik dari berbagai daerah. Pertandingan dilakukan dengan sistem turnamen hingga babak final. Kegiatan ini bertujuan untuk meningkatkan kemampuan tim dan sportivitas.',
+            categoryId: categoriesMap['Olahraga'],
+            levelId: levelsMap['Provinsi'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
+            formFields: [
+                { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Jumlah Pemain', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
+                { label: 'Kategori Tim', fieldType: FieldType.SELECT, isRequired: true, order: 3, options: ['Putra', 'Putri'] },
+                { label: 'Upload Logo Tim', fieldType: FieldType.FILE, isRequired: false, order: 4 },
+                { label: 'Setuju Peraturan', fieldType: FieldType.CHECKBOX, isRequired: true, order: 5, options: ['Ya, Setuju'] },
+            ],
+        },
+        {
+            title: 'Turnamen Sepak Bola',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/5.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNS5wbmciLCJpYXQiOjE3NzY2MTY5MjMsImV4cCI6MTgwODE1MjkyM30.Zs7mXo6nCwY7NXkCYtzr4vRKSYfXGgHAakogdfWtV-s',
+            description: 'Turnamen sepak bola ini diikuti oleh tim pelajar dari berbagai sekolah di tingkat daerah. Setiap tim akan bersaing untuk menjadi juara melalui sistem pertandingan gugur. Kegiatan ini bertujuan untuk membangun kerja sama dan semangat kompetisi.',
+            categoryId: categoriesMap['Olahraga'],
+            levelId: levelsMap['Kabupaten/Kota'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
+            formFields: [
+                { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Kapten Tim', fieldType: FieldType.TEXT, isRequired: true, order: 2 },
+                { label: 'Jumlah Pemain', fieldType: FieldType.NUMBER, isRequired: true, order: 3 },
+                { label: 'Upload Jersey', fieldType: FieldType.FILE, isRequired: false, order: 4 },
+                { label: 'Kategori Umur', fieldType: FieldType.SELECT, isRequired: true, order: 5, options: ['U-15', 'U-17', 'U-19'] },
+            ],
+        },
+        {
+            title: 'Kompetisi Catur',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/6.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNi5wbmciLCJpYXQiOjE3NzY2MTY5MzAsImV4cCI6MTgwODE1MjkzMH0.45IE2WCP03uDn6Zv8y44ppycVOwR-ItJ5N1Zhnh1JRI',
+            description: 'Kompetisi catur ini dirancang untuk menguji kemampuan strategi dan konsentrasi peserta. Setiap pertandingan dilakukan dengan aturan resmi yang berlaku. Kegiatan ini juga bertujuan untuk meningkatkan kemampuan berpikir kritis siswa.',
+            categoryId: categoriesMap['Akademik'],
+            levelId: levelsMap['Provinsi'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
+            formFields: [
+                { label: 'Rating Catur', fieldType: FieldType.NUMBER, isRequired: false, order: 1 },
+                { label: 'Pengalaman Bertanding', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
+                { label: 'Kategori', fieldType: FieldType.SELECT, isRequired: true, order: 3, options: ['Standar', 'Cepat', 'Kilat'] },
+                { label: 'Jenis Kelamin', fieldType: FieldType.RADIO, isRequired: true, order: 4, options: ['Laki-laki', 'Perempuan'] },
+                { label: 'Upload Identitas', fieldType: FieldType.FILE, isRequired: true, order: 5 },
+            ],
+        },
+        {
+            title: 'Cerdas Cermat',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/7.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNy5wbmciLCJpYXQiOjE3NzY2MTY5MzgsImV4cCI6MTgwODE1MjkzOH0.nnzLLJbM-qElD2YLruF9fPTbU118TyyhoukBdi5FM8c',
+            description: 'Lomba cerdas cermat ini menguji pengetahuan umum dan kemampuan berpikir cepat siswa. Peserta akan berkompetisi dalam bentuk tim dengan berbagai jenis soal. Kegiatan ini bertujuan untuk meningkatkan wawasan dan kerja sama tim.',
+            categoryId: categoriesMap['Akademik'],
+            levelId: levelsMap['Sekolah'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
+            formFields: [
+                { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Jumlah Anggota', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
+                { label: 'Kategori Soal', fieldType: FieldType.SELECT, isRequired: true, order: 3, options: ['IPA', 'IPS', 'Matematika', 'Pengetahuan Umum'] },
+                { label: 'Upload Surat Tugas', fieldType: FieldType.FILE, isRequired: true, order: 4 },
+                { label: 'Setuju Aturan', fieldType: FieldType.CHECKBOX, isRequired: true, order: 5, options: ['Setuju'] },
+            ],
+        },
+        {
+            title: 'Tryout Persiapan PPDB',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/8.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vOC5wbmciLCJpYXQiOjE3NzY2MTY5NTAsImV4cCI6MTgwODE1Mjk1MH0.l7VoE9rFH-HBFfIfIItBkYH84Zpt8NGF3e5k81avQ-o',
+            description: 'Tryout ini dirancang sebagai simulasi ujian untuk mempersiapkan siswa menghadapi PPDB. Soal-soal disusun menyerupai ujian sebenarnya. Kegiatan ini membantu siswa mengukur kemampuan dan kesiapan mereka.',
             categoryId: categoriesMap['Akademik'],
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-        },
-        {
-            title: 'Robotics International Contest',
-            description: 'Annual international robotics competition for students.',
-            categoryId: categoriesMap['Teknologi'],
-            levelId: levelsMap['Internasional'],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 14),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-        },
-        {
-            title: "Olimpiade Fisika Nasional",
-            description: "Kompetisi fisika tingkat nasional bagi siswa SMA.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Nasional"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-
+            createdBy: admin.id,
             formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-
+                { label: 'Asal Sekolah', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Target Sekolah', fieldType: FieldType.TEXT, isRequired: false, order: 2 },
+                { label: 'Tanggal Lahir', fieldType: FieldType.DATE, isRequired: true, order: 3 },
+                { label: 'Jurusan Pilihan', fieldType: FieldType.SELECT, isRequired: true, order: 4, options: ['IPA', 'IPS', 'Bahasa', 'Agama'] },
+                { label: 'Upload Kartu Peserta', fieldType: FieldType.FILE, isRequired: false, order: 5 },
+            ],
         },
         {
-            title: "Festival Musik Pelajar Provinsi",
-            description: "Ajang unjuk bakat musik antar sekolah.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Provinsi"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 5),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
+            title: 'Lomba Adzan',
+            thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/9.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vOS5wbmciLCJpYXQiOjE3NzY2MTY5NTgsImV4cCI6MTgwODE1Mjk1OH0.AlHj2bFKHqr_5ljXEvMAKt9G5qVix9z57F-sKzJrilY',
+            description: 'Lomba adzan ini bertujuan untuk meningkatkan kemampuan dan keindahan dalam mengumandangkan adzan. Peserta akan dinilai berdasarkan suara, tajwid, dan adab. Kegiatan ini juga menumbuhkan kepercayaan diri siswa.',
+            categoryId: categoriesMap['Keagamaan'],
+            levelId: levelsMap['Kabupaten/Kota'],
+            startDate: now,
+            endDate: future,
+            createdBy: admin.id,
             formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
+                { label: 'Nama Peserta', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
+                { label: 'Pengalaman Adzan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
+                { label: 'Kategori Umur', fieldType: FieldType.SELECT, isRequired: true, order: 3, options: ['Anak-anak', 'Remaja', 'Dewasa'] },
+                { label: 'Upload Video Adzan', fieldType: FieldType.FILE, isRequired: true, order: 4 },
+                { label: 'Jenis Kelamin', fieldType: FieldType.RADIO, isRequired: true, order: 5, options: ['Laki-laki'] },
+            ],
         },
-        {
-            title: "Kejuaraan Basket Antar Sekolah",
-            description: "Turnamen basket tingkat kabupaten.",
-            categoryId: categoriesMap["Olahraga"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-            formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-        },
-        {
-            title: "Hackathon Pelajar Indonesia",
-            description: "Kompetisi membuat aplikasi inovatif.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Nasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 3),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-
-            formFields: [
-                { label: "Link GitHub", fieldType: FieldType.TEXT, isRequired: true, order: 1 }
-            ]
-        },
-        {
-            title: "Debat Bahasa Inggris Tingkat Sekolah",
-            description: "Kompetisi debat untuk meningkatkan kemampuan public speaking.",
-            categoryId: categoriesMap["Akademik"],
-            levelId: levelsMap["Sekolah"],
-            startDate: past,
-            endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 1),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-            formFields: [
-                { "label": "Motivasi Mengikuti", "fieldType": FieldType.TEXTAREA, "isRequired": true, "order": 1 }
-            ]
-        },
-        {
-            title: "Lomba Desain Poster Digital",
-            description: "Kompetisi desain poster bertema lingkungan.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d",
-
-            formFields: [
-                { label: "Link Karya", fieldType: FieldType.TEXT, isRequired: true, order: 1 }
-            ]
-        },
-        {
-            title: "Olimpiade Biologi Pelajar",
-            description: "Kompetisi biologi tingkat provinsi.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Provinsi"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Kompetisi Coding untuk Pemula",
-            description: "Belajar dan berkompetisi dalam pemrograman dasar.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Sekolah"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Turnamen Futsal Pelajar",
-            description: "Turnamen futsal antar SMA.",
-            categoryId: categoriesMap["Olahraga"],
-            levelId: levelsMap["Provinsi"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 4),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Fotografi Alam",
-            description: "Kompetisi fotografi bertema keindahan alam.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Nasional"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Seminar Inovasi Teknologi Pelajar",
-            description: "Presentasi ide teknologi inovatif dari siswa.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Puisi Pelajar",
-            description: "Ajang kreativitas menulis puisi.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Sekolah"],
-            startDate: past,
-            endDate: new Date(past.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Kompetisi Startup Pelajar",
-            description: "Pitching ide bisnis digital untuk siswa.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Nasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 6),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Olimpiade Kimia Sekolah",
-            description: "Kompetisi kimia tingkat internal sekolah.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Sekolah"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Esai Nasional Pelajar",
-            description: "Kompetisi menulis esai ilmiah tingkat nasional.",
-            categoryId: categoriesMap["Akademik"],
-            levelId: levelsMap["Nasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 10),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Olimpiade Astronomi Internasional",
-            description: "Kompetisi astronomi tingkat internasional.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Internasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 20),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Tari Tradisional Provinsi",
-            description: "Ajang pelestarian budaya melalui tari tradisional.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Provinsi"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Kejuaraan Bulutangkis Kabupaten",
-            description: "Turnamen bulutangkis antar pelajar kabupaten.",
-            categoryId: categoriesMap["Olahraga"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 7),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Pidato Bahasa Indonesia Sekolah",
-            description: "Meningkatkan kemampuan orasi dan bahasa Indonesia.",
-            categoryId: categoriesMap["Akademik"],
-            levelId: levelsMap["Sekolah"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Cyber Security Capture The Flag",
-            description: "Kompetisi keamanan siber tingkat nasional.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Nasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 3),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Olimpiade Ekonomi Nasional",
-            description: "Kompetisi pemahaman ekonomi untuk siswa SMA.",
-            categoryId: categoriesMap["Akademik"],
-            levelId: levelsMap["Nasional"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Vokal Solo Kecamatan",
-            description: "Pencarian bakat menyanyi tingkat kecamatan.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Kecamatan"],
-            startDate: past,
-            endDate: now,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Kejuaraan Renang Tingkat Provinsi",
-            description: "Kompetisi renang antar atlet pelajar provinsi.",
-            categoryId: categoriesMap["Olahraga"],
-            levelId: levelsMap["Provinsi"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 5),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Karya Ilmiah Remaja (KIR)",
-            description: "Penelitian ilmiah inovatif tingkat kabupaten.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Game Development Competition",
-            description: "Membangun game kreatif tingkat internasional.",
-            categoryId: categoriesMap["Teknologi"],
-            levelId: levelsMap["Internasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 14),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Kaligrafi Sekolah",
-            description: "Seni menulis indah dalam rangka hari besar.",
-            categoryId: categoriesMap["Seni"],
-            levelId: levelsMap["Sekolah"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 2),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Olimpiade Geografi Nasional",
-            description: "Kompetisi pemahaman bumi dan keruangan.",
-            categoryId: categoriesMap["Sains"],
-            levelId: levelsMap["Nasional"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Turnamen Mobile Legends Lokal",
-            description: "Kompetisi e-sport antar komunitas lokal.",
-            categoryId: categoriesMap["Olahraga"],
-            levelId: levelsMap["Kabupaten/Kota"],
-            startDate: now,
-            endDate: future,
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        },
-        {
-            title: "Lomba Menulis Cerpen Nasional",
-            description: "Ajang kreativitas menulis cerita pendek.",
-            categoryId: categoriesMap["Akademik"],
-            levelId: levelsMap["Nasional"],
-            startDate: future,
-            endDate: new Date(future.getTime() + 1000 * 60 * 60 * 24 * 15),
-            createdBy: "4ce2f727-4d7a-4fac-8f7e-5beb2dec9a1d"
-        }
     ];
 
     for (const comp of competitionsData) {
@@ -444,6 +266,99 @@ formFields: [
             console.log(`Competition already exists: ${comp.title}`);
         }
     }
+
+    console.log('Competitions seeded.');
+
+    // 5. Seed News (Berita)
+    const newsData = [
+        {
+            title: 'Siswa SMKN 1 Boyolangu Raih Juara 1 Lomba Web Design Tingkat Provinsi',
+            content: 'Salah satu siswa jurusan RPL berhasil meraih juara 1 dalam lomba Web Design tingkat provinsi Jawa Timur. Karya yang ditampilkan dinilai unggul dari segi UI/UX dan fungsionalitas. Prestasi ini diharapkan dapat memotivasi siswa lain untuk terus berkarya.',
+            thumbnail: 'https://unsplash.com/photos/a-graduate-in-cap-and-gown-adjusts-her-hat-outdoors-OWA0YMQ3E5U',
+            isPublished: true,
+            createdBy: admin.id,
+        },
+        {
+            title: 'Tim Basket SMKN 1 Boyolangu Menjadi Juara 2 Turnamen Antar Sekolah',
+            content: 'Tim basket SMKN 1 Boyolangu berhasil meraih juara 2 dalam turnamen antar sekolah se-Kabupaten Tulungagung. Pertandingan berlangsung sengit hingga babak final. Kekompakan tim menjadi kunci keberhasilan dalam kompetisi ini.',
+            thumbnail: 'https://unsplash.com/photos/classmate-classroom-knowledge-technology-concept-hD23z8XuqAE',
+            isPublished: true,
+            createdBy: admin.id,
+        },
+        {
+            title: 'Prestasi Gemilang di Lomba Cerdas Cermat Tingkat Kabupaten',
+            content: 'Tim cerdas cermat SMKN 1 Boyolangu berhasil meraih juara 1 dalam lomba tingkat kabupaten. Mereka menunjukkan kemampuan pengetahuan umum yang sangat baik. Keberhasilan ini menjadi bukti kualitas akademik siswa.',
+            thumbnail: 'https://unsplash.com/photos/3-women-smiling-and-standing-under-blue-sky-during-daytime-dNBmg8ckaOE',
+            isPublished: true,
+            createdBy: admin.id,
+        },
+        // {
+        //     title: 'Siswa SMKN 1 Boyolangu Lolos Seleksi Nasional Olimpiade Informatika',
+        //     content: 'Seorang siswa berbakat dari jurusan TKJ berhasil lolos ke tahap nasional Olimpiade Informatika. Ia akan mewakili daerah dalam kompetisi tingkat nasional. Dukungan dari sekolah dan guru menjadi faktor penting dalam pencapaian ini.',
+        //     thumbnail: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&q=80&w=1000',
+        //     isPublished: true,
+        //     createdBy: admin.id,
+        // },
+        // {
+        //     title: 'Pameran Karya Siswa SMKN 1 Boyolangu Disambut Antusias',
+        //     content: 'Kegiatan pameran karya siswa berhasil menarik perhatian banyak pengunjung dari berbagai sekolah. Berbagai inovasi teknologi dan karya seni dipamerkan. Acara ini menjadi wadah bagi siswa untuk menunjukkan kreativitas mereka.',
+        //     thumbnail: 'https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&q=80&w=1000',
+        //     isPublished: true,
+        //     createdBy: admin.id,
+        // },
+        // {
+        //     title: 'Juara 1 Lomba Adzan Tingkat Kabupaten Diraih Siswa SMKN 1 Boyolangu',
+        //     content: 'Salah satu siswa berhasil meraih juara 1 dalam lomba adzan tingkat kabupaten. Penilaian dilakukan berdasarkan tajwid, suara, dan adab. Prestasi ini menjadi kebanggaan bagi seluruh warga sekolah.',
+        //     thumbnail: 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=1000',
+        //     isPublished: true,
+        //     createdBy: admin.id,
+        // },
+        // {
+        //     title: 'SMKN 1 Boyolangu Gelar Tryout Akbar Persiapan PPDB',
+        //     content: 'Sekolah mengadakan tryout akbar sebagai persiapan menghadapi PPDB bagi siswa SMP. Kegiatan ini diikuti oleh ratusan peserta dari berbagai sekolah. Diharapkan kegiatan ini membantu siswa dalam menghadapi ujian masuk.',
+        //     thumbnail: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=1000',
+        //     isPublished: true,
+        //     createdBy: admin.id,
+        // },
+    ];
+
+    for (const news of newsData) {
+        const existing = await prisma.news.findFirst({ where: { title: news.title } });
+        if (!existing) {
+            await prisma.news.create({ data: news });
+            console.log(`Created news: ${news.title}`);
+        } else {
+            console.log(`News already exists: ${news.title}`);
+        }
+    }
+    console.log('News seeded.');
+
+    // 6. Seed Announcements (Pengumuman)
+    const announcementsData = [
+        {
+            title: 'Jadwal Ujian Remedial Matematika',
+            content: 'Bagi siswa yang belum mencapai KKM pada ujian matematika, harap mengikuti ujian remedial pada hari Jumat pukul 13.00 WIB di Laboratorium Komputer 1.',
+            isPublished: true,
+            createdBy: guru.id,
+        },
+        {
+            title: 'Kumpul Perdana Ekskul Robotik Terbatas',
+            content: 'Pertemuan perdana ekstrakurikuler robotik akan diadakan besok sepulang sekolah. Bagi anggota baru, silakan membawa laptop masing-masing jika ada.',
+            isPublished: true,
+            createdBy: guru.id,
+        }
+    ];
+
+    for (const ann of announcementsData) {
+        const existing = await prisma.announcement.findFirst({ where: { title: ann.title } });
+        if (!existing) {
+            await prisma.announcement.create({ data: ann });
+            console.log(`Created announcement: ${ann.title}`);
+        } else {
+            console.log(`Announcement already exists: ${ann.title}`);
+        }
+    }
+    console.log('Announcements seeded.');
 
     console.log('Seeding finished.');
 }

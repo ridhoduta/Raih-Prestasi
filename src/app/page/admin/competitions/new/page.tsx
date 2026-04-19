@@ -225,10 +225,27 @@ export default function AddCompetitionPage() {
                                                 <option value="TEXTAREA">Teks Panjang</option>
                                                 <option value="NUMBER">Angka</option>
                                                 <option value="FILE">Upload File</option>
+                                                <option value="SELECT">Dropdown</option>
+                                                <option value="CHECKBOX">Checklist</option>
+                                                <option value="RADIO">Radio</option>
                                                 <option value="DATE">Tanggal</option>
                                             </select>
                                         </div>
                                     </div>
+
+                                    {(field.fieldType === "SELECT" || field.fieldType === "CHECKBOX" || field.fieldType === "RADIO") && (
+                                        <div>
+                                            <label className="block text-xs font-medium text-gray-500 mb-1">Pilihan</label>
+                                            <input
+                                                type="text"
+                                                placeholder="Pilihan 1, Pilihan 2, Pilihan 3 (Pisahkan dengan koma)"
+                                                className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-gray-900"
+                                                value={typeof field.options === "string" ? field.options : (Array.isArray(field.options) ? field.options.join(", ") : "")}
+                                                onChange={(e) => updateField(index, { options: e.target.value })}
+                                            />
+                                            <p className="text-[10px] text-gray-400 mt-1">Pisahkan setiap pilihan dengan tanda koma (,)</p>
+                                        </div>
+                                    )}
 
                                     <div className="flex items-center gap-2">
                                         <input
