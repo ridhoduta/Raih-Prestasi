@@ -44,16 +44,7 @@ export async function GET(req: Request, context: Context) {
       );
     }
 
-    // if (student.achievements.length === 0) {
-    //   return NextResponse.json(
-    //     {
-    //       success: false,
-    //       message:
-    //         "Anda belum memiliki prestasi yang terverifikasi untuk melihat nilai akademik",
-    //     },
-    //     { status: 403 }
-    //   );
-    // }
+
 
     // Build filter for scores and files
     const scoreFilter: { studentId: string; yearId?: string; semester?: Semester } = {
@@ -90,6 +81,13 @@ export async function GET(req: Request, context: Context) {
         where: {
           studentId,
           status: "TERVERIFIKASI",
+        },
+        include: {
+          academicScore: {
+            include: {
+              academicYear: true,
+            },
+          },
         },
         orderBy: { createdAt: "desc" },
       })
