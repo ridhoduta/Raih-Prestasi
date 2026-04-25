@@ -108,7 +108,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         try {
             setUpdating(true);
             const response = await reviewIndependentSubmission(id, {
-                status: selectedStatus as "DITERIMA" | "DITOLAK" | "MENUNGGU",
+                status: selectedStatus as IndependentSubmissionStatus,
                 rejectionNote: selectedStatus === "DITOLAK" ? rejectionNote : undefined,
                 recommendationLetter: recommendationLetter || undefined
             });
@@ -176,6 +176,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     {submission.status === 'DITERIMA' && <CheckCircle size={14} />}
                                     {submission.status === 'DITOLAK' && <XCircle size={14} />}
                                     {submission.status === 'MENUNGGU' && <Clock size={14} />}
+                                    {submission.status === 'DIBATALKAN' && <XCircle size={14} />}
                                     {submission.status}
                                 </span>
                             </div>
@@ -258,127 +259,129 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     </div>
 
                     {/* Update Status Section */}
-                    <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
-                        <div className="flex flex-col md:flex-row md:items-end gap-6">
-                            <div className="flex-1 space-y-2">
-                                <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <Settings size={16} className="text-gray-400" />
-                                    Pembaruan Status
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        value={selectedStatus}
-                                        onChange={(e) => setSelectedStatus(e.target.value as IndependentSubmissionStatus)}
-                                        className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "DITERIMA" ? "border-emerald-100 bg-emerald-50 text-emerald-700 focus:border-emerald-500" :
-                                            selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
-                                                "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
-                                            }`}
-                                    >
-                                        <option value="MENUNGGU">🟡 MENUNGGU</option>
-                                        <option value="DITERIMA">✅ DITERIMA</option>
-                                        <option value="DITOLAK">❌ DITOLAK</option>
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                                        <ChevronDown size={20} />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="md:w-48">
-                                <button
-                                    onClick={handleUpdateStatus}
-                                    disabled={updating || uploading || (selectedStatus === submission.status && (selectedStatus !== "DITOLAK" || rejectionNote === submission.rejectionNote) && recommendationLetter === submission.recommendationLetter)}
-                                    className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
-                                >
-                                    {updating ? (
-                                        <Loader2 size={20} className="animate-spin" />
-                                    ) : (
-                                        <Save size={20} />
-                                    )}
-                                    {updating ? "Proses" : "Simpan"}
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Recommendation Letter Section */}
-                        <div className="mt-8 pt-6 border-t border-gray-100 space-y-4">
-                            <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
-                                <FileIcon size={16} className="text-emerald-500" />
-                                Surat Rekomendasi (Wajib jika DITERIMA)
-                            </label>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="relative group">
-                                    <input
-                                        type="file"
-                                        id="recommendation-letter"
-                                        onChange={handleFileUpload}
-                                        disabled={uploading}
-                                        className="hidden"
-                                        accept=".pdf,image/*"
-                                    />
-                                    <label
-                                        htmlFor="recommendation-letter"
-                                        className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${uploading ? 'bg-gray-50 border-gray-200 cursor-not-allowed' :
-                                            recommendationLetter ? 'bg-emerald-50/30 border-emerald-200 hover:border-emerald-400' :
-                                                'bg-gray-50 border-gray-200 hover:border-emerald-400 group-hover:bg-white'
-                                            }`}
-                                    >
-                                        {uploading ? (
-                                            <Loader2 size={24} className="animate-spin text-emerald-500 mb-2" />
-                                        ) : (
-                                            <FileIcon size={24} className={`${recommendationLetter ? 'text-emerald-500' : 'text-gray-400'} mb-2`} />
-                                        )}
-                                        <p className="text-sm font-bold text-gray-700">
-                                            {uploading ? "Mengunggah..." : recommendationLetter ? "Ganti Surat Rekomendasi" : "Unggah Surat Rekomendasi"}
-                                        </p>
-                                        <p className="text-xs text-gray-400 mt-1">PDF atau Gambar (Maks 5MB)</p>
+                    {submission.status !== "DIBATALKAN" && submission.status !== "DITOLAK" && (
+                        <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
+                            <div className="flex flex-col md:flex-row md:items-end gap-6">
+                                <div className="flex-1 space-y-2">
+                                    <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                        <Settings size={16} className="text-gray-400" />
+                                        Pembaruan Status
                                     </label>
-                                </div>
-
-                                {recommendationLetter && (
-                                    <div className="flex flex-col items-center justify-center p-6 bg-emerald-50 border border-emerald-100 rounded-2xl relative overflow-hidden group">
-                                        <div className="absolute top-0 right-0 p-2 opacity-10">
-                                            <CheckCircle size={80} className="text-emerald-500" />
+                                    <div className="relative">
+                                        <select
+                                            value={selectedStatus}
+                                            onChange={(e) => setSelectedStatus(e.target.value as IndependentSubmissionStatus)}
+                                            className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "DITERIMA" ? "border-emerald-100 bg-emerald-50 text-emerald-700 focus:border-emerald-500" :
+                                                selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
+                                                    "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
+                                                }`}
+                                        >
+                                            <option value="MENUNGGU">🟡 MENUNGGU</option>
+                                            <option value="DITERIMA">✅ DITERIMA</option>
+                                            <option value="DITOLAK">❌ DITOLAK</option>
+                                        </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                            <ChevronDown size={20} />
                                         </div>
-                                        <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2 relative z-10">File Terpilih</p>
-                                        <a
-                                            href={recommendationLetter}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="text-emerald-700 font-bold hover:underline flex items-center gap-2 relative z-10"
-                                        >
-                                            <Eye size={18} />
-                                            Lihat Surat Rekomendasi
-                                        </a>
-                                        <button
-                                            onClick={() => setRecommendationLetter("")}
-                                            className="mt-3 text-[10px] font-bold text-red-500 hover:text-red-700 uppercase tracking-widest relative z-10"
-                                        >
-                                            Hapus
-                                        </button>
                                     </div>
-                                )}
-                            </div>
-                        </div>
+                                </div>
 
-                        {selectedStatus === "DITOLAK" && (
-                            <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
-                                <div className="p-4 bg-red-50/50 rounded-2xl border border-red-100 space-y-3">
-                                    <label className="text-sm font-bold text-red-700 flex items-center gap-2">
-                                        <XCircle size={16} />
-                                        Alasan Penolakan <span className="text-red-500">*</span>
-                                    </label>
-                                    <textarea
-                                        value={rejectionNote}
-                                        onChange={(e) => setRejectionNote(e.target.value)}
-                                        placeholder="Tuliskan alasan penolakan secara jelas agar siswa dapat memperbaikinya..."
-                                        className="w-full p-4 rounded-xl border-2 border-red-100 focus:border-red-500 focus:ring-0 transition-all outline-none min-h-[120px] bg-white text-gray-700 shadow-sm placeholder:text-red-200"
-                                    />
+                                <div className="md:w-48">
+                                    <button
+                                        onClick={handleUpdateStatus}
+                                            disabled={updating || uploading || (selectedStatus === (submission.status as IndependentSubmissionStatus) && (selectedStatus !== "DITOLAK" || rejectionNote === submission.rejectionNote) && recommendationLetter === submission.recommendationLetter)}
+                                        className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
+                                    >
+                                        {updating ? (
+                                            <Loader2 size={20} className="animate-spin" />
+                                        ) : (
+                                            <Save size={20} />
+                                        )}
+                                        {updating ? "Proses" : "Simpan"}
+                                    </button>
                                 </div>
                             </div>
-                        )}
-                    </div>
+
+                            {/* Recommendation Letter Section */}
+                            <div className="mt-8 pt-6 border-t border-gray-100 space-y-4">
+                                <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                    <FileIcon size={16} className="text-emerald-500" />
+                                    Surat Rekomendasi (Wajib jika DITERIMA)
+                                </label>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="relative group">
+                                        <input
+                                            type="file"
+                                            id="recommendation-letter"
+                                            onChange={handleFileUpload}
+                                            disabled={uploading}
+                                            className="hidden"
+                                            accept=".pdf,image/*"
+                                        />
+                                        <label
+                                            htmlFor="recommendation-letter"
+                                            className={`flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-2xl cursor-pointer transition-all ${uploading ? 'bg-gray-50 border-gray-200 cursor-not-allowed' :
+                                                recommendationLetter ? 'bg-emerald-50/30 border-emerald-200 hover:border-emerald-400' :
+                                                    'bg-gray-50 border-gray-200 hover:border-emerald-400 group-hover:bg-white'
+                                                }`}
+                                        >
+                                            {uploading ? (
+                                                <Loader2 size={24} className="animate-spin text-emerald-500 mb-2" />
+                                            ) : (
+                                                <FileIcon size={24} className={`${recommendationLetter ? 'text-emerald-500' : 'text-gray-400'} mb-2`} />
+                                            )}
+                                            <p className="text-sm font-bold text-gray-700">
+                                                {uploading ? "Mengunggah..." : recommendationLetter ? "Ganti Surat Rekomendasi" : "Unggah Surat Rekomendasi"}
+                                            </p>
+                                            <p className="text-xs text-gray-400 mt-1">PDF atau Gambar (Maks 5MB)</p>
+                                        </label>
+                                    </div>
+
+                                    {recommendationLetter && (
+                                        <div className="flex flex-col items-center justify-center p-6 bg-emerald-50 border border-emerald-100 rounded-2xl relative overflow-hidden group">
+                                            <div className="absolute top-0 right-0 p-2 opacity-10">
+                                                <CheckCircle size={80} className="text-emerald-500" />
+                                            </div>
+                                            <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mb-2 relative z-10">File Terpilih</p>
+                                            <a
+                                                href={recommendationLetter}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-emerald-700 font-bold hover:underline flex items-center gap-2 relative z-10"
+                                            >
+                                                <Eye size={18} />
+                                                Lihat Surat Rekomendasi
+                                            </a>
+                                            <button
+                                                onClick={() => setRecommendationLetter("")}
+                                                className="mt-3 text-[10px] font-bold text-red-500 hover:text-red-700 uppercase tracking-widest relative z-10"
+                                            >
+                                                Hapus
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {selectedStatus === "DITOLAK" && (
+                                <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
+                                    <div className="p-4 bg-red-50/50 rounded-2xl border border-red-100 space-y-3">
+                                        <label className="text-sm font-bold text-red-700 flex items-center gap-2">
+                                            <XCircle size={16} />
+                                            Alasan Penolakan <span className="text-red-500">*</span>
+                                        </label>
+                                        <textarea
+                                            value={rejectionNote}
+                                            onChange={(e) => setRejectionNote(e.target.value)}
+                                            placeholder="Tuliskan alasan penolakan secara jelas agar siswa dapat memperbaikinya..."
+                                            className="w-full p-4 rounded-xl border-2 border-red-100 focus:border-red-500 focus:ring-0 transition-all outline-none min-h-[120px] bg-white text-gray-700 shadow-sm placeholder:text-red-200"
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </>
             ) : (
                 <div className="bg-white p-12 shadow-lg rounded-2xl text-center border border-gray-100">

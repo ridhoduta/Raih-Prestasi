@@ -143,7 +143,6 @@ function RegistrationContent({ id }: { id: string }) {
                 data={detailModal.data}
                 loading={detailModal.loading}
                 onClose={() => setDetailModal(prev => ({ ...prev, isOpen: false }))}
-                onActionClick={handleActionClick}
             />
 
             <AlertModal

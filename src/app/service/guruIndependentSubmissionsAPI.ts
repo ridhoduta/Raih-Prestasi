@@ -1,6 +1,6 @@
 import { apiClient, ApiResponse } from "./apiClient";
 
-export type IndependentSubmissionStatus = "MENUNGGU" | "DITERIMA" | "DITOLAK";
+export type IndependentSubmissionStatus = "MENUNGGU" | "DITERIMA" | "DITOLAK" | "DIBATALKAN";
 
 export type ReviewSubmissionPayload = {
   status: IndependentSubmissionStatus;

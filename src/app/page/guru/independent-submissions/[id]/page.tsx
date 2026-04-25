@@ -176,6 +176,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     {submission.status === 'DITERIMA' && <CheckCircle size={14} />}
                                     {submission.status === 'DITOLAK' && <XCircle size={14} />}
                                     {submission.status === 'MENUNGGU' && <Clock size={14} />}
+                                    {submission.status === 'DIBATALKAN' && <XCircle size={14} />}
+
                                     {submission.status}
                                 </span>
                             </div>
