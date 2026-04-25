@@ -106,10 +106,10 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
-    // Rule 2: Check existence with select
+    // Rule 2: Check existence and ownership
     const submission = await prisma.independentCompetitionSubmission.findUnique({
       where: { id },
-      select: { id: true },
+      select: { id: true, studentId: true },
     });
 
     if (!submission) {
@@ -117,6 +117,24 @@ export async function PUT(req: Request, context: Context) {
         { success: false, message: "Pengajuan tidak ditemukan" },
         { status: 404 }
       );
+    }
+
+    const isGuruOrAdmin = session.role === "GURU" || session.role === "ADMIN";
+
+    // If student, they can only change status to DIBATALKAN and only for their own submission
+    if (!isGuruOrAdmin) {
+      if (status !== "DIBATALKAN") {
+        return NextResponse.json(
+          { success: false, message: "Anda tidak memiliki akses untuk mengubah status ini" },
+          { status: 403 }
+        );
+      }
+      if (submission.studentId !== session.id) {
+        return NextResponse.json(
+          { success: false, message: "Anda hanya dapat membatalkan pengajuan milik sendiri" },
+          { status: 403 }
+        );
+      }
     }
 
     let finalRecommendationLetter = recommendationLetter;
@@ -129,7 +147,7 @@ export async function PUT(req: Request, context: Context) {
       data: {
         status,
         rejectionNote: status === "DITOLAK" ? rejectionNote : null,
-        reviewedBy: session.id,
+        reviewedBy: isGuruOrAdmin ? session.id : undefined,
         recommendationLetter: finalRecommendationLetter,
       },
       select: submissionSelect,
