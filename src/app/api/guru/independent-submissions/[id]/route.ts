@@ -73,7 +73,7 @@ export async function GET(_: Request, context: Context) {
 export async function PUT(req: Request, context: Context) {
   try {
     const session = await getSession();
-    if (!session || (session.role !== "GURU" && session.role !== "ADMIN")) {
+    if (!session) {
       return NextResponse.json(
         { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
@@ -92,7 +92,7 @@ export async function PUT(req: Request, context: Context) {
       );
     }
 
-    if (!["MENUNGGU", "DITERIMA", "DITOLAK"].includes(status)) {
+    if (!["MENUNGGU", "DITERIMA", "DITOLAK", "DIBATALKAN"].includes(status)) {
       return NextResponse.json(
         { success: false, message: "Status tidak valid" },
         { status: 400 }

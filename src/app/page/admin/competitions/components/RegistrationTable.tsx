@@ -37,11 +37,18 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                         Ditolak
                     </span>
                 );
+            case "DIBATALKAN":
+                return (
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-500/10 text-gray-500 border border-gray-500/20 shadow-[0_0_15px_rgba(107,114,128,0.1)]">
+                        <XCircle size={12} />
+                        Dibatalkan
+                    </span>
+                );
             default:
                 return (
                     <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-500 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
                         <Clock size={12} />
-                        Pending
+                        Menunggu
                     </span>
                 );
         }
@@ -96,22 +103,26 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                     </td>
                                     <td className="px-6 py-5 text-right">
                                         <div className="flex justify-end gap-2">
-                                            <button 
-                                                disabled={isUpdating}
-                                                onClick={() => onActionClick(reg.id, reg.student.name, "DITERIMA")}
-                                                className="px-3 py-1.5 rounded-lg bg-emerald-500 text-white hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
-                                                title="Terima"
-                                            >
-                                                Terima
-                                            </button>
-                                            <button 
-                                                disabled={isUpdating}
-                                                onClick={() => onActionClick(reg.id, reg.student.name, "DITOLAK")}
-                                                className="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
-                                                title="Tolak"
-                                            >
-                                                Tolak
-                                            </button>
+                                            {(reg.status !== "DITOLAK" && reg.status !== "DIBATALKAN") && (
+                                                <>
+                                                    <button 
+                                                        disabled={isUpdating}
+                                                        onClick={() => onActionClick(reg.id, reg.student.name, "DITERIMA")}
+                                                        className="px-3 py-1.5 rounded-lg bg-emerald-500 text-white hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
+                                                        title="Terima"
+                                                    >
+                                                        Terima
+                                                    </button>
+                                                    <button 
+                                                        disabled={isUpdating}
+                                                        onClick={() => onActionClick(reg.id, reg.student.name, "DITOLAK")}
+                                                        className="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
+                                                        title="Tolak"
+                                                    >
+                                                        Tolak
+                                                    </button>
+                                                </>
+                                            )}
                                             <button 
                                                 onClick={() => onViewDetail(reg.id)}
                                                 className="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center gap-2 px-4 group"

@@ -9,10 +9,10 @@ interface RegistrationDetailModalProps {
     onActionClick?: (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => void;
 }
 
-export function RegistrationDetailModal({ isOpen, data, loading, onClose, onActionClick }: RegistrationDetailModalProps) {
+export function RegistrationDetailModal({ isOpen, data, loading, onClose}: RegistrationDetailModalProps) {
     if (!isOpen) return null;
 
-    const showActions = data && data.status === "MENUNGGU" && onActionClick;
+    // const showActions = data && data.status === "MENUNGGU" && onActionClick;
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -123,22 +123,6 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose, onActi
                     >
                         Tutup
                     </button>
-                    {showActions && (
-                        <>
-                            <button
-                                onClick={() => onActionClick(data.id, data.student.name, "DITOLAK")}
-                                className="px-6 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl font-bold transition-all shadow-lg shadow-rose-500/20"
-                            >
-                                Tolak
-                            </button>
-                            <button
-                                onClick={() => onActionClick(data.id, data.student.name, "DITERIMA")}
-                                className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-bold transition-all shadow-lg shadow-emerald-500/20"
-                            >
-                                Terima
-                            </button>
-                        </>
-                    )}
                 </div>
             </div>
         </div>

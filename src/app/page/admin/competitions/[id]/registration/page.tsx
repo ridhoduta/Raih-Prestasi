@@ -117,6 +117,7 @@ function RegistrationContent({ id }: { id: string }) {
                             <option value="MENUNGGU">Menunggu</option>
                             <option value="DITERIMA">Diterima</option>
                             <option value="DITOLAK">Ditolak</option>
+                            <option value="DIBATALKAN">Dibatalkan</option>
                         </select>
                     </div>
                 </div>
@@ -143,7 +144,6 @@ function RegistrationContent({ id }: { id: string }) {
                 data={detailModal.data}
                 loading={detailModal.loading}
                 onClose={() => setDetailModal(prev => ({ ...prev, isOpen: false }))}
-                onActionClick={handleActionClick}
             />
 
             <AlertModal
