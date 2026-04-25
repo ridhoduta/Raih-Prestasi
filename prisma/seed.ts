@@ -7,10 +7,8 @@ const prisma = new PrismaClient({
     accelerateUrl: process.env.DATABASE_URL,
 }).$extends(withAccelerate());
 
-async function main() {
-    console.log('Start seeding...');
-
-    // 1. Seed Categories
+async function seedCategories() {
+    console.log('Seeding categories...');
     const categoryNames = ['Olahraga', 'Akademik', 'Teknologi', 'Seni', 'Keagamaan'];
     const categoriesMap: Record<string, string> = {};
 
@@ -22,8 +20,11 @@ async function main() {
         categoriesMap[name] = cat.id;
     }
     console.log('Categories seeded.');
+    return categoriesMap;
+}
 
-    // // 2. Seed Levels
+async function seedLevels() {
+    console.log('Seeding levels...');
     const levelsData = [
         { name: 'Sekolah', order: 1 },
         { name: 'Kecamatan', order: 2 },
@@ -41,17 +42,21 @@ async function main() {
         levelsMap[levelData.name] = level.id;
     }
     console.log('Levels seeded.');
+    return levelsMap;
+}
 
-    // 3. Seed Guru User
+async function seedUsers() {
+    console.log('Seeding users...');
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash('guru123', salt);
+    
+    const guruHashedPassword = await bcrypt.hash('guru123', salt);
     const guru = await prisma.user.upsert({
         where: { email: 'guru@raihprestasi.com' },
         update: {},
         create: {
             email: 'guru@raihprestasi.com',
             name: 'Guru Raih Prestasi',
-            password: hashedPassword,
+            password: guruHashedPassword,
             role: UserRole.GURU,
         },
     });
@@ -70,10 +75,14 @@ async function main() {
     });
     console.log('Admin user seeded.');
 
-    // 4. Seed Competitions
+    return { guru, admin };
+}
+
+async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap: Record<string, string>, adminId: string) {
+    console.log('Seeding competitions...');
     const now = new Date();
-    const past = new Date(now.getTime() - 1000 * 60 * 60 * 24 * 30); // 30 days ago
     const future = new Date(now.getTime() + 1000 * 60 * 60 * 24 * 30); // 30 days from now
+    
     const competitionsData = [
         {
             title: 'Lomba Bulutangkis',
@@ -83,7 +92,7 @@ async function main() {
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Lengkap', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Tanggal Lahir', fieldType: FieldType.DATE, isRequired: true, order: 2 },
@@ -100,7 +109,7 @@ async function main() {
             levelId: levelsMap['Sekolah'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Judul Karya', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Deskripsi Karya', fieldType: FieldType.TEXTAREA, isRequired: true, order: 2 },
@@ -117,7 +126,7 @@ async function main() {
             levelId: levelsMap['Provinsi'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Game yang Diikuti', fieldType: FieldType.SELECT, isRequired: true, order: 2, options: ['Mobile Legends', 'PUBG Mobile', 'Valorant', 'Free Fire'] },
@@ -129,12 +138,12 @@ async function main() {
         {
             title: 'Lari Marathon 5K',
             thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/3.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vMy5wbmciLCJpYXQiOjE3NzY2MTY5MDMsImV4cCI6MTgwODE1MjkwM30.bzatUs_aUNSn2AubkB1SKxzz-gtHzIlrbDmV-H0mN8Q',
-            description: 'Lomba lari jarak 5 kilometer yang terbuka untuk pelajar dengan kondisi fisik yang sehat. Peserta akan mengikuti rute yang telah ditentukan oleh panitia. Kegiatan ini bertujuan untuk meningkatkan kesehatan dan semangat olahraga.',
+            description: 'Lomba lari jarak 5 kilometer yang terbuka untuk pelajar dengan kondisi fisik yang sehat. Peserta akan mengikuti rute yang telah ditentukan oleh panitia. Kegiatan ini bertujuan untuk meningkatkan kesehatan and semangat olahraga.',
             categoryId: categoriesMap['Olahraga'],
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Usia Peserta', fieldType: FieldType.NUMBER, isRequired: true, order: 1 },
                 { label: 'Riwayat Kesehatan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -151,7 +160,7 @@ async function main() {
             levelId: levelsMap['Provinsi'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Jumlah Pemain', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
@@ -168,7 +177,7 @@ async function main() {
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Kapten Tim', fieldType: FieldType.TEXT, isRequired: true, order: 2 },
@@ -180,12 +189,12 @@ async function main() {
         {
             title: 'Kompetisi Catur',
             thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/6.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNi5wbmciLCJpYXQiOjE3NzY2MTY5MzAsImV4cCI6MTgwODE1MjkzMH0.45IE2WCP03uDn6Zv8y44ppycVOwR-ItJ5N1Zhnh1JRI',
-            description: 'Kompetisi catur ini dirancang untuk menguji kemampuan strategi dan konsentrasi peserta. Setiap pertandingan dilakukan dengan aturan resmi yang berlaku. Kegiatan ini juga bertujuan untuk meningkatkan kemampuan berpikir kritis siswa.',
+            description: 'Kompetisi catur ini dirancang untuk menguji kemampuan strategi and konsentrasi peserta. Setiap pertandingan dilakukan dengan aturan resmi yang berlaku. Kegiatan ini juga bertujuan untuk meningkatkan kemampuan berpikir kritis siswa.',
             categoryId: categoriesMap['Akademik'],
             levelId: levelsMap['Provinsi'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Rating Catur', fieldType: FieldType.NUMBER, isRequired: false, order: 1 },
                 { label: 'Pengalaman Bertanding', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -197,12 +206,12 @@ async function main() {
         {
             title: 'Cerdas Cermat',
             thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/7.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vNy5wbmciLCJpYXQiOjE3NzY2MTY5MzgsImV4cCI6MTgwODE1MjkzOH0.nnzLLJbM-qElD2YLruF9fPTbU118TyyhoukBdi5FM8c',
-            description: 'Lomba cerdas cermat ini menguji pengetahuan umum dan kemampuan berpikir cepat siswa. Peserta akan berkompetisi dalam bentuk tim dengan berbagai jenis soal. Kegiatan ini bertujuan untuk meningkatkan wawasan dan kerja sama tim.',
+            description: 'Lomba cerdas cermat ini menguji pengetahuan umum dan kemampuan berpikir cepat siswa. Peserta akan berkompetisi dalam bentuk tim with berbagai jenis soal. Kegiatan ini bertujuan untuk meningkatkan wawasan and kerja sama tim.',
             categoryId: categoriesMap['Akademik'],
             levelId: levelsMap['Sekolah'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Jumlah Anggota', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
@@ -214,12 +223,12 @@ async function main() {
         {
             title: 'Tryout Persiapan PPDB',
             thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/8.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vOC5wbmciLCJpYXQiOjE3NzY2MTY5NTAsImV4cCI6MTgwODE1Mjk1MH0.l7VoE9rFH-HBFfIfIItBkYH84Zpt8NGF3e5k81avQ-o',
-            description: 'Tryout ini dirancang sebagai simulasi ujian untuk mempersiapkan siswa menghadapi PPDB. Soal-soal disusun menyerupai ujian sebenarnya. Kegiatan ini membantu siswa mengukur kemampuan dan kesiapan mereka.',
+            description: 'Tryout ini dirancang sebagai simulasi ujian untuk mempersiapkan siswa menghadapi PPDB. Soal-soal disusun menyerupai ujian sebenarnya. Kegiatan ini membantu siswa mengukur kemampuan and kesiapan mereka.',
             categoryId: categoriesMap['Akademik'],
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Asal Sekolah', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Target Sekolah', fieldType: FieldType.TEXT, isRequired: false, order: 2 },
@@ -231,12 +240,12 @@ async function main() {
         {
             title: 'Lomba Adzan',
             thumbnail: 'https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/sign/dokument-pengajuan/9.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81MWMxNzc1NC0yYTM2LTQxMjMtYTEzNy00ZDA0NjU4YWY3YjMiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJkb2t1bWVudC1wZW5nYWp1YW4vOS5wbmciLCJpYXQiOjE3NzY2MTY5NTgsImV4cCI6MTgwODE1Mjk1OH0.AlHj2bFKHqr_5ljXEvMAKt9G5qVix9z57F-sKzJrilY',
-            description: 'Lomba adzan ini bertujuan untuk meningkatkan kemampuan dan keindahan dalam mengumandangkan adzan. Peserta akan dinilai berdasarkan suara, tajwid, dan adab. Kegiatan ini juga menumbuhkan kepercayaan diri siswa.',
+            description: 'Lomba adzan ini bertujuan untuk meningkatkan kemampuan and keindahan dalam mengumandangkan adzan. Peserta akan dinilai berdasarkan suara, tajwid, and adab. Kegiatan ini juga menumbuhkan kepercayaan diri siswa.',
             categoryId: categoriesMap['Keagamaan'],
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
             endDate: future,
-            createdBy: admin.id,
+            createdBy: adminId,
             formFields: [
                 { label: 'Nama Peserta', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Pengalaman Adzan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -250,7 +259,6 @@ async function main() {
     for (const comp of competitionsData) {
         const { formFields, ...compData } = comp;
 
-        // Check if competition already exists to avoid duplicates
         const existing = await prisma.competition.findFirst({ where: { title: comp.title } });
         if (!existing) {
             const competition = await prisma.competition.create({
@@ -266,60 +274,33 @@ async function main() {
             console.log(`Competition already exists: ${comp.title}`);
         }
     }
-
     console.log('Competitions seeded.');
+}
 
-    // 5. Seed News (Berita)
+async function seedNews(adminId: string) {
+    console.log('Seeding news...');
     const newsData = [
         {
             title: 'Siswa SMKN 1 Boyolangu Raih Juara 1 Lomba Web Design Tingkat Provinsi',
-            content: 'Salah satu siswa jurusan RPL berhasil meraih juara 1 dalam lomba Web Design tingkat provinsi Jawa Timur. Karya yang ditampilkan dinilai unggul dari segi UI/UX dan fungsionalitas. Prestasi ini diharapkan dapat memotivasi siswa lain untuk terus berkarya.',
+            content: 'Salah satu siswa jurusan RPL berhasil meraih juara 1 dalam lomba Web Design tingkat provinsi Jawa Timur. Karya yang ditampilkan dinilai unggul dari segi UI/UX and fungsionalitas. Prestasi ini diharapkan dapat memotivasi siswa lain untuk terus berkarya.',
             thumbnail: 'https://unsplash.com/photos/a-graduate-in-cap-and-gown-adjusts-her-hat-outdoors-OWA0YMQ3E5U',
             isPublished: true,
-            createdBy: admin.id,
+            createdBy: adminId,
         },
         {
             title: 'Tim Basket SMKN 1 Boyolangu Menjadi Juara 2 Turnamen Antar Sekolah',
             content: 'Tim basket SMKN 1 Boyolangu berhasil meraih juara 2 dalam turnamen antar sekolah se-Kabupaten Tulungagung. Pertandingan berlangsung sengit hingga babak final. Kekompakan tim menjadi kunci keberhasilan dalam kompetisi ini.',
             thumbnail: 'https://unsplash.com/photos/classmate-classroom-knowledge-technology-concept-hD23z8XuqAE',
             isPublished: true,
-            createdBy: admin.id,
+            createdBy: adminId,
         },
         {
             title: 'Prestasi Gemilang di Lomba Cerdas Cermat Tingkat Kabupaten',
             content: 'Tim cerdas cermat SMKN 1 Boyolangu berhasil meraih juara 1 dalam lomba tingkat kabupaten. Mereka menunjukkan kemampuan pengetahuan umum yang sangat baik. Keberhasilan ini menjadi bukti kualitas akademik siswa.',
             thumbnail: 'https://unsplash.com/photos/3-women-smiling-and-standing-under-blue-sky-during-daytime-dNBmg8ckaOE',
             isPublished: true,
-            createdBy: admin.id,
+            createdBy: adminId,
         },
-        // {
-        //     title: 'Siswa SMKN 1 Boyolangu Lolos Seleksi Nasional Olimpiade Informatika',
-        //     content: 'Seorang siswa berbakat dari jurusan TKJ berhasil lolos ke tahap nasional Olimpiade Informatika. Ia akan mewakili daerah dalam kompetisi tingkat nasional. Dukungan dari sekolah dan guru menjadi faktor penting dalam pencapaian ini.',
-        //     thumbnail: 'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&q=80&w=1000',
-        //     isPublished: true,
-        //     createdBy: admin.id,
-        // },
-        // {
-        //     title: 'Pameran Karya Siswa SMKN 1 Boyolangu Disambut Antusias',
-        //     content: 'Kegiatan pameran karya siswa berhasil menarik perhatian banyak pengunjung dari berbagai sekolah. Berbagai inovasi teknologi dan karya seni dipamerkan. Acara ini menjadi wadah bagi siswa untuk menunjukkan kreativitas mereka.',
-        //     thumbnail: 'https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&q=80&w=1000',
-        //     isPublished: true,
-        //     createdBy: admin.id,
-        // },
-        // {
-        //     title: 'Juara 1 Lomba Adzan Tingkat Kabupaten Diraih Siswa SMKN 1 Boyolangu',
-        //     content: 'Salah satu siswa berhasil meraih juara 1 dalam lomba adzan tingkat kabupaten. Penilaian dilakukan berdasarkan tajwid, suara, dan adab. Prestasi ini menjadi kebanggaan bagi seluruh warga sekolah.',
-        //     thumbnail: 'https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&q=80&w=1000',
-        //     isPublished: true,
-        //     createdBy: admin.id,
-        // },
-        // {
-        //     title: 'SMKN 1 Boyolangu Gelar Tryout Akbar Persiapan PPDB',
-        //     content: 'Sekolah mengadakan tryout akbar sebagai persiapan menghadapi PPDB bagi siswa SMP. Kegiatan ini diikuti oleh ratusan peserta dari berbagai sekolah. Diharapkan kegiatan ini membantu siswa dalam menghadapi ujian masuk.',
-        //     thumbnail: 'https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&q=80&w=1000',
-        //     isPublished: true,
-        //     createdBy: admin.id,
-        // },
     ];
 
     for (const news of newsData) {
@@ -332,20 +313,22 @@ async function main() {
         }
     }
     console.log('News seeded.');
+}
 
-    // 6. Seed Announcements (Pengumuman)
+async function seedAnnouncements(guruId: string) {
+    console.log('Seeding announcements...');
     const announcementsData = [
         {
             title: 'Jadwal Ujian Remedial Matematika',
             content: 'Bagi siswa yang belum mencapai KKM pada ujian matematika, harap mengikuti ujian remedial pada hari Jumat pukul 13.00 WIB di Laboratorium Komputer 1.',
             isPublished: true,
-            createdBy: guru.id,
+            createdBy: guruId,
         },
         {
             title: 'Kumpul Perdana Ekskul Robotik Terbatas',
             content: 'Pertemuan perdana ekstrakurikuler robotik akan diadakan besok sepulang sekolah. Bagi anggota baru, silakan membawa laptop masing-masing jika ada.',
             isPublished: true,
-            createdBy: guru.id,
+            createdBy: guruId,
         }
     ];
 
@@ -359,6 +342,18 @@ async function main() {
         }
     }
     console.log('Announcements seeded.');
+}
+
+async function main() {
+    console.log('Start seeding...');
+
+    const categoriesMap = await seedCategories();
+    const levelsMap = await seedLevels();
+    const { guru, admin } = await seedUsers();
+
+    await seedCompetitions(categoriesMap, levelsMap, admin.id);
+    await seedNews(admin.id);
+    await seedAnnouncements(guru.id);
 
     console.log('Seeding finished.');
 }

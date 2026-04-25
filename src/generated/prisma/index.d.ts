@@ -128,7 +128,8 @@ export type FieldType = (typeof FieldType)[keyof typeof FieldType]
 export const SubmissionStatus: {
   MENUNGGU: 'MENUNGGU',
   DITERIMA: 'DITERIMA',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof SubmissionStatus]
@@ -137,7 +138,8 @@ export type SubmissionStatus = (typeof SubmissionStatus)[keyof typeof Submission
 export const AchievementStatus: {
   MENUNGGU: 'MENUNGGU',
   TERVERIFIKASI: 'TERVERIFIKASI',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 export type AchievementStatus = (typeof AchievementStatus)[keyof typeof AchievementStatus]
@@ -146,7 +148,8 @@ export type AchievementStatus = (typeof AchievementStatus)[keyof typeof Achievem
 export const RegistrationStatus: {
   MENUNGGU: 'MENUNGGU',
   DITERIMA: 'DITERIMA',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 export type RegistrationStatus = (typeof RegistrationStatus)[keyof typeof RegistrationStatus]

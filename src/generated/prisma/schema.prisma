@@ -27,18 +27,21 @@ enum SubmissionStatus {
   MENUNGGU
   DITERIMA
   DITOLAK
+  DIBATALKAN
 }
 
 enum AchievementStatus {
   MENUNGGU
   TERVERIFIKASI
   DITOLAK
+  DIBATALKAN
 }
 
 enum RegistrationStatus {
   MENUNGGU
   DITERIMA
   DITOLAK
+  DIBATALKAN
 }
 
 enum Semester {

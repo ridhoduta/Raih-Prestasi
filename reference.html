@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#2e7238",
+                        "surface-container-high": "#e5eadf",
+                        "on-secondary": "#ffffff",
+                        "primary": "#0d631b",
+                        "on-primary-container": "#cbffc2",
+                        "surface-variant": "#e0e4da",
+                        "on-secondary-fixed-variant": "#07521d",
+                        "inverse-on-surface": "#eef2e8",
+                        "on-primary-fixed-variant": "#005312",
+                        "secondary-container": "#abf4ac",
+                        "outline-variant": "#bfcaba",
+                        "surface": "#f7fbf0",
+                        "on-tertiary-container": "#ffedf0",
+                        "primary-fixed": "#a3f69c",
+                        "surface-dim": "#d7dbd2",
+                        "surface-container-low": "#f1f5eb",
+                        "secondary-fixed": "#abf4ac",
+                        "on-secondary-fixed": "#002107",
+                        "on-surface": "#181d17",
+                        "surface-container-highest": "#e0e4da",
+                        "on-primary": "#ffffff",
+                        "on-background": "#181d17",
+                        "tertiary-fixed": "#ffd9e2",
+                        "secondary-fixed-dim": "#90d792",
+                        "primary-container": "#2e7d32",
+                        "inverse-surface": "#2d322b",
+                        "secondary": "#286b33",
+                        "surface-container": "#ebefe5",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb1c7",
+                        "inverse-primary": "#88d982",
+                        "outline": "#707a6c",
+                        "primary-fixed-dim": "#88d982",
+                        "on-tertiary-fixed": "#3f001c",
+                        "error-container": "#ffdad6",
+                        "tertiary": "#923357",
+                        "surface-bright": "#f7fbf0",
+                        "on-tertiary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#002204",
+                        "background": "#f7fbf0",
+                        "surface-tint": "#1b6d24",
+                        "on-surface-variant": "#40493d",
+                        "tertiary-container": "#b14b6f",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7f2448"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-md dark:bg-emerald-950/70 shadow-sm shadow-emerald-900/5 transition-all">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+<div class="text-xl font-extrabold text-emerald-900 dark:text-emerald-50 tracking-tight">Raih Prestasi</div>
+<div class="hidden md:flex items-center gap-8 font-['Manrope'] tracking-tight text-sm font-medium">
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-800 dark:hover:text-emerald-200 transition-colors" href="#">Fitur</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-800 dark:hover:text-emerald-200 transition-colors" href="#">Manfaat</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-800 dark:hover:text-emerald-200 transition-colors" href="#">Harga</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-800 dark:hover:text-emerald-200 transition-colors" href="#">Tentang Kami</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="px-5 py-2 text-emerald-800 dark:text-emerald-400 font-medium text-sm hover:bg-emerald-50/50 dark:hover:bg-emerald-900/30 rounded-lg transition-all scale-95 active:opacity-80">Masuk</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">Daftar</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="relative px-8 py-20 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold tracking-widest uppercase">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+                    Edukasi Masa Depan
+                </div>
+<h1 class="text-5xl md:text-7xl font-extrabold text-on-surface leading-[1.1] tracking-tight">
+                    Raih Prestasi Akademik <span class="text-primary italic">Terbaik Anda</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-lg leading-relaxed">
+                    Platform manajemen pembelajaran dan pencapaian siswa yang modern dan efisien. Fokus pada potensi, kelola kemajuan, dan capai impian Anda.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="px-8 py-4 bg-primary text-on-primary rounded-full font-bold text-lg shadow-xl shadow-primary/20 hover:shadow-2xl transition-all scale-100 active:scale-95">Daftar Sekarang</button>
+<button class="px-8 py-4 border-2 border-outline-variant text-on-surface rounded-full font-bold text-lg hover:bg-surface-variant/30 transition-all active:scale-95">Lihat Demo</button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary-fixed/20 blur-[100px] rounded-full"></div>
+<div class="bg-surface-container-lowest p-4 rounded-[2rem] shadow-2xl shadow-on-surface/5 border border-white/50 relative overflow-hidden group">
+<img alt="Dashboard Preview" class="rounded-[1.5rem] w-full h-auto object-cover aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBt7SQEKVK2DJn0ooNNY9RgpNXCETImPUunXlpd_Igi71BltEiWHYAMtiELMt0Y8AgmtS3SPSMMhOiHZVYQMIWdhtUsfQCOOaSRf1OecACLyJcjob_nOXaloUUWlqhcsSTNnIjKJGx2nmS2lihzRZ6ESqvE2haEaMbEJNB61ALZ8WAID8yim-ZMhsSe1AT_38uA2b2-JLqVZghXyJ_ijaOhVUVKHdCRVFN2J3UMVDjVDUfYRhTM5hv2934fMieJv6uKA27zmKiVLE4"/>
+</div>
+<!-- Floating Achievement Badge -->
+<div class="absolute -bottom-6 -left-6 glass-panel p-6 rounded-2xl shadow-xl border border-white/50 max-w-[200px]">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-tertiary rounded-full flex items-center justify-center text-on-tertiary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-wider">Top 1% Student</p>
+<p class="text-lg font-extrabold text-on-surface">Distinction</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Section -->
+<section class="py-16 px-8 bg-surface-container-low/50">
+<div class="max-w-7xl mx-auto">
+<p class="text-center text-sm font-bold text-on-surface-variant uppercase tracking-[0.2em] mb-12">Dipercaya oleh Lembaga Terkemuka</p>
+<div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="h-8 md:h-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-4xl">school</span>
+<span class="text-xl font-bold font-headline">EduVanguard</span>
+</div>
+<div class="h-8 md:h-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-4xl">account_balance</span>
+<span class="text-xl font-bold font-headline">Global Academy</span>
+</div>
+<div class="h-8 md:h-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-4xl">diversity_3</span>
+<span class="text-xl font-bold font-headline">YouthLabs</span>
+</div>
+<div class="h-8 md:h-10 flex items-center gap-2">
+<span class="material-symbols-outlined text-4xl">menu_book</span>
+<span class="text-xl font-bold font-headline">Prestasi Kita</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Section (Bento Grid) -->
+<section class="py-24 px-8 max-w-7xl mx-auto" id="features">
+<div class="mb-20 space-y-4">
+<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight">Fitur Cerdas untuk <br/><span class="text-primary">Eksplorasi Tanpa Batas</span></h2>
+<div class="w-20 h-2 bg-primary rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Large Feature Card -->
+<div class="md:col-span-2 bg-surface-container-low rounded-[2rem] p-10 flex flex-col justify-between group hover:bg-surface-container-high transition-all">
+<div class="space-y-6">
+<div class="w-14 h-14 bg-primary text-on-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-3xl">task</span>
+</div>
+<h3 class="text-3xl font-extrabold">Manajemen Tugas</h3>
+<p class="text-on-surface-variant text-lg leading-relaxed">Organisir semua tugas sekolah dan deadline proyek Anda dalam satu tempat dengan sistem pengingat otomatis.</p>
+</div>
+<img alt="Task Management" class="mt-12 rounded-xl object-cover h-64 w-full shadow-lg group-hover:scale-[1.01] transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgcXebnUiKrSDAX74Wgni6PaB7upimL7DeRZ-b795xy15azdKuOfqlgpYiLnomnGwCeW3NYWwojSuHU_0T4IUzgS5rdxozbP45K29v1mkOaz4yT5qXEaCui-RxbLxU0oTnftrXHTmaJE9PpJ4KizxQ_xJHVnc844TQ_mWfvIsUQnweJ1x7acsLAoFKWw-Hd7q5CrkMCh9-KsFs6m1wgQOupYB0tBQGvTpIGeO2-YRwmpQFHrkF5NufxcBe6zyj5DirR2Q-AeopOKA"/>
+</div>
+<div class="bg-primary text-on-primary rounded-[2rem] p-10 flex flex-col gap-8 shadow-xl shadow-primary/10">
+<div class="w-14 h-14 bg-primary-fixed text-on-primary-fixed rounded-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">analytics</span>
+</div>
+<h3 class="text-3xl font-extrabold">Laporan Kemajuan</h3>
+<p class="text-primary-fixed/80 text-lg leading-relaxed">Lihat visualisasi data perkembangan nilai dan kehadiran secara real-time setiap minggunya.</p>
+<div class="mt-auto pt-8 border-t border-white/10">
+<span class="text-4xl font-black italic">+85%</span>
+<p class="text-sm uppercase tracking-widest font-bold">Rata-rata Peningkatan</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-[2rem] p-8 flex flex-col gap-6 hover:shadow-xl transition-all">
+<div class="w-12 h-12 bg-secondary-container text-on-secondary-container rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">interactive_space</span>
+</div>
+<h3 class="text-xl font-extrabold">Materi Interaktif</h3>
+<p class="text-on-surface-variant">Akses ribuan video pembelajaran dan kuis seru yang disesuaikan dengan kurikulum terbaru.</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-[2rem] p-8 flex flex-col gap-6 hover:shadow-xl transition-all">
+<div class="w-12 h-12 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">forum</span>
+</div>
+<h3 class="text-xl font-extrabold">Diskusi Grup</h3>
+<p class="text-on-surface-variant">Kolaborasi dengan teman sekelas dan guru melalui fitur forum diskusi yang terintegrasi.</p>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-[2rem] p-8 flex flex-col gap-6 hover:shadow-xl transition-all">
+<div class="w-12 h-12 bg-primary-container text-on-primary-container rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined">insights</span>
+</div>
+<h3 class="text-xl font-extrabold">Analisis Capaian</h3>
+<p class="text-on-surface-variant">AI-powered analytics untuk menemukan kekuatan dan area yang perlu ditingkatkan dalam belajar.</p>
+</div>
+</div>
+</section>
+<!-- App Preview Section -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8 grid lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 relative">
+<!-- Desktop Mockup -->
+<div class="bg-surface-container-lowest rounded-xl shadow-2xl p-2 border-4 border-surface-container-highest">
+<img alt="Desktop App" class="rounded-lg w-full h-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_SGMRaddS9XIRJuEA8TNOEqXFOYA73p1nRQ75MvpKrMPADcGVyte_Ge6nFjfQhC9-F2oRmRyQOz0fYqPtuqOQSnMaIGQz3QlFcYvEBRmhq-ZBb2As2bWTTo7fjbFwYxzWNT5OajLpooz_ciA-WHmJ4wtfRHVtJcB3hDqayUehr1yFCiXuQkUyXoifVdsJlKRcvWlJdODwIOGNc5onboWSOGg6WvaSuACWJwX2iMYTovZddodps2PKi2LV9oClMcSrs6ntBdDcn2I"/>
+</div>
+<!-- Mobile Mockup Overlay -->
+<div class="absolute -right-8 -bottom-12 w-1/3 bg-surface-container-lowest rounded-[2.5rem] shadow-2xl p-3 border-8 border-surface-container-highest hidden md:block">
+<img alt="Mobile App" class="rounded-[1.8rem] w-full h-auto aspect-[9/19] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRobZIxNwb5kZaQyoo0Y0Dd2av8BO5XFG48i2CZpL99uqbz-pV18nYjMq0Eeu9JdF6nQ3uuzAE996SlBwStU3qyNbo6Q-ld3Qv1mbTUOQfGYxeV22vFSF3mYSyBWG1QIg7oNQTvi3J40840Q1S7g12q_A7oa__qNOx2-dJc7ouHHg1Qji_Tw2J8TtrJwkuoZv0MHYa4UAxjLxRXWGWXW751tbezeqoXF6H4y2zgXWM9anOXhD8ZUkMGUkID2V5G8NxrbuStVOBom0"/>
+</div>
+</div>
+<div class="order-1 lg:order-2 space-y-8">
+<h2 class="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">Pengalaman Belajar yang <span class="text-primary">Fluid di Mana Saja</span></h2>
+<p class="text-lg text-on-surface-variant leading-relaxed">Antarmuka kami dirancang untuk fokus total. Baik di laptop saat di rumah atau smartphone saat di perjalanan, pengalaman Anda tetap mulus dan konsisten.</p>
+<ul class="space-y-4">
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold">Sinkronisasi Real-time di Cloud</span>
+</li>
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold">Mode Offline untuk Belajar Tanpa Gangguan</span>
+</li>
+<li class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-bold">Notifikasi Cerdas dan Terpersonalisasi</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Benefits Section -->
+<section class="py-24 px-8 max-w-7xl mx-auto text-center">
+<h2 class="text-4xl md:text-5xl font-extrabold mb-16 tracking-tight">Mengapa Pilih Raih Prestasi?</h2>
+<div class="grid md:grid-cols-3 gap-12">
+<div class="space-y-4">
+<div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-4xl text-primary">rocket_launch</span>
+</div>
+<h3 class="text-2xl font-bold">Setup Mudah</h3>
+<p class="text-on-surface-variant">Daftar dalam 2 menit dan langsung mulai kelola akademik Anda tanpa konfigurasi yang rumit.</p>
+</div>
+<div class="space-y-4">
+<div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-4xl text-primary">devices</span>
+</div>
+<h3 class="text-2xl font-bold">Akses di Semua Perangkat</h3>
+<p class="text-on-surface-variant">Dari desktop hingga tablet dan ponsel, platform kami tersedia di mana pun Anda membutuhkannya.</p>
+</div>
+<div class="space-y-4">
+<div class="w-20 h-20 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-4xl text-primary">verified_user</span>
+</div>
+<h3 class="text-2xl font-bold">Keamanan Data Terjamin</h3>
+<p class="text-on-surface-variant">Kami menggunakan enkripsi tingkat militer untuk memastikan data pribadi dan akademik Anda tetap aman.</p>
+</div>
+</div>
+</section>
+<!-- News Section -->
+<section class="py-32 px-8 bg-surface-container-lowest overflow-hidden">
+<div class="max-w-7xl mx-auto relative">
+<div class="mb-20 text-center relative z-10">
+<h2 class="text-5xl md:text-6xl font-extrabold tracking-tighter mb-4">Berita &amp; <span class="text-primary italic">Update</span></h2>
+<p class="text-on-surface-variant max-w-xl mx-auto text-lg">Inspirasi harian dan terobosan terbaru dalam dunia pendidikan.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+<!-- Featured Article -->
+<div class="lg:col-span-7 group relative">
+<div class="relative rounded-[2.5rem] overflow-hidden aspect-[16/10] shadow-2xl">
+<img alt="Pendidikan Masa Depan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl7ZCHdDubMnfMRWObpmqtwcgKigTL0zd2lbeG2ShsSlc6MtkNw8qvUVPibQxZ5UFd35qkPk2eyK262TjM7LjjEWQ73AcQFZSevht_9lGGzlmfAwUcxZgVbK2AZLvyHTnpEeBypZxT9ArdYHrV_c4lYA_u1x9hH_3dwxXPr0vrFpZ1_ocDqrPg0fpwNqsVs1LqcEIKdbpR3Fm5jai1pBf5r2x_oR3EYdJPYP4mi2ZJRM7oyoBK4L_zo4sA4lEuuBdo3903pywlV14"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-10 text-white space-y-4">
+<span class="px-4 py-1 bg-primary text-on-primary rounded-full text-xs font-bold uppercase tracking-widest">Utama</span>
+<h3 class="text-3xl md:text-4xl font-extrabold leading-tight">Transformasi Digital di Sekolah Menengah</h3>
+<p class="text-white/80 max-w-lg line-clamp-2">Eksplorasi mendalam tentang bagaimana teknologi mendefinisikan ulang batas-batas ruang kelas tradisional.</p>
+<a class="inline-flex items-center gap-2 font-bold hover:gap-4 transition-all group/link" href="#">
+                                    Baca Selengkapnya <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Secondary Articles -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<!-- Card 2 -->
+<div class="flex gap-6 items-center bg-surface-container-low p-6 rounded-3xl hover:bg-white transition-all shadow-sm hover:shadow-xl border border-outline-variant/10">
+<div class="w-32 h-32 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg">
+<img alt="Prestasi Siswa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8MLkfLIw7ryhMdtTeZVd7-__-NA46Zt3Kpw8AnLeT4dS4nZ6Um-Z6Fn6jJDyDD9IYqHtGKM7iaoZJfTNeGr2b5ELHA90EPgzQYj36B7MbBcjui00jtu0PgRllF9h3Eovd0DoNCFnZkNhVgzRNe458MLmHIIkH8pkHMT_2wUdkJQFKIDYxVLsZJDG4xyd-1ZKAhKMrxGAo_75xHmex0k5JLje4cNJA8moWPRwDBXYkixLpSNaicKZiIv6PmX2mXpGZqKh8KMNCMuU"/>
+</div>
+<div class="space-y-2">
+<span class="text-[10px] font-black uppercase text-secondary tracking-widest">Kisah Sukses</span>
+<h4 class="text-xl font-extrabold leading-tight line-clamp-2">Dari Desa Menuju Olimpiade Sains</h4>
+<a class="text-primary text-sm font-bold flex items-center gap-1 group/btn" href="#">
+                                    Baca <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex gap-6 items-center bg-surface-container-low p-6 rounded-3xl hover:bg-white transition-all shadow-sm hover:shadow-xl border border-outline-variant/10">
+<div class="w-32 h-32 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg">
+<img alt="Fitur Baru" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg34nW9xlKs6QfUFwZirMmu9EMi6Bgr_p-Od9s31ATNddEzjYuGw0e38qJxbvD5Ya-KZz11K-EZ7OR4_IUWJNq8CyjolLh1BaWuoO2VK-Bkppz5FdgPFKr3wvodOx3dPcevF64jY3wCC0ttvnLlggJEDuScJra94w4XGoocLzKK6Dm2-7MQeQjGdcC1dFkmYdVQmTXAfkmclpjD-z7v2xbx-b68a14TZYWDSSpmOqfoNIIR47CoHtCSW-Rs1tNaCFND6H4d8ufOfQ"/>
+</div>
+<div class="space-y-2">
+<span class="text-[10px] font-black uppercase text-tertiary tracking-widest">Inovasi</span>
+<h4 class="text-xl font-extrabold leading-tight line-clamp-2">AI Mentor Kini Hadir di Versi 2.0</h4>
+<a class="text-primary text-sm font-bold flex items-center gap-1 group/btn" href="#">
+                                    Lihat Fitur <span class="material-symbols-outlined text-sm group-hover/btn:translate-x-1 transition-transform">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Decoration -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none"></div>
+</div>
+</section>
+<!-- Download App Section -->
+<section class="py-24 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto bg-white/60 backdrop-blur-md border border-white/50 rounded-[4rem] p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 relative overflow-hidden">
+<!-- Abstract blobs -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="flex-1 space-y-10 relative z-10">
+<div class="space-y-4">
+<h2 class="text-5xl md:text-6xl font-black tracking-tighter leading-[0.9]">Belajar Kapan Saja, <br/><span class="text-primary italic">Di Mana Saja.</span></h2>
+<p class="text-xl text-on-surface-variant leading-relaxed max-w-lg">Unduh aplikasi Raih Prestasi dan nikmati kemudahan akses materi pembelajaran dalam genggaman Anda. Tersedia untuk iOS dan Android.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-6">
+<a class="group flex items-center gap-4 bg-black text-white px-8 py-5 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20" href="#">
+<img alt="Apple logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLxBOmP2CrnuLsPUjdRxDr7ge-4JSVgFA-MBbbfJ7XZpLll1zpXHtV-1w20yDBMwG7lA3gy15AcKOjKE656oI5fH_A8LfSnGH9FHxs7wdGUeQekEAKVoI5-iCURBkLBz-EaCXGXROFcnIb-xiSwxGY_g1IK3finYQHfsvkzeTnFxJkCGiPOYRZ3fSep5VtaY1nxQH7I6mnLIwqm9whC6kY4b8DjMo9uojo2fjabYrVbcocipgu9kG_0CyG7VY73ZGcZP65-ZaQZi0"/>
+<div>
+<p class="text-[10px] uppercase font-bold text-white/60 leading-none mb-1">Download on the</p>
+<p class="text-xl font-bold leading-none">App Store</p>
+</div>
+</a>
+<a class="group flex items-center gap-4 bg-white text-black border-2 border-black px-8 py-5 rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/5" href="#">
+<img alt="Google Play logo" class="w-8 h-8" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCloUasN_C0_Bv6AfHWTnCtfpaHq2LsoqxAq6qY0Cb1go7Uhh9H1M24Y8uevvhhclcvM1FK7Yf5Vkmbbj2J6SHJz6--HJ7edOHk6jhnIQ8eGjEeLpUIE63IpXeC-sxA3MwgbobEEcusOsPBL11rGUKe0orwMTkZ6JsAiZhCZPP7nmVwE55xSnNBtR9O9EyArBAHlcFIi6O5oXkH3yhvtATF1569eXdB1xt5Je0DZn93aw7_lpDao19sxG7oqaYg9nEZKGRZivCb-no"/>
+<div>
+<p class="text-[10px] uppercase font-bold text-black/60 leading-none mb-1">Get it on</p>
+<p class="text-xl font-bold leading-none">Google Play</p>
+</div>
+</a>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-outline-variant/30">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-white bg-primary-fixed"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-secondary-fixed"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-tertiary-fixed"></div>
+</div>
+<p class="text-sm font-bold text-on-surface-variant">Bergabung dengan 50k+ Pelajar</p>
+</div>
+</div>
+<div class="flex-1 relative z-10">
+<div class="relative group">
+<div class="absolute inset-0 bg-primary/20 blur-[60px] rounded-full group-hover:bg-primary/30 transition-colors"></div>
+<img alt="App Preview" class="relative z-10 w-full max-w-[420px] mx-auto drop-shadow-[0_45px_45px_rgba(0,0,0,0.15)] hover:-translate-y-4 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRobZIxNwb5kZaQyoo0Y0Dd2av8BO5XFG48i2CZpL99uqbz-pV18nYjMq0Eeu9JdF6nQ3uuzAE996SlBwStU3qyNbo6Q-ld3Qv1mbTUOQfGYxeV22vFSF3mYSyBWG1QIg7oNQTvi3J40840Q1S7g12q_A7oa__qNOx2-dJc7ouHHg1Qji_Tw2J8TtrJwkuoZv0MHYa4UAxjLxRXWGWXW751tbezeqoXF6H4y2zgXWM9anOXhD8ZUkMGUkID2V5G8NxrbuStVOBom0"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full rounded-t-[2rem] bg-emerald-50 dark:bg-emerald-950 mt-12">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-12 py-12 gap-8 max-w-7xl mx-auto">
+<div class="flex flex-col gap-4 text-center md:text-left">
+<div class="text-lg font-bold text-emerald-900 dark:text-emerald-50">Raih Prestasi</div>
+<p class="text-stone-500 dark:text-stone-400 font-['Manrope'] text-sm tracking-wide max-w-xs">Platform terpercaya untuk membangun masa depan akademik yang gemilang bagi setiap pelajar.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8 font-['Manrope'] text-sm tracking-wide">
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Fitur</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Manfaat</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Harga</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Tentang Kami</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Privasi</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors" href="#">Bantuan</a>
+</div>
+<div class="text-center md:text-right">
+<p class="text-stone-500 dark:text-stone-400 font-['Manrope'] text-sm tracking-wide">© 2024 Raih Prestasi. The Luminary Archive.</p>
+<div class="flex justify-center md:justify-end gap-4 mt-4 opacity-60">
+<span class="material-symbols-outlined text-emerald-900 dark:text-emerald-50">public</span>
+<span class="material-symbols-outlined text-emerald-900 dark:text-emerald-50">smart_display</span>
+<span class="material-symbols-outlined text-emerald-900 dark:text-emerald-50">chat</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

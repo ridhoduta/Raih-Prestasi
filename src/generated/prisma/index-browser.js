@@ -333,7 +333,8 @@ exports.UserRole = exports.$Enums.UserRole = {
 exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
   MENUNGGU: 'MENUNGGU',
   DITERIMA: 'DITERIMA',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 exports.FieldType = exports.$Enums.FieldType = {
@@ -350,13 +351,15 @@ exports.FieldType = exports.$Enums.FieldType = {
 exports.SubmissionStatus = exports.$Enums.SubmissionStatus = {
   MENUNGGU: 'MENUNGGU',
   DITERIMA: 'DITERIMA',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 exports.AchievementStatus = exports.$Enums.AchievementStatus = {
   MENUNGGU: 'MENUNGGU',
   TERVERIFIKASI: 'TERVERIFIKASI',
-  DITOLAK: 'DITOLAK'
+  DITOLAK: 'DITOLAK',
+  DIBATALKAN: 'DIBATALKAN'
 };
 
 exports.Semester = exports.$Enums.Semester = {
