@@ -259,7 +259,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     </div>
 
                     {/* Update Status Section */}
-                    {submission.status !== "DIBATALKAN" && submission.status !== "DITOLAK" && (
+                    {submission.status == "MENUNGGU" && (
                         <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
                             <div className="flex flex-col md:flex-row md:items-end gap-6">
                                 <div className="flex-1 space-y-2">

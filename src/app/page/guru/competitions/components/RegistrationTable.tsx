@@ -96,7 +96,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                     </td>
                                     <td className="px-6 py-5 text-right">
                                         <div className="flex justify-end gap-2">
-                                            {(reg.status !== "DITOLAK" && reg.status !== "DIBATALKAN") && (
+                                            {(reg.status === "MENUNGGU") && (
                                                 <>
                                                     <button
                                                         disabled={isUpdating}

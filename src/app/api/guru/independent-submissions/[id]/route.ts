@@ -109,7 +109,7 @@ export async function PUT(req: Request, context: Context) {
     // Rule 2: Check existence and ownership
     const submission = await prisma.independentCompetitionSubmission.findUnique({
       where: { id },
-      select: { id: true, studentId: true },
+      select: { id: true, studentId: true, status: true },
     });
 
     if (!submission) {
@@ -137,6 +137,13 @@ export async function PUT(req: Request, context: Context) {
       }
     }
 
+    if (submission.status !== "MENUNGGU") {
+      return NextResponse.json(
+        { success: false, message: "Pengajuan sudah tidak bisa diubah" },
+        { status: 400 }
+      );
+    }
+
     let finalRecommendationLetter = recommendationLetter;
     if (typeof recommendationLetter === "object" && recommendationLetter !== null && "publicUrl" in recommendationLetter) {
       finalRecommendationLetter = (recommendationLetter as any).publicUrl;
@@ -153,17 +160,19 @@ export async function PUT(req: Request, context: Context) {
       select: submissionSelect,
     });
 
-    // Kirim Notifikasi ke Siswa
-    await createAndSendNotification({
-      studentId: updated.studentId,
-      title: "Update Pengajuan Lomba Mandiri 📢",
-      body: `Pengajuan "${updated.title}" kamu sekarang: ${updated.status}`,
-      type: "SUBMISSION",
-      data: {
-        id: updated.id,
-        screen: "submission_detail",
-      },
-    });
+    // Kirim Notifikasi ke Siswa (Hanya jika diupdate oleh Guru/Admin)
+    if (isGuruOrAdmin) {
+      await createAndSendNotification({
+        studentId: updated.studentId,
+        title: "Update Pengajuan Lomba Mandiri 📢",
+        body: `Pengajuan "${updated.title}" kamu sekarang: ${updated.status}`,
+        type: "SUBMISSION",
+        data: {
+          id: updated.id,
+          screen: "submission_detail",
+        },
+      });
+    }
 
     triggerPusher(CHANNELS.PRESTASI, EVENTS.PENGAJUAN_UPDATE, {
       id: updated.id,

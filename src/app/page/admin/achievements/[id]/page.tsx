@@ -212,6 +212,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     </div>
 
                     {/* Update Status Section */}
+                    {achievement.status === "MENUNGGU" && (
                     <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
                         <div className="flex flex-col md:flex-row md:items-end gap-6">
                             <div className="flex-1 space-y-2">
@@ -254,6 +255,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             </div>
                         </div>
                     </div>
+                    )}
                 </>
             ) : (
                 <div className="bg-white p-12 shadow-lg rounded-2xl text-center border border-gray-100">

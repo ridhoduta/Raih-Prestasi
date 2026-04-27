@@ -66,7 +66,7 @@ export async function GET(_: Request, context: Context) {
 export async function PUT(request: Request, context: Context) {
   try {
     const session = await getSession();
-    if (!session || session.role !== "GURU" && session.role !== "ADMIN") {
+    if (!session) {
       return NextResponse.json(
         { success: false, message: "Anda tidak memiliki akses" },
         { status: 401 }
@@ -78,9 +78,47 @@ export async function PUT(request: Request, context: Context) {
     const { status } = body;
 
     // Rule 7: Input validation
-    if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK"].includes(status)) {
+    if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK", "DIBATALKAN"].includes(status)) {
       return NextResponse.json(
         { success: false, message: "Status tidak valid" },
+        { status: 400 }
+      );
+    }
+
+    const achievement = await prisma.achievement.findUnique({
+      where: { id },
+      select: { id: true, studentId: true, status: true },
+    });
+
+
+    if (!achievement) {
+      return NextResponse.json(
+        { success: false, message: "Achievement tidak ditemukan" },
+        { status: 404 }
+      );
+    }
+
+    const isGuruOrAdmin = session.role === "GURU" || session.role === "ADMIN";
+
+    // Role-specific validation
+    if (!isGuruOrAdmin) {
+      if (achievement.studentId !== session.id) {
+        return NextResponse.json(
+          { success: false, message: "Anda hanya dapat membatalkan pengajuan milik sendiri" },
+          { status: 403 }
+        );
+      }
+      if (status !== "DIBATALKAN") {
+        return NextResponse.json(
+          { success: false, message: "Anda tidak memiliki akses untuk mengubah status ini" },
+          { status: 403 }
+        );
+      }
+    }
+
+    if (achievement.status !== "MENUNGGU") {
+      return NextResponse.json(
+        { success: false, message: "Achievement sudah tidak bisa diubah" },
         { status: 400 }
       );
     }
@@ -89,22 +127,24 @@ export async function PUT(request: Request, context: Context) {
       where: { id },
       data: {
         status,
-        verifiedBy: session.id,
+        verifiedBy: (session.role === "GURU" || session.role === "ADMIN") ? session.id : undefined,
       },
       select: achievementDetailSelect,
     });
 
-    // Kirim Notifikasi ke Siswa
-    await createAndSendNotification({
-      studentId: updated.studentId,
-      title: "Update Status Prestasi 🎉",
-      body: `Status prestasi "${updated.competitionName}" kamu sekarang: ${updated.status}`,
-      type: "ACHIEVEMENT",
-      data: {
-        id: updated.id,
-        screen: "achievement_detail",
-      },
-    });
+    // Kirim Notifikasi ke Siswa (Hanya jika diupdate oleh Guru/Admin)
+    if (isGuruOrAdmin) {
+      await createAndSendNotification({
+        studentId: updated.studentId,
+        title: "Update Status Prestasi 🎉",
+        body: `Status prestasi "${updated.competitionName}" kamu sekarang: ${updated.status}`,
+        type: "ACHIEVEMENT",
+        data: {
+          id: updated.id,
+          screen: "achievement_detail",
+        },
+      });
+    }
 
     triggerPusher(CHANNELS.PRESTASI, EVENTS.PRESTASI_UPDATE, {
       id: updated.id,
