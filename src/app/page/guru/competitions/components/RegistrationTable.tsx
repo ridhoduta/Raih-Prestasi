@@ -118,7 +118,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                             )}
                                             <button
                                                 onClick={() => onViewDetail(reg.id)}
-                                                className="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center gap-2 px-4 group"
+                                                className="p-2 rounded-lg bg-primary-container text-on-primary hover:text-white transition-all flex items-center justify-center gap-2 px-4 group"
                                                 title="Lihat Detail"
                                             >
                                                 <Eye size={18} />

@@ -92,7 +92,7 @@ export default function ChangePasswordPage() {
                         <div className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                                    <Lock size={16} className="text-gray-400" /> Password Lama
+                                    <Lock size={16} className="text-secondary" /> Password Lama
                                 </label>
                                 <input
                                     type="password"
@@ -100,14 +100,14 @@ export default function ChangePasswordPage() {
                                     value={formData.oldPassword}
                                     onChange={handleInputChange}
                                     placeholder="Masukkan password saat ini"
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-color-secondary focus:border-emerald-500 transition-all text-black"
                                     required
                                 />
                             </div>
 
                             <div className="space-y-2 pt-2 border-t border-gray-50 mt-4">
                                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                                    <Lock size={16} className="text-emerald-500" /> Password Baru
+                                    <Lock size={16} className="text-secondary" /> Password Baru
                                 </label>
                                 <input
                                     type="password"
@@ -115,14 +115,14 @@ export default function ChangePasswordPage() {
                                     value={formData.newPassword}
                                     onChange={handleInputChange}
                                     placeholder="Masukkan password baru"
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-color-secondary focus:border-emerald-500 transition-all text-black"
                                     required
                                 />
                             </div>
 
                             <div className="space-y-2">
                                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                                    <Lock size={16} className="text-emerald-500" /> Konfirmasi Password Baru
+                                    <Lock size={16} className="text-secondary" /> Konfirmasi Password Baru
                                 </label>
                                 <input
                                     type="password"
@@ -130,7 +130,7 @@ export default function ChangePasswordPage() {
                                     value={formData.confirmPassword}
                                     onChange={handleInputChange}
                                     placeholder="Ulangi password baru"
-                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
+                                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-color-secondary focus:border-emerald-500 transition-all text-black"
                                     required
                                 />
                             </div>
@@ -140,7 +140,7 @@ export default function ChangePasswordPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white px-8 py-2.5 rounded-xl font-medium transition-all shadow-sm"
+                                className="flex items-center gap-2 bg-primary-container text-on-primary hover:text-white transition-all flex items-center justify-center gap-2 px-4 group px-8 py-2.5 rounded-xl font-medium transition-all shadow-sm"
                             >
                                 {isLoading ? "Menyimpan..." : <><Save size={18} /> Simpan Password</>}
                             </button>

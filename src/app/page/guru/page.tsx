@@ -50,7 +50,7 @@ export default function GuruDashboard() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Link href="/page/guru/competitions/new" className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all font-medium shadow-lg shadow-emerald-200">
+          <Link href="/page/guru/competitions/new" className="flex items-center gap-2 px-5 py-2.5 bg-primary-container text-on-primary rounded-xl hover:bg-emerald-700 transition-all font-medium shadow-lg shadow-primary-container/20">
             <FilePlus size={18} />
             Buat kompetisi
           </Link>

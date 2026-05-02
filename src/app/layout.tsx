@@ -35,7 +35,8 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
       </head>
       <body
-        className={`${manrope.variable} ${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        // className={`${manrope.variable} ${geistSans.variable} ${geistMono.variable} antialiased font-sans`}
+        className={"bg-background text-on-background font-body-md overflow-x-hidden"}
       >
         <QueryProvider>
           {children}

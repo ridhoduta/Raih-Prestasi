@@ -22,7 +22,7 @@ export default function NewAnnouncementPage() {
         <div className="max-w-2xl mx-auto space-y-6">
             <div className="flex items-center gap-4 mb-8">
                 <Link
-                    href="/page/guru/announcements"
+                    href="/page/admin/announcements"
                     className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
                 >
                     <ArrowLeft size={20} />
@@ -81,7 +81,7 @@ export default function NewAnnouncementPage() {
                 <div className="pt-4 flex items-center gap-3">
                     <button
                         type="button"
-                        onClick={() => router.push("/page/guru/announcements")}
+                        onClick={() => router.push("/page/admim/announcements")}
                         className="flex-1 px-5 py-2.5 rounded-xl font-medium text-gray-600 hover:bg-gray-50 text-center transition-colors border border-gray-100"
                     >
                         Batal

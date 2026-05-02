@@ -19,7 +19,7 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose }: Regi
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
+                        <div className="p-2 bg-primary-container text-on-primary rounded-xl">
                             <FileText size={24} />
                         </div>
                         <div>

@@ -137,7 +137,7 @@ export default function GuruSidebar() {
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all duration-200 group ${isActive
-                      ? "bg-emerald-50 text-emerald-600 font-bold shadow-sm"
+                      ? "bg-on-primary-container text-emerald-600 font-bold shadow-sm"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                       }`}
                   >
