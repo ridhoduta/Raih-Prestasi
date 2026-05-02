@@ -10,7 +10,7 @@ interface StatCardProps {
 }
 
 export function StatCard({ label, value, icon: Icon, color, trend, description }: StatCardProps) {
-    // Extract base color name (e.g., "emerald" from "bg-emerald-500")
+    // Extract base color name (e.g., "emerald" from "bg-[#224F1F]")
     const colorBase = color.replace("bg-", "").replace("-400", "").replace("-500", "").replace("-600", "");
 
     return (

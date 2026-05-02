@@ -149,7 +149,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-1">Hasil / Peringkat</p>
-                                    <p className="text-emerald-700 font-bold bg-emerald-50 inline-block px-3 py-1 rounded-lg border border-emerald-100">{achievement.result}</p>
+                                    <p className="text-emerald-700 font-bold bg-[#224F1F]inline-block px-3 py-1 rounded-lg border border-emerald-100">{achievement.result}</p>
                                 </div>
                                 <div>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-bold mb-2">Siswa Terkait</p>
@@ -213,48 +213,48 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
                     {/* Update Status Section */}
                     {achievement.status === "MENUNGGU" && (
-                    <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
-                        <div className="flex flex-col md:flex-row md:items-end gap-6">
-                            <div className="flex-1 space-y-2">
-                                <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
-                                    <Settings size={16} className="text-gray-400" />
-                                    Pembaruan Status Verifikasi
-                                </label>
-                                <div className="relative">
-                                    <select
-                                        value={selectedStatus}
-                                        onChange={(e) => setSelectedStatus(e.target.value as Achievement["status"])}
-                                        className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "TERVERIFIKASI" ? "border-emerald-100 bg-emerald-50 text-emerald-700 focus:border-emerald-500" :
-                                            selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
-                                                "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
-                                            }`}
-                                    >
-                                        <option value="MENUNGGU">🟡 MENUNGGU</option>
-                                        <option value="TERVERIFIKASI">✅ TERVERIFIKASI</option>
-                                        <option value="DITOLAK">❌ DITOLAK</option>
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                                        <ChevronDown size={20} />
+                        <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
+                            <div className="flex flex-col md:flex-row md:items-end gap-6">
+                                <div className="flex-1 space-y-2">
+                                    <label className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                                        <Settings size={16} className="text-gray-400" />
+                                        Pembaruan Status Verifikasi
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            value={selectedStatus}
+                                            onChange={(e) => setSelectedStatus(e.target.value as Achievement["status"])}
+                                            className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "TERVERIFIKASI" ? "border-emerald-100 bg-[#224F1F]text-emerald-700 focus:border-emerald-500" :
+                                                selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
+                                                    "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
+                                                }`}
+                                        >
+                                            <option value="MENUNGGU">🟡 MENUNGGU</option>
+                                            <option value="TERVERIFIKASI">✅ TERVERIFIKASI</option>
+                                            <option value="DITOLAK">❌ DITOLAK</option>
+                                        </select>
+                                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                            <ChevronDown size={20} />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="md:w-48">
-                                <button
-                                    onClick={handleUpdateStatus}
-                                    disabled={updating || (selectedStatus === achievement.status)}
-                                    className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
-                                >
-                                    {updating ? (
-                                        <Loader2 size={20} className="animate-spin" />
-                                    ) : (
-                                        <Save size={20} />
-                                    )}
-                                    {updating ? "Proses" : "Simpan"}
-                                </button>
+                                <div className="md:w-48">
+                                    <button
+                                        onClick={handleUpdateStatus}
+                                        disabled={updating || (selectedStatus === achievement.status)}
+                                        className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
+                                    >
+                                        {updating ? (
+                                            <Loader2 size={20} className="animate-spin" />
+                                        ) : (
+                                            <Save size={20} />
+                                        )}
+                                        {updating ? "Proses" : "Simpan"}
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     )}
                 </>
             ) : (

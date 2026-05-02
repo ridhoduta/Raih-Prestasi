@@ -24,7 +24,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
             case "ACCEPTED":
             case "DITERIMA":
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#224F1F]/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                         <CheckCircle size={12} />
                         Diterima
                     </span>
@@ -101,7 +101,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                                     <button
                                                         disabled={isUpdating}
                                                         onClick={() => onActionClick(reg.id, reg.student.name, "DITERIMA")}
-                                                        className="px-3 py-1.5 rounded-lg bg-emerald-500 text-white hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
+                                                        className="px-3 py-1.5 rounded-lg bg-[#224F1F] text-white hover:bg-[#224F1F] hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
                                                         title="Terima"
                                                     >
                                                         Terima

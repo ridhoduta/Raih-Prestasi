@@ -9,7 +9,7 @@ interface RegistrationDetailModalProps {
     onActionClick?: (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => void;
 }
 
-export function RegistrationDetailModal({ isOpen, data, loading, onClose}: RegistrationDetailModalProps) {
+export function RegistrationDetailModal({ isOpen, data, loading, onClose }: RegistrationDetailModalProps) {
     if (!isOpen) return null;
 
     // const showActions = data && data.status === "MENUNGGU" && onActionClick;
@@ -63,7 +63,7 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose}: Regis
                             {/* Competition Info */}
                             <div className="space-y-2">
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Kompetisi</p>
-                                <p className="font-semibold text-gray-900 bg-emerald-50 text-emerald-700 px-4 py-2.5 rounded-xl inline-block border border-emerald-100">
+                                <p className="font-semibold text-gray-900 bg-[#224F1F]text-emerald-700 px-4 py-2.5 rounded-xl inline-block border border-emerald-100">
                                     {data.competition.title}
                                 </p>
                             </div>
@@ -103,8 +103,8 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose}: Regis
                                 </div>
                             </div>
 
-                             {/* Note Display (If exists) */}
-                             {data.note && (
+                            {/* Note Display (If exists) */}
+                            {data.note && (
                                 <div className="space-y-2 pt-2">
                                     <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Catatan Guru</p>
                                     <div className="p-4 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 text-sm italic">

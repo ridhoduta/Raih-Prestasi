@@ -54,7 +54,7 @@ function LoginContent() {
     return (
         <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
-                <div className="bg-[#7db03d] p-8 text-white text-center">
+                <div className="bg-primary-container p-8 text-white text-center">
                     <div className="inline-flex items-center justify-center p-3 bg-white/20 rounded-xl mb-4">
                         <Key size={32} />
                     </div>
@@ -79,7 +79,7 @@ function LoginContent() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="name@example.com"
-                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#7db03d] focus:border-transparent outline-none transition-all text-slate-900"
+                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none transition-all text-slate-900"
                                 />
                             </div>
                         </div>
@@ -99,7 +99,7 @@ function LoginContent() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••"
-                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#7db03d] focus:border-transparent outline-none transition-all text-slate-900"
+                                    className="block w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary-container focus:border-transparent outline-none transition-all text-slate-900"
                                 />
                             </div>
                         </div>
@@ -114,7 +114,7 @@ function LoginContent() {
                         <button
                             type="submit"
                             disabled={loading}
-                            className="w-full py-3 px-4 bg-[#7db03d] hover:bg-[#6a9634] text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full py-3 px-4 bg-primary-container hover:bg-secondary-container text-on-primary font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {loading ? (
                                 <>
@@ -146,7 +146,7 @@ export default function LoginPage() {
     return (
         <Suspense fallback={
             <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-                <Loader2 className="animate-spin text-[#7db03d]" size={40} />
+                <Loader2 className="animate-spin text-primary-container" size={40} />
             </div>
         }>
             <LoginContent />

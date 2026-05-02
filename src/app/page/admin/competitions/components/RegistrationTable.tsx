@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { 
-    CheckCircle, 
-    XCircle, 
-    Clock, 
+import {
+    CheckCircle,
+    XCircle,
+    Clock,
     User,
     Eye
 } from "lucide-react";
@@ -24,7 +24,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
             case "ACCEPTED":
             case "DITERIMA":
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#224F1F]/10 text-emerald-500 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                         <CheckCircle size={12} />
                         Diterima
                     </span>
@@ -75,7 +75,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                             </tr>
                         ) : (
                             registrations.map((reg) => (
-                                <tr 
+                                <tr
                                     key={reg.id}
                                     className="group hover:bg-white/5 transition-all"
                                 >
@@ -105,15 +105,15 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                         <div className="flex justify-end gap-2">
                                             {reg.status === "MENUNGGU" && (
                                                 <>
-                                                    <button 
+                                                    <button
                                                         disabled={isUpdating}
                                                         onClick={() => onActionClick(reg.id, reg.student.name, "DITERIMA")}
-                                                        className="px-3 py-1.5 rounded-lg bg-emerald-500 text-white hover:bg-emerald-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
+                                                        className="px-3 py-1.5 rounded-lg bg-[#224F1F] text-white hover:bg-[#224F1F] hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
                                                         title="Terima"
                                                     >
                                                         Terima
                                                     </button>
-                                                    <button 
+                                                    <button
                                                         disabled={isUpdating}
                                                         onClick={() => onActionClick(reg.id, reg.student.name, "DITOLAK")}
                                                         className="px-3 py-1.5 rounded-lg bg-rose-500 text-white hover:bg-rose-500 hover:text-white transition-all disabled:opacity-50 text-xs font-bold uppercase tracking-tight"
@@ -123,7 +123,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                                     </button>
                                                 </>
                                             )}
-                                            <button 
+                                            <button
                                                 onClick={() => onViewDetail(reg.id)}
                                                 className="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center gap-2 px-4 group"
                                                 title="Lihat Detail"

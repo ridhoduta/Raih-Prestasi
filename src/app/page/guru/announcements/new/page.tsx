@@ -90,7 +90,7 @@ export default function NewAnnouncementPage() {
                         id="save-anno-btn"
                         type="submit"
                         disabled={isLoading}
-                        className="flex-1 flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"
+                        className="flex-1 flex items-center justify-center gap-2 bg-primary-container hover:bg-on-primary hover:text-primary text-white disabled:bg-emerald-300 text-white px-5 py-2.5 rounded-xl font-medium transition-all shadow-sm"
                     >
                         {isLoading ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
                         Simpan Pengumuman

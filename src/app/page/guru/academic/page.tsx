@@ -7,7 +7,7 @@ import { Search, Filter, Upload, Loader2, Plus, Trash2, Check, X } from "lucide-
 import { useRef, useState } from "react";
 
 export default function AcademicAdminPage() {
-    const {
+  const {
     students,
     academicYears,
     loading,
@@ -56,14 +56,14 @@ export default function AcademicAdminPage() {
           <p className="text-gray-500 mt-2 font-medium">Kelola nilai akademik untuk siswa berprestasi.</p>
         </div>
         <div className="flex gap-4">
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            className="hidden" 
+          <input
+            type="file"
+            ref={fileInputRef}
+            className="hidden"
             onChange={onFileChange}
             accept=".pdf,image/*"
           />
-          <button 
+          <button
             disabled={isSaving}
             onClick={() => fileInputRef.current?.click()}
             className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-2xl text-gray-700 hover:bg-gray-50 font-semibold shadow-sm transition-all disabled:opacity-50"
@@ -88,7 +88,7 @@ export default function AcademicAdminPage() {
                 onKeyDown={(e) => e.key === 'Enter' && fetchStudents()}
               />
             </div>
-            
+
             {/* Academic Year Selector */}
             <div className="flex gap-2">
               <div className="relative flex-1">
@@ -130,11 +130,10 @@ export default function AcademicAdminPage() {
               <button
                 onClick={() => setShowAddYear((v) => !v)}
                 title="Tambah tahun ajaran"
-                className={`flex items-center justify-center w-12 h-12 rounded-2xl border transition-all flex-shrink-0 ${
-                  showAddYear
-                    ? "bg-emerald-600 border-emerald-600 text-white"
-                    : "bg-emerald-50 border-emerald-100 text-emerald-600 hover:bg-emerald-100"
-                }`}
+                className={`flex items-center justify-center w-12 h-12 rounded-2xl border transition-all flex-shrink-0 ${showAddYear
+                  ? "bg-emerald-600 border-emerald-600 text-white"
+                  : "bg-emerald-50 border-emerald-100 text-emerald-600 hover:bg-emerald-100"
+                  }`}
               >
                 {showAddYear ? <X size={16} /> : <Plus size={16} />}
               </button>
@@ -142,7 +141,7 @@ export default function AcademicAdminPage() {
 
             {/* Form tambah tahun ajaran inline */}
             {showAddYear && (
-              <div className="lg:col-span-4 flex gap-3 items-center p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
+              <div className="lg:col-span-4 flex gap-3 items-center p-4 bg-[#224F1F]border border-emerald-100 rounded-2xl">
                 <div className="flex-1">
                   <input
                     type="text"
@@ -174,21 +173,19 @@ export default function AcademicAdminPage() {
             <div className="flex gap-2 p-1.5 bg-gray-50/80 rounded-2xl border border-gray-100">
               <button
                 onClick={() => setSemester("GANJIL")}
-                className={`flex-1 py-2 px-4 rounded-xl text-sm font-bold transition-all ${
-                  semester === "GANJIL" 
-                  ? "bg-white text-emerald-600 shadow-sm" 
+                className={`flex-1 py-2 px-4 rounded-xl text-sm font-bold transition-all ${semester === "GANJIL"
+                  ? "bg-white text-emerald-600 shadow-sm"
                   : "text-gray-500 hover:text-gray-700"
-                }`}
+                  }`}
               >
                 Ganjil
               </button>
               <button
                 onClick={() => setSemester("GENAP")}
-                className={`flex-1 py-2 px-4 rounded-xl text-sm font-bold transition-all ${
-                  semester === "GENAP" 
-                  ? "bg-white text-emerald-600 shadow-sm" 
+                className={`flex-1 py-2 px-4 rounded-xl text-sm font-bold transition-all ${semester === "GENAP"
+                  ? "bg-white text-emerald-600 shadow-sm"
                   : "text-gray-500 hover:text-gray-700"
-                }`}
+                  }`}
               >
                 Genap
               </button>
@@ -202,8 +199,8 @@ export default function AcademicAdminPage() {
             <p className="text-gray-500 font-medium italic">Menyiapkan data siswa...</p>
           </div>
         ) : students?.length > 0 ? (
-          <AcademicTable 
-            students={students} 
+          <AcademicTable
+            students={students}
             academicYears={academicYears}
             onSaveScores={handleSaveScores}
             yearId={yearId}

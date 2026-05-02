@@ -271,7 +271,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                         <select
                                             value={selectedStatus}
                                             onChange={(e) => setSelectedStatus(e.target.value as IndependentSubmissionStatus)}
-                                            className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "DITERIMA" ? "border-emerald-100 bg-emerald-50 text-emerald-700 focus:border-emerald-500" :
+                                            className={`w-full appearance-none p-3.5 pl-4 pr-10 rounded-xl border-2 font-bold transition-all outline-none cursor-pointer ${selectedStatus === "DITERIMA" ? "border-emerald-100 bg-[#224F1F]text-emerald-700 focus:border-emerald-500" :
                                                 selectedStatus === "DITOLAK" ? "border-red-100 bg-red-50 text-red-700 focus:border-red-500" :
                                                     "border-amber-100 bg-amber-50 text-amber-700 focus:border-amber-500"
                                                 }`}
@@ -289,7 +289,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                 <div className="md:w-48">
                                     <button
                                         onClick={handleUpdateStatus}
-                                            disabled={updating || uploading || (selectedStatus === (submission.status as IndependentSubmissionStatus) && (selectedStatus !== "DITOLAK" || rejectionNote === submission.rejectionNote) && recommendationLetter === submission.recommendationLetter)}
+                                        disabled={updating || uploading || (selectedStatus === (submission.status as IndependentSubmissionStatus) && (selectedStatus !== "DITOLAK" || rejectionNote === submission.rejectionNote) && recommendationLetter === submission.recommendationLetter)}
                                         className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-4 rounded-xl font-bold hover:bg-black transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-lg active:scale-95"
                                     >
                                         {updating ? (
@@ -339,7 +339,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     </div>
 
                                     {recommendationLetter && (
-                                        <div className="flex flex-col items-center justify-center p-6 bg-emerald-50 border border-emerald-100 rounded-2xl relative overflow-hidden group">
+                                        <div className="flex flex-col items-center justify-center p-6 bg-[#224F1F]border border-emerald-100 rounded-2xl relative overflow-hidden group">
                                             <div className="absolute top-0 right-0 p-2 opacity-10">
                                                 <CheckCircle size={80} className="text-emerald-500" />
                                             </div>

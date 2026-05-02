@@ -47,7 +47,7 @@ export function CategoryModal({
                         id="save-category-btn"
                         onClick={onSubmit}
                         disabled={!formData.name || isSubmitting}
-                        className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"
+                        className="flex-1 bg-primary-container hover:bg-on-primary hover:text-primary text-white disabled:bg-gray-300 disabled:text-gray-500 text-white px-4 py-2.5 rounded-xl font-medium transition-all flex justify-center gap-2 items-center"
                     >
                         {isSubmitting ? (
                             <Loader2 className="animate-spin" size={18} />

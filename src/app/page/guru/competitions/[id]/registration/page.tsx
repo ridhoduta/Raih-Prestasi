@@ -11,15 +11,15 @@ import { RegistrationActionModal } from "../../components/RegistrationActionModa
 import { RegistrationDetailModal } from "../../components/RegistrationDetailModal";
 
 function RegistrationContent({ id }: { id: string }) {
-    const { 
-        registrations, 
-        competition, 
-        loading, 
-        searchTerm, 
-        setSearchTerm, 
+    const {
+        registrations,
+        competition,
+        loading,
+        searchTerm,
+        setSearchTerm,
         filterStatus,
         setFilterStatus,
-        
+
         // Action states
         actionState,
         setActionState,
@@ -33,7 +33,7 @@ function RegistrationContent({ id }: { id: string }) {
         setDetailModal,
         fetchRegistrationDetail,
 
-        refetch 
+        refetch
     } = useRegistrations(id);
 
     const handleActionClick = (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => {
@@ -60,9 +60,9 @@ function RegistrationContent({ id }: { id: string }) {
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 bg-white/40 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl shadow-emerald-500/5">
                 <div className="space-y-4">
-                    <Link 
-                        href="/page/guru/competitions" 
-                        className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 px-4 py-2 rounded-full border border-emerald-100"
+                    <Link
+                        href="/page/guru/competitions"
+                        className="inline-flex items-center gap-2 text-sm font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-[#224F1F]px-4 py-2 rounded-full border border-emerald-100"
                     >
                         <ArrowLeft size={16} />
                         Kembali
@@ -83,7 +83,7 @@ function RegistrationContent({ id }: { id: string }) {
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Pendaftar</span>
                         <div className="text-2xl font-black text-emerald-600">{registrations.length} Siswa</div>
                     </div>
-                    <button 
+                    <button
                         onClick={() => refetch()}
                         className="p-3 bg-white hover:bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100 transition-all shadow-sm active:scale-95"
                         title="Refresh Data"
@@ -121,8 +121,8 @@ function RegistrationContent({ id }: { id: string }) {
                     </div>
                 </div>
 
-                <RegistrationTable 
-                    registrations={registrations} 
+                <RegistrationTable
+                    registrations={registrations}
                     onActionClick={handleActionClick}
                     onViewDetail={fetchRegistrationDetail}
                     isUpdating={isStatusUpdating}
@@ -158,7 +158,7 @@ function RegistrationContent({ id }: { id: string }) {
 
 export default function RegistrationPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params);
-    
+
     return (
         <div className="min-h-screen bg-[#f8fafc] sm:px-6 lg:px-8 py-10">
             <div className="max-w-7xl mx-auto">

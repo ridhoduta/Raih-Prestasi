@@ -60,7 +60,7 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose }: Regi
                             {/* Competition Info */}
                             <div className="space-y-2">
                                 <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Kompetisi</p>
-                                <p className="font-semibold text-gray-900 bg-emerald-50 text-emerald-700 px-4 py-2.5 rounded-xl inline-block border border-emerald-100">
+                                <p className="font-semibold text-gray-900 bg-[#224F1F]text-emerald-700 px-4 py-2.5 rounded-xl inline-block border border-emerald-100">
                                     {data.competition.title}
                                 </p>
                             </div>

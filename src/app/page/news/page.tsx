@@ -68,7 +68,7 @@ export default async function NewsDetail({ searchParams }: { searchParams: Promi
                         </Link>
 
                         <header className="mb-10 text-center">
-                            <span className="inline-block py-1 px-3 text-[10px] font-black uppercase tracking-widest rounded-md mb-4 bg-emerald-500/10" style={{ color: warna }}>
+                            <span className="inline-block py-1 px-3 text-[10px] font-black uppercase tracking-widest rounded-md mb-4 bg-[#224F1F]/10" style={{ color: warna }}>
                                 {new Date(news.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
                             </span>
                             <h1 className="text-[clamp(32px,5vw,56px)] font-black text-slate-900 tracking-tight leading-tight mb-6">

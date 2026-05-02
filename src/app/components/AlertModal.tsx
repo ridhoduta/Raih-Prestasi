@@ -28,7 +28,7 @@ export default function AlertModal({ isOpen, onClose, title, message, type = "in
     const getButtonColor = () => {
         switch (type) {
             case "success":
-                return "bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-500";
+                return "bg-primary-container hover:bg-on-primary hover:text-primary text-white focus:ring-emerald-500";
             case "error":
                 return "bg-red-500 hover:bg-red-600 focus:ring-red-500";
             case "warning":

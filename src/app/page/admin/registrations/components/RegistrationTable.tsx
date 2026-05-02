@@ -13,7 +13,7 @@ export function RegistrationTable({ registrations, loading, onViewDetail, onActi
         switch (status) {
             case "DITERIMA":
                 return (
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#224F1F]text-emerald-700 border border-emerald-100">
                         <CheckCircle size={12} />
                         Diterima
                     </span>
@@ -47,7 +47,7 @@ export function RegistrationTable({ registrations, loading, onViewDetail, onActi
                         year: "numeric",
                     })}
                 </div>
-                <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full w-fit">
+                <span className="text-[10px] text-emerald-600 font-bold bg-[#224F1F]px-2 py-0.5 rounded-full w-fit">
                     {date.toLocaleTimeString("id-ID", {
                         hour: "2-digit",
                         minute: "2-digit"
@@ -114,7 +114,7 @@ export function RegistrationTable({ registrations, loading, onViewDetail, onActi
                                             <>
                                                 <button
                                                     onClick={() => onActionClick(reg.id, reg.student.name, "DITERIMA")}
-                                                    className="px-3 py-1.5 bg-emerald-500 text-white rounded-lg text-xs font-semibold hover:bg-emerald-600 transition-colors"
+                                                    className="px-3 py-1.5 bg-[#224F1F] text-white rounded-lg text-xs font-semibold hover:bg-emerald-600 transition-colors"
                                                 >
                                                     Terima
                                                 </button>

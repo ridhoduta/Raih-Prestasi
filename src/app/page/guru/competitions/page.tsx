@@ -49,7 +49,7 @@ export default function GuruCompetitions() {
         </div>
         <Link
           href="/page/guru/competitions/new"
-          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-primary-container hover:bg-on-primary hover:text-primary text-white text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
           Tambah Kompetisi

@@ -10,7 +10,7 @@ export default function GuruDashboard() {
   const { session, stats, loading } = useGuruDashboard();
 
   const statCards = [
-    { label: "Prestasi Siswa", value: stats?.totalPrestasiSiswa, icon: Award, color: "bg-emerald-500", trend: "Terverifikasi", description: "Total prestasi yang diakui" },
+    { label: "Prestasi Siswa", value: stats?.totalPrestasiSiswa, icon: Award, color: "bg-[#224F1F]", trend: "Terverifikasi", description: "Total prestasi yang diakui" },
     { label: "Kompetisi Aktif", value: stats?.activeCompetitions, icon: Trophy, color: "bg-emerald-600", trend: "Berlangsung", description: "Lomba yang sedang dibuka" },
     { label: "Pengumuman", value: stats?.announcements, icon: Bell, color: "bg-emerald-400", trend: "Sistem", description: "Informasi terbaru sekolah" },
   ];
@@ -50,39 +50,39 @@ export default function GuruDashboard() {
           </p>
         </div>
         <div className="flex gap-2">
-            <Link href="/page/guru/competitions/new" className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all font-medium shadow-lg shadow-emerald-200">
-                <FilePlus size={18} />
-                Buat kompetisi
-            </Link>
+          <Link href="/page/guru/competitions/new" className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all font-medium shadow-lg shadow-emerald-200">
+            <FilePlus size={18} />
+            Buat kompetisi
+          </Link>
         </div>
       </div>
 
       {/* 2.2 Validasi & Review (Core Feature / Task Center) */}
       <div className="bg-emerald-900 rounded-3xl p-8 text-white relative overflow-hidden shadow-xl">
         <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-6">
-                <div className="p-2 bg-emerald-800 rounded-lg">
-                    <CheckCircle size={20} className="text-emerald-400" />
+          <div className="flex items-center gap-2 mb-6">
+            <div className="p-2 bg-emerald-800 rounded-lg">
+              <CheckCircle size={20} className="text-emerald-400" />
+            </div>
+            <h2 className="text-xl font-bold">Pusat Validasi & Review</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {taskCards.map((task) => (
+              <Link key={task.label} href={task.href} className="bg-white rounded-2xl p-5 group hover:scale-[1.02] transition-all">
+                <div className="flex justify-between items-start mb-3">
+                  <div className={`p-2.5 rounded-xl ${task.bg} ${task.color}`}>
+                    <task.icon size={22} />
+                  </div>
+                  <span className="text-gray-400 group-hover:text-emerald-600 transition-colors">
+                    <ArrowRight size={18} />
+                  </span>
                 </div>
-                <h2 className="text-xl font-bold">Pusat Validasi & Review</h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {taskCards.map((task) => (
-                    <Link key={task.label} href={task.href} className="bg-white rounded-2xl p-5 group hover:scale-[1.02] transition-all">
-                        <div className="flex justify-between items-start mb-3">
-                            <div className={`p-2.5 rounded-xl ${task.bg} ${task.color}`}>
-                                <task.icon size={22} />
-                            </div>
-                            <span className="text-gray-400 group-hover:text-emerald-600 transition-colors">
-                                <ArrowRight size={18} />
-                            </span>
-                        </div>
-                        <p className={`text-3xl font-bold ${task.color}`}>{task.value ?? 0}</p>
-                        <p className="text-sm font-semibold text-gray-500 mt-1">{task.label}</p>
-                        <p className="text-xs text-emerald-600 font-bold mt-3">Butuh Review</p>
-                    </Link>
-                ))}
-            </div>
+                <p className={`text-3xl font-bold ${task.color}`}>{task.value ?? 0}</p>
+                <p className="text-sm font-semibold text-gray-500 mt-1">{task.label}</p>
+                <p className="text-xs text-emerald-600 font-bold mt-3">Butuh Review</p>
+              </Link>
+            ))}
+          </div>
         </div>
         {/* Decoration */}
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
@@ -98,15 +98,15 @@ export default function GuruDashboard() {
                   <p className="text-sm font-medium text-gray-500">{stat.label}</p>
                   <h3 className="text-3xl font-bold text-gray-900 mt-1">{stat.value}</h3>
                 </div>
-                <div className={`p-3 rounded-xl bg-emerald-50 text-emerald-600`}>
+                <div className={`p-3 rounded-xl bg-[#224F1F]text-emerald-600`}>
                   <Icon size={24} />
                 </div>
               </div>
               <div className="mt-4 flex flex-col gap-2">
                 <div className="flex items-center gap-1">
-                    <span className="bg-emerald-50 text-emerald-700 font-medium px-2 py-0.5 rounded-full text-xs">
-                        {stat.trend}
-                    </span>
+                  <span className="bg-emerald-50 text-emerald-700 font-medium px-2 py-0.5 rounded-full text-xs">
+                    {stat.trend}
+                  </span>
                 </div>
                 <p className="text-xs text-gray-400 font-medium">{stat.description}</p>
               </div>
@@ -125,37 +125,37 @@ export default function GuruDashboard() {
           {/* 2.4 Aksi Cepat */}
           <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
             <h3 className="font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Activity size={20} className="text-emerald-600" />
-                Aksi Cepat
+              <Activity size={20} className="text-emerald-600" />
+              Aksi Cepat
             </h3>
             <div className="space-y-2">
-                {[
-                    { label: "Review Pengajuan", icon: ClipboardList, color: "text-blue-600 bg-blue-50", href: "/page/guru/independent-submissions" },
-                    { label: "Verifikasi Prestasi", icon: Award, color: "text-emerald-600 bg-emerald-50", href: "/page/guru/achievement-verifications" },
-                    { label: "Kelola Kompetisi", icon: Trophy, color: "text-purple-600 bg-purple-50", href: "/page/guru/competitions" },
-                    // { label: "Pantau Siswa", icon: Users, color: "text-orange-600 bg-orange-50", href: "/page/guru/students" },
-                    { label: "Buat Kompetisi", icon: FilePlus, color: "text-cyan-600 bg-cyan-50", href: "/page/guru/competitions/new" },
-                ].map((item) => (
-                    <Link 
-                        key={item.label} 
-                        href={item.href}
-                        className="flex items-center gap-4 p-3 rounded-2xl border border-transparent hover:border-gray-100 hover:bg-gray-50 transition-all group"
-                    >
-                        <div className={`p-2 rounded-xl ${item.color} group-hover:scale-110 transition-transform`}>
-                            <item.icon size={18} />
-                        </div>
-                        <span className="text-sm font-semibold text-gray-700">{item.label}</span>
-                    </Link>
-                ))}
+              {[
+                { label: "Review Pengajuan", icon: ClipboardList, color: "text-blue-600 bg-blue-50", href: "/page/guru/independent-submissions" },
+                { label: "Verifikasi Prestasi", icon: Award, color: "text-emerald-600 bg-emerald-50", href: "/page/guru/achievement-verifications" },
+                { label: "Kelola Kompetisi", icon: Trophy, color: "text-purple-600 bg-purple-50", href: "/page/guru/competitions" },
+                // { label: "Pantau Siswa", icon: Users, color: "text-orange-600 bg-orange-50", href: "/page/guru/students" },
+                { label: "Buat Kompetisi", icon: FilePlus, color: "text-cyan-600 bg-cyan-50", href: "/page/guru/competitions/new" },
+              ].map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-4 p-3 rounded-2xl border border-transparent hover:border-gray-100 hover:bg-gray-50 transition-all group"
+                >
+                  <div className={`p-2 rounded-xl ${item.color} group-hover:scale-110 transition-transform`}>
+                    <item.icon size={18} />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">{item.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
           <ExpiringCompetitions expiringCompetitions={stats?.expiringCompetitions || []} />
-          
+
           <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <Bell size={18} className="text-emerald-600" />
-                Pengumuman
+              <Bell size={18} className="text-emerald-600" />
+              Pengumuman
             </h3>
             <div className="space-y-3">
               {stats?.announcementsList && stats.announcementsList.length > 0 ? (
@@ -178,7 +178,7 @@ export default function GuruDashboard() {
               ) : (
                 <p className="text-sm text-gray-500 py-4 text-center">Belum ada pengumuman.</p>
               )}
-              <Link href="/page/guru/announcements" className="block w-full py-2 text-center text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-emerald-50 rounded-xl mt-2">
+              <Link href="/page/guru/announcements" className="block w-full py-2 text-center text-xs font-bold text-emerald-600 hover:text-emerald-700 transition-colors bg-[#224F1F]rounded-xl mt-2">
                 Lihat Semua
               </Link>
             </div>

@@ -165,7 +165,7 @@ export default function NewStudentPage() {
                         id="save-student-btn"
                         type="submit"
                         disabled={isLoading}
-                        className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white px-8 py-2.5 rounded-xl font-medium transition-all shadow-sm"
+                        className="flex items-center gap-2 bg-primary-container hover:bg-on-primary hover:text-primary text-white disabled:bg-emerald-300 text-white px-8 py-2.5 rounded-xl font-medium transition-all shadow-sm"
                     >
                         {isLoading ? (
                             <>
