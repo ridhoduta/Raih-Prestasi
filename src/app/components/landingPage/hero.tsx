@@ -37,11 +37,11 @@ export default function Hero() {
         <div className="relative">
           <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl"></div>
 
-          <div className="relative z-10 ambient-shadow rounded-3xl overflow-hidden aspect-square">
+          <div className="relative z-10 ambient-shadow rounded-3xl overflow-hidden">
             <img 
-              className="w-full h-full object-cover"
+              className="w-full h-auto"
               alt="Siswa berprestasi dan aktivitas kompetisi"
-              src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b"
+              src="https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/public/dokument-pengajuan/heroImg.png"
             />
           </div>
 
