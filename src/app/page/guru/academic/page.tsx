@@ -63,14 +63,14 @@ export default function AcademicAdminPage() {
             onChange={onFileChange}
             accept=".pdf,image/*"
           />
-          <button
+          {/* <button
             disabled={isSaving}
             onClick={() => fileInputRef.current?.click()}
             className="flex items-center gap-2 px-5 py-2.5 bg-white border border-gray-200 rounded-2xl text-gray-700 hover:bg-gray-50 font-semibold shadow-sm transition-all disabled:opacity-50"
           >
             {isSaving ? <Loader2 className="animate-spin" size={18} /> : <Upload size={18} />}
             <span>{isSaving ? "Mengunggah..." : "Upload Rapor Global"}</span>
-          </button>
+          </button> */}
         </div>
       </div>
 

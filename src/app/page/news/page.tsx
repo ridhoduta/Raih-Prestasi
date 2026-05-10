@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Navbar from "@/app/components/landingPage/navbar";
+import Footer from "@/app/components/landingPage/footer";
 
 // Optional: fetch news detail specifically based on the `id` from URL Parameters.
 async function getNewsDetail(id?: string) {
@@ -35,31 +37,10 @@ export default async function NewsDetail({ searchParams }: { searchParams: Promi
 
     return (
         <div className="font-sans bg-slate-50 min-h-screen flex flex-col">
-            {/* ─── HEADER ─── */}
-            <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-                <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2.5 no-underline">
-                        <div className="w-8 h-8 rounded-lg flex items-center justify-center shadow-sm" style={{ backgroundColor: warna }}>
-                            <span className="material-symbols-outlined text-white text-[18px]">emoji_events</span>
-                        </div>
-                        <span className={`text-[15px] font-black uppercase tracking-tight ${textWarnaPrimary}`}>Raih Prestasi</span>
-                    </Link>
-
-                    <nav className="hidden md:flex items-center gap-8">
-                        <Link href="/#about" className="text-[11px] font-bold uppercase tracking-widest text-slate-600 no-underline hover:text-slate-900 transition-colors">Tentang</Link>
-                        <Link href="/#how-to" className="text-[11px] font-bold uppercase tracking-widest text-slate-600 no-underline hover:text-slate-900 transition-colors">Alur</Link>
-                        <Link href="/#features" className="text-[11px] font-bold uppercase tracking-widest text-slate-600 no-underline hover:text-slate-900 transition-colors">Fitur</Link>
-                        <Link href="/#news" className="text-[11px] font-bold uppercase tracking-widest text-slate-600 no-underline hover:text-slate-900 transition-colors">Berita</Link>
-                    </nav>
-
-                    <Link href="/page/login" className={`text-[13px] font-bold uppercase tracking-wider py-2.5 px-6 rounded-lg no-underline hover:opacity-90 transition-opacity shadow-sm ${textWarnaWhite}`} style={{ backgroundColor: warna }}>
-                        Login
-                    </Link>
-                </div>
-            </header>
+            <Navbar />
 
             {/* ─── MAIN ARTICLE SECTION ─── */}
-            <main className="flex-1 pb-24">
+            <main className="flex-1 pb-24 pt-24">
                 {news ? (
                     <article className="max-w-[800px] mx-auto px-6 pt-12">
                         <Link href="/#news" className="inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest mb-8 hover:opacity-75 transition-opacity" style={{ color: warna }}>
@@ -114,49 +95,7 @@ export default async function NewsDetail({ searchParams }: { searchParams: Promi
                 )}
             </main>
 
-            {/* ─── FOOTER ─── */}
-            <footer className="bg-slate-950 pt-16 px-6 pb-8 border-t border-white/10 mt-auto">
-                <div className="max-w-[1100px] mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
-                        <div>
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ backgroundColor: warna }}>
-                                    <span className={`material-symbols-outlined text-[14px] ${textWarnaWhite}`}>emoji_events</span>
-                                </div>
-                                <span className={`text-[13px] font-black uppercase tracking-wider ${textWarnaWhite}`}>Raih Prestasi</span>
-                            </div>
-                            <p className="text-[12px] text-slate-400 leading-relaxed">
-                                Ekosistem Prestasi &amp; Manajemen Kompetisi Terintegrasi untuk SMKN 1 Boyolangu.
-                            </p>
-                        </div>
-                        <div>
-                            <h5 className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: warna }}>Tentang</h5>
-                            <div className="flex flex-col gap-2">
-                                <Link href="/#about" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Visi &amp; Misi</Link>
-                                <Link href="/#how-to" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Panduan</Link>
-                                <Link href="/#features" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Fitur</Link>
-                            </div>
-                        </div>
-                        <div>
-                            <h5 className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: warna }}>Sumber Daya</h5>
-                            <div className="flex flex-col gap-2">
-                                <a href="#" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Dokumentasi</a>
-                                <a href="#" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Integrasi API</a>
-                                <a href="#" className="text-[12px] text-slate-400 no-underline hover:text-white transition-colors">Standardisasi</a>
-                            </div>
-                        </div>
-                        <div>
-                            <h5 className="text-[11px] font-black uppercase tracking-widest mb-3" style={{ color: warna }}>Bantuan</h5>
-                            <p className="text-[12px] text-slate-400">Email: support@prestasi-hub.id</p>
-                            <p className="text-[12px] text-slate-400 mt-1">Senin - Jumat: 08.00 - 17.00 WIB</p>
-                        </div>
-                    </div>
-                    <div className="border-t border-white/10 pt-6 flex justify-between flex-wrap gap-2">
-                        <p className="text-[11px] text-slate-500">© 2024 Raih Prestasi — All rights reserved.</p>
-                        <p className="text-[11px] text-slate-500">SMKN 1 Boyolangu</p>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }

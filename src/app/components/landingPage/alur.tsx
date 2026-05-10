@@ -24,7 +24,7 @@ const steps = [
     icon: "verified_user",
     title: "Verifikasi Guru",
     description: "Pendaftaran ditinjau dan diverifikasi oleh guru atau admin sekolah sebelum resmi diproses.",
-    img: "https://images.unsplash.com/photo-1584697964403-0c0b1eecdb1f?w=1200&q=85",
+    img: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&q=85",
     alt: "Verifikasi oleh guru",
   },
   {

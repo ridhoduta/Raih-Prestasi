@@ -67,45 +67,109 @@ export default function Tentang() {
             {/* Intro quote */}
             <div className="relative pl-6 border-l-2 border-primary-container">
               <p className="text-xl font-semibold text-on-surface leading-relaxed italic">
-                "Sistem ini lahir dari keresahan nyata — data prestasi siswa yang tersebar, proses verifikasi yang lambat, dan tidak adanya platform terpadu untuk mengelola semua itu."
+                "Raih Prestasi dibangun untuk menjawab tantangan nyata dalam pengelolaan kompetisi siswa — mulai dari penyebaran informasi, proses pendaftaran, hingga validasi prestasi yang sebelumnya masih dilakukan secara manual."
               </p>
             </div>
 
             {/* Narrative */}
             <div className="space-y-5 text-body-md text-on-surface-variant leading-relaxed">
               <p>
-                Saya membuat <span className="font-semibold text-on-surface">Raih Prestasi</span> sebagai proyek pengembangan sistem informasi yang bertujuan menjawab permasalahan nyata di sekolah — bagaimana mengelola kompetisi, prestasi siswa, dan konversi nilai secara efisien dalam satu platform yang terintegrasi.
+                <span className="font-semibold text-on-surface">Raih Prestasi</span> merupakan sistem informasi berbasis website dan mobile yang dirancang untuk membantu sekolah dalam mengelola kompetisi dan prestasi siswa secara lebih terstruktur. Sistem ini dikembangkan sebagai solusi atas permasalahan penyebaran informasi kompetisi yang belum merata serta proses pencatatan data yang masih dilakukan secara manual.
               </p>
+
               <p>
-                Selama ini, proses pendaftaran kompetisi dilakukan secara manual melalui pesan atau formulir fisik, verifikasi guru tidak terdokumentasi dengan baik, dan tidak ada cara mudah bagi siswa untuk memantau status mereka. Raih Prestasi hadir untuk mengubah itu semua.
+                Melalui platform ini, siswa dapat melihat informasi kompetisi, melakukan pendaftaran, mengajukan kompetisi mandiri, hingga melaporkan prestasi secara langsung melalui aplikasi mobile. Admin dan guru juga dapat melakukan proses verifikasi, pengelolaan data, serta penyampaian pengumuman secara terpusat dalam satu sistem yang terintegrasi.
               </p>
+
               <p>
-                Sistem ini dibangun dengan <span className="font-semibold text-on-surface">Next.js, Supabase, dan Flutter</span> — menggabungkan web admin untuk guru & admin sekolah, serta aplikasi mobile untuk siswa agar dapat mengakses semua fitur kapan saja dan di mana saja.
+                Sistem dibangun menggunakan <span className="font-semibold text-on-surface">Next.js, PostgreSQL, Tailwind CSS, Prisma, dan Flutter</span> untuk menghadirkan pengalaman penggunaan yang modern, responsif, dan mudah diakses dari berbagai perangkat. Implementasi fitur seperti notifikasi, pembaruan data secara real-time, dan manajemen multi-role membantu meningkatkan efisiensi pengelolaan kompetisi di lingkungan sekolah.
               </p>
             </div>
 
             {/* Key motivation points */}
             <div className="grid sm:grid-cols-3 gap-4 pt-2">
               {[
-                { icon: "lightbulb", label: "Latar Belakang", value: "Masalah nyata di sekolah yang belum terdigitalisasi" },
-                { icon: "build", label: "Solusi", value: "Platform terintegrasi web & mobile untuk semua pihak" },
-                { icon: "flag", label: "Tujuan", value: "Mempermudah pengelolaan prestasi dan kompetisi siswa" },
+                {
+                  icon: "school",
+                  label: "Latar Belakang",
+                  value: "Penyebaran informasi kompetisi belum merata dan proses pencatatan masih manual",
+                },
+                {
+                  icon: "hub",
+                  label: "Solusi",
+                  value: "Sistem terintegrasi berbasis web dan mobile untuk pengelolaan kompetisi siswa",
+                },
+                {
+                  icon: "emoji_events",
+                  label: "Tujuan",
+                  value: "Mempermudah pengelolaan prestasi dan aktivitas kompetisi secara digital",
+                },
               ].map((item) => (
-                <div key={item.label} className="p-4 bg-white rounded-xl border border-slate-100 space-y-2">
+                <div
+                  key={item.label}
+                  className="p-4 bg-white rounded-xl border border-slate-100 space-y-2"
+                >
                   <div className="flex items-center gap-2">
-                    <span className="material-symbols-outlined text-primary-container" style={{ fontSize: "18px" }}>{item.icon}</span>
-                    <span className="text-xs font-bold text-primary-container uppercase tracking-widest">{item.label}</span>
+                    <span
+                      className="material-symbols-outlined text-primary-container"
+                      style={{ fontSize: "18px" }}
+                    >
+                      {item.icon}
+                    </span>
+
+                    <span className="text-xs font-bold text-primary-container uppercase tracking-widest">
+                      {item.label}
+                    </span>
                   </div>
-                  <p className="text-sm text-on-surface-variant leading-snug">{item.value}</p>
+
+                  <p className="text-sm text-on-surface-variant leading-snug">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* Features highlight */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              {[
+                "Manajemen kompetisi dan pendaftaran siswa",
+                "Pengajuan kompetisi mandiri dan pelaporan prestasi",
+                "Verifikasi data oleh admin dan guru",
+                "Notifikasi dan pembaruan data secara real-time",
+              ].map((feature) => (
+                <div
+                  key={feature}
+                  className="flex items-start gap-3 p-4 rounded-xl bg-surface-container border border-slate-200"
+                >
+                  <span className="material-symbols-outlined text-primary-container">
+                    check_circle
+                  </span>
+
+                  <p className="text-sm text-on-surface leading-relaxed">
+                    {feature}
+                  </p>
                 </div>
               ))}
             </div>
 
             {/* Tech stack */}
             <div className="flex flex-wrap items-center gap-2 pt-2">
-              <span className="text-sm font-semibold text-on-surface-variant mr-1">Tech Stack:</span>
-              {["Next.js", "TypeScript", "Supabase", "Prisma", "Flutter", "Tailwind CSS"].map((tech) => (
-                <span key={tech} className="px-3 py-1 text-sm rounded-full bg-surface-container border border-slate-200 text-on-surface font-medium">
+              <span className="text-sm font-semibold text-on-surface-variant mr-1">
+                Tech Stack:
+              </span>
+
+              {[
+                "Next.js",
+                "TypeScript",
+                "PostgreSQL",
+                "Prisma",
+                "Flutter",
+                "Tailwind CSS",
+              ].map((tech) => (
+                <span
+                  key={tech}
+                  className="px-3 py-1 text-sm rounded-full bg-surface-container border border-slate-200 text-on-surface font-medium"
+                >
                   {tech}
                 </span>
               ))}
@@ -113,7 +177,6 @@ export default function Tentang() {
 
           </div>
         </div>
-
       </div>
     </section>
   );

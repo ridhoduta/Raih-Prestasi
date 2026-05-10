@@ -47,7 +47,7 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? "bg-white/95  backdrop-blur-md shadow-md  py-0" : "bg-transparent py-2"}`}>
       <div className="max-w-[1280px] mx-auto w-full flex items-center justify-between px-8 h-20">
-        <div className="text-xl font-black tracking-tighter text-primary-containe font-headline-md">Raih Prestasi</div>
+        <div className="text-xl font-black tracking-tighter text-primary-container font-headline-md">Raih Prestasi</div>
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
