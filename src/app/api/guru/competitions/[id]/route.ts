@@ -133,8 +133,32 @@ export async function DELETE(_: Request, context: Context) {
   try {
     const { id } = await context.params;
 
-    await prisma.competition.delete({
-      where: { id },
+    // Delete all related records in correct order to avoid FK constraint violations
+    await prisma.$transaction(async (tx: any) => {
+      // 1. Delete RegistrationAnswers linked to this competition's form fields
+      await tx.registrationAnswer.deleteMany({
+        where: { field: { competitionId: id } },
+      });
+
+      // 2. Delete RegistrationAnswers linked to this competition's registrations
+      await tx.registrationAnswer.deleteMany({
+        where: { registration: { competitionId: id } },
+      });
+
+      // 3. Delete CompetitionRegistrations
+      await tx.competitionRegistration.deleteMany({
+        where: { competitionId: id },
+      });
+
+      // 4. Delete CompetitionFormFields
+      await tx.competitionFormField.deleteMany({
+        where: { competitionId: id },
+      });
+
+      // 5. Delete the Competition itself
+      await tx.competition.delete({
+        where: { id },
+      });
     });
 
     triggerPusher(CHANNELS.PRESTASI, EVENTS.KOMPETISI_DELETE, { id });

@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar } from "lucide-react";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createStudent, StudentPayload } from "@/app/service/studentsAPI";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function NewStudentPage() {
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState<StudentPayload>({
         nisn: "",
@@ -51,6 +53,7 @@ export default function NewStudentPage() {
         try {
             const response = await createStudent(formData);
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["students"] });
                 showAlert("Berhasil", "Data siswa berhasil ditambahkan.", "success");
                 setTimeout(() => {
                     router.push("/page/admin/students");

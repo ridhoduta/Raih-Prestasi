@@ -5,10 +5,12 @@ import { getIndependentSubmissionDetail, IndependentSubmission, reviewIndependen
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings, File as FileIcon, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [submission, setSubmission] = useState<IndependentSubmission | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -114,6 +116,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             });
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["independent-submissions"] });
                 setAlertState({
                     isOpen: true,
                     title: "Berhasil",

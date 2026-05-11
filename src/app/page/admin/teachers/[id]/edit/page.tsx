@@ -4,12 +4,14 @@ import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { getTeacherDetail, updateTeacher } from "@/app/service/teachersAPI";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function EditTeacherPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = use(params);
 
   const [formData, setFormData] = useState({
@@ -85,6 +87,7 @@ export default function EditTeacherPage({ params }: { params: Promise<{ id: stri
       const response = await updateTeacher(id, payload);
 
       if (response.success) {
+        queryClient.invalidateQueries({ queryKey: ["teachers"] });
         showAlert("Berhasil", "Data guru berhasil diperbarui.", "success", true);
       } else {
         showAlert("Gagal", "Gagal memperbarui guru: " + response.message, "error");

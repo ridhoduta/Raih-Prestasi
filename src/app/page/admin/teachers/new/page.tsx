@@ -5,12 +5,14 @@ import Link from "next/link";
 import { ArrowLeft, Save, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createTeacher } from "@/app/service/teachersAPI";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function AddTeacherPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -66,6 +68,7 @@ export default function AddTeacherPage() {
       const response = await createTeacher(formData);
 
       if (response.success) {
+        queryClient.invalidateQueries({ queryKey: ["teachers"] });
         showAlert("Berhasil", "Guru berhasil ditambahkan.", "success", true);
       } else {
         showAlert("Gagal", "Gagal menambahkan guru: " + response.message, "error");

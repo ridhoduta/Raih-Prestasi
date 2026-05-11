@@ -5,10 +5,12 @@ import { getAchievementDetail, Achievement, verifyAchievement, VerifyAchievement
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings, Award, FileText } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [achievement, setAchievement] = useState<Achievement | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -54,6 +56,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             });
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["achievements"] });
                 setAlertState({
                     isOpen: true,
                     title: "Berhasil",

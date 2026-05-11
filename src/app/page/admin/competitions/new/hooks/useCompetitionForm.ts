@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { createCompetition, uploadThumbnail } from "@/app/service/guruCompetitionsAPI";
 import { Category, getCategories } from "@/app/service/categoriesAPI";
@@ -6,6 +7,7 @@ import { getLevels, Level } from "@/app/service/levelsAPI";
 
 export const useCompetitionForm = () => {
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const [formData, setFormData] = useState({
         id: "",
@@ -144,6 +146,7 @@ export const useCompetitionForm = () => {
             const response = await createCompetition(payload as any);
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["competitions"] });
                 showAlert("Berhasil", "Kompetisi berhasil dibuat.", "success", true);
             } else {
                 showAlert("Gagal", "Gagal menambahkan kompetisi: " + response.message, "error");

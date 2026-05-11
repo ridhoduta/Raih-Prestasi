@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, use } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2, Plus, Trash2, Image as ImageIcon, X } from "lucide-react";
 import { getCompetitionById, updateCompetition } from "@/app/service/guruCompetitionsAPI";
@@ -11,6 +12,7 @@ import Link from "next/link";
 
 export default function EditCompetitionPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
+    const queryClient = useQueryClient();
     const { id } = use(params);
     const [formData, setFormData] = useState({
         id: "",
@@ -183,6 +185,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
             const response = await updateCompetition(id, payload as any);
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["competitions"] });
                 setAlertState({ isOpen: true, title: "Berhasil", message: "Kompetisi berhasil diupdate.", type: "success", shouldRedirect: true });
             } else {
                 setAlertState({ isOpen: true, title: "Gagal", message: "Gagal mengupdate kompetisi: " + response.message, type: "error", shouldRedirect: false });

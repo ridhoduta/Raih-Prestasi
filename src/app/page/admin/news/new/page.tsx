@@ -4,12 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2, Image as ImageIcon, X } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { createNews } from "@/app/service/newsAPI";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function AddNewsPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -95,6 +97,7 @@ export default function AddNewsPage() {
       });
 
       if (response.success) {
+        queryClient.invalidateQueries({ queryKey: ["news"] });
         showAlert("Berhasil", "Berita berhasil ditambahkan.", "success", true);
       } else {
         showAlert("Gagal", "Gagal menambahkan berita: " + response.message, "error");

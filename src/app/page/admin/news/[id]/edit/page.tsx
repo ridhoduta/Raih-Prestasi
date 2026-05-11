@@ -4,10 +4,12 @@ import { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Loader2, Image as ImageIcon, X } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function EditNewsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = use(params);
 
   const [formData, setFormData] = useState({
@@ -132,6 +134,7 @@ export default function EditNewsPage({ params }: { params: Promise<{ id: string 
       const data = await res.json();
 
       if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ["news"] });
         showAlert("Berhasil", "Berita berhasil diperbarui.", "success", true);
       } else {
         showAlert("Gagal", "Gagal memperbarui berita: " + data.message, "error");

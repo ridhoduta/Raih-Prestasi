@@ -4,12 +4,14 @@ import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar } from "lucide-react";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { getStudentDetail, updateStudent, StudentPayload } from "@/app/service/studentsAPI";
 import AlertModal from "@/app/components/AlertModal";
 
 export default function EditStudentPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
+    const queryClient = useQueryClient();
     const resolvedParams = use(params);
     const id = resolvedParams.id;
 
@@ -85,6 +87,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
         try {
             const response = await updateStudent(id, formData);
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["students"] });
                 showAlert("Berhasil", "Data siswa berhasil diupdate.", "success");
                 setTimeout(() => {
                     router.push("/page/admin/students");
