@@ -8,7 +8,7 @@ const SCHOOL_NAME = 'SMKN 1 BOYOLANGU';
 const SCHOOL_LOGO = '/logo2.png';
 const KOP_LINES = {
   line1: 'PEMERINTAH KABUPATEN TULUNGAGUNG',
-  line2: 'DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG',
+  line2: 'DINAS PENDIDIKAN DAN KEBUDAYAAN KAB.TULUNGAGUNG',
   line3: SCHOOL_NAME,
   alamat:
     'Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233',
