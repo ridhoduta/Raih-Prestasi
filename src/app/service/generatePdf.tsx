@@ -2,11 +2,11 @@ import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/render
 
 const styles = StyleSheet.create({
   page: {
-    padding: 60,
+    padding: 40,
     fontFamily: 'Helvetica',
-    fontSize: 12,
-    lineHeight: 1.6,
-    color: '#333',
+    fontSize: 11,
+    lineHeight: 1.5,
+    color: '#000',
   },
   header: {
     marginBottom: 20,
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   titleContainer: {
-    marginTop: 20,
-    marginBottom: 25,
+    marginTop: 15,
+    marginBottom: 20,
     textAlign: 'center',
   },
   title: {
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footer: {
-    marginTop: 40,
+    marginTop: 30,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   signatureSpace: {
-    height: 70,
+    height: 50,
   },
   signerName: {
     fontWeight: 'bold',
@@ -174,11 +174,11 @@ export const RekomPDF = ({ data }: { data: RekomData }) => (
   <Document title={`Surat Rekomendasi - ${data.namaSiswa}`}>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.kopTitle}>PEMERINTAH PROVINSI JAWA TENGAH</Text>
-        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN</Text>
-        <Text style={styles.kopTitle}>SMA NEGERI 1 CONTOH</Text>
-        <Text style={styles.kopSubtitle}>Jl. Pendidikan No. 123, Kota Contoh, Kode Pos 12345</Text>
-        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Email: sman1contoh@sch.id</Text>
+        <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
+        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
+        <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
+        <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
+        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
       </View>
 
       <View style={styles.titleContainer}>
@@ -188,7 +188,7 @@ export const RekomPDF = ({ data }: { data: RekomData }) => (
 
       <View style={styles.content}>
         <Text style={styles.paragraph}>
-          Yang bertanda tangan di bawah ini, Kepala SMA Negeri 1 Contoh dengan ini memberikan rekomendasi kepada:
+          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan} SMKN 1 Boyolangu dengan ini memberikan rekomendasi kepada:
         </Text>
 
         <View style={styles.listContainer}>
@@ -231,7 +231,7 @@ export const RekomPDF = ({ data }: { data: RekomData }) => (
         </Text>
       </View>
 
-      <View style={styles.footer}>
+      <View style={styles.footer} wrap={false}>
         <View style={styles.signatureBlock}>
           <Text>Contoh, {data.tanggalSurat}</Text>
           <Text>{data.jabatanPenandatangan},</Text>
@@ -254,11 +254,11 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
   <Document title={`Surat Dispensasi - ${data.students[0]?.namaSiswa || 'Multi'}`}>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.kopTitle}>PEMERINTAH PROVINSI JAWA TENGAH</Text>
-        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN</Text>
-        <Text style={styles.kopTitle}>SMA NEGERI 1 CONTOH</Text>
-        <Text style={styles.kopSubtitle}>Jl. Pendidikan No. 123, Kota Contoh, Kode Pos 12345</Text>
-        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Email: sman1contoh@sch.id</Text>
+        <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
+        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
+        <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
+        <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
+        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
       </View>
 
       <View style={styles.titleContainer}>
@@ -268,7 +268,7 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
 
       <View style={styles.content}>
         <Text style={styles.paragraph}>
-          Yang bertanda tangan di bawah ini, Kepala SMA Negeri 1 Contoh dengan ini memberikan dispensasi kepada:
+          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan} SMKN 1 Boyolangu dengan ini memberikan dispensasi kepada:
         </Text>
 
         <View style={styles.table}>
@@ -320,7 +320,7 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
         </Text>
       </View>
 
-      <View style={styles.footer}>
+      <View style={styles.footer} wrap={false}>
         <View style={styles.signatureBlock}>
           <Text>Contoh, {data.tanggalSurat}</Text>
           <Text>{data.jabatanPenandatangan},</Text>
