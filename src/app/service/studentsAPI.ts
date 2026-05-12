@@ -31,11 +31,13 @@ export async function getStudents(params?: {
     cursor?: string;
     limit?: number;
     search?: string;
+    isActive?: boolean;
 }): Promise<ApiResponse<Student[]> & { nextCursor?: string | null }> {
     const query = new URLSearchParams();
     if (params?.cursor) query.set("cursor", params.cursor);
     if (params?.limit) query.set("limit", String(params.limit));
     if (params?.search) query.set("search", params.search);
+    if (params?.isActive !== undefined) query.set("isActive", String(params.isActive));
 
     const url = query.toString() ? `${BASE_URL}?${query}` : BASE_URL;
 

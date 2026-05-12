@@ -27,11 +27,13 @@ export async function getNews(params?: {
   cursor?: string;
   limit?: number;
   search?: string;
+  isPublished?: boolean;
 }): Promise<ApiResponse<NewsItem[]> & { nextCursor?: string | null }> {
   const query = new URLSearchParams();
   if (params?.cursor) query.set("cursor", params.cursor);
   if (params?.limit) query.set("limit", String(params.limit));
   if (params?.search) query.set("search", params.search);
+  if (params?.isPublished !== undefined) query.set("isPublished", String(params.isPublished));
 
   const url = query.toString() ? `${BASE_URL}?${query}` : BASE_URL;
 

@@ -112,6 +112,22 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose }: Regi
                                     </div>
                                 </div>
                             )}
+
+                            {/* Document Display (If exists) */}
+                            {data.documentUrl && (
+                                <div className="space-y-2 pt-2">
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Surat Dispensasi</p>
+                                    <a
+                                        href={data.documentUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 p-4 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-bold hover:bg-emerald-100 transition-all"
+                                    >
+                                        <FileText size={18} />
+                                        Lihat Surat Dispensasi
+                                    </a>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>

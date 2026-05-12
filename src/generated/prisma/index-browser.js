@@ -192,6 +192,7 @@ exports.Prisma.CompetitionRegistrationScalarFieldEnum = {
   studentId: 'studentId',
   status: 'status',
   note: 'note',
+  documentUrl: 'documentUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

@@ -28,7 +28,14 @@ export async function GET(req: NextRequest) {
     const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
     const search = searchParams.get("search") || "";
 
+    const isPublishedParam = searchParams.get("isPublished");
+
     const where: any = {};
+    if (isPublishedParam === "true") {
+      where.isPublished = true;
+    } else if (isPublishedParam === "false") {
+      where.isPublished = false;
+    }
 
     if (search) {
       where.title = { contains: search, mode: "insensitive" };

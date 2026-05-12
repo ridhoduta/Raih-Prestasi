@@ -2,6 +2,7 @@
 
 import AlertModal from "@/app/components/AlertModal";
 import { Announcement, getAnnouncementDetail, updateAnnouncement } from "@/app/service/guruAnnouncementsAPI";
+import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Loader2, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,6 +11,7 @@ import { use, useEffect, useState } from "react";
 export default function EditAnnouncementPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
     const { id } = use(params);
+    const queryClient = useQueryClient();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({
@@ -80,6 +82,7 @@ export default function EditAnnouncementPage({ params }: { params: Promise<{ id:
             const response = await updateAnnouncement(id, formData);
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["announcements"] });
                 showAlert("Berhasil", "Pengumuman berhasil diperbarui.", "success", true);
             } else {
                 showAlert("Gagal", "Gagal memperbarui pengumuman: " + response.message, "error");

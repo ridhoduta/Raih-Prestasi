@@ -26,6 +26,7 @@ export async function GET(req: Request, context: Context) {
         id: true,
         status: true,
         note: true,
+        documentUrl: true,
         createdAt: true,
         updatedAt: true,
         student: {
@@ -113,7 +114,7 @@ export async function PUT(req: Request, context: Context) {
 
     const { id } = await context.params;
     const body = await req.json();
-    const { status, note } = body;
+    const { status, note, documentUrl } = body;
 
     // Verify ownership
     const registration = await prisma.competitionRegistration.findUnique({
@@ -147,11 +148,13 @@ export async function PUT(req: Request, context: Context) {
       data: {
         status,
         note,
+        documentUrl,
       },
       select: {
         id: true,
         status: true,
         note: true,
+        documentUrl: true,
         updatedAt: true,
         studentId: true,
         competition: {

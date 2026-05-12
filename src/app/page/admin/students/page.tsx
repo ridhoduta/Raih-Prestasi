@@ -19,6 +19,8 @@ export default function StudentsPage() {
         isLoadingMore,
         nextCursor,
         loadMore,
+        statusFilter,
+        setStatusFilter,
         isImportModalOpen,
         setIsImportModalOpen,
         isImporting,
@@ -26,9 +28,14 @@ export default function StudentsPage() {
         closeAlert,
         confirmState,
         setConfirmState,
+        toggleConfirmState,
+        setToggleConfirmState,
         isDeleting,
+        isToggling,
         initiateDelete,
+        initiateToggleStatus,
         handleConfirmDelete,
+        handleConfirmToggleStatus,
         handleImportSubmit,
     } = useStudents();
 
@@ -58,7 +65,7 @@ export default function StudentsPage() {
             </div>
 
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-5 border-b border-gray-100 flex items-center gap-4">
+                <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="relative flex-1 max-w-md">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                         <input
@@ -69,12 +76,34 @@ export default function StudentsPage() {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
+
+                    <div className="flex">
+                        <button
+                            onClick={() => setStatusFilter("aktif")}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "aktif" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+                        >
+                            Aktif
+                        </button>
+                        <button
+                            onClick={() => setStatusFilter("nonaktif")}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "nonaktif" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+                        >
+                            Nonaktif
+                        </button>
+                        <button
+                            onClick={() => setStatusFilter("semua")}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "semua" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+                        >
+                            Semua
+                        </button>
+                    </div>
                 </div>
 
                 <StudentTable
                     students={students}
                     isLoading={isLoading}
                     onDelete={initiateDelete}
+                    onToggleStatus={initiateToggleStatus}
                 />
 
                 {/* Load More Button for Cursor Pagination */}
@@ -106,6 +135,15 @@ export default function StudentsPage() {
                 title={confirmState.title}
                 message={confirmState.message}
                 isLoading={isDeleting}
+            />
+
+            <ConfirmModal
+                isOpen={toggleConfirmState.isOpen}
+                onClose={() => setToggleConfirmState({ ...toggleConfirmState, isOpen: false })}
+                onConfirm={handleConfirmToggleStatus}
+                title={toggleConfirmState.isActive ? "Aktifkan Siswa" : "Nonaktifkan Siswa"}
+                message={`Apakah Anda yakin ingin ${toggleConfirmState.isActive ? "mengaktifkan" : "menonaktifkan"} siswa "${toggleConfirmState.name}"?`}
+                isLoading={isToggling}
             />
 
             <ImportExcelModal

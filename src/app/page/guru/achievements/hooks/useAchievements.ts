@@ -7,7 +7,7 @@ const PAGE_LIMIT = 20;
 export function useAchievements() {
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
-    const [filterStatus, setFilterStatus] = useState<"all" | "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK">("all");
+    const [filterStatus, setFilterStatus] = useState<"all" | "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK" | "DIBATALKAN">("all");
     const [debouncedSearch, setDebouncedSearch] = useState("");
 
     // Debounce searchTerm

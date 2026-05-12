@@ -11,8 +11,14 @@ export async function GET(req: NextRequest) {
     const cursor = searchParams.get("cursor");
     const limit = Math.min(Number(searchParams.get("limit")) || 20, 100);
     const search = searchParams.get("search") || "";
+    const isActiveParam = searchParams.get("isActive");
 
-    const where: any = { isActive: true };
+    const where: any = {};
+    if (isActiveParam === "true") {
+      where.isActive = true;
+    } else if (isActiveParam === "false") {
+      where.isActive = false;
+    }
 
     if (search) {
       where.OR = [

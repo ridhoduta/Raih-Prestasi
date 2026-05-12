@@ -1,14 +1,17 @@
 "use client"
 
 import AlertModal from "@/app/components/AlertModal";
+import Link from "next/link";
 import { getIndependentSubmissionDetail, IndependentSubmission, reviewIndependentSubmission, IndependentSubmissionStatus } from "@/app/service/guruIndependentSubmissionsAPI";
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings, File as FileIcon, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = use(params);
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [submission, setSubmission] = useState<IndependentSubmission | null>(null);
     const [loading, setLoading] = useState(true);
     const [updating, setUpdating] = useState(false);
@@ -108,12 +111,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         try {
             setUpdating(true);
             const response = await reviewIndependentSubmission(id, {
-                status: selectedStatus as "DITERIMA" | "DITOLAK" | "MENUNGGU",
+                status: selectedStatus as IndependentSubmissionStatus,
                 rejectionNote: selectedStatus === "DITOLAK" ? rejectionNote : undefined,
                 recommendationLetter: recommendationLetter || undefined
             });
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["independent-submissions"] });
                 setAlertState({
                     isOpen: true,
                     title: "Berhasil",
@@ -177,7 +181,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     {submission.status === 'DITOLAK' && <XCircle size={14} />}
                                     {submission.status === 'MENUNGGU' && <Clock size={14} />}
                                     {submission.status === 'DIBATALKAN' && <XCircle size={14} />}
-
                                     {submission.status}
                                 </span>
                             </div>
@@ -258,7 +261,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                             </div>
                         </div>
                     </div>
-                    {submission.status === "MENUNGGU" && (
+
+                    {/* Update Status Section */}
+                    {submission.status == "MENUNGGU" && (
                         <div className="bg-white shadow-xl border border-gray-100 rounded-2xl p-6">
                             <div className="flex flex-col md:flex-row md:items-end gap-6">
                                 <div className="flex-1 space-y-2">
@@ -362,6 +367,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                     )}
                                 </div>
                             </div>
+                            <div className="mt-4">
+                                <Link
+                                    href={`/page/pdf/rekom/form?name=${encodeURIComponent(submission.student.name)}&nisn=${encodeURIComponent(submission.student.nisn)}&kelas=${encodeURIComponent(submission.student.kelas)}&title=${encodeURIComponent(submission.title)}`}
+                                    className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl font-bold hover:bg-emerald-100 transition-all shadow-sm active:scale-95"
+                                >
+                                    <FileIcon size={18} />
+                                    Buat Surat Rekomendasi Otomatis
+                                </Link>
+                                <p className="text-[10px] text-gray-400 mt-2 text-center">
+                                    Gunakan ini jika Anda ingin membuat surat rekomendasi tanpa mengunggah file manual.
+                                </p>
+                            </div>
 
                             {selectedStatus === "DITOLAK" && (
                                 <div className="mt-6 animate-in fade-in slide-in-from-top-4 duration-300">
@@ -387,7 +404,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <p className="text-gray-500 text-lg">Data pengajuan tidak ditemukan.</p>
                 </div>
             )}
-
 
             <AlertModal
                 isOpen={alertState.isOpen}

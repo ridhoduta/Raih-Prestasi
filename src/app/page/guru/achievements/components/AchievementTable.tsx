@@ -78,7 +78,7 @@ export function AchievementTable({ achievements, loading, onEdit, onDelete }: Ac
                                         ? "bg-emerald-50 text-emerald-700 border-emerald-100"
                                         : achievement.status === "DITOLAK"
                                             ? "bg-red-50 text-red-700 border-red-100"
-                                            : "bg-amber-50 text-amber-700 border-amber-100"
+                                            : achievement.status === "DIBATALKAN" ? "bg-slate-50 text-slate-700 border-slate-100" : "bg-amber-50 text-amber-700 border-amber-100"
                                         }`}>
                                         {achievement.status ? (achievement.status.charAt(0).toUpperCase() + achievement.status.slice(1).toLowerCase()) : "-"}
                                     </span>

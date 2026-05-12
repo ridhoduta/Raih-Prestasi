@@ -7,7 +7,7 @@ const PAGE_LIMIT = 20;
 export function useIndependentSubmissions() {
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
-    const [filterStatus, setFilterStatus] = useState<"all" | "menunggu" | "diterima" | "ditolak">("all");
+    const [filterStatus, setFilterStatus] = useState<"all" | "menunggu" | "diterima" | "ditolak" | "dibatalkan">("all");
     const [debouncedSearch, setDebouncedSearch] = useState("");
 
     // Debounce searchTerm

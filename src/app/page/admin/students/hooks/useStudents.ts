@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getStudents, deleteStudent, Student, createStudentsBulk } from "@/app/service/studentsAPI";
+import { getStudents, deleteStudent, Student, createStudentsBulk, updateStudent } from "@/app/service/studentsAPI";
 
 const PAGE_LIMIT = 20;
 
@@ -9,6 +9,7 @@ export function useStudents() {
     const [searchTerm, setSearchTerm] = useState("");
     const [isImportModalOpen, setIsImportModalOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"aktif" | "nonaktif" | "semua">("aktif");
 
     // Debounce searchTerm
     useEffect(() => {
@@ -27,12 +28,13 @@ export function useStudents() {
         isLoading,
         isError,
     } = useInfiniteQuery({
-        queryKey: ["students", debouncedSearch],
+        queryKey: ["students", debouncedSearch, statusFilter],
         queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
             const response = await getStudents({
                 limit: PAGE_LIMIT,
                 search: debouncedSearch || undefined,
                 cursor: pageParam,
+                isActive: statusFilter === "aktif" ? true : statusFilter === "nonaktif" ? false : undefined,
             });
             return response;
         },
@@ -44,6 +46,25 @@ export function useStudents() {
     const students = useMemo(() => {
         return data?.pages.flatMap((page) => page.data ?? []) ?? [];
     }, [data]);
+
+    // Mutation for toggling student status
+    const toggleStatusMutation = useMutation({
+        mutationFn: ({ id, isActive }: { id: string; isActive: boolean }) => updateStudent(id, { isActive }),
+        onSuccess: (response) => {
+            if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["students"] });
+                setToggleConfirmState(prev => ({ ...prev, isOpen: false, id: null, name: "", isActive: true }));
+                showAlert("Berhasil", "Status siswa berhasil diperbarui.", "success");
+            } else {
+                setToggleConfirmState(prev => ({ ...prev, isOpen: false }));
+                showAlert("Gagal", "Gagal memperbarui status siswa: " + response.message, "error");
+            }
+        },
+        onError: () => {
+            setToggleConfirmState(prev => ({ ...prev, isOpen: false }));
+            showAlert("Error", "Terjadi kesalahan saat memperbarui status.", "error");
+        }
+    });
 
     // Mutation for deleting a student
     const deleteMutation = useMutation({
@@ -98,6 +119,14 @@ export function useStudents() {
         message: ""
     });
 
+    // Toggle Status State
+    const [toggleConfirmState, setToggleConfirmState] = useState<{ isOpen: boolean; id: string | null; name: string; isActive: boolean }>({
+        isOpen: false,
+        id: null,
+        name: "",
+        isActive: true
+    });
+
     const showAlert = (title: string, message: string, type: "success" | "error" | "info" = "info") => {
         setAlertState({ isOpen: true, title, message, type });
     };
@@ -112,8 +141,22 @@ export function useStudents() {
             id,
             name,
             title: "Hapus Data Siswa",
-            message: `Apakah Anda yakin ingin menghapus data siswa "${name}"?`
+            message: `Apakah Anda yakin ingin menghapus data siswa "${name}"? Tindakan ini tidak dapat dibatalkan.`
         });
+    };
+
+    const initiateToggleStatus = (id: string, name: string, currentStatus: boolean) => {
+        setToggleConfirmState({
+            isOpen: true,
+            id,
+            name,
+            isActive: !currentStatus
+        });
+    };
+
+    const handleConfirmToggleStatus = async () => {
+        if (!toggleConfirmState.id) return;
+        toggleStatusMutation.mutate({ id: toggleConfirmState.id, isActive: toggleConfirmState.isActive });
     };
 
     const handleConfirmDelete = async () => {
@@ -133,6 +176,8 @@ export function useStudents() {
         isLoadingMore: isFetchingNextPage,
         nextCursor: hasNextPage,
         loadMore: fetchNextPage,
+        statusFilter,
+        setStatusFilter,
         isImportModalOpen,
         setIsImportModalOpen,
         isImporting: importMutation.isPending,
@@ -140,9 +185,14 @@ export function useStudents() {
         closeAlert,
         confirmState,
         setConfirmState,
+        toggleConfirmState,
+        setToggleConfirmState,
         isDeleting: deleteMutation.isPending,
+        isToggling: toggleStatusMutation.isPending,
         initiateDelete,
+        initiateToggleStatus,
         handleConfirmDelete,
+        handleConfirmToggleStatus,
         handleImportSubmit,
         isError,
     };

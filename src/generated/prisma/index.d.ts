@@ -9793,6 +9793,7 @@ export namespace Prisma {
     studentId: string | null
     status: $Enums.RegistrationStatus | null
     note: string | null
+    documentUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9803,6 +9804,7 @@ export namespace Prisma {
     studentId: string | null
     status: $Enums.RegistrationStatus | null
     note: string | null
+    documentUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -9813,6 +9815,7 @@ export namespace Prisma {
     studentId: number
     status: number
     note: number
+    documentUrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -9825,6 +9828,7 @@ export namespace Prisma {
     studentId?: true
     status?: true
     note?: true
+    documentUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9835,6 +9839,7 @@ export namespace Prisma {
     studentId?: true
     status?: true
     note?: true
+    documentUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -9845,6 +9850,7 @@ export namespace Prisma {
     studentId?: true
     status?: true
     note?: true
+    documentUrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -9928,6 +9934,7 @@ export namespace Prisma {
     studentId: string
     status: $Enums.RegistrationStatus
     note: string | null
+    documentUrl: string | null
     createdAt: Date
     updatedAt: Date
     _count: CompetitionRegistrationCountAggregateOutputType | null
@@ -9955,6 +9962,7 @@ export namespace Prisma {
     studentId?: boolean
     status?: boolean
     note?: boolean
+    documentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     competition?: boolean | CompetitionDefaultArgs<ExtArgs>
@@ -9969,6 +9977,7 @@ export namespace Prisma {
     studentId?: boolean
     status?: boolean
     note?: boolean
+    documentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     competition?: boolean | CompetitionDefaultArgs<ExtArgs>
@@ -9981,6 +9990,7 @@ export namespace Prisma {
     studentId?: boolean
     status?: boolean
     note?: boolean
+    documentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     competition?: boolean | CompetitionDefaultArgs<ExtArgs>
@@ -9993,11 +10003,12 @@ export namespace Prisma {
     studentId?: boolean
     status?: boolean
     note?: boolean
+    documentUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CompetitionRegistrationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "competitionId" | "studentId" | "status" | "note" | "createdAt" | "updatedAt", ExtArgs["result"]["competitionRegistration"]>
+  export type CompetitionRegistrationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "competitionId" | "studentId" | "status" | "note" | "documentUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["competitionRegistration"]>
   export type CompetitionRegistrationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     competition?: boolean | CompetitionDefaultArgs<ExtArgs>
     student?: boolean | StudentDefaultArgs<ExtArgs>
@@ -10026,6 +10037,7 @@ export namespace Prisma {
       studentId: string
       status: $Enums.RegistrationStatus
       note: string | null
+      documentUrl: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["competitionRegistration"]>
@@ -10459,6 +10471,7 @@ export namespace Prisma {
     readonly studentId: FieldRef<"CompetitionRegistration", 'String'>
     readonly status: FieldRef<"CompetitionRegistration", 'RegistrationStatus'>
     readonly note: FieldRef<"CompetitionRegistration", 'String'>
+    readonly documentUrl: FieldRef<"CompetitionRegistration", 'String'>
     readonly createdAt: FieldRef<"CompetitionRegistration", 'DateTime'>
     readonly updatedAt: FieldRef<"CompetitionRegistration", 'DateTime'>
   }
@@ -22104,6 +22117,7 @@ export namespace Prisma {
     studentId: 'studentId',
     status: 'status',
     note: 'note',
+    documentUrl: 'documentUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -22930,6 +22944,7 @@ export namespace Prisma {
     studentId?: StringFilter<"CompetitionRegistration"> | string
     status?: EnumRegistrationStatusFilter<"CompetitionRegistration"> | $Enums.RegistrationStatus
     note?: StringNullableFilter<"CompetitionRegistration"> | string | null
+    documentUrl?: StringNullableFilter<"CompetitionRegistration"> | string | null
     createdAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
     updatedAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
     competition?: XOR<CompetitionScalarRelationFilter, CompetitionWhereInput>
@@ -22943,6 +22958,7 @@ export namespace Prisma {
     studentId?: SortOrder
     status?: SortOrder
     note?: SortOrderInput | SortOrder
+    documentUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     competition?: CompetitionOrderByWithRelationInput
@@ -22959,6 +22975,7 @@ export namespace Prisma {
     studentId?: StringFilter<"CompetitionRegistration"> | string
     status?: EnumRegistrationStatusFilter<"CompetitionRegistration"> | $Enums.RegistrationStatus
     note?: StringNullableFilter<"CompetitionRegistration"> | string | null
+    documentUrl?: StringNullableFilter<"CompetitionRegistration"> | string | null
     createdAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
     updatedAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
     competition?: XOR<CompetitionScalarRelationFilter, CompetitionWhereInput>
@@ -22972,6 +22989,7 @@ export namespace Prisma {
     studentId?: SortOrder
     status?: SortOrder
     note?: SortOrderInput | SortOrder
+    documentUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CompetitionRegistrationCountOrderByAggregateInput
@@ -22988,6 +23006,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"CompetitionRegistration"> | string
     status?: EnumRegistrationStatusWithAggregatesFilter<"CompetitionRegistration"> | $Enums.RegistrationStatus
     note?: StringNullableWithAggregatesFilter<"CompetitionRegistration"> | string | null
+    documentUrl?: StringNullableWithAggregatesFilter<"CompetitionRegistration"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"CompetitionRegistration"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"CompetitionRegistration"> | Date | string
   }
@@ -24194,6 +24213,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     competition: CompetitionCreateNestedOneWithoutRegistrationsInput
@@ -24207,6 +24227,7 @@ export namespace Prisma {
     studentId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     answers?: RegistrationAnswerUncheckedCreateNestedManyWithoutRegistrationInput
@@ -24216,6 +24237,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     competition?: CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -24229,6 +24251,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     answers?: RegistrationAnswerUncheckedUpdateManyWithoutRegistrationNestedInput
@@ -24240,6 +24263,7 @@ export namespace Prisma {
     studentId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -24248,6 +24272,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -24258,6 +24283,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25479,6 +25505,7 @@ export namespace Prisma {
     studentId?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    documentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25489,6 +25516,7 @@ export namespace Prisma {
     studentId?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    documentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -25499,6 +25527,7 @@ export namespace Prisma {
     studentId?: SortOrder
     status?: SortOrder
     note?: SortOrder
+    documentUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27881,6 +27910,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     competition: CompetitionCreateNestedOneWithoutRegistrationsInput
@@ -27892,6 +27922,7 @@ export namespace Prisma {
     competitionId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     answers?: RegistrationAnswerUncheckedCreateNestedManyWithoutRegistrationInput
@@ -28086,6 +28117,7 @@ export namespace Prisma {
     studentId?: StringFilter<"CompetitionRegistration"> | string
     status?: EnumRegistrationStatusFilter<"CompetitionRegistration"> | $Enums.RegistrationStatus
     note?: StringNullableFilter<"CompetitionRegistration"> | string | null
+    documentUrl?: StringNullableFilter<"CompetitionRegistration"> | string | null
     createdAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
     updatedAt?: DateTimeFilter<"CompetitionRegistration"> | Date | string
   }
@@ -28483,6 +28515,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutRegistrationsInput
@@ -28494,6 +28527,7 @@ export namespace Prisma {
     studentId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     answers?: RegistrationAnswerUncheckedCreateNestedManyWithoutRegistrationInput
@@ -29023,6 +29057,7 @@ export namespace Prisma {
     id?: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     competition: CompetitionCreateNestedOneWithoutRegistrationsInput
@@ -29035,6 +29070,7 @@ export namespace Prisma {
     studentId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29086,6 +29122,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     competition?: CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -29098,6 +29135,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30343,6 +30381,7 @@ export namespace Prisma {
     competitionId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30402,6 +30441,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     competition?: CompetitionUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -30413,6 +30453,7 @@ export namespace Prisma {
     competitionId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     answers?: RegistrationAnswerUncheckedUpdateManyWithoutRegistrationNestedInput
@@ -30423,6 +30464,7 @@ export namespace Prisma {
     competitionId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30707,6 +30749,7 @@ export namespace Prisma {
     studentId: string
     status?: $Enums.RegistrationStatus
     note?: string | null
+    documentUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30725,6 +30768,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutRegistrationsNestedInput
@@ -30736,6 +30780,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     answers?: RegistrationAnswerUncheckedUpdateManyWithoutRegistrationNestedInput
@@ -30746,6 +30791,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     status?: EnumRegistrationStatusFieldUpdateOperationsInput | $Enums.RegistrationStatus
     note?: NullableStringFieldUpdateOperationsInput | string | null
+    documentUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

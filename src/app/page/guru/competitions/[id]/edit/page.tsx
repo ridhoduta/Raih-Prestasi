@@ -8,9 +8,11 @@ import { Category, getCategories } from "@/app/service/categoriesAPI";
 import { Level, getLevels } from "@/app/service/levelsAPI";
 import AlertModal from "@/app/components/AlertModal";
 import Link from "next/link";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function EditCompetitionPage({ params }: { params: Promise<{ id: string }> }) {
     const router = useRouter();
+    const queryClient = useQueryClient();
     const { id } = use(params);
     const [formData, setFormData] = useState({
         id: "",
@@ -54,6 +56,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
 
             if (competitionRes.success && competitionRes.data) {
                 const competition = competitionRes.data;
+
                 setFormData({
                     id: competition.id,
                     title: competition.title,
@@ -183,6 +186,7 @@ export default function EditCompetitionPage({ params }: { params: Promise<{ id: 
             const response = await updateCompetition(id, payload as any);
 
             if (response.success) {
+                queryClient.invalidateQueries({ queryKey: ["competitions"] });
                 setAlertState({ isOpen: true, title: "Berhasil", message: "Kompetisi berhasil diupdate.", type: "success", shouldRedirect: true });
             } else {
                 setAlertState({ isOpen: true, title: "Gagal", message: "Gagal mengupdate kompetisi: " + response.message, type: "error", shouldRedirect: false });

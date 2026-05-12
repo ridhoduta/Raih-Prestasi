@@ -91,6 +91,15 @@ export default function AdminIndependentSubmissions() {
             >
               Ditolak
             </button>
+            <button
+              onClick={() => setFilterStatus("dibatalkan")}
+              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${filterStatus === "dibatalkan"
+                ? "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                : "text-gray-600 hover:bg-gray-50 border border-transparent text-center flex justify-center items-center truncate"
+                }`}
+            >
+              Dibatalkan
+            </button>
           </div>
         </div>
 

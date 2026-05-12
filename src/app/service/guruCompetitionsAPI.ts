@@ -69,6 +69,7 @@ export type Registration = {
     title: string;
   };
   note?: string;
+  documentUrl?: string;
 };
 
 export type RegistrationDetail = Registration & {
@@ -186,8 +187,8 @@ export async function getRegistrationById(id: string) {
   return apiClient.get<RegistrationDetail>(`/api/guru/registrations/${id}`);
 }
 
-export async function updateRegistrationStatus(id: string, status: string, note?: string) {
-  return apiClient.put<void>(`/api/guru/registrations/${id}`, { status, note });
+export async function updateRegistrationStatus(id: string, status: string, note?: string, documentUrl?: string) {
+  return apiClient.put<void>(`/api/guru/registrations/${id}`, { status, note, documentUrl });
 }
 
 export async function getCompetitionById(id: string) {

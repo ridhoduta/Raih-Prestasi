@@ -8,6 +8,7 @@ import { useNews } from "./hooks/useNews";
 import { NewsTable } from "./components/NewsTable";
 
 export default function NewsPage() {
+
   const {
     searchTerm,
     setSearchTerm,
@@ -16,6 +17,8 @@ export default function NewsPage() {
     isLoadingMore,
     nextCursor,
     loadMore,
+    statusFilter,
+    setStatusFilter,
     alertState,
     closeAlert,
     confirmState,
@@ -30,20 +33,20 @@ export default function NewsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Kelola Berita</h1>
-          <p className="text-gray-500 mt-1">Atur konten berita dan informasi sekolah</p>
+          <p className="text-gray-500 mt-1">Publikasikan berita dan informasi terbaru</p>
         </div>
 
         <Link
           href="/page/admin/news/new"
-          className="flex items-center gap-2 bg-primary-container hover:bg-on-primary hover:text-primary text-white text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-primary-container hover:bg-on-primary hover:text-primary text-white px-5 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
         >
           <Plus size={18} />
-          Tambah Berita
+          Buat Berita
         </Link>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-5 border-b border-gray-100 flex items-center gap-4">
+        <div className="p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
@@ -53,6 +56,27 @@ export default function NewsPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
+          </div>
+
+          <div className="flex">
+            <button
+              onClick={() => setStatusFilter("publish")}
+              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "publish" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              Publish
+            </button>
+            <button
+              onClick={() => setStatusFilter("draft")}
+              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "draft" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              Draft
+            </button>
+            <button
+              onClick={() => setStatusFilter("all")}
+              className={`flex-1 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "all" ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "text-gray-500 hover:text-gray-700"}`}
+            >
+              Semua
+            </button>
           </div>
         </div>
 

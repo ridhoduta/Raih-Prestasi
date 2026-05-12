@@ -11,12 +11,15 @@ interface RegistrationDetailModalProps {
 
 export function RegistrationDetailModal({ isOpen, data, loading, onClose }: RegistrationDetailModalProps) {
     if (!isOpen) return null;
+
+    // const showActions = data && data.status === "MENUNGGU" && onActionClick;
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
             <div className="bg-white rounded-2xl shadow-xl border border-gray-100 max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden">
                 <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-white sticky top-0">
                     <div className="flex items-center gap-3">
-                        <div className="p-2bg-primary-container text-on-primary rounded-xl">
+                        <div className="p-2 bg-primary-container text-on-primary rounded-xl">
                             <FileText size={24} />
                         </div>
                         <div>
@@ -109,6 +112,22 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose }: Regi
                                     </div>
                                 </div>
                             )}
+
+                            {/* Document Display (If exists) */}
+                            {data.documentUrl && (
+                                <div className="space-y-2 pt-2">
+                                    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">Surat Dispensasi</p>
+                                    <a
+                                        href={data.documentUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 p-4 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 text-sm font-bold hover:bg-emerald-100 transition-all"
+                                    >
+                                        <FileText size={18} />
+                                        Lihat Surat Dispensasi
+                                    </a>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>
@@ -120,7 +139,6 @@ export function RegistrationDetailModal({ isOpen, data, loading, onClose }: Regi
                     >
                         Tutup
                     </button>
-
                 </div>
             </div>
         </div>

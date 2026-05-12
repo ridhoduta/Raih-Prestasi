@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import {
     CheckCircle,
     XCircle,
     Clock,
     User,
-    Eye
+    Eye,
+    FileText,
+    Upload,
+    FilePlus
 } from "lucide-react";
 import { RegistrationDetail } from "@/app/service/guruCompetitionsAPI";
 
@@ -14,10 +18,11 @@ interface RegistrationTableProps {
     registrations: RegistrationDetail[];
     onActionClick: (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => void;
     onViewDetail: (id: string) => void;
+    onUploadDispen: (id: string, file: File) => void;
     isUpdating: boolean;
 }
 
-export function RegistrationTable({ registrations, onActionClick, onViewDetail, isUpdating }: RegistrationTableProps) {
+export function RegistrationTable({ registrations, onActionClick, onViewDetail, onUploadDispen, isUpdating }: RegistrationTableProps) {
     const getStatusBadge = (status: string) => {
         switch (status.toUpperCase()) {
             case "APPROVED":
@@ -63,6 +68,7 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Siswa</th>
                             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">NISN / Kelas</th>
                             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Status</th>
+                            <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400">Surat Dispen</th>
                             <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-400 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -101,6 +107,21 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                     <td className="px-6 py-5">
                                         {getStatusBadge(reg.status)}
                                     </td>
+                                    <td className="px-6 py-5">
+                                        {reg.documentUrl ? (
+                                            <a
+                                                href={reg.documentUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all text-[10px] font-bold uppercase border border-emerald-100"
+                                            >
+                                                <FileText size={12} />
+                                                Lihat
+                                            </a>
+                                        ) : (
+                                            <span className="text-[10px] text-gray-400 font-bold uppercase italic">Kosong</span>
+                                        )}
+                                    </td>
                                     <td className="px-6 py-5 text-right">
                                         <div className="flex justify-end gap-2">
                                             {reg.status === "MENUNGGU" && (
@@ -125,12 +146,36 @@ export function RegistrationTable({ registrations, onActionClick, onViewDetail, 
                                             )}
                                             <button
                                                 onClick={() => onViewDetail(reg.id)}
-                                                className="p-2 rounded-lg bg-primary-container text-on-primary hover:text-white transition-all flex items-center justify-center gap-2 px-4 group"
+                                                className="p-2 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all flex items-center justify-center gap-2 px-3 group text-xs font-bold uppercase border border-emerald-100"
                                                 title="Lihat Detail"
                                             >
-                                                <Eye size={18} />
-                                                Jawaban
+                                                <Eye size={16} />
+                                                Detail
                                             </button>
+
+                                            {reg.status === "DITERIMA" && (
+                                                <div className="flex gap-1">
+                                                    <label className="cursor-pointer p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all flex items-center justify-center" title="Upload Surat">
+                                                        <Upload size={16} />
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept=".pdf,image/*"
+                                                            onChange={(e) => {
+                                                                const file = e.target.files?.[0];
+                                                                if (file) onUploadDispen(reg.id, file);
+                                                            }}
+                                                    />
+                                                </label>
+                                                <Link
+                                                    href={`/page/pdf/dispen/form?registrationId=${reg.id}`}
+                                                    className="p-2 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 transition-all flex items-center justify-center"
+                                                    title="Generate Surat"
+                                                >
+                                                    <FilePlus size={16} />
+                                                </Link>
+                                            </div>
+                                            )}
                                         </div>
                                     </td>
                                 </tr>

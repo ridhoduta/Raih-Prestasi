@@ -1,6 +1,7 @@
 "use client"
 
 import AlertModal from "@/app/components/AlertModal";
+import Link from "next/link";
 import { getIndependentSubmissionDetail, IndependentSubmission, reviewIndependentSubmission, IndependentSubmissionStatus } from "@/app/service/guruIndependentSubmissionsAPI";
 import { ArrowLeft, Loader2, CheckCircle, XCircle, Clock, Save, ChevronDown, Settings, File as FileIcon, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -365,6 +366,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                                         </div>
                                     )}
                                 </div>
+                            </div>
+                            <div className="mt-4">
+                                <Link
+                                    href={`/page/pdf/rekom/form?name=${encodeURIComponent(submission.student.name)}&nisn=${encodeURIComponent(submission.student.nisn)}&kelas=${encodeURIComponent(submission.student.kelas)}&title=${encodeURIComponent(submission.title)}`}
+                                    className="flex items-center justify-center gap-2 w-full py-3 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-xl font-bold hover:bg-emerald-100 transition-all shadow-sm active:scale-95"
+                                >
+                                    <FileIcon size={18} />
+                                    Buat Surat Rekomendasi Otomatis
+                                </Link>
+                                <p className="text-[10px] text-gray-400 mt-2 text-center">
+                                    Gunakan ini jika Anda ingin membuat surat rekomendasi tanpa mengunggah file manual.
+                                </p>
                             </div>
 
                             {selectedStatus === "DITOLAK" && (

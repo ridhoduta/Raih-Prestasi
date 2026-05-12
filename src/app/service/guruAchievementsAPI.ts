@@ -5,7 +5,7 @@ export type Achievement = {
   result: string;
   competitionName: string;
   certificate: string;
-  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
+  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK" | "DIBATALKAN";
   createdAt: string;
   updatedAt: string;
   studentId: string;
@@ -21,7 +21,7 @@ export type Achievement = {
 };
 
 export type VerifyAchievementPayload = {
-  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK";
+  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK" | "DIBATALKAN";
   verifiedBy?: string;
 };
 

@@ -9,6 +9,7 @@ const registrationSelect = {
   updatedAt: true,
   studentId: true,
   competitionId: true,
+  documentUrl: true,
   student: {
     select: {
       id: true,

@@ -8,6 +8,7 @@ export function useNews() {
     const queryClient = useQueryClient();
     const [searchTerm, setSearchTerm] = useState("");
     const [debouncedSearch, setDebouncedSearch] = useState("");
+    const [statusFilter, setStatusFilter] = useState<"publish" | "draft" | "all">("all");
 
     // Debounce searchTerm
     useEffect(() => {
@@ -26,12 +27,13 @@ export function useNews() {
         isLoading,
         isError,
     } = useInfiniteQuery({
-        queryKey: ["news", debouncedSearch],
+        queryKey: ["news", debouncedSearch, statusFilter],
         queryFn: async ({ pageParam }: { pageParam: string | undefined }) => {
             const response = await getNews({
                 limit: PAGE_LIMIT,
                 search: debouncedSearch || undefined,
                 cursor: pageParam,
+                isPublished: statusFilter === "publish" ? true : statusFilter === "draft" ? false : undefined,
             });
             return response;
         },
@@ -109,6 +111,8 @@ export function useNews() {
         isLoadingMore: isFetchingNextPage,
         nextCursor: hasNextPage,
         loadMore: fetchNextPage,
+        statusFilter,
+        setStatusFilter,
         alertState,
         closeAlert,
         confirmState,

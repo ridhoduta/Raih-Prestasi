@@ -4,6 +4,7 @@ import {
     updateRegistrationStatus, 
     getCompetitionById,
     getRegistrationById,
+    uploadThumbnail,
     RegistrationDetail
 } from "@/app/service/guruCompetitionsAPI";
 import { useState, useEffect } from "react";
@@ -95,6 +96,42 @@ export function useRegistrations(competitionId: string) {
         }
     });
 
+    const documentMutation = useMutation({
+        mutationFn: async ({ id, file }: { id: string, file: File }) => {
+            const uploadRes = await uploadThumbnail(file);
+            if (!uploadRes.success) throw new Error(uploadRes.message || "Gagal upload file");
+            
+            const docUrl = uploadRes.data?.url.publicUrl;
+            if (!docUrl) throw new Error("Gagal mendapatkan URL file");
+
+            const updateRes = await updateRegistrationStatus(id, "DITERIMA", undefined, docUrl);
+            if (!updateRes.success) throw new Error(updateRes.message || "Gagal update pendaftaran");
+            
+            return updateRes;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["registrations", competitionId] });
+            setAlertState({
+                isOpen: true,
+                title: "Berhasil",
+                message: "Surat dispensasi berhasil diunggah.",
+                type: "success",
+            });
+        },
+        onError: (error: any) => {
+            setAlertState({
+                isOpen: true,
+                title: "Gagal",
+                message: error.message || "Terjadi kesalahan saat mengunggah.",
+                type: "error",
+            });
+        }
+    });
+
+    const handleUploadDispen = (id: string, file: File) => {
+        documentMutation.mutate({ id, file });
+    };
+
     const handleStatusUpdate = async () => {
         if (!actionState.id || !actionState.targetStatus) return;
         statusMutation.mutate({
@@ -173,6 +210,9 @@ export function useRegistrations(competitionId: string) {
         detailModal,
         setDetailModal,
         fetchRegistrationDetail,
+
+        handleUploadDispen,
+        isUploadingDocument: documentMutation.isPending,
 
         refetch
     };

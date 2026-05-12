@@ -74,7 +74,9 @@ export function IndependentSubmissionTable({ submissions, loading, onEdit, onDel
                                         ? "bg-emerald-50 text-emerald-700 border-emerald-100"
                                         : submission.status === "DITOLAK"
                                             ? "bg-red-50 text-red-700 border-red-100"
-                                            : "bg-amber-50 text-amber-700 border-amber-100"
+                                            : submission.status === "DIBATALKAN"
+                                                ? "bg-slate-50 text-slate-700 border-slate-100"
+                                                : "bg-amber-50 text-amber-700 border-amber-100"
                                         }`}>
                                         {submission.status ? (submission.status.charAt(0).toUpperCase() + submission.status.slice(1).toLowerCase()) : "-"}
                                     </span>

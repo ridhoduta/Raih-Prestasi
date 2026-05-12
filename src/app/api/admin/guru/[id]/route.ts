@@ -111,20 +111,21 @@ export async function DELETE(_: Request, context: Context) {
   try {
     const { id } = await context.params;
 
-    await prisma.user.update({
+    await prisma.user.delete({
       where: { id },
-      data: { isActive: false },
-      select: { id: true },
     });
 
     return NextResponse.json({
       success: true,
-      message: "Akun guru berhasil dinonaktifkan",
+      message: "Akun guru berhasil dihapus permanently",
     });
   } catch (error) {
     console.error("DELETE /api/admin/guru/[id] error:", error);
     return NextResponse.json(
-      { success: false, message: "Gagal menonaktifkan guru" },
+      {
+        success: false,
+        message: "Gagal menghapus guru. Mungkin masih ada data terkait.",
+      },
       { status: 500 }
     );
   }

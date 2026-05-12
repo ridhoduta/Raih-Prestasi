@@ -32,6 +32,8 @@ function RegistrationContent({ id }: { id: string }) {
         detailModal,
         setDetailModal,
         fetchRegistrationDetail,
+        handleUploadDispen,
+        isUploadingDocument,
 
         refetch
     } = useRegistrations(id);
@@ -117,6 +119,7 @@ function RegistrationContent({ id }: { id: string }) {
                             <option value="MENUNGGU">Menunggu</option>
                             <option value="DITERIMA">Diterima</option>
                             <option value="DITOLAK">Ditolak</option>
+                            <option value="DIBATALKAN">Dibatalkan</option>
                         </select>
                     </div>
                 </div>
@@ -125,7 +128,8 @@ function RegistrationContent({ id }: { id: string }) {
                     registrations={registrations}
                     onActionClick={handleActionClick}
                     onViewDetail={fetchRegistrationDetail}
-                    isUpdating={isStatusUpdating}
+                    onUploadDispen={handleUploadDispen}
+                    isUpdating={isStatusUpdating || isUploadingDocument}
                 />
             </div>
 
