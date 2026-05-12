@@ -6,20 +6,25 @@ export default function Hero() {
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-8">
           <h1 className="font-display-hero text-display-hero text-on-background">
-            <span className="text-primary-container">RAIH PRESTASI</span><br/>
+            <span className="text-primary-container">RAIH PRESTASI</span><br />
             Kelola Kompetisi & Prestasi Siswa dalam Satu Sistem
           </h1>
 
           <p className="text-body-lg text-on-surface-variant max-w-xl">
-            Platform terintegrasi untuk pendaftaran kompetisi, pengajuan mandiri, 
+            Platform terintegrasi untuk pendaftaran kompetisi, pengajuan mandiri,
             verifikasi prestasi, hingga konversi ke nilai akademik secara efisien dan terstruktur.
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <button className="flex items-center gap-2 px-8 py-4 bg-primary-container text-white font-headline-md rounded-xl hover:shadow-xl hover:shadow-primary-container/40 transition-all active:scale-95">
+            <a
+              href="/apk/raih-prestasi.apk"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-8 py-4 bg-primary-container text-white font-headline-md rounded-xl hover:shadow-xl hover:shadow-primary-container/40 transition-all active:scale-95"
+            >
               <span className="material-symbols-outlined">download</span>
               Download Aplikasi
-            </button>
+            </a>
 
             <button onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="flex items-center gap-2 px-8 py-4 border-2 border-outline-variant text-on-surface font-headline-md rounded-xl hover:bg-surface-container transition-all active:scale-95">
               Lihat Fitur
@@ -38,7 +43,7 @@ export default function Hero() {
           <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/10 rounded-full blur-3xl"></div>
 
           <div className="relative z-10 ambient-shadow rounded-3xl overflow-hidden">
-            <img 
+            <img
               className="w-full h-auto"
               alt="Siswa berprestasi dan aktivitas kompetisi"
               src="https://sqnqrcvnrkmnbgjauxxj.supabase.co/storage/v1/object/public/dokument-pengajuan/heroImg.png"
