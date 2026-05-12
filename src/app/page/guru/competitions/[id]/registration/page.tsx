@@ -85,13 +85,13 @@ function RegistrationContent({ id }: { id: string }) {
                         <span className="text-xs font-bold text-gray-400 uppercase tracking-widest">Total Pendaftar</span>
                         <div className="text-2xl font-black text-emerald-600">{registrations.length} Siswa</div>
                     </div>
-                    <button
+                    {/* <button
                         onClick={() => refetch()}
                         className="p-3 bg-white hover:bg-emerald-50 text-emerald-600 rounded-2xl border border-emerald-100 transition-all shadow-sm active:scale-95"
                         title="Refresh Data"
                     >
                         <RefreshCw size={20} className={loading ? "animate-spin" : ""} />
-                    </button>
+                    </button> */}
                 </div>
             </div>
 

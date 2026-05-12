@@ -9,11 +9,22 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   header: {
-    marginBottom: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
     borderBottomWidth: 2,
     borderBottomColor: '#000',
     paddingBottom: 10,
+  },
+  logo: {
+    width: 60,
+    height: 60,
+    marginRight: 10,
+  },
+  headerText: {
+    flex: 1,
     textAlign: 'center',
+    marginRight: 60, // To balance the logo on the left
   },
   kopTitle: {
     fontSize: 16,
@@ -174,11 +185,14 @@ export const RekomPDF = ({ data }: { data: RekomData }) => (
   <Document title={`Surat Rekomendasi - ${data.namaSiswa}`}>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
-        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
-        <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
-        <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
-        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
+        <Image src="/logo2.png" style={styles.logo} />
+        <View style={styles.headerText}>
+          <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
+          <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
+          <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
+          <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
+          <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
+        </View>
       </View>
 
       <View style={styles.titleContainer}>
@@ -254,11 +268,14 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
   <Document title={`Surat Dispensasi - ${data.students[0]?.namaSiswa || 'Multi'}`}>
     <Page size="A4" style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
-        <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
-        <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
-        <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
-        <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
+        <Image src="/logo2.png" style={styles.logo} />
+        <View style={styles.headerText}>
+          <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
+          <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
+          <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
+          <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
+          <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
+        </View>
       </View>
 
       <View style={styles.titleContainer}>
