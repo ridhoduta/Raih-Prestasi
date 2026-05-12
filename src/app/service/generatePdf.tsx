@@ -1,6 +1,26 @@
 import { Document, Page, Text, View, StyleSheet, Image } from '@react-pdf/renderer';
 
+// ============================================================================
+// Constants
+// ============================================================================
+
+const SCHOOL_NAME = 'SMKN 1 BOYOLANGU';
+const SCHOOL_LOGO = '/logo2.png';
+const KOP_LINES = {
+  line1: 'PEMERINTAH KABUPATEN TULUNGAGUNG',
+  line2: 'DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG',
+  line3: SCHOOL_NAME,
+  alamat:
+    'Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233',
+  kontak: 'Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id',
+};
+
+// ============================================================================
+// Styles
+// ============================================================================
+
 const styles = StyleSheet.create({
+  // -- Page --
   page: {
     padding: 40,
     fontFamily: 'Helvetica',
@@ -8,6 +28,8 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
     color: '#000',
   },
+
+  // -- Kop Surat (Header) --
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -24,7 +46,7 @@ const styles = StyleSheet.create({
   headerText: {
     flex: 1,
     textAlign: 'center',
-    marginRight: 60, // To balance the logo on the left
+    marginRight: 60, // Balances the logo on the left
   },
   kopTitle: {
     fontSize: 16,
@@ -36,6 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontStyle: 'italic',
   },
+
+  // -- Judul Surat --
   titleContainer: {
     marginTop: 15,
     marginBottom: 20,
@@ -51,6 +75,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: 2,
   },
+
+  // -- Isi Surat --
   content: {
     marginTop: 10,
   },
@@ -58,6 +84,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     textAlign: 'justify',
   },
+
+  // -- List / Detail Fields --
   listContainer: {
     marginLeft: 20,
     marginBottom: 15,
@@ -76,6 +104,8 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: 'bold',
   },
+
+  // -- Tanda Tangan --
   footer: {
     marginTop: 30,
     flexDirection: 'row',
@@ -88,6 +118,12 @@ const styles = StyleSheet.create({
   signatureSpace: {
     height: 50,
   },
+  signatureImage: {
+    width: 100,
+    height: 60,
+    marginVertical: 5,
+    alignSelf: 'center',
+  },
   signerName: {
     fontWeight: 'bold',
     textDecoration: 'underline',
@@ -96,12 +132,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     marginTop: 2,
   },
-  signatureImage: {
-    width: 100,
-    height: 60,
-    marginVertical: 5,
-    alignSelf: 'center',
-  },
+
+  // -- Tabel (Dispensasi) --
   table: {
     display: 'flex',
     width: 'auto',
@@ -146,7 +178,20 @@ const styles = StyleSheet.create({
   },
 });
 
-export interface RekomData {
+// ============================================================================
+// Shared Interfaces
+// ============================================================================
+
+/** Data penandatangan yang dipakai di semua jenis surat */
+interface SignerData {
+  tanggalSurat: string;
+  namaPenandatangan: string;
+  jabatanPenandatangan: string;
+  nipPenandatangan?: string;
+  tandaTangan?: string;
+}
+
+export interface RekomData extends SignerData {
   nomorSurat: string;
   namaSiswa: string;
   nisn: string;
@@ -155,14 +200,9 @@ export interface RekomData {
   penyelenggara: string;
   waktuKegiatan: string;
   tempatKegiatan: string;
-  tanggalSurat: string;
-  namaPenandatangan: string;
-  jabatanPenandatangan: string;
-  nipPenandatangan?: string;
-  tandaTangan?: string;
 }
 
-export interface DispenData {
+export interface DispenData extends SignerData {
   nomorSurat: string;
   students: {
     namaSiswa: string;
@@ -174,120 +214,125 @@ export interface DispenData {
   tanggalMulai: string;
   tanggalSelesai: string;
   tempatKegiatan: string;
-  tanggalSurat: string;
-  namaPenandatangan: string;
-  jabatanPenandatangan: string;
-  nipPenandatangan?: string;
-  tandaTangan?: string;
 }
 
+// ============================================================================
+// Reusable Sub-Components
+// ============================================================================
+
+/** Kop surat (header) dengan logo dan identitas sekolah */
+const KopSurat = () => (
+  <View style={styles.header}>
+    <Image src={SCHOOL_LOGO} style={styles.logo} />
+    <View style={styles.headerText}>
+      <Text style={styles.kopTitle}>{KOP_LINES.line1}</Text>
+      <Text style={styles.kopTitle}>{KOP_LINES.line2}</Text>
+      <Text style={styles.kopTitle}>{KOP_LINES.line3}</Text>
+      <Text style={styles.kopSubtitle}>{KOP_LINES.alamat}</Text>
+      <Text style={styles.kopSubtitle}>{KOP_LINES.kontak}</Text>
+    </View>
+  </View>
+);
+
+/** Judul surat beserta nomor */
+const SuratTitle = ({ jenis, nomor }: { jenis: string; nomor: string }) => (
+  <View style={styles.titleContainer}>
+    <Text style={styles.title}>{jenis}</Text>
+    <Text style={styles.nomorSurat}>Nomor: {nomor}</Text>
+  </View>
+);
+
+/** Baris detail label : value */
+const DetailItem = ({ label, value }: { label: string; value: string }) => (
+  <View style={styles.listItem}>
+    <Text style={styles.label}>{label}</Text>
+    <Text style={styles.separator}>:</Text>
+    <Text style={styles.value}>{value}</Text>
+  </View>
+);
+
+/** Blok tanda tangan */
+const TandaTanganBlock = ({ data }: { data: SignerData }) => (
+  <View style={styles.footer} wrap={false}>
+    <View style={styles.signatureBlock}>
+      <Text>Contoh, {data.tanggalSurat}</Text>
+      <Text>{data.jabatanPenandatangan},</Text>
+
+      {data.tandaTangan ? (
+        <Image src={data.tandaTangan} style={styles.signatureImage} />
+      ) : (
+        <View style={styles.signatureSpace} />
+      )}
+
+      <Text style={styles.signerName}>{data.namaPenandatangan}</Text>
+      {data.nipPenandatangan && (
+        <Text style={styles.signerDetail}>NIP. {data.nipPenandatangan}</Text>
+      )}
+    </View>
+  </View>
+);
+
+// ============================================================================
+// PDF Documents
+// ============================================================================
+
+/** Surat Rekomendasi */
 export const RekomPDF = ({ data }: { data: RekomData }) => (
   <Document title={`Surat Rekomendasi - ${data.namaSiswa}`}>
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Image src="/logo2.png" style={styles.logo} />
-        <View style={styles.headerText}>
-          <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
-          <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
-          <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
-          <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
-          <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
-        </View>
-      </View>
-
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>SURAT REKOMENDASI</Text>
-        <Text style={styles.nomorSurat}>Nomor: {data.nomorSurat}</Text>
-      </View>
+      <KopSurat />
+      <SuratTitle jenis="SURAT REKOMENDASI" nomor={data.nomorSurat} />
 
       <View style={styles.content}>
         <Text style={styles.paragraph}>
-          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan} SMKN 1 Boyolangu dengan ini memberikan rekomendasi kepada:
+          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan}{' '}
+          {SCHOOL_NAME} dengan ini memberikan rekomendasi kepada:
         </Text>
 
         <View style={styles.listContainer}>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Nama</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.namaSiswa}</Text>
-          </View>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>NISN</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.nisn}</Text>
-          </View>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Kelas</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.kelas}</Text>
-          </View>
+          <DetailItem label="Nama" value={data.namaSiswa} />
+          <DetailItem label="NISN" value={data.nisn} />
+          <DetailItem label="Kelas" value={data.kelas} />
         </View>
 
         <Text style={styles.paragraph}>
-          Untuk mengikuti kegiatan {data.kegiatan} yang diselenggarakan oleh {data.penyelenggara} pada:
+          Untuk mengikuti kegiatan {data.kegiatan} yang diselenggarakan oleh{' '}
+          {data.penyelenggara} pada:
         </Text>
 
         <View style={styles.listContainer}>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Waktu</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.waktuKegiatan}</Text>
-          </View>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Tempat</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.tempatKegiatan}</Text>
-          </View>
+          <DetailItem label="Waktu" value={data.waktuKegiatan} />
+          <DetailItem label="Tempat" value={data.tempatKegiatan} />
         </View>
 
         <Text style={styles.paragraph}>
-          Demikian surat rekomendasi ini diberikan untuk dapat dipergunakan sebagaimana mestinya. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.
+          Demikian surat rekomendasi ini diberikan untuk dapat dipergunakan
+          sebagaimana mestinya. Atas perhatian dan kerjasamanya kami ucapkan
+          terima kasih.
         </Text>
       </View>
 
-      <View style={styles.footer} wrap={false}>
-        <View style={styles.signatureBlock}>
-          <Text>Contoh, {data.tanggalSurat}</Text>
-          <Text>{data.jabatanPenandatangan},</Text>
-          {data.tandaTangan ? (
-            <Image src={data.tandaTangan} style={styles.signatureImage} />
-          ) : (
-            <View style={styles.signatureSpace} />
-          )}
-          <Text style={styles.signerName}>{data.namaPenandatangan}</Text>
-          {data.nipPenandatangan && (
-            <Text style={styles.signerDetail}>NIP. {data.nipPenandatangan}</Text>
-          )}
-        </View>
-      </View>
+      <TandaTanganBlock data={data} />
     </Page>
   </Document>
 );
 
+/** Surat Dispensasi */
 export const DispenPDF = ({ data }: { data: DispenData }) => (
-  <Document title={`Surat Dispensasi - ${data.students[0]?.namaSiswa || 'Multi'}`}>
+  <Document
+    title={`Surat Dispensasi - ${data.students[0]?.namaSiswa || 'Multi'}`}
+  >
     <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Image src="/logo2.png" style={styles.logo} />
-        <View style={styles.headerText}>
-          <Text style={styles.kopTitle}>PEMERINTAH KABUPATEN TULUNGAGUNG</Text>
-          <Text style={styles.kopTitle}>DINAS PENDIDIKAN DAN KEBUDAYAAN KABUPATEN TULUNGAGUNG</Text>
-          <Text style={styles.kopTitle}>SMKN 1 BOYOLANGU</Text>
-          <Text style={styles.kopSubtitle}>Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji, Kec. Boyolangu, Kabupaten Tulungagung, Jawa Timur 66233</Text>
-          <Text style={styles.kopSubtitle}>Telepon: (021) 1234567, Website: smkn1boyolangu.sch.id</Text>
-        </View>
-      </View>
-
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>SURAT DISPENSASI</Text>
-        <Text style={styles.nomorSurat}>Nomor: {data.nomorSurat}</Text>
-      </View>
+      <KopSurat />
+      <SuratTitle jenis="SURAT DISPENSASI" nomor={data.nomorSurat} />
 
       <View style={styles.content}>
         <Text style={styles.paragraph}>
-          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan} SMKN 1 Boyolangu dengan ini memberikan dispensasi kepada:
+          Yang bertanda tangan di bawah ini, {data.jabatanPenandatangan}{' '}
+          {SCHOOL_NAME} dengan ini memberikan dispensasi kepada:
         </Text>
 
+        {/* Tabel Daftar Siswa */}
         <View style={styles.table}>
           <View style={styles.tableRow}>
             <View style={styles.tableColHeader}>
@@ -300,6 +345,7 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
               <Text style={styles.tableCellHeader}>Kelas</Text>
             </View>
           </View>
+
           {data.students.map((student, index) => (
             <View style={styles.tableRow} key={index}>
               <View style={styles.tableCol}>
@@ -316,42 +362,27 @@ export const DispenPDF = ({ data }: { data: DispenData }) => (
         </View>
 
         <Text style={styles.paragraph}>
-          Untuk tidak mengikuti kegiatan belajar mengajar karena terpilih sebagai peserta kegiatan {data.kegiatan} yang diselenggarakan oleh {data.penyelenggara} pada:
+          Untuk tidak mengikuti kegiatan belajar mengajar karena terpilih
+          sebagai peserta kegiatan {data.kegiatan} yang diselenggarakan oleh{' '}
+          {data.penyelenggara} pada:
         </Text>
 
         <View style={styles.listContainer}>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Tanggal</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.tanggalMulai} s.d. {data.tanggalSelesai}</Text>
-          </View>
-          <View style={styles.listItem}>
-            <Text style={styles.label}>Tempat</Text>
-            <Text style={styles.separator}>:</Text>
-            <Text style={styles.value}>{data.tempatKegiatan}</Text>
-          </View>
+          <DetailItem
+            label="Tanggal"
+            value={`${data.tanggalMulai} s.d. ${data.tanggalSelesai}`}
+          />
+          <DetailItem label="Tempat" value={data.tempatKegiatan} />
         </View>
 
         <Text style={styles.paragraph}>
-          Demikian surat dispensasi ini diberikan untuk dapat dipergunakan sebagaimana mestinya. Atas perhatian dan kerjasamanya kami ucapkan terima kasih.
+          Demikian surat dispensasi ini diberikan untuk dapat dipergunakan
+          sebagaimana mestinya. Atas perhatian dan kerjasamanya kami ucapkan
+          terima kasih.
         </Text>
       </View>
 
-      <View style={styles.footer} wrap={false}>
-        <View style={styles.signatureBlock}>
-          <Text>Contoh, {data.tanggalSurat}</Text>
-          <Text>{data.jabatanPenandatangan},</Text>
-          {data.tandaTangan ? (
-            <Image src={data.tandaTangan} style={styles.signatureImage} />
-          ) : (
-            <View style={styles.signatureSpace} />
-          )}
-          <Text style={styles.signerName}>{data.namaPenandatangan}</Text>
-          {data.nipPenandatangan && (
-            <Text style={styles.signerDetail}>NIP. {data.nipPenandatangan}</Text>
-          )}
-        </View>
-      </View>
+      <TandaTanganBlock data={data} />
     </Page>
   </Document>
 );
