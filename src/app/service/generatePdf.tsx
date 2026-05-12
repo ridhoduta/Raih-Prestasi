@@ -30,33 +30,67 @@ const styles = StyleSheet.create({
   },
 
   // -- Kop Surat (Header) --
+  // ============================================================================
+  // Header Styles
+  // ============================================================================
+
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 15,
     borderBottomWidth: 2,
     borderBottomColor: '#000',
-    paddingBottom: 10,
+    paddingBottom: 12,
+    marginBottom: 20,
   },
+
+  logoContainer: {
+    width: 80,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   logo: {
-    width: 60,
-    height: 60,
-    marginRight: 10,
+    width: 65,
+    height: 65,
   },
-  headerText: {
+
+  headerCenter: {
     flex: 1,
-    textAlign: 'center',
-    marginRight: 60, // Balances the logo on the left
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
   },
-  kopTitle: {
-    fontSize: 16,
+
+  spacer: {
+    width: 80,
+  },
+
+  kopLine1: {
+    fontSize: 12,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
-    marginBottom: 2,
   },
-  kopSubtitle: {
-    fontSize: 10,
-    fontStyle: 'italic',
+
+  kopLine2: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+
+  kopLine3: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 2,
+    marginBottom: 4,
+  },
+
+  kopAlamat: {
+    fontSize: 9,
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
+
+  kopKontak: {
+    fontSize: 9,
+    textAlign: 'center',
   },
 
   // -- Judul Surat --
@@ -223,14 +257,39 @@ export interface DispenData extends SignerData {
 /** Kop surat (header) dengan logo dan identitas sekolah */
 const KopSurat = () => (
   <View style={styles.header}>
-    <Image src={SCHOOL_LOGO} style={styles.logo} />
-    <View style={styles.headerText}>
-      <Text style={styles.kopTitle}>{KOP_LINES.line1}</Text>
-      <Text style={styles.kopTitle}>{KOP_LINES.line2}</Text>
-      <Text style={styles.kopTitle}>{KOP_LINES.line3}</Text>
-      <Text style={styles.kopSubtitle}>{KOP_LINES.alamat}</Text>
-      <Text style={styles.kopSubtitle}>{KOP_LINES.kontak}</Text>
+
+    {/* Logo */}
+    <View style={styles.logoContainer}>
+      <Image src={SCHOOL_LOGO} style={styles.logo} />
     </View>
+
+    {/* Center Text */}
+    <View style={styles.headerCenter}>
+      <Text style={styles.kopLine1}>
+        PEMERINTAH KABUPATEN TULUNGAGUNG
+      </Text>
+
+      <Text style={styles.kopLine2}>
+        DINAS PENDIDIKAN DAN KEBUDAYAAN
+      </Text>
+
+      <Text style={styles.kopLine3}>
+        SMKN 1 BOYOLANGU
+      </Text>
+
+      <Text style={styles.kopAlamat}>
+        Jl. Ki Mangun Sarkoro No.VI/3, Dusun Talun, Beji,
+        Kec. Boyolangu, Kabupaten Tulungagung,
+        Jawa Timur 66233
+      </Text>
+
+      <Text style={styles.kopKontak}>
+        Website: smkn1boyolangu.sch.id
+      </Text>
+    </View>
+
+    {/* Spacer kanan agar center benar-benar simetris */}
+    <View style={styles.spacer} />
   </View>
 );
 
