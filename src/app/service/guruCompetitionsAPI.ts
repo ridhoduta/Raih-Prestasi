@@ -198,3 +198,50 @@ export async function getCompetitionById(id: string) {
 export async function uploadThumbnail(file: File) {
   return apiClient.uploadFile<{ url: { publicUrl: string } }>("/api/upload", file);
 }
+
+export type StudentWithRegistrations = {
+  id: string;
+  name: string;
+  nisn: string;
+  kelas: string;
+  angkatan: number;
+  registrations: {
+    id: string;
+    status: string;
+    createdAt: string;
+    documentUrl?: string;
+    note?: string;
+    competition: {
+      id: string;
+      title: string;
+    };
+  }[];
+};
+
+export async function getRegistrationsGroupedByStudent(search?: string): Promise<ApiResponse<StudentWithRegistrations[]>> {
+  const query = new URLSearchParams();
+  if (search) query.set("search", search);
+
+  const url = query.toString() ? `/api/guru/registrations/by-student?${query}` : `/api/guru/registrations/by-student`;
+
+  try {
+    const res = await fetch(url);
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Gagal mengambil data pendaftaran per siswa",
+      };
+    }
+
+    return {
+      success: true,
+      data: json.data,
+    };
+  } catch (error) {
+    console.error("getRegistrationsGroupedByStudent error:", error);
+    return { success: false, message: "Network error" };
+  }
+}
+

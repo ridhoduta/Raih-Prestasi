@@ -1,14 +1,20 @@
 "use client";
 
-import { ClipboardList, Filter, Search } from "lucide-react";
+import { useState } from "react";
+import { ClipboardList, Filter, Search, User } from "lucide-react";
 import AlertModal from "@/app/components/AlertModal";
 
 import { useRegistrations } from "./hooks/useRegistrations";
+import { useRegistrationsByStudent } from "./hooks/useRegistrationsByStudent";
 import { RegistrationTable } from "./components/RegistrationTable";
+import { RegistrationByStudentList } from "./components/RegistrationByStudentList";
 import { RegistrationDetailModal } from "./components/RegistrationDetailModal";
 import { RegistrationActionModal } from "./components/RegistrationActionModal";
 
 export default function AdminRegistrations() {
+    const [activeTab, setActiveTab] = useState<"all" | "by-student">("all");
+
+    // Existing hook for all registrations list
     const {
         filterStatus,
         setFilterStatus,
@@ -33,6 +39,14 @@ export default function AdminRegistrations() {
         isStatusUpdating,
     } = useRegistrations();
 
+    // New hook for registrations grouped by student
+    const {
+        students,
+        loading: loadingStudents,
+        searchTerm: searchStudent,
+        setSearchTerm: setSearchStudent,
+    } = useRegistrationsByStudent();
+
     const handleActionClick = (id: string, studentName: string, targetStatus: "DITERIMA" | "DITOLAK") => {
         setActionState({
             isOpen: true,
@@ -44,7 +58,7 @@ export default function AdminRegistrations() {
     };
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 animate-in fade-in duration-500">
             <div>
                 <h1 className="text-2xl font-bold text-gray-900">Pendaftaran</h1>
                 <p className="text-gray-500 mt-1">
@@ -52,73 +66,127 @@ export default function AdminRegistrations() {
                 </p>
             </div>
 
+            {/* Premium Tab Navigation */}
+            <div className="flex border-b border-gray-200">
+                <button
+                    onClick={() => setActiveTab("all")}
+                    className={`flex items-center gap-2 px-6 py-3 border-b-2 text-sm font-semibold transition-all ${
+                        activeTab === "all"
+                            ? "border-emerald-500 text-emerald-600 font-bold"
+                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    }`}
+                >
+                    <ClipboardList size={16} />
+                    Semua Pendaftaran
+                </button>
+                <button
+                    onClick={() => setActiveTab("by-student")}
+                    className={`flex items-center gap-2 px-6 py-3 border-b-2 text-sm font-semibold transition-all ${
+                        activeTab === "by-student"
+                            ? "border-emerald-500 text-emerald-600 font-bold"
+                            : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    }`}
+                >
+                    <User size={16} />
+                    Berdasarkan Siswa
+                </button>
+            </div>
+
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-6">
-                {/* Filters */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <input
-                            type="text"
-                            placeholder="Cari nama atau NISN..."
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer  text-gray-900"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                {/* Dynamic Filters depending on Active Tab */}
+                {activeTab === "all" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input
+                                type="text"
+                                placeholder="Cari nama atau NISN..."
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer text-gray-900"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="relative">
+                            <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <select
+                                id="reg-filter-status"
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer text-gray-900"
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                                <option value="all">Semua Status</option>
+                                <option value="MENUNGGU">Menunggu</option>
+                                <option value="DITERIMA">Diterima</option>
+                                <option value="DITOLAK">Ditolak</option>
+                            </select>
+                        </div>
+
+                        <div className="relative">
+                            <ClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <select
+                                id="reg-filter-comp"
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer text-gray-900"
+                                value={filterCompetition}
+                                onChange={(e) => setFilterCompetition(e.target.value)}
+                            >
+                                <option value="all">Semua Kompetisi</option>
+                                {uniqueCompetitions.map((comp: any) => (
+                                    <option key={comp.id} value={comp.id}>
+                                        {comp.title}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                            <input
+                                type="text"
+                                placeholder="Cari nama siswa, NISN, atau kelas..."
+                                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm cursor-pointer text-gray-900"
+                                value={searchStudent}
+                                onChange={(e) => setSearchStudent(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* Tab content display */}
+                {activeTab === "all" ? (
+                    <>
+                        <RegistrationTable
+                            registrations={filteredRegistrations}
+                            loading={loading}
+                            onViewDetail={fetchRegistrationDetail}
+                            onActionClick={handleActionClick}
                         />
-                    </div>
 
-                    <div className="relative">
-                        <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <select
-                            id="reg-filter-status"
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer  text-gray-900"
-                            value={filterStatus}
-                            onChange={(e) => setFilterStatus(e.target.value)}
-                        >
-                            <option value="all">Semua Status</option>
-                            <option value="MENUNGGU">Menunggu</option>
-                            <option value="DITERIMA">Diterima</option>
-                            <option value="DITOLAK">Ditolak</option>
-                        </select>
-                    </div>
-
-                    <div className="relative">
-                        <ClipboardList className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                        <select
-                            id="reg-filter-comp"
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm appearance-none cursor-pointer  text-gray-900"
-                            value={filterCompetition}
-                            onChange={(e) => setFilterCompetition(e.target.value)}
-                        >
-                            <option value="all">Semua Kompetisi</option>
-                            {uniqueCompetitions.map((comp: any) => (
-                                <option key={comp.id} value={comp.id}>
-                                    {comp.title}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-
-                <RegistrationTable
-                    registrations={filteredRegistrations}
-                    loading={loading}
-                    onViewDetail={fetchRegistrationDetail}
-                    onActionClick={handleActionClick}
-                />
-
-                {nextCursor && !loading && (
-                    <div className="p-4 border-t border-gray-100 flex justify-center">
-                        <button
-                            onClick={() => loadMore()}
-                            disabled={isLoadingMore}
-                            className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
-                        >
-                            {isLoadingMore ? "Memuat..." : "Muat Lebih Banyak"}
-                        </button>
-                    </div>
+                        {nextCursor && !loading && (
+                            <div className="p-4 border-t border-gray-100 flex justify-center">
+                                <button
+                                    onClick={() => loadMore()}
+                                    disabled={isLoadingMore}
+                                    className="px-6 py-2.5 bg-gray-50 hover:bg-gray-100 disabled:bg-gray-50 text-gray-600 disabled:text-gray-400 rounded-xl font-medium transition-colors border border-gray-200"
+                                >
+                                    {isLoadingMore ? "Memuat..." : "Muat Lebih Banyak"}
+                                </button>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    <RegistrationByStudentList
+                        students={students}
+                        loading={loadingStudents}
+                        onViewDetail={fetchRegistrationDetail}
+                        onActionClick={handleActionClick}
+                    />
                 )}
             </div>
 
+            {/* Shares overlay Modals */}
             <RegistrationDetailModal
                 isOpen={detailModal.isOpen}
                 data={detailModal.data}

@@ -59,6 +59,7 @@ export function useRegistrations() {
         onSuccess: (res, variables) => {
             if (res.success) {
                 queryClient.invalidateQueries({ queryKey: ["registrations"] });
+                queryClient.invalidateQueries({ queryKey: ["registrations-by-student"] });
                 queryClient.invalidateQueries({ queryKey: ["dashboardStats"] });
                 setAlertState({
                     isOpen: true,

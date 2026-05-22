@@ -59,8 +59,8 @@ export default function GuruSidebar() {
     {
       title: "Validasi & Verifikasi",
       items: [
-        { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy, count: pendingCounts.registrations },
-        // { name: "Pendaftaran", href: "/page/guru/registrations", icon: ClipboardList },
+        { name: "Kompetisi", href: "/page/guru/competitions", icon: Trophy },
+        { name: "Pendaftaran", href: "/page/guru/registrations", icon: ClipboardList, count: pendingCounts.registrations },
         { name: "Pengajuan Mandiri", href: "/page/guru/independent-submissions", icon: FileText, count: pendingCounts.submissions },
         { name: "Prestasi Siswa", href: "/page/guru/achievements", icon: Award, count: pendingCounts.achievements },
       ]
