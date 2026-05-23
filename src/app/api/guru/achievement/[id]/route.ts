@@ -28,6 +28,20 @@ const achievementDetailSelect = {
       name: true,
     },
   },
+  grade: {
+    select: {
+      id: true,
+      gradeName: true,
+      points: true,
+    },
+  },
+  gradeCompetition: {
+    select: {
+      id: true,
+      gradeCompetitionName: true,
+      points: true,
+    },
+  },
 };
 
 type Context = {
@@ -75,14 +89,42 @@ export async function PUT(request: Request, context: Context) {
 
     const { id } = await context.params;
     const body = await request.json();
-    const { status } = body;
+    const { status, gradeId, gradeCompetitionId } = body;
 
-    // Rule 7: Input validation
-    if (!["MENUNGGU", "TERVERIFIKASI", "DITOLAK", "DIBATALKAN"].includes(status)) {
+    // Rule 7: Input validation for status
+    if (status && !["MENUNGGU", "TERVERIFIKASI", "DITOLAK", "DIBATALKAN"].includes(status)) {
       return NextResponse.json(
         { success: false, message: "Status tidak valid" },
         { status: 400 }
       );
+    }
+
+    // Validate gradeId if provided
+    if (gradeId !== undefined && gradeId !== null) {
+      const gradeExists = await prisma.grade.findUnique({
+        where: { id: gradeId },
+        select: { id: true },
+      });
+      if (!gradeExists) {
+        return NextResponse.json(
+          { success: false, message: "Grade tidak ditemukan" },
+          { status: 400 }
+        );
+      }
+    }
+
+    // Validate gradeCompetitionId if provided
+    if (gradeCompetitionId !== undefined && gradeCompetitionId !== null) {
+      const gradeCompExists = await prisma.gradeCompetition.findUnique({
+        where: { id: gradeCompetitionId },
+        select: { id: true },
+      });
+      if (!gradeCompExists) {
+        return NextResponse.json(
+          { success: false, message: "Grade kompetisi tidak ditemukan" },
+          { status: 400 }
+        );
+      }
     }
 
     const achievement = await prisma.achievement.findUnique({
@@ -100,40 +142,60 @@ export async function PUT(request: Request, context: Context) {
 
     const isGuruOrAdmin = session.role === "GURU" || session.role === "ADMIN";
 
-    // Role-specific validation
-    if (!isGuruOrAdmin) {
-      if (achievement.studentId !== session.id) {
-        return NextResponse.json(
-          { success: false, message: "Anda hanya dapat membatalkan pengajuan milik sendiri" },
-          { status: 403 }
-        );
+    // Role-specific validation for status change
+    if (status) {
+      if (!isGuruOrAdmin) {
+        if (achievement.studentId !== session.id) {
+          return NextResponse.json(
+            { success: false, message: "Anda hanya dapat membatalkan pengajuan milik sendiri" },
+            { status: 403 }
+          );
+        }
+        if (status !== "DIBATALKAN") {
+          return NextResponse.json(
+            { success: false, message: "Anda tidak memiliki akses untuk mengubah status ini" },
+            { status: 403 }
+          );
+        }
       }
-      if (status !== "DIBATALKAN") {
+
+      if (achievement.status !== "MENUNGGU") {
         return NextResponse.json(
-          { success: false, message: "Anda tidak memiliki akses untuk mengubah status ini" },
-          { status: 403 }
+          { success: false, message: "Achievement sudah tidak bisa diubah" },
+          { status: 400 }
         );
       }
     }
 
-    if (achievement.status !== "MENUNGGU") {
+    // Only Guru/Admin can assign grade
+    if ((gradeId !== undefined || gradeCompetitionId !== undefined) && !isGuruOrAdmin) {
       return NextResponse.json(
-        { success: false, message: "Achievement sudah tidak bisa diubah" },
-        { status: 400 }
+        { success: false, message: "Anda tidak memiliki akses untuk memberikan grade" },
+        { status: 403 }
       );
+    }
+
+    // Build update data
+    const updateData: any = {};
+    if (status) {
+      updateData.status = status;
+      updateData.verifiedBy = isGuruOrAdmin ? session.id : undefined;
+    }
+    if (gradeId !== undefined) {
+      updateData.gradeId = gradeId;
+    }
+    if (gradeCompetitionId !== undefined) {
+      updateData.gradeCompetitionId = gradeCompetitionId;
     }
 
     const updated = await prisma.achievement.update({
       where: { id },
-      data: {
-        status,
-        verifiedBy: (session.role === "GURU" || session.role === "ADMIN") ? session.id : undefined,
-      },
+      data: updateData,
       select: achievementDetailSelect,
     });
 
     // Kirim Notifikasi ke Siswa (Hanya jika diupdate oleh Guru/Admin)
-    if (isGuruOrAdmin) {
+    if (isGuruOrAdmin && status) {
       await createAndSendNotification({
         studentId: updated.studentId,
         title: "Update Status Prestasi 🎉",
@@ -150,6 +212,8 @@ export async function PUT(request: Request, context: Context) {
       id: updated.id,
       studentId: updated.studentId,
       status: updated.status,
+      gradeId: (updated as any).grade?.id,
+      gradeCompetitionId: (updated as any).gradeCompetition?.id,
     });
 
     return NextResponse.json({

@@ -7,6 +7,7 @@ const studentSelect = {
     name: true,
     kelas: true,
     angkatan: true,
+    dateBirth: true,
     isActive: true,
 };
 
@@ -57,13 +58,14 @@ export async function PUT(
     try {
         const id = (await params).id;
         const body = await req.json();
-        const { nisn, name, kelas, angkatan, isActive } = body;
+        const { nisn, name, kelas, angkatan, isActive, dateBirth} = body;
 
         const updateData: any = {};
         if (nisn !== undefined) updateData.nisn = nisn;
         if (name !== undefined) updateData.name = name;
         if (kelas !== undefined) updateData.kelas = kelas;
         if (angkatan !== undefined) updateData.angkatan = Number(angkatan);
+        if (dateBirth !== undefined) updateData.dateBirth = dateBirth;
         if (isActive !== undefined) updateData.isActive = isActive;
 
         // Rule 8: Prevent duplicate NISN when updating

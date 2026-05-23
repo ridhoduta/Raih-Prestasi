@@ -70,14 +70,14 @@ model User {
 }
 
 model Student {
-  id       String  @id @default(uuid())
-  nisn     String  @unique
-  password String
-  name     String
-  kelas    String
-  angkatan Int
-  isActive Boolean @default(true)
-
+  id             String                             @id @default(uuid())
+  nisn           String                             @unique
+  password       String
+  name           String
+  kelas          String
+  dateBirth      DateTime
+  angkatan       Int
+  isActive       Boolean                            @default(true)
   registrations  CompetitionRegistration[]
   submissions    IndependentCompetitionSubmission[]
   achievements   Achievement[]
@@ -249,16 +249,40 @@ model Announcement {
   @@map("announcements")
 }
 
+model Grade {
+  id           String        @id @default(uuid())
+  gradeName    String        @unique // A, B, C, D, etc.
+  points       Float // Skor untuk grade ini
+  achievements Achievement[]
+  createdAt    DateTime      @default(now())
+
+  @@map("grades")
+}
+
+model GradeCompetition {
+  id                   String        @id @default(uuid())
+  gradeCompetitionName String        @unique // A, B, C, D, etc.
+  points               Float // Skor untuk grade ini
+  achievements         Achievement[]
+  createdAt            DateTime      @default(now())
+
+  @@map("gradeCompetitions")
+}
+
 model Achievement {
   id String @id @default(uuid())
 
   studentId String
   student   Student @relation(fields: [studentId], references: [id])
 
-  competitionName String
-  result          String
-  points          Int     @default(0)
-  certificate     String?
+  competitionName    String
+  result             String
+  points             Int               @default(0)
+  certificate        String?
+  gradeId            String?
+  grade              Grade?            @relation(fields: [gradeId], references: [id], onDelete: SetNull)
+  gradeCompetitionId String?
+  gradeCompetition   GradeCompetition? @relation(fields: [gradeCompetitionId], references: [id], onDelete: SetNull)
 
   status     AchievementStatus @default(MENUNGGU)
   verifiedBy String?

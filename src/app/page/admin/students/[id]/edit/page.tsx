@@ -22,6 +22,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
         name: "",
         kelas: "",
         angkatan: new Date().getFullYear(),
+        dateBirth: "",
         isActive: true,
     });
 
@@ -45,6 +46,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
                     name: response.data.name,
                     kelas: response.data.kelas,
                     angkatan: response.data.angkatan,
+                    dateBirth: response.data.dateBirth ? new Date(response.data.dateBirth).toISOString().split('T')[0] : "",
                     isActive: response.data.isActive,
                 });
             } else {
@@ -77,7 +79,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
         e.preventDefault();
         if (isLoading) return;
 
-        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan) {
+        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan || !formData.dateBirth) {
             showAlert("Error", "Semua field wajib diisi.", "error");
             return;
         }
@@ -191,6 +193,22 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
                                 value={formData.angkatan}
                                 onChange={handleInputChange}
                                 placeholder="Tahun masuk"
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Calendar size={16} className="text-emerald-500" />
+                                Tanggal Lahir
+                            </label>
+                            <input
+                                id="student-dateBirth"
+                                type="date"
+                                name="dateBirth"
+                                value={formData.dateBirth || ""}
+                                onChange={handleInputChange}
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
                                 required
                             />

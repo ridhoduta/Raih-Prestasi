@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
         name: true,
         kelas: true,
         angkatan: true,
+        dateBirth: true,
         isActive: true,
       },
       orderBy: { name: "asc" },
@@ -72,12 +73,12 @@ export async function GET(req: NextRequest) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { nisn, name, kelas, angkatan } = body;
+    const { nisn, name, kelas, angkatan, dateBirth } = body;
 
     // Rule 7: Input validation
-    if (!nisn || !name || !kelas || !angkatan) {
+    if (!nisn || !name || !kelas || !angkatan || !dateBirth) {
       return NextResponse.json(
-        { success: false, message: "Field wajib belum lengkap (nisn, name, kelas, angkatan)" },
+        { success: false, message: "Field wajib belum lengkap (nisn, name, kelas, angkatan, dateBirth)" },
         { status: 400 }
       );
     }
@@ -105,6 +106,7 @@ export async function POST(req: Request) {
         name,
         kelas,
         angkatan: Number(angkatan),
+        dateBirth: new Date(dateBirth)
       },
       select: {
         id: true,
@@ -112,6 +114,7 @@ export async function POST(req: Request) {
         name: true,
         kelas: true,
         angkatan: true,
+        dateBirth:true,
         isActive: true,
       },
     });

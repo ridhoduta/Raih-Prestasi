@@ -18,11 +18,23 @@ export type Achievement = {
   guru: {
     name: string;
   };
+  grade?: {
+    id: string;
+    gradeName: string;
+    points: number;
+  };
+  gradeCompetition?: {
+    id: string;
+    gradeCompetitionName: string;
+    points: number;
+  };
 };
 
 export type VerifyAchievementPayload = {
-  status: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK" | "DIBATALKAN";
+  status?: "MENUNGGU" | "TERVERIFIKASI" | "DITOLAK" | "DIBATALKAN";
   verifiedBy?: string;
+  gradeId?: string | null;
+  gradeCompetitionId?: string | null;
 };
 
 const BASE_URL = "/api/guru/achievement";
@@ -71,4 +83,8 @@ export async function deleteAchievement(id: string) {
 
 export async function verifyAchievement(id: string, payload: VerifyAchievementPayload) {
   return apiClient.put<Achievement>(`${BASE_URL}/${id}`, payload);
+}
+
+export async function assignGradeToAchievement(id: string, gradeId: string | null, gradeCompetitionId?: string | null) {
+  return apiClient.put<Achievement>(`${BASE_URL}/${id}`, { gradeId, gradeCompetitionId });
 }

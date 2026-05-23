@@ -26,7 +26,7 @@ export default function ImportExcelModal({
     if (!isOpen) return null;
 
     const expectedHeaders = type === "siswa"
-        ? ["NISN", "Nama", "Kelas", "Angkatan"]
+        ? ["NISN", "Nama", "Kelas", "Angkatan", "Tanggal Lahir"]
         : ["Nama", "Email"];
 
     const handleDownloadTemplate = () => {

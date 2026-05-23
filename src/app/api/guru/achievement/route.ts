@@ -23,6 +23,20 @@ const achievementSelect = {
       name: true,
     },
   },
+  grade: {
+    select: {
+      id: true,
+      gradeName: true,
+      points: true,
+    },
+  },
+  gradeCompetition: {
+    select: {
+      id: true,
+      gradeCompetitionName: true,
+      points: true,
+    },
+  },
 };
 
 // =======================

@@ -137,6 +137,7 @@ exports.Prisma.StudentScalarFieldEnum = {
   password: 'password',
   name: 'name',
   kelas: 'kelas',
+  dateBirth: 'dateBirth',
   angkatan: 'angkatan',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -240,6 +241,20 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.GradeScalarFieldEnum = {
+  id: 'id',
+  gradeName: 'gradeName',
+  points: 'points',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.GradeCompetitionScalarFieldEnum = {
+  id: 'id',
+  gradeCompetitionName: 'gradeCompetitionName',
+  points: 'points',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AchievementScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -247,6 +262,8 @@ exports.Prisma.AchievementScalarFieldEnum = {
   result: 'result',
   points: 'points',
   certificate: 'certificate',
+  gradeId: 'gradeId',
+  gradeCompetitionId: 'gradeCompetitionId',
   status: 'status',
   verifiedBy: 'verifiedBy',
   createdAt: 'createdAt',
@@ -380,6 +397,8 @@ exports.Prisma.ModelName = {
   RegistrationAnswer: 'RegistrationAnswer',
   IndependentCompetitionSubmission: 'IndependentCompetitionSubmission',
   Announcement: 'Announcement',
+  Grade: 'Grade',
+  GradeCompetition: 'GradeCompetition',
   Achievement: 'Achievement',
   AcademicScore: 'AcademicScore',
   AcademicFile: 'AcademicFile',

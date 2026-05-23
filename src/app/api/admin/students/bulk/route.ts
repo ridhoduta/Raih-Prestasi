@@ -25,10 +25,11 @@ export async function POST(req: Request) {
                 ).trim();
                 const kelas = String(row["Kelas"] || row["kelas"] || "").trim();
                 const angkatanRaw = row["Angkatan"] || row["angkatan"];
+                const dateBirthRaw = row["Tanggal Lahir"] || row["tanggal lahir"] || row["tanggalLahir"] || row["tanggal_lahir"] || row["dateBirth"];
 
                 // Rule 7: Validate each row
-                if (!nisn || !name || !kelas || !angkatanRaw) {
-                    errors.push(`Baris hilang data wajib: NISN=${nisn}, Nama=${name}`);
+                if (!nisn || !name || !kelas || !angkatanRaw || !dateBirthRaw) {
+                    errors.push(`Baris hilang data wajib: NISN=${nisn}, Nama=${name}, Tanggal Lahir=${dateBirthRaw || 'kosong'}`);
                     continue;
                 }
 
@@ -61,7 +62,9 @@ export async function POST(req: Request) {
                         name,
                         kelas,
                         angkatan,
+                        dateBirth: new Date(dateBirthRaw),
                         password: hashedPassword,
+
                     },
                     select: { id: true }, // Rule 2: Minimal select since we only need success confirmation
                 });

@@ -69,6 +69,16 @@ export type IndependentCompetitionSubmission = $Result.DefaultSelection<Prisma.$
  */
 export type Announcement = $Result.DefaultSelection<Prisma.$AnnouncementPayload>
 /**
+ * Model Grade
+ * 
+ */
+export type Grade = $Result.DefaultSelection<Prisma.$GradePayload>
+/**
+ * Model GradeCompetition
+ * 
+ */
+export type GradeCompetition = $Result.DefaultSelection<Prisma.$GradeCompetitionPayload>
+/**
  * Model Achievement
  * 
  */
@@ -414,6 +424,26 @@ export class PrismaClient<
     * ```
     */
   get announcement(): Prisma.AnnouncementDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.grade`: Exposes CRUD operations for the **Grade** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Grades
+    * const grades = await prisma.grade.findMany()
+    * ```
+    */
+  get grade(): Prisma.GradeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.gradeCompetition`: Exposes CRUD operations for the **GradeCompetition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more GradeCompetitions
+    * const gradeCompetitions = await prisma.gradeCompetition.findMany()
+    * ```
+    */
+  get gradeCompetition(): Prisma.GradeCompetitionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.achievement`: Exposes CRUD operations for the **Achievement** model.
@@ -919,6 +949,8 @@ export namespace Prisma {
     RegistrationAnswer: 'RegistrationAnswer',
     IndependentCompetitionSubmission: 'IndependentCompetitionSubmission',
     Announcement: 'Announcement',
+    Grade: 'Grade',
+    GradeCompetition: 'GradeCompetition',
     Achievement: 'Achievement',
     AcademicScore: 'AcademicScore',
     AcademicFile: 'AcademicFile',
@@ -940,7 +972,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "achievement" | "academicScore" | "academicFile" | "academicYear" | "fCMToken" | "notification"
+      modelProps: "user" | "student" | "competitionCategory" | "competitionLevel" | "news" | "competition" | "competitionRegistration" | "competitionFormField" | "registrationAnswer" | "independentCompetitionSubmission" | "announcement" | "grade" | "gradeCompetition" | "achievement" | "academicScore" | "academicFile" | "academicYear" | "fCMToken" | "notification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1758,6 +1790,154 @@ export namespace Prisma {
           }
         }
       }
+      Grade: {
+        payload: Prisma.$GradePayload<ExtArgs>
+        fields: Prisma.GradeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GradeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GradeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          findFirst: {
+            args: Prisma.GradeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GradeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          findMany: {
+            args: Prisma.GradeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>[]
+          }
+          create: {
+            args: Prisma.GradeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          createMany: {
+            args: Prisma.GradeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GradeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>[]
+          }
+          delete: {
+            args: Prisma.GradeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          update: {
+            args: Prisma.GradeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          deleteMany: {
+            args: Prisma.GradeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GradeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GradeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>[]
+          }
+          upsert: {
+            args: Prisma.GradeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradePayload>
+          }
+          aggregate: {
+            args: Prisma.GradeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGrade>
+          }
+          groupBy: {
+            args: Prisma.GradeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GradeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GradeCountArgs<ExtArgs>
+            result: $Utils.Optional<GradeCountAggregateOutputType> | number
+          }
+        }
+      }
+      GradeCompetition: {
+        payload: Prisma.$GradeCompetitionPayload<ExtArgs>
+        fields: Prisma.GradeCompetitionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GradeCompetitionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GradeCompetitionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          findFirst: {
+            args: Prisma.GradeCompetitionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GradeCompetitionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          findMany: {
+            args: Prisma.GradeCompetitionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>[]
+          }
+          create: {
+            args: Prisma.GradeCompetitionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          createMany: {
+            args: Prisma.GradeCompetitionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GradeCompetitionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>[]
+          }
+          delete: {
+            args: Prisma.GradeCompetitionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          update: {
+            args: Prisma.GradeCompetitionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          deleteMany: {
+            args: Prisma.GradeCompetitionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GradeCompetitionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GradeCompetitionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>[]
+          }
+          upsert: {
+            args: Prisma.GradeCompetitionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GradeCompetitionPayload>
+          }
+          aggregate: {
+            args: Prisma.GradeCompetitionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGradeCompetition>
+          }
+          groupBy: {
+            args: Prisma.GradeCompetitionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GradeCompetitionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GradeCompetitionCountArgs<ExtArgs>
+            result: $Utils.Optional<GradeCompetitionCountAggregateOutputType> | number
+          }
+        }
+      }
       Achievement: {
         payload: Prisma.$AchievementPayload<ExtArgs>
         fields: Prisma.AchievementFieldRefs
@@ -2321,6 +2501,8 @@ export namespace Prisma {
     registrationAnswer?: RegistrationAnswerOmit
     independentCompetitionSubmission?: IndependentCompetitionSubmissionOmit
     announcement?: AnnouncementOmit
+    grade?: GradeOmit
+    gradeCompetition?: GradeCompetitionOmit
     achievement?: AchievementOmit
     academicScore?: AcademicScoreOmit
     academicFile?: AcademicFileOmit
@@ -2706,6 +2888,68 @@ export namespace Prisma {
    */
   export type CompetitionFormFieldCountOutputTypeCountRegistrationAnswerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RegistrationAnswerWhereInput
+  }
+
+
+  /**
+   * Count Type GradeCountOutputType
+   */
+
+  export type GradeCountOutputType = {
+    achievements: number
+  }
+
+  export type GradeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    achievements?: boolean | GradeCountOutputTypeCountAchievementsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GradeCountOutputType without action
+   */
+  export type GradeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCountOutputType
+     */
+    select?: GradeCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GradeCountOutputType without action
+   */
+  export type GradeCountOutputTypeCountAchievementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AchievementWhereInput
+  }
+
+
+  /**
+   * Count Type GradeCompetitionCountOutputType
+   */
+
+  export type GradeCompetitionCountOutputType = {
+    achievements: number
+  }
+
+  export type GradeCompetitionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    achievements?: boolean | GradeCompetitionCountOutputTypeCountAchievementsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GradeCompetitionCountOutputType without action
+   */
+  export type GradeCompetitionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetitionCountOutputType
+     */
+    select?: GradeCompetitionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GradeCompetitionCountOutputType without action
+   */
+  export type GradeCompetitionCountOutputTypeCountAchievementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AchievementWhereInput
   }
 
 
@@ -4000,6 +4244,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     kelas: string | null
+    dateBirth: Date | null
     angkatan: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4012,6 +4257,7 @@ export namespace Prisma {
     password: string | null
     name: string | null
     kelas: string | null
+    dateBirth: Date | null
     angkatan: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4024,6 +4270,7 @@ export namespace Prisma {
     password: number
     name: number
     kelas: number
+    dateBirth: number
     angkatan: number
     isActive: number
     createdAt: number
@@ -4046,6 +4293,7 @@ export namespace Prisma {
     password?: true
     name?: true
     kelas?: true
+    dateBirth?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4058,6 +4306,7 @@ export namespace Prisma {
     password?: true
     name?: true
     kelas?: true
+    dateBirth?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4070,6 +4319,7 @@ export namespace Prisma {
     password?: true
     name?: true
     kelas?: true
+    dateBirth?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4169,6 +4419,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date
     angkatan: number
     isActive: boolean
     createdAt: Date
@@ -4200,6 +4451,7 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     kelas?: boolean
+    dateBirth?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4219,6 +4471,7 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     kelas?: boolean
+    dateBirth?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4231,6 +4484,7 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     kelas?: boolean
+    dateBirth?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4243,13 +4497,14 @@ export namespace Prisma {
     password?: boolean
     name?: boolean
     kelas?: boolean
+    dateBirth?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nisn" | "password" | "name" | "kelas" | "angkatan" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nisn" | "password" | "name" | "kelas" | "dateBirth" | "angkatan" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | Student$registrationsArgs<ExtArgs>
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
@@ -4278,6 +4533,7 @@ export namespace Prisma {
       password: string
       name: string
       kelas: string
+      dateBirth: Date
       angkatan: number
       isActive: boolean
       createdAt: Date
@@ -4716,6 +4972,7 @@ export namespace Prisma {
     readonly password: FieldRef<"Student", 'String'>
     readonly name: FieldRef<"Student", 'String'>
     readonly kelas: FieldRef<"Student", 'String'>
+    readonly dateBirth: FieldRef<"Student", 'DateTime'>
     readonly angkatan: FieldRef<"Student", 'Int'>
     readonly isActive: FieldRef<"Student", 'Boolean'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
@@ -15379,6 +15636,2188 @@ export namespace Prisma {
 
 
   /**
+   * Model Grade
+   */
+
+  export type AggregateGrade = {
+    _count: GradeCountAggregateOutputType | null
+    _avg: GradeAvgAggregateOutputType | null
+    _sum: GradeSumAggregateOutputType | null
+    _min: GradeMinAggregateOutputType | null
+    _max: GradeMaxAggregateOutputType | null
+  }
+
+  export type GradeAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type GradeSumAggregateOutputType = {
+    points: number | null
+  }
+
+  export type GradeMinAggregateOutputType = {
+    id: string | null
+    gradeName: string | null
+    points: number | null
+    createdAt: Date | null
+  }
+
+  export type GradeMaxAggregateOutputType = {
+    id: string | null
+    gradeName: string | null
+    points: number | null
+    createdAt: Date | null
+  }
+
+  export type GradeCountAggregateOutputType = {
+    id: number
+    gradeName: number
+    points: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GradeAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type GradeSumAggregateInputType = {
+    points?: true
+  }
+
+  export type GradeMinAggregateInputType = {
+    id?: true
+    gradeName?: true
+    points?: true
+    createdAt?: true
+  }
+
+  export type GradeMaxAggregateInputType = {
+    id?: true
+    gradeName?: true
+    points?: true
+    createdAt?: true
+  }
+
+  export type GradeCountAggregateInputType = {
+    id?: true
+    gradeName?: true
+    points?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GradeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Grade to aggregate.
+     */
+    where?: GradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Grades to fetch.
+     */
+    orderBy?: GradeOrderByWithRelationInput | GradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Grades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Grades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Grades
+    **/
+    _count?: true | GradeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GradeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GradeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GradeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GradeMaxAggregateInputType
+  }
+
+  export type GetGradeAggregateType<T extends GradeAggregateArgs> = {
+        [P in keyof T & keyof AggregateGrade]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGrade[P]>
+      : GetScalarType<T[P], AggregateGrade[P]>
+  }
+
+
+
+
+  export type GradeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GradeWhereInput
+    orderBy?: GradeOrderByWithAggregationInput | GradeOrderByWithAggregationInput[]
+    by: GradeScalarFieldEnum[] | GradeScalarFieldEnum
+    having?: GradeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GradeCountAggregateInputType | true
+    _avg?: GradeAvgAggregateInputType
+    _sum?: GradeSumAggregateInputType
+    _min?: GradeMinAggregateInputType
+    _max?: GradeMaxAggregateInputType
+  }
+
+  export type GradeGroupByOutputType = {
+    id: string
+    gradeName: string
+    points: number
+    createdAt: Date
+    _count: GradeCountAggregateOutputType | null
+    _avg: GradeAvgAggregateOutputType | null
+    _sum: GradeSumAggregateOutputType | null
+    _min: GradeMinAggregateOutputType | null
+    _max: GradeMaxAggregateOutputType | null
+  }
+
+  type GetGradeGroupByPayload<T extends GradeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GradeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GradeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GradeGroupByOutputType[P]>
+            : GetScalarType<T[P], GradeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GradeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeName?: boolean
+    points?: boolean
+    createdAt?: boolean
+    achievements?: boolean | Grade$achievementsArgs<ExtArgs>
+    _count?: boolean | GradeCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["grade"]>
+
+  export type GradeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["grade"]>
+
+  export type GradeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["grade"]>
+
+  export type GradeSelectScalar = {
+    id?: boolean
+    gradeName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }
+
+  export type GradeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gradeName" | "points" | "createdAt", ExtArgs["result"]["grade"]>
+  export type GradeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    achievements?: boolean | Grade$achievementsArgs<ExtArgs>
+    _count?: boolean | GradeCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GradeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type GradeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $GradePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Grade"
+    objects: {
+      achievements: Prisma.$AchievementPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      gradeName: string
+      points: number
+      createdAt: Date
+    }, ExtArgs["result"]["grade"]>
+    composites: {}
+  }
+
+  type GradeGetPayload<S extends boolean | null | undefined | GradeDefaultArgs> = $Result.GetResult<Prisma.$GradePayload, S>
+
+  type GradeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GradeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GradeCountAggregateInputType | true
+    }
+
+  export interface GradeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Grade'], meta: { name: 'Grade' } }
+    /**
+     * Find zero or one Grade that matches the filter.
+     * @param {GradeFindUniqueArgs} args - Arguments to find a Grade
+     * @example
+     * // Get one Grade
+     * const grade = await prisma.grade.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GradeFindUniqueArgs>(args: SelectSubset<T, GradeFindUniqueArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Grade that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GradeFindUniqueOrThrowArgs} args - Arguments to find a Grade
+     * @example
+     * // Get one Grade
+     * const grade = await prisma.grade.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GradeFindUniqueOrThrowArgs>(args: SelectSubset<T, GradeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Grade that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeFindFirstArgs} args - Arguments to find a Grade
+     * @example
+     * // Get one Grade
+     * const grade = await prisma.grade.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GradeFindFirstArgs>(args?: SelectSubset<T, GradeFindFirstArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Grade that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeFindFirstOrThrowArgs} args - Arguments to find a Grade
+     * @example
+     * // Get one Grade
+     * const grade = await prisma.grade.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GradeFindFirstOrThrowArgs>(args?: SelectSubset<T, GradeFindFirstOrThrowArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Grades that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Grades
+     * const grades = await prisma.grade.findMany()
+     * 
+     * // Get first 10 Grades
+     * const grades = await prisma.grade.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gradeWithIdOnly = await prisma.grade.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GradeFindManyArgs>(args?: SelectSubset<T, GradeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Grade.
+     * @param {GradeCreateArgs} args - Arguments to create a Grade.
+     * @example
+     * // Create one Grade
+     * const Grade = await prisma.grade.create({
+     *   data: {
+     *     // ... data to create a Grade
+     *   }
+     * })
+     * 
+     */
+    create<T extends GradeCreateArgs>(args: SelectSubset<T, GradeCreateArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Grades.
+     * @param {GradeCreateManyArgs} args - Arguments to create many Grades.
+     * @example
+     * // Create many Grades
+     * const grade = await prisma.grade.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GradeCreateManyArgs>(args?: SelectSubset<T, GradeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Grades and returns the data saved in the database.
+     * @param {GradeCreateManyAndReturnArgs} args - Arguments to create many Grades.
+     * @example
+     * // Create many Grades
+     * const grade = await prisma.grade.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Grades and only return the `id`
+     * const gradeWithIdOnly = await prisma.grade.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GradeCreateManyAndReturnArgs>(args?: SelectSubset<T, GradeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Grade.
+     * @param {GradeDeleteArgs} args - Arguments to delete one Grade.
+     * @example
+     * // Delete one Grade
+     * const Grade = await prisma.grade.delete({
+     *   where: {
+     *     // ... filter to delete one Grade
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GradeDeleteArgs>(args: SelectSubset<T, GradeDeleteArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Grade.
+     * @param {GradeUpdateArgs} args - Arguments to update one Grade.
+     * @example
+     * // Update one Grade
+     * const grade = await prisma.grade.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GradeUpdateArgs>(args: SelectSubset<T, GradeUpdateArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Grades.
+     * @param {GradeDeleteManyArgs} args - Arguments to filter Grades to delete.
+     * @example
+     * // Delete a few Grades
+     * const { count } = await prisma.grade.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GradeDeleteManyArgs>(args?: SelectSubset<T, GradeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Grades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Grades
+     * const grade = await prisma.grade.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GradeUpdateManyArgs>(args: SelectSubset<T, GradeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Grades and returns the data updated in the database.
+     * @param {GradeUpdateManyAndReturnArgs} args - Arguments to update many Grades.
+     * @example
+     * // Update many Grades
+     * const grade = await prisma.grade.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Grades and only return the `id`
+     * const gradeWithIdOnly = await prisma.grade.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GradeUpdateManyAndReturnArgs>(args: SelectSubset<T, GradeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Grade.
+     * @param {GradeUpsertArgs} args - Arguments to update or create a Grade.
+     * @example
+     * // Update or create a Grade
+     * const grade = await prisma.grade.upsert({
+     *   create: {
+     *     // ... data to create a Grade
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Grade we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GradeUpsertArgs>(args: SelectSubset<T, GradeUpsertArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Grades.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCountArgs} args - Arguments to filter Grades to count.
+     * @example
+     * // Count the number of Grades
+     * const count = await prisma.grade.count({
+     *   where: {
+     *     // ... the filter for the Grades we want to count
+     *   }
+     * })
+    **/
+    count<T extends GradeCountArgs>(
+      args?: Subset<T, GradeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GradeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Grade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GradeAggregateArgs>(args: Subset<T, GradeAggregateArgs>): Prisma.PrismaPromise<GetGradeAggregateType<T>>
+
+    /**
+     * Group by Grade.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GradeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GradeGroupByArgs['orderBy'] }
+        : { orderBy?: GradeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GradeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGradeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Grade model
+   */
+  readonly fields: GradeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Grade.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GradeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    achievements<T extends Grade$achievementsArgs<ExtArgs> = {}>(args?: Subset<T, Grade$achievementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Grade model
+   */
+  interface GradeFieldRefs {
+    readonly id: FieldRef<"Grade", 'String'>
+    readonly gradeName: FieldRef<"Grade", 'String'>
+    readonly points: FieldRef<"Grade", 'Float'>
+    readonly createdAt: FieldRef<"Grade", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Grade findUnique
+   */
+  export type GradeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Grade to fetch.
+     */
+    where: GradeWhereUniqueInput
+  }
+
+  /**
+   * Grade findUniqueOrThrow
+   */
+  export type GradeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Grade to fetch.
+     */
+    where: GradeWhereUniqueInput
+  }
+
+  /**
+   * Grade findFirst
+   */
+  export type GradeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Grade to fetch.
+     */
+    where?: GradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Grades to fetch.
+     */
+    orderBy?: GradeOrderByWithRelationInput | GradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Grades.
+     */
+    cursor?: GradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Grades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Grades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Grades.
+     */
+    distinct?: GradeScalarFieldEnum | GradeScalarFieldEnum[]
+  }
+
+  /**
+   * Grade findFirstOrThrow
+   */
+  export type GradeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Grade to fetch.
+     */
+    where?: GradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Grades to fetch.
+     */
+    orderBy?: GradeOrderByWithRelationInput | GradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Grades.
+     */
+    cursor?: GradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Grades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Grades.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Grades.
+     */
+    distinct?: GradeScalarFieldEnum | GradeScalarFieldEnum[]
+  }
+
+  /**
+   * Grade findMany
+   */
+  export type GradeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter, which Grades to fetch.
+     */
+    where?: GradeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Grades to fetch.
+     */
+    orderBy?: GradeOrderByWithRelationInput | GradeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Grades.
+     */
+    cursor?: GradeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Grades from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Grades.
+     */
+    skip?: number
+    distinct?: GradeScalarFieldEnum | GradeScalarFieldEnum[]
+  }
+
+  /**
+   * Grade create
+   */
+  export type GradeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Grade.
+     */
+    data: XOR<GradeCreateInput, GradeUncheckedCreateInput>
+  }
+
+  /**
+   * Grade createMany
+   */
+  export type GradeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Grades.
+     */
+    data: GradeCreateManyInput | GradeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Grade createManyAndReturn
+   */
+  export type GradeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * The data used to create many Grades.
+     */
+    data: GradeCreateManyInput | GradeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Grade update
+   */
+  export type GradeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Grade.
+     */
+    data: XOR<GradeUpdateInput, GradeUncheckedUpdateInput>
+    /**
+     * Choose, which Grade to update.
+     */
+    where: GradeWhereUniqueInput
+  }
+
+  /**
+   * Grade updateMany
+   */
+  export type GradeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Grades.
+     */
+    data: XOR<GradeUpdateManyMutationInput, GradeUncheckedUpdateManyInput>
+    /**
+     * Filter which Grades to update
+     */
+    where?: GradeWhereInput
+    /**
+     * Limit how many Grades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Grade updateManyAndReturn
+   */
+  export type GradeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * The data used to update Grades.
+     */
+    data: XOR<GradeUpdateManyMutationInput, GradeUncheckedUpdateManyInput>
+    /**
+     * Filter which Grades to update
+     */
+    where?: GradeWhereInput
+    /**
+     * Limit how many Grades to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Grade upsert
+   */
+  export type GradeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Grade to update in case it exists.
+     */
+    where: GradeWhereUniqueInput
+    /**
+     * In case the Grade found by the `where` argument doesn't exist, create a new Grade with this data.
+     */
+    create: XOR<GradeCreateInput, GradeUncheckedCreateInput>
+    /**
+     * In case the Grade was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GradeUpdateInput, GradeUncheckedUpdateInput>
+  }
+
+  /**
+   * Grade delete
+   */
+  export type GradeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    /**
+     * Filter which Grade to delete.
+     */
+    where: GradeWhereUniqueInput
+  }
+
+  /**
+   * Grade deleteMany
+   */
+  export type GradeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Grades to delete
+     */
+    where?: GradeWhereInput
+    /**
+     * Limit how many Grades to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Grade.achievements
+   */
+  export type Grade$achievementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Achievement
+     */
+    select?: AchievementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Achievement
+     */
+    omit?: AchievementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AchievementInclude<ExtArgs> | null
+    where?: AchievementWhereInput
+    orderBy?: AchievementOrderByWithRelationInput | AchievementOrderByWithRelationInput[]
+    cursor?: AchievementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AchievementScalarFieldEnum | AchievementScalarFieldEnum[]
+  }
+
+  /**
+   * Grade without action
+   */
+  export type GradeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model GradeCompetition
+   */
+
+  export type AggregateGradeCompetition = {
+    _count: GradeCompetitionCountAggregateOutputType | null
+    _avg: GradeCompetitionAvgAggregateOutputType | null
+    _sum: GradeCompetitionSumAggregateOutputType | null
+    _min: GradeCompetitionMinAggregateOutputType | null
+    _max: GradeCompetitionMaxAggregateOutputType | null
+  }
+
+  export type GradeCompetitionAvgAggregateOutputType = {
+    points: number | null
+  }
+
+  export type GradeCompetitionSumAggregateOutputType = {
+    points: number | null
+  }
+
+  export type GradeCompetitionMinAggregateOutputType = {
+    id: string | null
+    gradeCompetitionName: string | null
+    points: number | null
+    createdAt: Date | null
+  }
+
+  export type GradeCompetitionMaxAggregateOutputType = {
+    id: string | null
+    gradeCompetitionName: string | null
+    points: number | null
+    createdAt: Date | null
+  }
+
+  export type GradeCompetitionCountAggregateOutputType = {
+    id: number
+    gradeCompetitionName: number
+    points: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type GradeCompetitionAvgAggregateInputType = {
+    points?: true
+  }
+
+  export type GradeCompetitionSumAggregateInputType = {
+    points?: true
+  }
+
+  export type GradeCompetitionMinAggregateInputType = {
+    id?: true
+    gradeCompetitionName?: true
+    points?: true
+    createdAt?: true
+  }
+
+  export type GradeCompetitionMaxAggregateInputType = {
+    id?: true
+    gradeCompetitionName?: true
+    points?: true
+    createdAt?: true
+  }
+
+  export type GradeCompetitionCountAggregateInputType = {
+    id?: true
+    gradeCompetitionName?: true
+    points?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type GradeCompetitionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GradeCompetition to aggregate.
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GradeCompetitions to fetch.
+     */
+    orderBy?: GradeCompetitionOrderByWithRelationInput | GradeCompetitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GradeCompetitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GradeCompetitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GradeCompetitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned GradeCompetitions
+    **/
+    _count?: true | GradeCompetitionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GradeCompetitionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GradeCompetitionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GradeCompetitionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GradeCompetitionMaxAggregateInputType
+  }
+
+  export type GetGradeCompetitionAggregateType<T extends GradeCompetitionAggregateArgs> = {
+        [P in keyof T & keyof AggregateGradeCompetition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGradeCompetition[P]>
+      : GetScalarType<T[P], AggregateGradeCompetition[P]>
+  }
+
+
+
+
+  export type GradeCompetitionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GradeCompetitionWhereInput
+    orderBy?: GradeCompetitionOrderByWithAggregationInput | GradeCompetitionOrderByWithAggregationInput[]
+    by: GradeCompetitionScalarFieldEnum[] | GradeCompetitionScalarFieldEnum
+    having?: GradeCompetitionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GradeCompetitionCountAggregateInputType | true
+    _avg?: GradeCompetitionAvgAggregateInputType
+    _sum?: GradeCompetitionSumAggregateInputType
+    _min?: GradeCompetitionMinAggregateInputType
+    _max?: GradeCompetitionMaxAggregateInputType
+  }
+
+  export type GradeCompetitionGroupByOutputType = {
+    id: string
+    gradeCompetitionName: string
+    points: number
+    createdAt: Date
+    _count: GradeCompetitionCountAggregateOutputType | null
+    _avg: GradeCompetitionAvgAggregateOutputType | null
+    _sum: GradeCompetitionSumAggregateOutputType | null
+    _min: GradeCompetitionMinAggregateOutputType | null
+    _max: GradeCompetitionMaxAggregateOutputType | null
+  }
+
+  type GetGradeCompetitionGroupByPayload<T extends GradeCompetitionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GradeCompetitionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GradeCompetitionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GradeCompetitionGroupByOutputType[P]>
+            : GetScalarType<T[P], GradeCompetitionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GradeCompetitionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeCompetitionName?: boolean
+    points?: boolean
+    createdAt?: boolean
+    achievements?: boolean | GradeCompetition$achievementsArgs<ExtArgs>
+    _count?: boolean | GradeCompetitionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["gradeCompetition"]>
+
+  export type GradeCompetitionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeCompetitionName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["gradeCompetition"]>
+
+  export type GradeCompetitionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    gradeCompetitionName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["gradeCompetition"]>
+
+  export type GradeCompetitionSelectScalar = {
+    id?: boolean
+    gradeCompetitionName?: boolean
+    points?: boolean
+    createdAt?: boolean
+  }
+
+  export type GradeCompetitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "gradeCompetitionName" | "points" | "createdAt", ExtArgs["result"]["gradeCompetition"]>
+  export type GradeCompetitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    achievements?: boolean | GradeCompetition$achievementsArgs<ExtArgs>
+    _count?: boolean | GradeCompetitionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GradeCompetitionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type GradeCompetitionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $GradeCompetitionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "GradeCompetition"
+    objects: {
+      achievements: Prisma.$AchievementPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      gradeCompetitionName: string
+      points: number
+      createdAt: Date
+    }, ExtArgs["result"]["gradeCompetition"]>
+    composites: {}
+  }
+
+  type GradeCompetitionGetPayload<S extends boolean | null | undefined | GradeCompetitionDefaultArgs> = $Result.GetResult<Prisma.$GradeCompetitionPayload, S>
+
+  type GradeCompetitionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GradeCompetitionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GradeCompetitionCountAggregateInputType | true
+    }
+
+  export interface GradeCompetitionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['GradeCompetition'], meta: { name: 'GradeCompetition' } }
+    /**
+     * Find zero or one GradeCompetition that matches the filter.
+     * @param {GradeCompetitionFindUniqueArgs} args - Arguments to find a GradeCompetition
+     * @example
+     * // Get one GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GradeCompetitionFindUniqueArgs>(args: SelectSubset<T, GradeCompetitionFindUniqueArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one GradeCompetition that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GradeCompetitionFindUniqueOrThrowArgs} args - Arguments to find a GradeCompetition
+     * @example
+     * // Get one GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GradeCompetitionFindUniqueOrThrowArgs>(args: SelectSubset<T, GradeCompetitionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GradeCompetition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionFindFirstArgs} args - Arguments to find a GradeCompetition
+     * @example
+     * // Get one GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GradeCompetitionFindFirstArgs>(args?: SelectSubset<T, GradeCompetitionFindFirstArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first GradeCompetition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionFindFirstOrThrowArgs} args - Arguments to find a GradeCompetition
+     * @example
+     * // Get one GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GradeCompetitionFindFirstOrThrowArgs>(args?: SelectSubset<T, GradeCompetitionFindFirstOrThrowArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more GradeCompetitions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all GradeCompetitions
+     * const gradeCompetitions = await prisma.gradeCompetition.findMany()
+     * 
+     * // Get first 10 GradeCompetitions
+     * const gradeCompetitions = await prisma.gradeCompetition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const gradeCompetitionWithIdOnly = await prisma.gradeCompetition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GradeCompetitionFindManyArgs>(args?: SelectSubset<T, GradeCompetitionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a GradeCompetition.
+     * @param {GradeCompetitionCreateArgs} args - Arguments to create a GradeCompetition.
+     * @example
+     * // Create one GradeCompetition
+     * const GradeCompetition = await prisma.gradeCompetition.create({
+     *   data: {
+     *     // ... data to create a GradeCompetition
+     *   }
+     * })
+     * 
+     */
+    create<T extends GradeCompetitionCreateArgs>(args: SelectSubset<T, GradeCompetitionCreateArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many GradeCompetitions.
+     * @param {GradeCompetitionCreateManyArgs} args - Arguments to create many GradeCompetitions.
+     * @example
+     * // Create many GradeCompetitions
+     * const gradeCompetition = await prisma.gradeCompetition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GradeCompetitionCreateManyArgs>(args?: SelectSubset<T, GradeCompetitionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many GradeCompetitions and returns the data saved in the database.
+     * @param {GradeCompetitionCreateManyAndReturnArgs} args - Arguments to create many GradeCompetitions.
+     * @example
+     * // Create many GradeCompetitions
+     * const gradeCompetition = await prisma.gradeCompetition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many GradeCompetitions and only return the `id`
+     * const gradeCompetitionWithIdOnly = await prisma.gradeCompetition.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GradeCompetitionCreateManyAndReturnArgs>(args?: SelectSubset<T, GradeCompetitionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a GradeCompetition.
+     * @param {GradeCompetitionDeleteArgs} args - Arguments to delete one GradeCompetition.
+     * @example
+     * // Delete one GradeCompetition
+     * const GradeCompetition = await prisma.gradeCompetition.delete({
+     *   where: {
+     *     // ... filter to delete one GradeCompetition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GradeCompetitionDeleteArgs>(args: SelectSubset<T, GradeCompetitionDeleteArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one GradeCompetition.
+     * @param {GradeCompetitionUpdateArgs} args - Arguments to update one GradeCompetition.
+     * @example
+     * // Update one GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GradeCompetitionUpdateArgs>(args: SelectSubset<T, GradeCompetitionUpdateArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more GradeCompetitions.
+     * @param {GradeCompetitionDeleteManyArgs} args - Arguments to filter GradeCompetitions to delete.
+     * @example
+     * // Delete a few GradeCompetitions
+     * const { count } = await prisma.gradeCompetition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GradeCompetitionDeleteManyArgs>(args?: SelectSubset<T, GradeCompetitionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GradeCompetitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many GradeCompetitions
+     * const gradeCompetition = await prisma.gradeCompetition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GradeCompetitionUpdateManyArgs>(args: SelectSubset<T, GradeCompetitionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more GradeCompetitions and returns the data updated in the database.
+     * @param {GradeCompetitionUpdateManyAndReturnArgs} args - Arguments to update many GradeCompetitions.
+     * @example
+     * // Update many GradeCompetitions
+     * const gradeCompetition = await prisma.gradeCompetition.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more GradeCompetitions and only return the `id`
+     * const gradeCompetitionWithIdOnly = await prisma.gradeCompetition.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GradeCompetitionUpdateManyAndReturnArgs>(args: SelectSubset<T, GradeCompetitionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one GradeCompetition.
+     * @param {GradeCompetitionUpsertArgs} args - Arguments to update or create a GradeCompetition.
+     * @example
+     * // Update or create a GradeCompetition
+     * const gradeCompetition = await prisma.gradeCompetition.upsert({
+     *   create: {
+     *     // ... data to create a GradeCompetition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the GradeCompetition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GradeCompetitionUpsertArgs>(args: SelectSubset<T, GradeCompetitionUpsertArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of GradeCompetitions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionCountArgs} args - Arguments to filter GradeCompetitions to count.
+     * @example
+     * // Count the number of GradeCompetitions
+     * const count = await prisma.gradeCompetition.count({
+     *   where: {
+     *     // ... the filter for the GradeCompetitions we want to count
+     *   }
+     * })
+    **/
+    count<T extends GradeCompetitionCountArgs>(
+      args?: Subset<T, GradeCompetitionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GradeCompetitionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a GradeCompetition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GradeCompetitionAggregateArgs>(args: Subset<T, GradeCompetitionAggregateArgs>): Prisma.PrismaPromise<GetGradeCompetitionAggregateType<T>>
+
+    /**
+     * Group by GradeCompetition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GradeCompetitionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GradeCompetitionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GradeCompetitionGroupByArgs['orderBy'] }
+        : { orderBy?: GradeCompetitionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GradeCompetitionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGradeCompetitionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the GradeCompetition model
+   */
+  readonly fields: GradeCompetitionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for GradeCompetition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GradeCompetitionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    achievements<T extends GradeCompetition$achievementsArgs<ExtArgs> = {}>(args?: Subset<T, GradeCompetition$achievementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AchievementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the GradeCompetition model
+   */
+  interface GradeCompetitionFieldRefs {
+    readonly id: FieldRef<"GradeCompetition", 'String'>
+    readonly gradeCompetitionName: FieldRef<"GradeCompetition", 'String'>
+    readonly points: FieldRef<"GradeCompetition", 'Float'>
+    readonly createdAt: FieldRef<"GradeCompetition", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * GradeCompetition findUnique
+   */
+  export type GradeCompetitionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter, which GradeCompetition to fetch.
+     */
+    where: GradeCompetitionWhereUniqueInput
+  }
+
+  /**
+   * GradeCompetition findUniqueOrThrow
+   */
+  export type GradeCompetitionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter, which GradeCompetition to fetch.
+     */
+    where: GradeCompetitionWhereUniqueInput
+  }
+
+  /**
+   * GradeCompetition findFirst
+   */
+  export type GradeCompetitionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter, which GradeCompetition to fetch.
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GradeCompetitions to fetch.
+     */
+    orderBy?: GradeCompetitionOrderByWithRelationInput | GradeCompetitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GradeCompetitions.
+     */
+    cursor?: GradeCompetitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GradeCompetitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GradeCompetitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GradeCompetitions.
+     */
+    distinct?: GradeCompetitionScalarFieldEnum | GradeCompetitionScalarFieldEnum[]
+  }
+
+  /**
+   * GradeCompetition findFirstOrThrow
+   */
+  export type GradeCompetitionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter, which GradeCompetition to fetch.
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GradeCompetitions to fetch.
+     */
+    orderBy?: GradeCompetitionOrderByWithRelationInput | GradeCompetitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for GradeCompetitions.
+     */
+    cursor?: GradeCompetitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GradeCompetitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GradeCompetitions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of GradeCompetitions.
+     */
+    distinct?: GradeCompetitionScalarFieldEnum | GradeCompetitionScalarFieldEnum[]
+  }
+
+  /**
+   * GradeCompetition findMany
+   */
+  export type GradeCompetitionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter, which GradeCompetitions to fetch.
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of GradeCompetitions to fetch.
+     */
+    orderBy?: GradeCompetitionOrderByWithRelationInput | GradeCompetitionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing GradeCompetitions.
+     */
+    cursor?: GradeCompetitionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` GradeCompetitions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` GradeCompetitions.
+     */
+    skip?: number
+    distinct?: GradeCompetitionScalarFieldEnum | GradeCompetitionScalarFieldEnum[]
+  }
+
+  /**
+   * GradeCompetition create
+   */
+  export type GradeCompetitionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a GradeCompetition.
+     */
+    data: XOR<GradeCompetitionCreateInput, GradeCompetitionUncheckedCreateInput>
+  }
+
+  /**
+   * GradeCompetition createMany
+   */
+  export type GradeCompetitionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many GradeCompetitions.
+     */
+    data: GradeCompetitionCreateManyInput | GradeCompetitionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GradeCompetition createManyAndReturn
+   */
+  export type GradeCompetitionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * The data used to create many GradeCompetitions.
+     */
+    data: GradeCompetitionCreateManyInput | GradeCompetitionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * GradeCompetition update
+   */
+  export type GradeCompetitionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a GradeCompetition.
+     */
+    data: XOR<GradeCompetitionUpdateInput, GradeCompetitionUncheckedUpdateInput>
+    /**
+     * Choose, which GradeCompetition to update.
+     */
+    where: GradeCompetitionWhereUniqueInput
+  }
+
+  /**
+   * GradeCompetition updateMany
+   */
+  export type GradeCompetitionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update GradeCompetitions.
+     */
+    data: XOR<GradeCompetitionUpdateManyMutationInput, GradeCompetitionUncheckedUpdateManyInput>
+    /**
+     * Filter which GradeCompetitions to update
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * Limit how many GradeCompetitions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GradeCompetition updateManyAndReturn
+   */
+  export type GradeCompetitionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * The data used to update GradeCompetitions.
+     */
+    data: XOR<GradeCompetitionUpdateManyMutationInput, GradeCompetitionUncheckedUpdateManyInput>
+    /**
+     * Filter which GradeCompetitions to update
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * Limit how many GradeCompetitions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * GradeCompetition upsert
+   */
+  export type GradeCompetitionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the GradeCompetition to update in case it exists.
+     */
+    where: GradeCompetitionWhereUniqueInput
+    /**
+     * In case the GradeCompetition found by the `where` argument doesn't exist, create a new GradeCompetition with this data.
+     */
+    create: XOR<GradeCompetitionCreateInput, GradeCompetitionUncheckedCreateInput>
+    /**
+     * In case the GradeCompetition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GradeCompetitionUpdateInput, GradeCompetitionUncheckedUpdateInput>
+  }
+
+  /**
+   * GradeCompetition delete
+   */
+  export type GradeCompetitionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    /**
+     * Filter which GradeCompetition to delete.
+     */
+    where: GradeCompetitionWhereUniqueInput
+  }
+
+  /**
+   * GradeCompetition deleteMany
+   */
+  export type GradeCompetitionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which GradeCompetitions to delete
+     */
+    where?: GradeCompetitionWhereInput
+    /**
+     * Limit how many GradeCompetitions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * GradeCompetition.achievements
+   */
+  export type GradeCompetition$achievementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Achievement
+     */
+    select?: AchievementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Achievement
+     */
+    omit?: AchievementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AchievementInclude<ExtArgs> | null
+    where?: AchievementWhereInput
+    orderBy?: AchievementOrderByWithRelationInput | AchievementOrderByWithRelationInput[]
+    cursor?: AchievementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AchievementScalarFieldEnum | AchievementScalarFieldEnum[]
+  }
+
+  /**
+   * GradeCompetition without action
+   */
+  export type GradeCompetitionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Achievement
    */
 
@@ -15405,6 +17844,8 @@ export namespace Prisma {
     result: string | null
     points: number | null
     certificate: string | null
+    gradeId: string | null
+    gradeCompetitionId: string | null
     status: $Enums.AchievementStatus | null
     verifiedBy: string | null
     createdAt: Date | null
@@ -15418,6 +17859,8 @@ export namespace Prisma {
     result: string | null
     points: number | null
     certificate: string | null
+    gradeId: string | null
+    gradeCompetitionId: string | null
     status: $Enums.AchievementStatus | null
     verifiedBy: string | null
     createdAt: Date | null
@@ -15431,6 +17874,8 @@ export namespace Prisma {
     result: number
     points: number
     certificate: number
+    gradeId: number
+    gradeCompetitionId: number
     status: number
     verifiedBy: number
     createdAt: number
@@ -15454,6 +17899,8 @@ export namespace Prisma {
     result?: true
     points?: true
     certificate?: true
+    gradeId?: true
+    gradeCompetitionId?: true
     status?: true
     verifiedBy?: true
     createdAt?: true
@@ -15467,6 +17914,8 @@ export namespace Prisma {
     result?: true
     points?: true
     certificate?: true
+    gradeId?: true
+    gradeCompetitionId?: true
     status?: true
     verifiedBy?: true
     createdAt?: true
@@ -15480,6 +17929,8 @@ export namespace Prisma {
     result?: true
     points?: true
     certificate?: true
+    gradeId?: true
+    gradeCompetitionId?: true
     status?: true
     verifiedBy?: true
     createdAt?: true
@@ -15580,6 +18031,8 @@ export namespace Prisma {
     result: string
     points: number
     certificate: string | null
+    gradeId: string | null
+    gradeCompetitionId: string | null
     status: $Enums.AchievementStatus
     verifiedBy: string | null
     createdAt: Date
@@ -15612,11 +18065,15 @@ export namespace Prisma {
     result?: boolean
     points?: boolean
     certificate?: boolean
+    gradeId?: boolean
+    gradeCompetitionId?: boolean
     status?: boolean
     verifiedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
     academicScore?: boolean | Achievement$academicScoreArgs<ExtArgs>
   }, ExtArgs["result"]["achievement"]>
@@ -15628,11 +18085,15 @@ export namespace Prisma {
     result?: boolean
     points?: boolean
     certificate?: boolean
+    gradeId?: boolean
+    gradeCompetitionId?: boolean
     status?: boolean
     verifiedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
   }, ExtArgs["result"]["achievement"]>
 
@@ -15643,11 +18104,15 @@ export namespace Prisma {
     result?: boolean
     points?: boolean
     certificate?: boolean
+    gradeId?: boolean
+    gradeCompetitionId?: boolean
     status?: boolean
     verifiedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
   }, ExtArgs["result"]["achievement"]>
 
@@ -15658,24 +18123,32 @@ export namespace Prisma {
     result?: boolean
     points?: boolean
     certificate?: boolean
+    gradeId?: boolean
+    gradeCompetitionId?: boolean
     status?: boolean
     verifiedBy?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AchievementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "competitionName" | "result" | "points" | "certificate" | "status" | "verifiedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["achievement"]>
+  export type AchievementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "competitionName" | "result" | "points" | "certificate" | "gradeId" | "gradeCompetitionId" | "status" | "verifiedBy" | "createdAt" | "updatedAt", ExtArgs["result"]["achievement"]>
   export type AchievementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
     academicScore?: boolean | Achievement$academicScoreArgs<ExtArgs>
   }
   export type AchievementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
   }
   export type AchievementIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | StudentDefaultArgs<ExtArgs>
+    grade?: boolean | Achievement$gradeArgs<ExtArgs>
+    gradeCompetition?: boolean | Achievement$gradeCompetitionArgs<ExtArgs>
     guru?: boolean | Achievement$guruArgs<ExtArgs>
   }
 
@@ -15683,6 +18156,8 @@ export namespace Prisma {
     name: "Achievement"
     objects: {
       student: Prisma.$StudentPayload<ExtArgs>
+      grade: Prisma.$GradePayload<ExtArgs> | null
+      gradeCompetition: Prisma.$GradeCompetitionPayload<ExtArgs> | null
       guru: Prisma.$UserPayload<ExtArgs> | null
       academicScore: Prisma.$AcademicScorePayload<ExtArgs> | null
     }
@@ -15693,6 +18168,8 @@ export namespace Prisma {
       result: string
       points: number
       certificate: string | null
+      gradeId: string | null
+      gradeCompetitionId: string | null
       status: $Enums.AchievementStatus
       verifiedBy: string | null
       createdAt: Date
@@ -16092,6 +18569,8 @@ export namespace Prisma {
   export interface Prisma__AchievementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     student<T extends StudentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StudentDefaultArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    grade<T extends Achievement$gradeArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$gradeArgs<ExtArgs>>): Prisma__GradeClient<$Result.GetResult<Prisma.$GradePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    gradeCompetition<T extends Achievement$gradeCompetitionArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$gradeCompetitionArgs<ExtArgs>>): Prisma__GradeCompetitionClient<$Result.GetResult<Prisma.$GradeCompetitionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     guru<T extends Achievement$guruArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$guruArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     academicScore<T extends Achievement$academicScoreArgs<ExtArgs> = {}>(args?: Subset<T, Achievement$academicScoreArgs<ExtArgs>>): Prisma__AcademicScoreClient<$Result.GetResult<Prisma.$AcademicScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -16129,6 +18608,8 @@ export namespace Prisma {
     readonly result: FieldRef<"Achievement", 'String'>
     readonly points: FieldRef<"Achievement", 'Int'>
     readonly certificate: FieldRef<"Achievement", 'String'>
+    readonly gradeId: FieldRef<"Achievement", 'String'>
+    readonly gradeCompetitionId: FieldRef<"Achievement", 'String'>
     readonly status: FieldRef<"Achievement", 'AchievementStatus'>
     readonly verifiedBy: FieldRef<"Achievement", 'String'>
     readonly createdAt: FieldRef<"Achievement", 'DateTime'>
@@ -16526,6 +19007,44 @@ export namespace Prisma {
      * Limit how many Achievements to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Achievement.grade
+   */
+  export type Achievement$gradeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Grade
+     */
+    select?: GradeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Grade
+     */
+    omit?: GradeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeInclude<ExtArgs> | null
+    where?: GradeWhereInput
+  }
+
+  /**
+   * Achievement.gradeCompetition
+   */
+  export type Achievement$gradeCompetitionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GradeCompetition
+     */
+    select?: GradeCompetitionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the GradeCompetition
+     */
+    omit?: GradeCompetitionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GradeCompetitionInclude<ExtArgs> | null
+    where?: GradeCompetitionWhereInput
   }
 
   /**
@@ -22047,6 +24566,7 @@ export namespace Prisma {
     password: 'password',
     name: 'name',
     kelas: 'kelas',
+    dateBirth: 'dateBirth',
     angkatan: 'angkatan',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -22180,6 +24700,26 @@ export namespace Prisma {
   export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
 
 
+  export const GradeScalarFieldEnum: {
+    id: 'id',
+    gradeName: 'gradeName',
+    points: 'points',
+    createdAt: 'createdAt'
+  };
+
+  export type GradeScalarFieldEnum = (typeof GradeScalarFieldEnum)[keyof typeof GradeScalarFieldEnum]
+
+
+  export const GradeCompetitionScalarFieldEnum: {
+    id: 'id',
+    gradeCompetitionName: 'gradeCompetitionName',
+    points: 'points',
+    createdAt: 'createdAt'
+  };
+
+  export type GradeCompetitionScalarFieldEnum = (typeof GradeCompetitionScalarFieldEnum)[keyof typeof GradeCompetitionScalarFieldEnum]
+
+
   export const AchievementScalarFieldEnum: {
     id: 'id',
     studentId: 'studentId',
@@ -22187,6 +24727,8 @@ export namespace Prisma {
     result: 'result',
     points: 'points',
     certificate: 'certificate',
+    gradeId: 'gradeId',
+    gradeCompetitionId: 'gradeCompetitionId',
     status: 'status',
     verifiedBy: 'verifiedBy',
     createdAt: 'createdAt',
@@ -22428,20 +24970,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'AchievementStatus'
-   */
-  export type EnumAchievementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AchievementStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'AchievementStatus[]'
-   */
-  export type ListEnumAchievementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AchievementStatus[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -22452,6 +24980,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AchievementStatus'
+   */
+  export type EnumAchievementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AchievementStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'AchievementStatus[]'
+   */
+  export type ListEnumAchievementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AchievementStatus[]'>
     
 
 
@@ -22563,6 +25105,7 @@ export namespace Prisma {
     password?: StringFilter<"Student"> | string
     name?: StringFilter<"Student"> | string
     kelas?: StringFilter<"Student"> | string
+    dateBirth?: DateTimeFilter<"Student"> | Date | string
     angkatan?: IntFilter<"Student"> | number
     isActive?: BoolFilter<"Student"> | boolean
     createdAt?: DateTimeFilter<"Student"> | Date | string
@@ -22581,6 +25124,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     kelas?: SortOrder
+    dateBirth?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -22602,6 +25146,7 @@ export namespace Prisma {
     password?: StringFilter<"Student"> | string
     name?: StringFilter<"Student"> | string
     kelas?: StringFilter<"Student"> | string
+    dateBirth?: DateTimeFilter<"Student"> | Date | string
     angkatan?: IntFilter<"Student"> | number
     isActive?: BoolFilter<"Student"> | boolean
     createdAt?: DateTimeFilter<"Student"> | Date | string
@@ -22620,6 +25165,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     kelas?: SortOrder
+    dateBirth?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -22640,6 +25186,7 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"Student"> | string
     name?: StringWithAggregatesFilter<"Student"> | string
     kelas?: StringWithAggregatesFilter<"Student"> | string
+    dateBirth?: DateTimeWithAggregatesFilter<"Student"> | Date | string
     angkatan?: IntWithAggregatesFilter<"Student"> | number
     isActive?: BoolWithAggregatesFilter<"Student"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
@@ -23297,6 +25844,110 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Announcement"> | Date | string
   }
 
+  export type GradeWhereInput = {
+    AND?: GradeWhereInput | GradeWhereInput[]
+    OR?: GradeWhereInput[]
+    NOT?: GradeWhereInput | GradeWhereInput[]
+    id?: StringFilter<"Grade"> | string
+    gradeName?: StringFilter<"Grade"> | string
+    points?: FloatFilter<"Grade"> | number
+    createdAt?: DateTimeFilter<"Grade"> | Date | string
+    achievements?: AchievementListRelationFilter
+  }
+
+  export type GradeOrderByWithRelationInput = {
+    id?: SortOrder
+    gradeName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    achievements?: AchievementOrderByRelationAggregateInput
+  }
+
+  export type GradeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    gradeName?: string
+    AND?: GradeWhereInput | GradeWhereInput[]
+    OR?: GradeWhereInput[]
+    NOT?: GradeWhereInput | GradeWhereInput[]
+    points?: FloatFilter<"Grade"> | number
+    createdAt?: DateTimeFilter<"Grade"> | Date | string
+    achievements?: AchievementListRelationFilter
+  }, "id" | "gradeName">
+
+  export type GradeOrderByWithAggregationInput = {
+    id?: SortOrder
+    gradeName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    _count?: GradeCountOrderByAggregateInput
+    _avg?: GradeAvgOrderByAggregateInput
+    _max?: GradeMaxOrderByAggregateInput
+    _min?: GradeMinOrderByAggregateInput
+    _sum?: GradeSumOrderByAggregateInput
+  }
+
+  export type GradeScalarWhereWithAggregatesInput = {
+    AND?: GradeScalarWhereWithAggregatesInput | GradeScalarWhereWithAggregatesInput[]
+    OR?: GradeScalarWhereWithAggregatesInput[]
+    NOT?: GradeScalarWhereWithAggregatesInput | GradeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Grade"> | string
+    gradeName?: StringWithAggregatesFilter<"Grade"> | string
+    points?: FloatWithAggregatesFilter<"Grade"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Grade"> | Date | string
+  }
+
+  export type GradeCompetitionWhereInput = {
+    AND?: GradeCompetitionWhereInput | GradeCompetitionWhereInput[]
+    OR?: GradeCompetitionWhereInput[]
+    NOT?: GradeCompetitionWhereInput | GradeCompetitionWhereInput[]
+    id?: StringFilter<"GradeCompetition"> | string
+    gradeCompetitionName?: StringFilter<"GradeCompetition"> | string
+    points?: FloatFilter<"GradeCompetition"> | number
+    createdAt?: DateTimeFilter<"GradeCompetition"> | Date | string
+    achievements?: AchievementListRelationFilter
+  }
+
+  export type GradeCompetitionOrderByWithRelationInput = {
+    id?: SortOrder
+    gradeCompetitionName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    achievements?: AchievementOrderByRelationAggregateInput
+  }
+
+  export type GradeCompetitionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    gradeCompetitionName?: string
+    AND?: GradeCompetitionWhereInput | GradeCompetitionWhereInput[]
+    OR?: GradeCompetitionWhereInput[]
+    NOT?: GradeCompetitionWhereInput | GradeCompetitionWhereInput[]
+    points?: FloatFilter<"GradeCompetition"> | number
+    createdAt?: DateTimeFilter<"GradeCompetition"> | Date | string
+    achievements?: AchievementListRelationFilter
+  }, "id" | "gradeCompetitionName">
+
+  export type GradeCompetitionOrderByWithAggregationInput = {
+    id?: SortOrder
+    gradeCompetitionName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+    _count?: GradeCompetitionCountOrderByAggregateInput
+    _avg?: GradeCompetitionAvgOrderByAggregateInput
+    _max?: GradeCompetitionMaxOrderByAggregateInput
+    _min?: GradeCompetitionMinOrderByAggregateInput
+    _sum?: GradeCompetitionSumOrderByAggregateInput
+  }
+
+  export type GradeCompetitionScalarWhereWithAggregatesInput = {
+    AND?: GradeCompetitionScalarWhereWithAggregatesInput | GradeCompetitionScalarWhereWithAggregatesInput[]
+    OR?: GradeCompetitionScalarWhereWithAggregatesInput[]
+    NOT?: GradeCompetitionScalarWhereWithAggregatesInput | GradeCompetitionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"GradeCompetition"> | string
+    gradeCompetitionName?: StringWithAggregatesFilter<"GradeCompetition"> | string
+    points?: FloatWithAggregatesFilter<"GradeCompetition"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"GradeCompetition"> | Date | string
+  }
+
   export type AchievementWhereInput = {
     AND?: AchievementWhereInput | AchievementWhereInput[]
     OR?: AchievementWhereInput[]
@@ -23307,11 +25958,15 @@ export namespace Prisma {
     result?: StringFilter<"Achievement"> | string
     points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
+    gradeId?: StringNullableFilter<"Achievement"> | string | null
+    gradeCompetitionId?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
     createdAt?: DateTimeFilter<"Achievement"> | Date | string
     updatedAt?: DateTimeFilter<"Achievement"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    grade?: XOR<GradeNullableScalarRelationFilter, GradeWhereInput> | null
+    gradeCompetition?: XOR<GradeCompetitionNullableScalarRelationFilter, GradeCompetitionWhereInput> | null
     guru?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     academicScore?: XOR<AcademicScoreNullableScalarRelationFilter, AcademicScoreWhereInput> | null
   }
@@ -23323,11 +25978,15 @@ export namespace Prisma {
     result?: SortOrder
     points?: SortOrder
     certificate?: SortOrderInput | SortOrder
+    gradeId?: SortOrderInput | SortOrder
+    gradeCompetitionId?: SortOrderInput | SortOrder
     status?: SortOrder
     verifiedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     student?: StudentOrderByWithRelationInput
+    grade?: GradeOrderByWithRelationInput
+    gradeCompetition?: GradeCompetitionOrderByWithRelationInput
     guru?: UserOrderByWithRelationInput
     academicScore?: AcademicScoreOrderByWithRelationInput
   }
@@ -23342,11 +26001,15 @@ export namespace Prisma {
     result?: StringFilter<"Achievement"> | string
     points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
+    gradeId?: StringNullableFilter<"Achievement"> | string | null
+    gradeCompetitionId?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
     createdAt?: DateTimeFilter<"Achievement"> | Date | string
     updatedAt?: DateTimeFilter<"Achievement"> | Date | string
     student?: XOR<StudentScalarRelationFilter, StudentWhereInput>
+    grade?: XOR<GradeNullableScalarRelationFilter, GradeWhereInput> | null
+    gradeCompetition?: XOR<GradeCompetitionNullableScalarRelationFilter, GradeCompetitionWhereInput> | null
     guru?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     academicScore?: XOR<AcademicScoreNullableScalarRelationFilter, AcademicScoreWhereInput> | null
   }, "id">
@@ -23358,6 +26021,8 @@ export namespace Prisma {
     result?: SortOrder
     points?: SortOrder
     certificate?: SortOrderInput | SortOrder
+    gradeId?: SortOrderInput | SortOrder
+    gradeCompetitionId?: SortOrderInput | SortOrder
     status?: SortOrder
     verifiedBy?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -23379,6 +26044,8 @@ export namespace Prisma {
     result?: StringWithAggregatesFilter<"Achievement"> | string
     points?: IntWithAggregatesFilter<"Achievement"> | number
     certificate?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
+    gradeId?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
+    gradeCompetitionId?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusWithAggregatesFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableWithAggregatesFilter<"Achievement"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Achievement"> | Date | string
@@ -23794,6 +26461,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -23812,6 +26480,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -23830,6 +26499,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23848,6 +26518,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23866,6 +26537,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -23878,6 +26550,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23890,6 +26563,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24587,6 +27261,112 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type GradeCreateInput = {
+    id?: string
+    gradeName: string
+    points: number
+    createdAt?: Date | string
+    achievements?: AchievementCreateNestedManyWithoutGradeInput
+  }
+
+  export type GradeUncheckedCreateInput = {
+    id?: string
+    gradeName: string
+    points: number
+    createdAt?: Date | string
+    achievements?: AchievementUncheckedCreateNestedManyWithoutGradeInput
+  }
+
+  export type GradeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    achievements?: AchievementUpdateManyWithoutGradeNestedInput
+  }
+
+  export type GradeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    achievements?: AchievementUncheckedUpdateManyWithoutGradeNestedInput
+  }
+
+  export type GradeCreateManyInput = {
+    id?: string
+    gradeName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeCompetitionCreateInput = {
+    id?: string
+    gradeCompetitionName: string
+    points: number
+    createdAt?: Date | string
+    achievements?: AchievementCreateNestedManyWithoutGradeCompetitionInput
+  }
+
+  export type GradeCompetitionUncheckedCreateInput = {
+    id?: string
+    gradeCompetitionName: string
+    points: number
+    createdAt?: Date | string
+    achievements?: AchievementUncheckedCreateNestedManyWithoutGradeCompetitionInput
+  }
+
+  export type GradeCompetitionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    achievements?: AchievementUpdateManyWithoutGradeCompetitionNestedInput
+  }
+
+  export type GradeCompetitionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    achievements?: AchievementUncheckedUpdateManyWithoutGradeCompetitionNestedInput
+  }
+
+  export type GradeCompetitionCreateManyInput = {
+    id?: string
+    gradeCompetitionName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeCompetitionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeCompetitionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type AchievementCreateInput = {
     id?: string
     competitionName: string
@@ -24597,6 +27377,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutAchievementsInput
+    grade?: GradeCreateNestedOneWithoutAchievementsInput
+    gradeCompetition?: GradeCompetitionCreateNestedOneWithoutAchievementsInput
     guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
     academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
@@ -24608,6 +27390,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
     createdAt?: Date | string
@@ -24625,6 +27409,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    grade?: GradeUpdateOneWithoutAchievementsNestedInput
+    gradeCompetition?: GradeCompetitionUpdateOneWithoutAchievementsNestedInput
     guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
     academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
@@ -24636,6 +27422,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24650,6 +27438,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
     createdAt?: Date | string
@@ -24674,6 +27464,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25218,6 +28010,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     kelas?: SortOrder
+    dateBirth?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25234,6 +28027,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     kelas?: SortOrder
+    dateBirth?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25246,6 +28040,7 @@ export namespace Prisma {
     password?: SortOrder
     name?: SortOrder
     kelas?: SortOrder
+    dateBirth?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25822,11 +28617,106 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type GradeCountOrderByAggregateInput = {
+    id?: SortOrder
+    gradeName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type GradeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gradeName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeMinOrderByAggregateInput = {
+    id?: SortOrder
+    gradeName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeSumOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
+  export type GradeCompetitionCountOrderByAggregateInput = {
+    id?: SortOrder
+    gradeCompetitionName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeCompetitionAvgOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
+  export type GradeCompetitionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    gradeCompetitionName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeCompetitionMinOrderByAggregateInput = {
+    id?: SortOrder
+    gradeCompetitionName?: SortOrder
+    points?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type GradeCompetitionSumOrderByAggregateInput = {
+    points?: SortOrder
+  }
+
   export type EnumAchievementStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AchievementStatus | EnumAchievementStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AchievementStatus[] | ListEnumAchievementStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.AchievementStatus[] | ListEnumAchievementStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumAchievementStatusFilter<$PrismaModel> | $Enums.AchievementStatus
+  }
+
+  export type GradeNullableScalarRelationFilter = {
+    is?: GradeWhereInput | null
+    isNot?: GradeWhereInput | null
+  }
+
+  export type GradeCompetitionNullableScalarRelationFilter = {
+    is?: GradeCompetitionWhereInput | null
+    isNot?: GradeCompetitionWhereInput | null
   }
 
   export type AcademicScoreNullableScalarRelationFilter = {
@@ -25841,6 +28731,8 @@ export namespace Prisma {
     result?: SortOrder
     points?: SortOrder
     certificate?: SortOrder
+    gradeId?: SortOrder
+    gradeCompetitionId?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
     createdAt?: SortOrder
@@ -25858,6 +28750,8 @@ export namespace Prisma {
     result?: SortOrder
     points?: SortOrder
     certificate?: SortOrder
+    gradeId?: SortOrder
+    gradeCompetitionId?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
     createdAt?: SortOrder
@@ -25871,6 +28765,8 @@ export namespace Prisma {
     result?: SortOrder
     points?: SortOrder
     certificate?: SortOrder
+    gradeId?: SortOrder
+    gradeCompetitionId?: SortOrder
     status?: SortOrder
     verifiedBy?: SortOrder
     createdAt?: SortOrder
@@ -25889,17 +28785,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumAchievementStatusFilter<$PrismaModel>
     _max?: NestedEnumAchievementStatusFilter<$PrismaModel>
-  }
-
-  export type FloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type EnumSemesterFilter<$PrismaModel = never> = {
@@ -25958,22 +28843,6 @@ export namespace Prisma {
 
   export type AcademicScoreSumOrderByAggregateInput = {
     score?: SortOrder
-  }
-
-  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type EnumSemesterWithAggregatesFilter<$PrismaModel = never> = {
@@ -27017,10 +29886,114 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAnnouncementsInput, UserUpdateWithoutAnnouncementsInput>, UserUncheckedUpdateWithoutAnnouncementsInput>
   }
 
+  export type AchievementCreateNestedManyWithoutGradeInput = {
+    create?: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput> | AchievementCreateWithoutGradeInput[] | AchievementUncheckedCreateWithoutGradeInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeInput | AchievementCreateOrConnectWithoutGradeInput[]
+    createMany?: AchievementCreateManyGradeInputEnvelope
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+  }
+
+  export type AchievementUncheckedCreateNestedManyWithoutGradeInput = {
+    create?: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput> | AchievementCreateWithoutGradeInput[] | AchievementUncheckedCreateWithoutGradeInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeInput | AchievementCreateOrConnectWithoutGradeInput[]
+    createMany?: AchievementCreateManyGradeInputEnvelope
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type AchievementUpdateManyWithoutGradeNestedInput = {
+    create?: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput> | AchievementCreateWithoutGradeInput[] | AchievementUncheckedCreateWithoutGradeInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeInput | AchievementCreateOrConnectWithoutGradeInput[]
+    upsert?: AchievementUpsertWithWhereUniqueWithoutGradeInput | AchievementUpsertWithWhereUniqueWithoutGradeInput[]
+    createMany?: AchievementCreateManyGradeInputEnvelope
+    set?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    disconnect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    delete?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    update?: AchievementUpdateWithWhereUniqueWithoutGradeInput | AchievementUpdateWithWhereUniqueWithoutGradeInput[]
+    updateMany?: AchievementUpdateManyWithWhereWithoutGradeInput | AchievementUpdateManyWithWhereWithoutGradeInput[]
+    deleteMany?: AchievementScalarWhereInput | AchievementScalarWhereInput[]
+  }
+
+  export type AchievementUncheckedUpdateManyWithoutGradeNestedInput = {
+    create?: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput> | AchievementCreateWithoutGradeInput[] | AchievementUncheckedCreateWithoutGradeInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeInput | AchievementCreateOrConnectWithoutGradeInput[]
+    upsert?: AchievementUpsertWithWhereUniqueWithoutGradeInput | AchievementUpsertWithWhereUniqueWithoutGradeInput[]
+    createMany?: AchievementCreateManyGradeInputEnvelope
+    set?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    disconnect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    delete?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    update?: AchievementUpdateWithWhereUniqueWithoutGradeInput | AchievementUpdateWithWhereUniqueWithoutGradeInput[]
+    updateMany?: AchievementUpdateManyWithWhereWithoutGradeInput | AchievementUpdateManyWithWhereWithoutGradeInput[]
+    deleteMany?: AchievementScalarWhereInput | AchievementScalarWhereInput[]
+  }
+
+  export type AchievementCreateNestedManyWithoutGradeCompetitionInput = {
+    create?: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput> | AchievementCreateWithoutGradeCompetitionInput[] | AchievementUncheckedCreateWithoutGradeCompetitionInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeCompetitionInput | AchievementCreateOrConnectWithoutGradeCompetitionInput[]
+    createMany?: AchievementCreateManyGradeCompetitionInputEnvelope
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+  }
+
+  export type AchievementUncheckedCreateNestedManyWithoutGradeCompetitionInput = {
+    create?: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput> | AchievementCreateWithoutGradeCompetitionInput[] | AchievementUncheckedCreateWithoutGradeCompetitionInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeCompetitionInput | AchievementCreateOrConnectWithoutGradeCompetitionInput[]
+    createMany?: AchievementCreateManyGradeCompetitionInputEnvelope
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+  }
+
+  export type AchievementUpdateManyWithoutGradeCompetitionNestedInput = {
+    create?: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput> | AchievementCreateWithoutGradeCompetitionInput[] | AchievementUncheckedCreateWithoutGradeCompetitionInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeCompetitionInput | AchievementCreateOrConnectWithoutGradeCompetitionInput[]
+    upsert?: AchievementUpsertWithWhereUniqueWithoutGradeCompetitionInput | AchievementUpsertWithWhereUniqueWithoutGradeCompetitionInput[]
+    createMany?: AchievementCreateManyGradeCompetitionInputEnvelope
+    set?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    disconnect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    delete?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    update?: AchievementUpdateWithWhereUniqueWithoutGradeCompetitionInput | AchievementUpdateWithWhereUniqueWithoutGradeCompetitionInput[]
+    updateMany?: AchievementUpdateManyWithWhereWithoutGradeCompetitionInput | AchievementUpdateManyWithWhereWithoutGradeCompetitionInput[]
+    deleteMany?: AchievementScalarWhereInput | AchievementScalarWhereInput[]
+  }
+
+  export type AchievementUncheckedUpdateManyWithoutGradeCompetitionNestedInput = {
+    create?: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput> | AchievementCreateWithoutGradeCompetitionInput[] | AchievementUncheckedCreateWithoutGradeCompetitionInput[]
+    connectOrCreate?: AchievementCreateOrConnectWithoutGradeCompetitionInput | AchievementCreateOrConnectWithoutGradeCompetitionInput[]
+    upsert?: AchievementUpsertWithWhereUniqueWithoutGradeCompetitionInput | AchievementUpsertWithWhereUniqueWithoutGradeCompetitionInput[]
+    createMany?: AchievementCreateManyGradeCompetitionInputEnvelope
+    set?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    disconnect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    delete?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    connect?: AchievementWhereUniqueInput | AchievementWhereUniqueInput[]
+    update?: AchievementUpdateWithWhereUniqueWithoutGradeCompetitionInput | AchievementUpdateWithWhereUniqueWithoutGradeCompetitionInput[]
+    updateMany?: AchievementUpdateManyWithWhereWithoutGradeCompetitionInput | AchievementUpdateManyWithWhereWithoutGradeCompetitionInput[]
+    deleteMany?: AchievementScalarWhereInput | AchievementScalarWhereInput[]
+  }
+
   export type StudentCreateNestedOneWithoutAchievementsInput = {
     create?: XOR<StudentCreateWithoutAchievementsInput, StudentUncheckedCreateWithoutAchievementsInput>
     connectOrCreate?: StudentCreateOrConnectWithoutAchievementsInput
     connect?: StudentWhereUniqueInput
+  }
+
+  export type GradeCreateNestedOneWithoutAchievementsInput = {
+    create?: XOR<GradeCreateWithoutAchievementsInput, GradeUncheckedCreateWithoutAchievementsInput>
+    connectOrCreate?: GradeCreateOrConnectWithoutAchievementsInput
+    connect?: GradeWhereUniqueInput
+  }
+
+  export type GradeCompetitionCreateNestedOneWithoutAchievementsInput = {
+    create?: XOR<GradeCompetitionCreateWithoutAchievementsInput, GradeCompetitionUncheckedCreateWithoutAchievementsInput>
+    connectOrCreate?: GradeCompetitionCreateOrConnectWithoutAchievementsInput
+    connect?: GradeCompetitionWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutVerifiedAchievementsInput = {
@@ -27051,6 +30024,26 @@ export namespace Prisma {
     upsert?: StudentUpsertWithoutAchievementsInput
     connect?: StudentWhereUniqueInput
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutAchievementsInput, StudentUpdateWithoutAchievementsInput>, StudentUncheckedUpdateWithoutAchievementsInput>
+  }
+
+  export type GradeUpdateOneWithoutAchievementsNestedInput = {
+    create?: XOR<GradeCreateWithoutAchievementsInput, GradeUncheckedCreateWithoutAchievementsInput>
+    connectOrCreate?: GradeCreateOrConnectWithoutAchievementsInput
+    upsert?: GradeUpsertWithoutAchievementsInput
+    disconnect?: GradeWhereInput | boolean
+    delete?: GradeWhereInput | boolean
+    connect?: GradeWhereUniqueInput
+    update?: XOR<XOR<GradeUpdateToOneWithWhereWithoutAchievementsInput, GradeUpdateWithoutAchievementsInput>, GradeUncheckedUpdateWithoutAchievementsInput>
+  }
+
+  export type GradeCompetitionUpdateOneWithoutAchievementsNestedInput = {
+    create?: XOR<GradeCompetitionCreateWithoutAchievementsInput, GradeCompetitionUncheckedCreateWithoutAchievementsInput>
+    connectOrCreate?: GradeCompetitionCreateOrConnectWithoutAchievementsInput
+    upsert?: GradeCompetitionUpsertWithoutAchievementsInput
+    disconnect?: GradeCompetitionWhereInput | boolean
+    delete?: GradeCompetitionWhereInput | boolean
+    connect?: GradeCompetitionWhereUniqueInput
+    update?: XOR<XOR<GradeCompetitionUpdateToOneWithWhereWithoutAchievementsInput, GradeCompetitionUpdateWithoutAchievementsInput>, GradeCompetitionUncheckedUpdateWithoutAchievementsInput>
   }
 
   export type UserUpdateOneWithoutVerifiedAchievementsNestedInput = {
@@ -27099,14 +30092,6 @@ export namespace Prisma {
     create?: XOR<AcademicYearCreateWithoutAcademicScoreInput, AcademicYearUncheckedCreateWithoutAcademicScoreInput>
     connectOrCreate?: AcademicYearCreateOrConnectWithoutAcademicScoreInput
     connect?: AcademicYearWhereUniqueInput
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type EnumSemesterFieldUpdateOperationsInput = {
@@ -27526,6 +30511,22 @@ export namespace Prisma {
     _max?: NestedEnumSubmissionStatusFilter<$PrismaModel>
   }
 
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type NestedEnumAchievementStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.AchievementStatus | EnumAchievementStatusFieldRefInput<$PrismaModel>
     in?: $Enums.AchievementStatus[] | ListEnumAchievementStatusFieldRefInput<$PrismaModel>
@@ -27548,22 +30549,6 @@ export namespace Prisma {
     in?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
     notIn?: $Enums.Semester[] | ListEnumSemesterFieldRefInput<$PrismaModel>
     not?: NestedEnumSemesterFilter<$PrismaModel> | $Enums.Semester
-  }
-
-  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedFloatFilter<$PrismaModel>
-    _min?: NestedFloatFilter<$PrismaModel>
-    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type NestedEnumSemesterWithAggregatesFilter<$PrismaModel = never> = {
@@ -27722,6 +30707,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutAchievementsInput
+    grade?: GradeCreateNestedOneWithoutAchievementsInput
+    gradeCompetition?: GradeCompetitionCreateNestedOneWithoutAchievementsInput
     academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
 
@@ -27732,6 +30719,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27900,6 +30889,8 @@ export namespace Prisma {
     result?: StringFilter<"Achievement"> | string
     points?: IntFilter<"Achievement"> | number
     certificate?: StringNullableFilter<"Achievement"> | string | null
+    gradeId?: StringNullableFilter<"Achievement"> | string | null
+    gradeCompetitionId?: StringNullableFilter<"Achievement"> | string | null
     status?: EnumAchievementStatusFilter<"Achievement"> | $Enums.AchievementStatus
     verifiedBy?: StringNullableFilter<"Achievement"> | string | null
     createdAt?: DateTimeFilter<"Achievement"> | Date | string
@@ -27983,6 +30974,8 @@ export namespace Prisma {
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
     updatedAt?: Date | string
+    grade?: GradeCreateNestedOneWithoutAchievementsInput
+    gradeCompetition?: GradeCompetitionCreateNestedOneWithoutAchievementsInput
     guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
     academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
   }
@@ -27993,6 +30986,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
     createdAt?: Date | string
@@ -28761,6 +31756,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -28778,6 +31774,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -28878,6 +31875,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28895,6 +31893,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29179,6 +32178,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29196,6 +32196,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29264,6 +32265,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29281,6 +32283,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29409,12 +32412,125 @@ export namespace Prisma {
     verifiedAchievements?: AchievementUncheckedUpdateManyWithoutGuruNestedInput
   }
 
+  export type AchievementCreateWithoutGradeInput = {
+    id?: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    status?: $Enums.AchievementStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: StudentCreateNestedOneWithoutAchievementsInput
+    gradeCompetition?: GradeCompetitionCreateNestedOneWithoutAchievementsInput
+    guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
+    academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
+  }
+
+  export type AchievementUncheckedCreateWithoutGradeInput = {
+    id?: string
+    studentId: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    gradeCompetitionId?: string | null
+    status?: $Enums.AchievementStatus
+    verifiedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput
+  }
+
+  export type AchievementCreateOrConnectWithoutGradeInput = {
+    where: AchievementWhereUniqueInput
+    create: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput>
+  }
+
+  export type AchievementCreateManyGradeInputEnvelope = {
+    data: AchievementCreateManyGradeInput | AchievementCreateManyGradeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AchievementUpsertWithWhereUniqueWithoutGradeInput = {
+    where: AchievementWhereUniqueInput
+    update: XOR<AchievementUpdateWithoutGradeInput, AchievementUncheckedUpdateWithoutGradeInput>
+    create: XOR<AchievementCreateWithoutGradeInput, AchievementUncheckedCreateWithoutGradeInput>
+  }
+
+  export type AchievementUpdateWithWhereUniqueWithoutGradeInput = {
+    where: AchievementWhereUniqueInput
+    data: XOR<AchievementUpdateWithoutGradeInput, AchievementUncheckedUpdateWithoutGradeInput>
+  }
+
+  export type AchievementUpdateManyWithWhereWithoutGradeInput = {
+    where: AchievementScalarWhereInput
+    data: XOR<AchievementUpdateManyMutationInput, AchievementUncheckedUpdateManyWithoutGradeInput>
+  }
+
+  export type AchievementCreateWithoutGradeCompetitionInput = {
+    id?: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    status?: $Enums.AchievementStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    student: StudentCreateNestedOneWithoutAchievementsInput
+    grade?: GradeCreateNestedOneWithoutAchievementsInput
+    guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
+    academicScore?: AcademicScoreCreateNestedOneWithoutAchievementInput
+  }
+
+  export type AchievementUncheckedCreateWithoutGradeCompetitionInput = {
+    id?: string
+    studentId: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    gradeId?: string | null
+    status?: $Enums.AchievementStatus
+    verifiedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    academicScore?: AcademicScoreUncheckedCreateNestedOneWithoutAchievementInput
+  }
+
+  export type AchievementCreateOrConnectWithoutGradeCompetitionInput = {
+    where: AchievementWhereUniqueInput
+    create: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput>
+  }
+
+  export type AchievementCreateManyGradeCompetitionInputEnvelope = {
+    data: AchievementCreateManyGradeCompetitionInput | AchievementCreateManyGradeCompetitionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AchievementUpsertWithWhereUniqueWithoutGradeCompetitionInput = {
+    where: AchievementWhereUniqueInput
+    update: XOR<AchievementUpdateWithoutGradeCompetitionInput, AchievementUncheckedUpdateWithoutGradeCompetitionInput>
+    create: XOR<AchievementCreateWithoutGradeCompetitionInput, AchievementUncheckedCreateWithoutGradeCompetitionInput>
+  }
+
+  export type AchievementUpdateWithWhereUniqueWithoutGradeCompetitionInput = {
+    where: AchievementWhereUniqueInput
+    data: XOR<AchievementUpdateWithoutGradeCompetitionInput, AchievementUncheckedUpdateWithoutGradeCompetitionInput>
+  }
+
+  export type AchievementUpdateManyWithWhereWithoutGradeCompetitionInput = {
+    where: AchievementScalarWhereInput
+    data: XOR<AchievementUpdateManyMutationInput, AchievementUncheckedUpdateManyWithoutGradeCompetitionInput>
+  }
+
   export type StudentCreateWithoutAchievementsInput = {
     id?: string
     nisn: string
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29432,6 +32548,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29446,6 +32563,44 @@ export namespace Prisma {
   export type StudentCreateOrConnectWithoutAchievementsInput = {
     where: StudentWhereUniqueInput
     create: XOR<StudentCreateWithoutAchievementsInput, StudentUncheckedCreateWithoutAchievementsInput>
+  }
+
+  export type GradeCreateWithoutAchievementsInput = {
+    id?: string
+    gradeName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeUncheckedCreateWithoutAchievementsInput = {
+    id?: string
+    gradeName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeCreateOrConnectWithoutAchievementsInput = {
+    where: GradeWhereUniqueInput
+    create: XOR<GradeCreateWithoutAchievementsInput, GradeUncheckedCreateWithoutAchievementsInput>
+  }
+
+  export type GradeCompetitionCreateWithoutAchievementsInput = {
+    id?: string
+    gradeCompetitionName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeCompetitionUncheckedCreateWithoutAchievementsInput = {
+    id?: string
+    gradeCompetitionName: string
+    points: number
+    createdAt?: Date | string
+  }
+
+  export type GradeCompetitionCreateOrConnectWithoutAchievementsInput = {
+    where: GradeCompetitionWhereUniqueInput
+    create: XOR<GradeCompetitionCreateWithoutAchievementsInput, GradeCompetitionUncheckedCreateWithoutAchievementsInput>
   }
 
   export type UserCreateWithoutVerifiedAchievementsInput = {
@@ -29525,6 +32680,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29542,6 +32698,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29551,6 +32708,56 @@ export namespace Prisma {
     academicScores?: AcademicScoreUncheckedUpdateManyWithoutStudentNestedInput
     fcmTokens?: FCMTokenUncheckedUpdateManyWithoutStudentNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type GradeUpsertWithoutAchievementsInput = {
+    update: XOR<GradeUpdateWithoutAchievementsInput, GradeUncheckedUpdateWithoutAchievementsInput>
+    create: XOR<GradeCreateWithoutAchievementsInput, GradeUncheckedCreateWithoutAchievementsInput>
+    where?: GradeWhereInput
+  }
+
+  export type GradeUpdateToOneWithWhereWithoutAchievementsInput = {
+    where?: GradeWhereInput
+    data: XOR<GradeUpdateWithoutAchievementsInput, GradeUncheckedUpdateWithoutAchievementsInput>
+  }
+
+  export type GradeUpdateWithoutAchievementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeUncheckedUpdateWithoutAchievementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeCompetitionUpsertWithoutAchievementsInput = {
+    update: XOR<GradeCompetitionUpdateWithoutAchievementsInput, GradeCompetitionUncheckedUpdateWithoutAchievementsInput>
+    create: XOR<GradeCompetitionCreateWithoutAchievementsInput, GradeCompetitionUncheckedCreateWithoutAchievementsInput>
+    where?: GradeCompetitionWhereInput
+  }
+
+  export type GradeCompetitionUpdateToOneWithWhereWithoutAchievementsInput = {
+    where?: GradeCompetitionWhereInput
+    data: XOR<GradeCompetitionUpdateWithoutAchievementsInput, GradeCompetitionUncheckedUpdateWithoutAchievementsInput>
+  }
+
+  export type GradeCompetitionUpdateWithoutAchievementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type GradeCompetitionUncheckedUpdateWithoutAchievementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    gradeCompetitionName?: StringFieldUpdateOperationsInput | string
+    points?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutVerifiedAchievementsInput = {
@@ -29631,6 +32838,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29648,6 +32856,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29674,6 +32883,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     student: StudentCreateNestedOneWithoutAchievementsInput
+    grade?: GradeCreateNestedOneWithoutAchievementsInput
+    gradeCompetition?: GradeCompetitionCreateNestedOneWithoutAchievementsInput
     guru?: UserCreateNestedOneWithoutVerifiedAchievementsInput
   }
 
@@ -29684,6 +32895,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
     createdAt?: Date | string
@@ -29733,6 +32946,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29750,6 +32964,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29782,6 +32997,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    grade?: GradeUpdateOneWithoutAchievementsNestedInput
+    gradeCompetition?: GradeCompetitionUpdateOneWithoutAchievementsNestedInput
     guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
   }
 
@@ -29792,6 +33009,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29976,6 +33195,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -29993,6 +33213,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -30026,6 +33247,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30043,6 +33265,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30060,6 +33283,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -30077,6 +33301,7 @@ export namespace Prisma {
     password: string
     name: string
     kelas: string
+    dateBirth: Date | string
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -30110,6 +33335,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30127,6 +33353,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
+    dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30191,6 +33418,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30348,6 +33577,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    grade?: GradeUpdateOneWithoutAchievementsNestedInput
+    gradeCompetition?: GradeCompetitionUpdateOneWithoutAchievementsNestedInput
     academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
 
@@ -30358,6 +33589,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30371,6 +33604,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30405,6 +33640,8 @@ export namespace Prisma {
     result: string
     points?: number
     certificate?: string | null
+    gradeId?: string | null
+    gradeCompetitionId?: string | null
     status?: $Enums.AchievementStatus
     verifiedBy?: string | null
     createdAt?: Date | string
@@ -30517,6 +33754,8 @@ export namespace Prisma {
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    grade?: GradeUpdateOneWithoutAchievementsNestedInput
+    gradeCompetition?: GradeCompetitionUpdateOneWithoutAchievementsNestedInput
     guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
     academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
   }
@@ -30527,6 +33766,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30540,6 +33781,8 @@ export namespace Prisma {
     result?: StringFieldUpdateOperationsInput | string
     points?: IntFieldUpdateOperationsInput | number
     certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
     verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30882,6 +34125,122 @@ export namespace Prisma {
     registrationId?: StringFieldUpdateOperationsInput | string
     value?: JsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AchievementCreateManyGradeInput = {
+    id?: string
+    studentId: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    gradeCompetitionId?: string | null
+    status?: $Enums.AchievementStatus
+    verifiedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AchievementUpdateWithoutGradeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    gradeCompetition?: GradeCompetitionUpdateOneWithoutAchievementsNestedInput
+    guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
+    academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
+  }
+
+  export type AchievementUncheckedUpdateWithoutGradeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput
+  }
+
+  export type AchievementUncheckedUpdateManyWithoutGradeInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeCompetitionId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AchievementCreateManyGradeCompetitionInput = {
+    id?: string
+    studentId: string
+    competitionName: string
+    result: string
+    points?: number
+    certificate?: string | null
+    gradeId?: string | null
+    status?: $Enums.AchievementStatus
+    verifiedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AchievementUpdateWithoutGradeCompetitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: StudentUpdateOneRequiredWithoutAchievementsNestedInput
+    grade?: GradeUpdateOneWithoutAchievementsNestedInput
+    guru?: UserUpdateOneWithoutVerifiedAchievementsNestedInput
+    academicScore?: AcademicScoreUpdateOneWithoutAchievementNestedInput
+  }
+
+  export type AchievementUncheckedUpdateWithoutGradeCompetitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    academicScore?: AcademicScoreUncheckedUpdateOneWithoutAchievementNestedInput
+  }
+
+  export type AchievementUncheckedUpdateManyWithoutGradeCompetitionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    competitionName?: StringFieldUpdateOperationsInput | string
+    result?: StringFieldUpdateOperationsInput | string
+    points?: IntFieldUpdateOperationsInput | number
+    certificate?: NullableStringFieldUpdateOperationsInput | string | null
+    gradeId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumAchievementStatusFieldUpdateOperationsInput | $Enums.AchievementStatus
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AcademicScoreCreateManyAcademicYearInput = {
