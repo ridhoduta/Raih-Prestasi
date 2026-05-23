@@ -49,6 +49,11 @@ enum Semester {
   GENAP
 }
 
+enum Gender {
+  L
+  P
+}
+
 model User {
   id       String   @id @default(uuid())
   name     String
@@ -76,6 +81,7 @@ model Student {
   name           String
   kelas          String
   dateBirth      DateTime
+  gender         Gender?
   angkatan       Int
   isActive       Boolean                            @default(true)
   registrations  CompetitionRegistration[]

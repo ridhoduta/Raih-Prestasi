@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar } from "lucide-react";
+import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar, Users } from "lucide-react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -24,6 +24,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
         angkatan: new Date().getFullYear(),
         dateBirth: "",
         isActive: true,
+        gender:""
     });
 
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" }>({
@@ -47,7 +48,9 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
                     kelas: response.data.kelas,
                     angkatan: response.data.angkatan,
                     dateBirth: response.data.dateBirth ? new Date(response.data.dateBirth).toISOString().split('T')[0] : "",
+                    gender:response.data.gender,
                     isActive: response.data.isActive,
+
                 });
             } else {
                 showAlert("Error", "Gagal mengambil data siswa", "error");
@@ -79,8 +82,7 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
         e.preventDefault();
         if (isLoading) return;
 
-        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan || !formData.dateBirth) {
-            showAlert("Error", "Semua field wajib diisi.", "error");
+        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan || !formData.gender) {
             return;
         }
 
@@ -212,6 +214,36 @@ export default function EditStudentPage({ params }: { params: Promise<{ id: stri
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
                                 required
                             />
+                        </div>
+                         <div className="space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Users size={16} className="text-emerald-500" />
+                                Jenis Kelamin
+                            </label>
+                            <div className="flex gap-4 mt-2">
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="L"
+                                        checked={formData.gender === "L"}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                        className="w-4 h-4 text-emerald-500 focus:ring-emerald-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Laki-laki</span>
+                                </label>
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="P"
+                                        checked={formData.gender === "P"}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                        className="w-4 h-4 text-emerald-500 focus:ring-emerald-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Perempuan</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div className="space-y-2 md:col-span-2">

@@ -6,6 +6,7 @@ export type StudentPayload = {
     kelas: string;
     angkatan: number;
     dateBirth?: string;
+    gender: String;
     isActive?: boolean;
 };
 
@@ -16,6 +17,7 @@ export type Student = {
     kelas: string;
     angkatan: number;
     dateBirth: string;
+    gender: String;
     isActive: boolean;
 };
 

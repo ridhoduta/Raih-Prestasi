@@ -138,6 +138,7 @@ exports.Prisma.StudentScalarFieldEnum = {
   name: 'name',
   kelas: 'kelas',
   dateBirth: 'dateBirth',
+  gender: 'gender',
   angkatan: 'angkatan',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -346,6 +347,11 @@ exports.Prisma.JsonNullValueFilter = {
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
   GURU: 'GURU'
+};
+
+exports.Gender = exports.$Enums.Gender = {
+  L: 'L',
+  P: 'P'
 };
 
 exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {

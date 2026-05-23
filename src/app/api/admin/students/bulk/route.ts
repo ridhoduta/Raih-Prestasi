@@ -26,9 +26,10 @@ export async function POST(req: Request) {
                 const kelas = String(row["Kelas"] || row["kelas"] || "").trim();
                 const angkatanRaw = row["Angkatan"] || row["angkatan"];
                 const dateBirthRaw = row["Tanggal Lahir"] || row["tanggal lahir"] || row["tanggalLahir"] || row["tanggal_lahir"] || row["dateBirth"];
+                const genderRaw = row["Gender"] || row["Jenis Kelamin"] || row["JK"];
 
                 // Rule 7: Validate each row
-                if (!nisn || !name || !kelas || !angkatanRaw || !dateBirthRaw) {
+                if (!nisn || !name || !kelas || !angkatanRaw || !dateBirthRaw || !genderRaw) {
                     errors.push(`Baris hilang data wajib: NISN=${nisn}, Nama=${name}, Tanggal Lahir=${dateBirthRaw || 'kosong'}`);
                     continue;
                 }

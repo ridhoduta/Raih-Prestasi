@@ -172,6 +172,14 @@ export const Semester: {
 
 export type Semester = (typeof Semester)[keyof typeof Semester]
 
+
+export const Gender: {
+  L: 'L',
+  P: 'P'
+};
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -197,6 +205,10 @@ export const RegistrationStatus: typeof $Enums.RegistrationStatus
 export type Semester = $Enums.Semester
 
 export const Semester: typeof $Enums.Semester
+
+export type Gender = $Enums.Gender
+
+export const Gender: typeof $Enums.Gender
 
 /**
  * ##  Prisma Client ʲˢ
@@ -4245,6 +4257,7 @@ export namespace Prisma {
     name: string | null
     kelas: string | null
     dateBirth: Date | null
+    gender: $Enums.Gender | null
     angkatan: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4258,6 +4271,7 @@ export namespace Prisma {
     name: string | null
     kelas: string | null
     dateBirth: Date | null
+    gender: $Enums.Gender | null
     angkatan: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -4271,6 +4285,7 @@ export namespace Prisma {
     name: number
     kelas: number
     dateBirth: number
+    gender: number
     angkatan: number
     isActive: number
     createdAt: number
@@ -4294,6 +4309,7 @@ export namespace Prisma {
     name?: true
     kelas?: true
     dateBirth?: true
+    gender?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4307,6 +4323,7 @@ export namespace Prisma {
     name?: true
     kelas?: true
     dateBirth?: true
+    gender?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4320,6 +4337,7 @@ export namespace Prisma {
     name?: true
     kelas?: true
     dateBirth?: true
+    gender?: true
     angkatan?: true
     isActive?: true
     createdAt?: true
@@ -4420,6 +4438,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date
+    gender: $Enums.Gender | null
     angkatan: number
     isActive: boolean
     createdAt: Date
@@ -4452,6 +4471,7 @@ export namespace Prisma {
     name?: boolean
     kelas?: boolean
     dateBirth?: boolean
+    gender?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4472,6 +4492,7 @@ export namespace Prisma {
     name?: boolean
     kelas?: boolean
     dateBirth?: boolean
+    gender?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4485,6 +4506,7 @@ export namespace Prisma {
     name?: boolean
     kelas?: boolean
     dateBirth?: boolean
+    gender?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -4498,13 +4520,14 @@ export namespace Prisma {
     name?: boolean
     kelas?: boolean
     dateBirth?: boolean
+    gender?: boolean
     angkatan?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nisn" | "password" | "name" | "kelas" | "dateBirth" | "angkatan" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
+  export type StudentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nisn" | "password" | "name" | "kelas" | "dateBirth" | "gender" | "angkatan" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["student"]>
   export type StudentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     registrations?: boolean | Student$registrationsArgs<ExtArgs>
     submissions?: boolean | Student$submissionsArgs<ExtArgs>
@@ -4534,6 +4557,7 @@ export namespace Prisma {
       name: string
       kelas: string
       dateBirth: Date
+      gender: $Enums.Gender | null
       angkatan: number
       isActive: boolean
       createdAt: Date
@@ -4973,6 +4997,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Student", 'String'>
     readonly kelas: FieldRef<"Student", 'String'>
     readonly dateBirth: FieldRef<"Student", 'DateTime'>
+    readonly gender: FieldRef<"Student", 'Gender'>
     readonly angkatan: FieldRef<"Student", 'Int'>
     readonly isActive: FieldRef<"Student", 'Boolean'>
     readonly createdAt: FieldRef<"Student", 'DateTime'>
@@ -24567,6 +24592,7 @@ export namespace Prisma {
     name: 'name',
     kelas: 'kelas',
     dateBirth: 'dateBirth',
+    gender: 'gender',
     angkatan: 'angkatan',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -24900,6 +24926,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Gender'
+   */
+  export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+  /**
+   * Reference to a field of type 'Gender[]'
+   */
+  export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -25106,6 +25146,7 @@ export namespace Prisma {
     name?: StringFilter<"Student"> | string
     kelas?: StringFilter<"Student"> | string
     dateBirth?: DateTimeFilter<"Student"> | Date | string
+    gender?: EnumGenderNullableFilter<"Student"> | $Enums.Gender | null
     angkatan?: IntFilter<"Student"> | number
     isActive?: BoolFilter<"Student"> | boolean
     createdAt?: DateTimeFilter<"Student"> | Date | string
@@ -25125,6 +25166,7 @@ export namespace Prisma {
     name?: SortOrder
     kelas?: SortOrder
     dateBirth?: SortOrder
+    gender?: SortOrderInput | SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25147,6 +25189,7 @@ export namespace Prisma {
     name?: StringFilter<"Student"> | string
     kelas?: StringFilter<"Student"> | string
     dateBirth?: DateTimeFilter<"Student"> | Date | string
+    gender?: EnumGenderNullableFilter<"Student"> | $Enums.Gender | null
     angkatan?: IntFilter<"Student"> | number
     isActive?: BoolFilter<"Student"> | boolean
     createdAt?: DateTimeFilter<"Student"> | Date | string
@@ -25166,6 +25209,7 @@ export namespace Prisma {
     name?: SortOrder
     kelas?: SortOrder
     dateBirth?: SortOrder
+    gender?: SortOrderInput | SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25187,6 +25231,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Student"> | string
     kelas?: StringWithAggregatesFilter<"Student"> | string
     dateBirth?: DateTimeWithAggregatesFilter<"Student"> | Date | string
+    gender?: EnumGenderNullableWithAggregatesFilter<"Student"> | $Enums.Gender | null
     angkatan?: IntWithAggregatesFilter<"Student"> | number
     isActive?: BoolWithAggregatesFilter<"Student"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Student"> | Date | string
@@ -26462,6 +26507,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -26481,6 +26527,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -26500,6 +26547,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26519,6 +26567,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26538,6 +26587,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -26551,6 +26601,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26564,6 +26615,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27953,6 +28005,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -27988,6 +28047,11 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CompetitionRegistrationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -28011,6 +28075,7 @@ export namespace Prisma {
     name?: SortOrder
     kelas?: SortOrder
     dateBirth?: SortOrder
+    gender?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -28028,6 +28093,7 @@ export namespace Prisma {
     name?: SortOrder
     kelas?: SortOrder
     dateBirth?: SortOrder
+    gender?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -28041,6 +28107,7 @@ export namespace Prisma {
     name?: SortOrder
     kelas?: SortOrder
     dateBirth?: SortOrder
+    gender?: SortOrder
     angkatan?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -28049,6 +28116,16 @@ export namespace Prisma {
 
   export type StudentSumOrderByAggregateInput = {
     angkatan?: SortOrder
+  }
+
+  export type EnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -28144,11 +28221,6 @@ export namespace Prisma {
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type NewsCountOrderByAggregateInput = {
@@ -29272,6 +29344,10 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type NullableEnumGenderFieldUpdateOperationsInput = {
+    set?: $Enums.Gender | null
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -30345,6 +30421,34 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumGenderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableFilter<$PrismaModel> | $Enums.Gender | null
+  }
+
+  export type NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumGenderNullableWithAggregatesFilter<$PrismaModel> | $Enums.Gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumGenderNullableFilter<$PrismaModel>
+    _max?: NestedEnumGenderNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -30401,17 +30505,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedEnumRegistrationStatusFilter<$PrismaModel = never> = {
@@ -31757,6 +31850,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -31775,6 +31869,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -31876,6 +31971,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31894,6 +31990,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32179,6 +32276,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32197,6 +32295,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32266,6 +32365,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32284,6 +32384,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32531,6 +32632,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32549,6 +32651,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32681,6 +32784,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32699,6 +32803,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32839,6 +32944,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32857,6 +32963,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -32947,6 +33054,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32965,6 +33073,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33196,6 +33305,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -33214,6 +33324,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -33248,6 +33359,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33266,6 +33378,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33284,6 +33397,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -33302,6 +33416,7 @@ export namespace Prisma {
     name: string
     kelas: string
     dateBirth: Date | string
+    gender?: $Enums.Gender | null
     angkatan: number
     isActive?: boolean
     createdAt?: Date | string
@@ -33336,6 +33451,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33354,6 +33470,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     kelas?: StringFieldUpdateOperationsInput | string
     dateBirth?: DateTimeFieldUpdateOperationsInput | Date | string
+    gender?: NullableEnumGenderFieldUpdateOperationsInput | $Enums.Gender | null
     angkatan?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

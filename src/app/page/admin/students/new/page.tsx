@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar } from "lucide-react";
+import { ChevronLeft, Loader2, Save, User, Hash, GraduationCap, Calendar, Users } from "lucide-react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -18,6 +18,7 @@ export default function NewStudentPage() {
         name: "",
         kelas: "",
         angkatan: new Date().getFullYear(),
+        gender: ""
     });
 
     const [alertState, setAlertState] = useState<{ isOpen: boolean; title: string; message: string; type: "success" | "error" }>({
@@ -43,7 +44,7 @@ export default function NewStudentPage() {
         e.preventDefault();
         if (isLoading) return;
 
-        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan) {
+        if (!formData.nisn || !formData.name || !formData.kelas || !formData.angkatan || !formData.gender) {
             showAlert("Error", "Semua field wajib diisi.", "error");
             return;
         }
@@ -101,7 +102,6 @@ export default function NewStudentPage() {
                                 className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
                                 required
                             />
-                            <p className="text-xs text-gray-400 mt-1">*Password default akan sama dengan NISN</p>
                         </div>
 
                         <div className="space-y-2">
@@ -154,6 +154,52 @@ export default function NewStudentPage() {
                                 required
                             />
                         </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Calendar size={16} className="text-emerald-500" />
+                                Tanggal Lahir
+                            </label>
+                            <input
+                                id="student-dateBirth"
+                                type="date"
+                                name="dateBirth"
+                                value={formData.dateBirth || ""}
+                                onChange={handleInputChange}
+                                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black"
+                                required
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                                <Users size={16} className="text-emerald-500" />
+                                Jenis Kelamin
+                            </label>
+                            <div className="flex gap-4 mt-2">
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="L"
+                                        checked={formData.gender === "L"}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                        className="w-4 h-4 text-emerald-500 focus:ring-emerald-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Laki-laki</span>
+                                </label>
+                                <label className="flex items-center gap-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        name="gender"
+                                        value="P"
+                                        checked={formData.gender === "P"}
+                                        onChange={(e) => setFormData(prev => ({ ...prev, gender: e.target.value }))}
+                                        className="w-4 h-4 text-emerald-500 focus:ring-emerald-500 border-gray-300"
+                                    />
+                                    <span className="text-gray-700">Perempuan</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -178,7 +224,7 @@ export default function NewStudentPage() {
                         ) : (
                             <>
                                 <Save size={18} />
-                                Simpan Data
+                                Simpan Perubahan
                             </>
                         )}
                     </button>
