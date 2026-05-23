@@ -20,10 +20,32 @@ export async function GET(req: Request, context: Context) {
 
   const achievements = await prisma.achievement.findMany({
     where: { studentId },
-    include: {
+    select: {
+      id: true,
+      competitionName: true,
+      result: true,
+      certificate: true,
+      status: true,
+      createdAt: true,
+      updatedAt: true,
+      verifiedBy: true,
       guru: {
         select: {
           name: true,
+        },
+      },
+      grade: {
+        select: {
+          id: true,
+          gradeName: true,
+          points: true,
+        },
+      },
+      gradeCompetition: {
+        select: {
+          id: true,
+          gradeCompetitionName: true,
+          points: true,
         },
       },
     },
