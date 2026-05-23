@@ -95,7 +95,7 @@ export function GradeTable({ grades, isLoading, onEdit, onDelete }: GradeTablePr
                                         onClick={() => onDelete(grade.id, grade.gradeName)}
                                         className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         title="Hapus"
-                                        disabled={grade._count?.achievements && grade._count.achievements > 0}
+                                        disabled={!!grade._count?.achievements && grade._count.achievements > 0}
                                     >
                                         <Trash2 size={16} />
                                     </button>
