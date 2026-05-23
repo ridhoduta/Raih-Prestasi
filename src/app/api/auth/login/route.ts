@@ -71,7 +71,7 @@ export async function POST(request: Request) {
           nisn: nisn || null,
           role: role,
           kelas: user.kelas,
-          dateBirht:user.dateBirth,
+          dateBirth:user.dateBirth,
           angkatan : user.angkatan,
           gender: user.gender
         }
