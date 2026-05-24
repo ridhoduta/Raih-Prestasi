@@ -34,7 +34,8 @@ export async function GET() {
       monthlyStudents,
       monthlyAchievements,
       monthlyCompetitions,
-      expiringCompetitions
+      expiringCompetitions,
+      studentsWithAchievements
     ] = await Promise.all([
       prisma.user.count({ where: { role: "GURU" } }),
       prisma.student.count(),
@@ -76,8 +77,46 @@ export async function GET() {
         },
         take: 5,
         orderBy: { endDate: 'asc' }
+      }),
+      prisma.student.findMany({
+        where: {
+          achievements: {
+            some: {
+              status: 'TERVERIFIKASI'
+            }
+          }
+        },
+        select: {
+          id: true,
+          name: true,
+          kelas: true,
+          achievements: {
+            where: { status: 'TERVERIFIKASI' },
+            select: {
+              grade: { select: { points: true } },
+              gradeCompetition: { select: { points: true } }
+            }
+          }
+        }
       })
     ]);
+
+    // Format Leaderboard
+    const leaderboard = (studentsWithAchievements as any[]).map((student: any) => {
+      const totalScore = student.achievements.reduce((acc: number, curr: any) => {
+        const gradePoints = curr.grade?.points || 0;
+        const compPoints = curr.gradeCompetition?.points || 0;
+        // Asumsi poin dihitung dari grade poin juara + grade kompetisi
+        return acc + gradePoints + compPoints;
+      }, 0);
+
+      return {
+        id: student.id,
+        name: student.name,
+        kelas: student.kelas,
+        totalScore
+      };
+    }).sort((a, b) => b.totalScore - a.totalScore).slice(0, 10); // Ambil top 10
 
     // Helper to format chart data
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agt", "Sep", "Okt", "Nov", "Des"];
@@ -124,6 +163,7 @@ export async function GET() {
         totalPrestasi,
         totalAnnouncements,
         chartData,
+        leaderboard,
         recentActivities: (recentActivities as any[]).map((comp: any) => ({
           id: comp.id,
           title: comp.title,

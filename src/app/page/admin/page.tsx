@@ -24,6 +24,7 @@ import { StatCard } from "./components/StatCard";
 import { RecentActivity } from "./components/RecentActivity";
 import { ExpiringCompetitions } from "./components/ExpiringCompetitions";
 import { ChartSection } from "./components/ChartSection";
+import { Leaderboard } from "./components/Leaderboard";
 
 export default function AdminDashboard() {
   const { session, stats, loading } = useAdminDashboard();
@@ -127,6 +128,9 @@ export default function AdminDashboard() {
           />
         ))}
       </div>
+
+      {/* 1.3 Leaderboard Prestasi (Moved to top for visibility) */}
+      <Leaderboard leaderboard={stats?.leaderboard} />
 
       {/* 1.4 Statistik & Tren Sistem */}
       <ChartSection data={stats?.chartData} />

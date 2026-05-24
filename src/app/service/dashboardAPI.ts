@@ -28,6 +28,12 @@ export type DashboardStats = {
     description: string;
     time: string;
   }>;
+  leaderboard: Array<{
+    id: string;
+    name: string;
+    kelas: string;
+    totalScore: number;
+  }>;
 };
 
 const BASE_URL = "/api/admin/dashboard";
