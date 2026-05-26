@@ -18,6 +18,7 @@ interface LeaderboardProps {
     name: string;
     kelas: string;
     totalScore: number;
+    totalAchievements?: number;
   }>;
 }
 
@@ -94,8 +95,15 @@ export function Leaderboard({ leaderboard }: LeaderboardProps) {
                 <h4 className="text-sm font-semibold text-gray-900 truncate">{student.name}</h4>
                 <p className="text-xs text-gray-500">{student.kelas}</p>
               </div>
-              <div className="font-bold text-emerald-600">
-                {student.totalScore} pts
+              <div className="text-right">
+                <div className="font-bold text-emerald-600">
+                  {student.totalScore} pts
+                </div>
+                {student.totalAchievements !== undefined && (
+                  <div className="text-[10px] text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-full inline-block mt-0.5">
+                    {student.totalAchievements} Prestasi
+                  </div>
+                )}
               </div>
             </div>
           ))}

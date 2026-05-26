@@ -83,12 +83,12 @@ export default function ModalGrade({
                             type="text"
                             value={formData.gradeName}
                             onChange={(e) => setFormData(prev => ({ ...prev, gradeName: e.target.value.toUpperCase() }))}
-                            placeholder="Contoh: A, B, C, D"
-                            maxLength={2}
-                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black uppercase font-semibold text-lg text-center"
+                            placeholder="Contoh: A, EMAS, NASIONAL"
+                            maxLength={30}
+                            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-black uppercase font-semibold text-base text-center"
                             required
                         />
-                        <p className="text-xs text-gray-500">Huruf kapital (A-Z), maksimal 2 karakter</p>
+                        <p className="text-xs text-gray-500">Nama grade berupa huruf atau kata (A, B, EMAS, NASIONAL, dll)</p>
                     </div>
 
                     <div className="space-y-2">

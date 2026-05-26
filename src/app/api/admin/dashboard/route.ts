@@ -114,7 +114,8 @@ export async function GET() {
         id: student.id,
         name: student.name,
         kelas: student.kelas,
-        totalScore
+        totalScore,
+        totalAchievements: student.achievements.length
       };
     }).sort((a, b) => b.totalScore - a.totalScore).slice(0, 10); // Ambil top 10
 

@@ -44,19 +44,44 @@ export default function ModalAssignGrade({
 
     if (!isOpen || !achievement) return null;
 
-    const getGradeStyle = (name: string, selected: boolean, type: "grade" | "competition") => {
-        const colorMap: Record<string, { idle: string; active: string }> = {
-            A: { idle: "bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200", active: "bg-emerald-500 text-white border-emerald-600" },
-            B: { idle: "bg-blue-100 text-blue-700 border-blue-200 hover:bg-blue-200", active: "bg-blue-500 text-white border-blue-600" },
-            C: { idle: "bg-yellow-100 text-yellow-700 border-yellow-200 hover:bg-yellow-200", active: "bg-yellow-500 text-white border-yellow-600" },
-            D: { idle: "bg-orange-100 text-orange-700 border-orange-200 hover:bg-orange-200", active: "bg-orange-500 text-white border-orange-600" },
-            E: { idle: "bg-red-100 text-red-700 border-red-200 hover:bg-red-200", active: "bg-red-500 text-white border-red-600" },
-        };
+    const getGradeStyle = (name: string, selected: boolean) => {
         const key = name.toUpperCase();
-        const colors = colorMap[key] ?? {
-            idle: "bg-gray-100 text-gray-700 border-gray-200 hover:bg-gray-200",
-            active: "bg-gray-500 text-white border-gray-600",
+        
+        let colorClass = "gray";
+        if (key === 'A' || key.includes('INTERNASIONAL') || key.includes('WORLD') || key.includes('GLOBAL')) {
+            colorClass = "purple";
+        } else if (key === 'B' || key.includes('NASIONAL') || key.includes('EMAS') || key.includes('GOLD') || key.includes('1')) {
+            colorClass = "emerald";
+        } else if (key === 'C' || key.includes('PROVINSI') || key.includes('PERAK') || key.includes('SILVER') || key.includes('2')) {
+            colorClass = "blue";
+        } else if (key === 'D' || key.includes('KABUPATEN') || key.includes('KOTA') || key.includes('PERUNGGU') || key.includes('BRONZE') || key.includes('3')) {
+            colorClass = "amber";
+        } else if (key === 'E' || key.includes('KECAMATAN')) {
+            colorClass = "orange";
+        } else if (key.includes('SEKOLAH') || key.includes('INTERNAL')) {
+            colorClass = "gray";
+        } else {
+            const classes = ["purple", "emerald", "blue", "amber", "orange", "pink", "indigo", "cyan"];
+            let hash = 0;
+            for (let i = 0; i < key.length; i++) {
+                hash = key.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            colorClass = classes[Math.abs(hash) % classes.length];
+        }
+
+        const styles: Record<string, { idle: string; active: string }> = {
+            purple: { idle: "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100", active: "bg-purple-600 text-white border-purple-700" },
+            emerald: { idle: "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100", active: "bg-emerald-600 text-white border-emerald-700" },
+            blue: { idle: "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100", active: "bg-blue-600 text-white border-blue-700" },
+            amber: { idle: "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100", active: "bg-amber-600 text-white border-amber-700" },
+            orange: { idle: "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100", active: "bg-orange-600 text-white border-orange-700" },
+            pink: { idle: "bg-pink-50 text-pink-700 border-pink-200 hover:bg-pink-100", active: "bg-pink-600 text-white border-pink-700" },
+            indigo: { idle: "bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100", active: "bg-indigo-600 text-white border-indigo-700" },
+            cyan: { idle: "bg-cyan-50 text-cyan-700 border-cyan-200 hover:bg-cyan-100", active: "bg-cyan-600 text-white border-cyan-700" },
+            gray: { idle: "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100", active: "bg-gray-600 text-white border-gray-700" }
         };
+
+        const colors = styles[colorClass] || styles.gray;
         return selected ? colors.active : colors.idle;
     };
 
@@ -111,16 +136,16 @@ export default function ModalAssignGrade({
                                 Belum ada grade tersedia
                             </p>
                         ) : (
-                            <div className="grid grid-cols-5 gap-2">
+                            <div className="flex flex-wrap gap-2">
                                 {grades.map((grade) => (
                                     <button key={grade.id} type="button"
                                         onClick={() => setSelectedGradeId(prev => prev === grade.id ? null : grade.id)}
-                                        className={`relative flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${getGradeStyle(grade.gradeName, selectedGradeId === grade.id, "grade")}`}>
+                                        className={`relative flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 transition-all font-medium text-sm ${getGradeStyle(grade.gradeName, selectedGradeId === grade.id)}`}>
+                                        <span className="font-bold">{grade.gradeName}</span>
+                                        <span className="opacity-75 text-xs">({grade.points} pts)</span>
                                         {selectedGradeId === grade.id && (
-                                            <CheckCircle size={14} className="absolute top-1 right-1" />
+                                            <CheckCircle size={14} className="ml-0.5 shrink-0" />
                                         )}
-                                        <span className="text-xl font-bold">{grade.gradeName}</span>
-                                        <span className="text-xs mt-0.5">{grade.points} pts</span>
                                     </button>
                                 ))}
                             </div>
@@ -144,16 +169,16 @@ export default function ModalAssignGrade({
                                 Belum ada grade kompetisi tersedia
                             </p>
                         ) : (
-                            <div className="grid grid-cols-5 gap-2">
+                            <div className="flex flex-wrap gap-2">
                                 {gradesCompetition.map((grade) => (
                                     <button key={grade.id} type="button"
                                         onClick={() => setSelectedGradeCompetitionId(prev => prev === grade.id ? null : grade.id)}
-                                        className={`relative flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all ${getGradeStyle(grade.gradeCompetitionName, selectedGradeCompetitionId === grade.id, "competition")}`}>
+                                        className={`relative flex items-center gap-1.5 px-3 py-2 rounded-xl border-2 transition-all font-medium text-sm ${getGradeStyle(grade.gradeCompetitionName, selectedGradeCompetitionId === grade.id)}`}>
+                                        <span className="font-bold">{grade.gradeCompetitionName}</span>
+                                        <span className="opacity-75 text-xs">({grade.points} pts)</span>
                                         {selectedGradeCompetitionId === grade.id && (
-                                            <CheckCircle size={14} className="absolute top-1 right-1" />
+                                            <CheckCircle size={14} className="ml-0.5 shrink-0" />
                                         )}
-                                        <span className="text-xl font-bold">{grade.gradeCompetitionName}</span>
-                                        <span className="text-xs mt-0.5">{grade.points} pts</span>
                                     </button>
                                 ))}
                             </div>

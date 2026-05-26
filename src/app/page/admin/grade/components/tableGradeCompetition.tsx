@@ -26,14 +26,53 @@ export function GradeCompetitionTable({ grades, isLoading, onEdit, onDelete }: G
     }
 
     const getGradeColor = (gradeCompetitionName: string) => {
-        switch (gradeCompetitionName.toUpperCase()) {
-            case 'A': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-            case 'B': return 'bg-blue-100 text-blue-700 border-blue-200';
-            case 'C': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-            case 'D': return 'bg-orange-100 text-orange-700 border-orange-200';
-            case 'E': return 'bg-red-100 text-red-700 border-red-200';
-            default: return 'bg-gray-100 text-gray-700 border-gray-200';
+        if (!gradeCompetitionName) return 'bg-gray-100 text-gray-700 border-gray-200';
+        const name = gradeCompetitionName.toUpperCase();
+        
+        // Single characters
+        if (name === 'A') return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+        if (name === 'B') return 'bg-blue-100 text-blue-700 border-blue-200';
+        if (name === 'C') return 'bg-amber-100 text-amber-700 border-amber-200';
+        if (name === 'D') return 'bg-orange-100 text-orange-700 border-orange-200';
+        if (name === 'E') return 'bg-red-100 text-red-700 border-red-200';
+
+        // Words / Keywords matching
+        if (name.includes('INTERNASIONAL') || name.includes('WORLD') || name.includes('GLOBAL')) {
+            return 'bg-purple-100 text-purple-700 border-purple-200';
         }
+        if (name.includes('NASIONAL') || name.includes('EMAS') || name.includes('GOLD') || name.includes('1')) {
+            return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+        }
+        if (name.includes('PROVINSI') || name.includes('PERAK') || name.includes('SILVER') || name.includes('2')) {
+            return 'bg-blue-100 text-blue-700 border-blue-200';
+        }
+        if (name.includes('KABUPATEN') || name.includes('KOTA') || name.includes('PERUNGGU') || name.includes('BRONZE') || name.includes('3')) {
+            return 'bg-amber-100 text-amber-700 border-amber-200';
+        }
+        if (name.includes('KECAMATAN')) {
+            return 'bg-orange-100 text-orange-700 border-orange-200';
+        }
+        if (name.includes('SEKOLAH') || name.includes('INTERNAL')) {
+            return 'bg-gray-100 text-gray-700 border-gray-200';
+        }
+
+        // Generic fallback with nice aesthetic colors based on string length/hash so they look consistent but distinct!
+        const colors = [
+            'bg-emerald-100 text-emerald-700 border-emerald-200',
+            'bg-blue-100 text-blue-700 border-blue-200',
+            'bg-amber-100 text-amber-700 border-amber-200',
+            'bg-purple-100 text-purple-700 border-purple-200',
+            'bg-pink-100 text-pink-700 border-pink-200',
+            'bg-indigo-100 text-indigo-700 border-indigo-200',
+            'bg-cyan-100 text-cyan-700 border-cyan-200'
+        ];
+        
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const index = Math.abs(hash) % colors.length;
+        return colors[index];
     };
 
     return (
@@ -52,7 +91,7 @@ export function GradeCompetitionTable({ grades, isLoading, onEdit, onDelete }: G
                         <tr key={grade.id} className="hover:bg-gray-50/50 transition-colors">
                             <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg border ${getGradeColor(grade.gradeCompetitionName)}`}>
+                                    <div className={`px-4 py-2 min-w-[3rem] h-12 rounded-xl flex items-center justify-center font-bold text-base border whitespace-nowrap ${getGradeColor(grade.gradeCompetitionName)}`}>
                                         {grade.gradeCompetitionName}
                                     </div>
                                     <div>
