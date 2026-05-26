@@ -57,6 +57,21 @@ export async function POST(req: Request, context: Context) {
       );
     }
 
+    // 🔒 Cek batas maksimal 3 pendaftaran menunggu
+    const pendingCount = await prisma.competitionRegistration.count({
+      where: {
+        studentId,
+        status: "MENUNGGU",
+      },
+    });
+
+    if (pendingCount >= 3) {
+      return NextResponse.json(
+        { success: false, message: "Tidak bisa mendaftar, maksimal 3 pendaftaran berstatus menunggu" },
+        { status: 400 },
+      );
+    }
+
     // ✅ Buat pendaftaran
     const registration = await prisma.competitionRegistration.create({
       data: {
