@@ -180,6 +180,14 @@ export const Gender: {
 
 export type Gender = (typeof Gender)[keyof typeof Gender]
 
+
+export const CompetitionType: {
+  INDIVIDU: 'INDIVIDU',
+  TIM: 'TIM'
+};
+
+export type CompetitionType = (typeof CompetitionType)[keyof typeof CompetitionType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -209,6 +217,10 @@ export const Semester: typeof $Enums.Semester
 export type Gender = $Enums.Gender
 
 export const Gender: typeof $Enums.Gender
+
+export type CompetitionType = $Enums.CompetitionType
+
+export const CompetitionType: typeof $Enums.CompetitionType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -8852,6 +8864,7 @@ export namespace Prisma {
     description: string | null
     thumbnail: string | null
     isActive: boolean | null
+    type: $Enums.CompetitionType | null
     startDate: Date | null
     endDate: Date | null
     categoryId: string | null
@@ -8867,6 +8880,7 @@ export namespace Prisma {
     description: string | null
     thumbnail: string | null
     isActive: boolean | null
+    type: $Enums.CompetitionType | null
     startDate: Date | null
     endDate: Date | null
     categoryId: string | null
@@ -8882,6 +8896,7 @@ export namespace Prisma {
     description: number
     thumbnail: number
     isActive: number
+    type: number
     startDate: number
     endDate: number
     categoryId: number
@@ -8899,6 +8914,7 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     isActive?: true
+    type?: true
     startDate?: true
     endDate?: true
     categoryId?: true
@@ -8914,6 +8930,7 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     isActive?: true
+    type?: true
     startDate?: true
     endDate?: true
     categoryId?: true
@@ -8929,6 +8946,7 @@ export namespace Prisma {
     description?: true
     thumbnail?: true
     isActive?: true
+    type?: true
     startDate?: true
     endDate?: true
     categoryId?: true
@@ -9017,6 +9035,7 @@ export namespace Prisma {
     description: string | null
     thumbnail: string | null
     isActive: boolean
+    type: $Enums.CompetitionType
     startDate: Date
     endDate: Date
     categoryId: string
@@ -9049,6 +9068,7 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     isActive?: boolean
+    type?: boolean
     startDate?: boolean
     endDate?: boolean
     categoryId?: boolean
@@ -9070,6 +9090,7 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     isActive?: boolean
+    type?: boolean
     startDate?: boolean
     endDate?: boolean
     categoryId?: boolean
@@ -9088,6 +9109,7 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     isActive?: boolean
+    type?: boolean
     startDate?: boolean
     endDate?: boolean
     categoryId?: boolean
@@ -9106,6 +9128,7 @@ export namespace Prisma {
     description?: boolean
     thumbnail?: boolean
     isActive?: boolean
+    type?: boolean
     startDate?: boolean
     endDate?: boolean
     categoryId?: boolean
@@ -9115,7 +9138,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CompetitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "isActive" | "startDate" | "endDate" | "categoryId" | "levelId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["competition"]>
+  export type CompetitionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "thumbnail" | "isActive" | "type" | "startDate" | "endDate" | "categoryId" | "levelId" | "createdBy" | "createdAt" | "updatedAt", ExtArgs["result"]["competition"]>
   export type CompetitionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CompetitionCategoryDefaultArgs<ExtArgs>
     level?: boolean | CompetitionLevelDefaultArgs<ExtArgs>
@@ -9150,6 +9173,7 @@ export namespace Prisma {
       description: string | null
       thumbnail: string | null
       isActive: boolean
+      type: $Enums.CompetitionType
       startDate: Date
       endDate: Date
       categoryId: string
@@ -9590,6 +9614,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Competition", 'String'>
     readonly thumbnail: FieldRef<"Competition", 'String'>
     readonly isActive: FieldRef<"Competition", 'Boolean'>
+    readonly type: FieldRef<"Competition", 'CompetitionType'>
     readonly startDate: FieldRef<"Competition", 'DateTime'>
     readonly endDate: FieldRef<"Competition", 'DateTime'>
     readonly categoryId: FieldRef<"Competition", 'String'>
@@ -24645,6 +24670,7 @@ export namespace Prisma {
     description: 'description',
     thumbnail: 'thumbnail',
     isActive: 'isActive',
+    type: 'type',
     startDate: 'startDate',
     endDate: 'endDate',
     categoryId: 'categoryId',
@@ -24950,6 +24976,20 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompetitionType'
+   */
+  export type EnumCompetitionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompetitionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'CompetitionType[]'
+   */
+  export type ListEnumCompetitionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CompetitionType[]'>
     
 
 
@@ -25434,6 +25474,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Competition"> | string | null
     thumbnail?: StringNullableFilter<"Competition"> | string | null
     isActive?: BoolFilter<"Competition"> | boolean
+    type?: EnumCompetitionTypeFilter<"Competition"> | $Enums.CompetitionType
     startDate?: DateTimeFilter<"Competition"> | Date | string
     endDate?: DateTimeFilter<"Competition"> | Date | string
     categoryId?: StringFilter<"Competition"> | string
@@ -25454,6 +25495,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     thumbnail?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    type?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     categoryId?: SortOrder
@@ -25477,6 +25519,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Competition"> | string | null
     thumbnail?: StringNullableFilter<"Competition"> | string | null
     isActive?: BoolFilter<"Competition"> | boolean
+    type?: EnumCompetitionTypeFilter<"Competition"> | $Enums.CompetitionType
     startDate?: DateTimeFilter<"Competition"> | Date | string
     endDate?: DateTimeFilter<"Competition"> | Date | string
     categoryId?: StringFilter<"Competition"> | string
@@ -25497,6 +25540,7 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     thumbnail?: SortOrderInput | SortOrder
     isActive?: SortOrder
+    type?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     categoryId?: SortOrder
@@ -25518,6 +25562,7 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Competition"> | string | null
     thumbnail?: StringNullableWithAggregatesFilter<"Competition"> | string | null
     isActive?: BoolWithAggregatesFilter<"Competition"> | boolean
+    type?: EnumCompetitionTypeWithAggregatesFilter<"Competition"> | $Enums.CompetitionType
     startDate?: DateTimeWithAggregatesFilter<"Competition"> | Date | string
     endDate?: DateTimeWithAggregatesFilter<"Competition"> | Date | string
     categoryId?: StringWithAggregatesFilter<"Competition"> | string
@@ -26831,6 +26876,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -26848,6 +26894,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -26865,6 +26912,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26882,6 +26930,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -26899,6 +26948,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -26914,6 +26964,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26926,6 +26977,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -28274,6 +28326,13 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type EnumCompetitionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompetitionType | EnumCompetitionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompetitionTypeFilter<$PrismaModel> | $Enums.CompetitionType
+  }
+
   export type CompetitionCategoryScalarRelationFilter = {
     is?: CompetitionCategoryWhereInput
     isNot?: CompetitionCategoryWhereInput
@@ -28300,6 +28359,7 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     isActive?: SortOrder
+    type?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     categoryId?: SortOrder
@@ -28315,6 +28375,7 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     isActive?: SortOrder
+    type?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     categoryId?: SortOrder
@@ -28330,6 +28391,7 @@ export namespace Prisma {
     description?: SortOrder
     thumbnail?: SortOrder
     isActive?: SortOrder
+    type?: SortOrder
     startDate?: SortOrder
     endDate?: SortOrder
     categoryId?: SortOrder
@@ -28337,6 +28399,16 @@ export namespace Prisma {
     createdBy?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumCompetitionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompetitionType | EnumCompetitionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompetitionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompetitionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompetitionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCompetitionTypeFilter<$PrismaModel>
   }
 
   export type EnumRegistrationStatusFilter<$PrismaModel = never> = {
@@ -29672,6 +29744,10 @@ export namespace Prisma {
     connect?: CompetitionFormFieldWhereUniqueInput | CompetitionFormFieldWhereUniqueInput[]
   }
 
+  export type EnumCompetitionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.CompetitionType
+  }
+
   export type CompetitionCategoryUpdateOneRequiredWithoutCompetitionsNestedInput = {
     create?: XOR<CompetitionCategoryCreateWithoutCompetitionsInput, CompetitionCategoryUncheckedCreateWithoutCompetitionsInput>
     connectOrCreate?: CompetitionCategoryCreateOrConnectWithoutCompetitionsInput
@@ -30507,6 +30583,23 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumCompetitionTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompetitionType | EnumCompetitionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompetitionTypeFilter<$PrismaModel> | $Enums.CompetitionType
+  }
+
+  export type NestedEnumCompetitionTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.CompetitionType | EnumCompetitionTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.CompetitionType[] | ListEnumCompetitionTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumCompetitionTypeWithAggregatesFilter<$PrismaModel> | $Enums.CompetitionType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumCompetitionTypeFilter<$PrismaModel>
+    _max?: NestedEnumCompetitionTypeFilter<$PrismaModel>
+  }
+
   export type NestedEnumRegistrationStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.RegistrationStatus | EnumRegistrationStatusFieldRefInput<$PrismaModel>
     in?: $Enums.RegistrationStatus[] | ListEnumRegistrationStatusFieldRefInput<$PrismaModel>
@@ -30690,6 +30783,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -30706,6 +30800,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -30885,6 +30980,7 @@ export namespace Prisma {
     description?: StringNullableFilter<"Competition"> | string | null
     thumbnail?: StringNullableFilter<"Competition"> | string | null
     isActive?: BoolFilter<"Competition"> | boolean
+    type?: EnumCompetitionTypeFilter<"Competition"> | $Enums.CompetitionType
     startDate?: DateTimeFilter<"Competition"> | Date | string
     endDate?: DateTimeFilter<"Competition"> | Date | string
     categoryId?: StringFilter<"Competition"> | string
@@ -31334,6 +31430,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -31350,6 +31447,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     levelId: string
@@ -31392,6 +31490,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -31408,6 +31507,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -31812,6 +31912,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -31828,6 +31929,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -31927,6 +32029,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31943,6 +32046,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -32035,6 +32139,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     createdAt?: Date | string
@@ -32051,6 +32156,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -32107,6 +32213,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32123,6 +32230,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -33498,6 +33606,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -33578,6 +33687,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33594,6 +33704,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -33610,6 +33721,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -33990,6 +34102,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     levelId: string
@@ -34004,6 +34117,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34020,6 +34134,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     levelId?: StringFieldUpdateOperationsInput | string
@@ -34036,6 +34151,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     levelId?: StringFieldUpdateOperationsInput | string
@@ -34050,6 +34166,7 @@ export namespace Prisma {
     description?: string | null
     thumbnail?: string | null
     isActive?: boolean
+    type?: $Enums.CompetitionType
     startDate: Date | string
     endDate: Date | string
     categoryId: string
@@ -34064,6 +34181,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34080,6 +34198,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -34096,6 +34215,7 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    type?: EnumCompetitionTypeFieldUpdateOperationsInput | $Enums.CompetitionType
     startDate?: DateTimeFieldUpdateOperationsInput | Date | string
     endDate?: DateTimeFieldUpdateOperationsInput | Date | string
     categoryId?: StringFieldUpdateOperationsInput | string

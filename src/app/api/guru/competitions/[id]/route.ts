@@ -8,6 +8,7 @@ const competitionDetailSelect = {
   description: true,
   thumbnail: true,
   isActive: true,
+  type: true,
   startDate: true,
   endDate: true,
   categoryId: true,
@@ -77,35 +78,93 @@ export async function PUT(req: Request, context: Context) {
       thumbnail,
       categoryId,
       levelId,
+      type,
       startDate,
       endDate,
       isActive,
       formFields,
     } = body;
 
+    // Fetch existing fields and registration count
+    const [existingFields, registrationCount] = await Promise.all([
+      prisma.competitionFormField.findMany({
+        where: { competitionId: id },
+        orderBy: { order: "asc" },
+      }),
+      prisma.competitionRegistration.count({
+        where: { competitionId: id },
+      }),
+    ]);
+
+    // Check if formFields array is modified
+    const isFormFieldsUnchanged = () => {
+      if (!formFields) return true;
+      if (existingFields.length !== formFields.length) return false;
+      return existingFields.every((ext : any, idx : any) => {
+        const inc = formFields[idx];
+        if (!inc) return false;
+
+        const getCleanOptions = (opt: any) => {
+          if (Array.isArray(opt)) return opt.map(s => String(s).trim()).filter(Boolean);
+          if (typeof opt === "string") return opt.split(",").map(s => s.trim()).filter(Boolean);
+          return [];
+        };
+
+        const extOptions = getCleanOptions(ext.options);
+        const incOptions = getCleanOptions(inc.options);
+
+        return (
+          ext.label === inc.label &&
+          ext.fieldType === inc.fieldType &&
+          ext.isRequired === (inc.isRequired || false) &&
+          JSON.stringify(extOptions) === JSON.stringify(incOptions)
+        );
+      });
+    };
+
+    const formUnchanged = isFormFieldsUnchanged();
+
+    if (!formUnchanged && registrationCount > 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Tidak dapat mengubah struktur formulir pendaftaran karena sudah ada siswa yang terdaftar pada kompetisi ini",
+        },
+        { status: 400 },
+      );
+    }
+
+    const updateData: any = {
+      title,
+      description,
+      thumbnail,
+      categoryId,
+      levelId,
+      type,
+      startDate: startDate ? new Date(startDate) : undefined,
+      endDate: endDate ? new Date(endDate) : undefined,
+      isActive,
+    };
+
+    if (!formUnchanged) {
+      updateData.CompetitionFormField = {
+        deleteMany: {},
+        create:
+          formFields?.map((f: any, idx: number) => ({
+            label: f.label,
+            fieldType: f.fieldType,
+            isRequired: f.isRequired || false,
+            options: typeof f.options === "string" 
+              ? f.options.split(",").map((s: string) => s.trim()).filter((s: string) => s !== "") 
+              : f.options,
+            order: f.order || idx,
+          })) || [],
+      };
+    }
+
     const competition = await prisma.competition.update({
       where: { id },
-      data: {
-        title,
-        description,
-        thumbnail,
-        categoryId,
-        levelId,
-        startDate: startDate ? new Date(startDate) : undefined,
-        endDate: endDate ? new Date(endDate) : undefined,
-        isActive,
-        CompetitionFormField: {
-          deleteMany: {},
-          create:
-            formFields?.map((f: any, idx: number) => ({
-              label: f.label,
-              fieldType: f.fieldType,
-              isRequired: f.isRequired || false,
-              options: f.options,
-              order: f.order || idx,
-            })) || [],
-        },
-      },
+      data: updateData,
       select: competitionDetailSelect,
     });
 

@@ -174,6 +174,34 @@ export default function AddCompetitionPage() {
                         </select>
                     </div>
 
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Tipe Kompetisi</label>
+                        <div className="flex gap-6 items-center py-1">
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="INDIVIDU"
+                                    checked={(formData as any).type === "INDIVIDU"}
+                                    onChange={() => setFormData({ ...formData, type: "INDIVIDU" })}
+                                    className="w-4 h-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Individu</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer group">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="TIM"
+                                    checked={(formData as any).type === "TIM"}
+                                    onChange={() => setFormData({ ...formData, type: "TIM" })}
+                                    className="w-4 h-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                                />
+                                <span className="text-sm font-medium text-gray-700 group-hover:text-gray-900">Tim / Pasangan</span>
+                            </label>
+                        </div>
+                    </div>
+
                     <div className="pt-6 border-t border-gray-100">
                         <div className="flex items-center justify-between mb-4">
                             <div>

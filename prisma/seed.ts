@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { PrismaClient, UserRole, FieldType, RegistrationStatus, AchievementStatus, Gender } from '../src/generated/prisma';
+import { PrismaClient, UserRole, FieldType, RegistrationStatus, AchievementStatus, Gender, CompetitionType  } from '../src/generated/prisma';
 import { withAccelerate } from "@prisma/extension-accelerate";
 import bcrypt from 'bcrypt';
 
@@ -91,6 +91,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             categoryId: categoriesMap['Olahraga'],
             levelId: levelsMap['Kabupaten/Kota'],
             startDate: now,
+            type: CompetitionType.INDIVIDU,
             endDate: future,
             createdBy: adminId,
             formFields: [
@@ -108,6 +109,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             categoryId: categoriesMap['Seni'],
             levelId: levelsMap['Sekolah'],
             startDate: now,
+            type: CompetitionType.INDIVIDU,
             endDate: future,
             createdBy: adminId,
             formFields: [
@@ -125,6 +127,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             categoryId: categoriesMap['Teknologi'],
             levelId: levelsMap['Provinsi'],
             startDate: now,
+            type: CompetitionType.TIM,
             endDate: future,
             createdBy: adminId,
             formFields: [
@@ -144,6 +147,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.INDIVIDU,
             formFields: [
                 { label: 'Usia Peserta', fieldType: FieldType.NUMBER, isRequired: true, order: 1 },
                 { label: 'Riwayat Kesehatan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -161,6 +165,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.TIM,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Jumlah Pemain', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
@@ -178,6 +183,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.TIM,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Kapten Tim', fieldType: FieldType.TEXT, isRequired: true, order: 2 },
@@ -195,6 +201,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.INDIVIDU,
             formFields: [
                 { label: 'Rating Catur', fieldType: FieldType.NUMBER, isRequired: false, order: 1 },
                 { label: 'Pengalaman Bertanding', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },
@@ -212,6 +219,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.TIM,
             formFields: [
                 { label: 'Nama Tim', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Jumlah Anggota', fieldType: FieldType.NUMBER, isRequired: true, order: 2 },
@@ -229,6 +237,7 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+            type: CompetitionType.INDIVIDU,
             formFields: [
                 { label: 'Asal Sekolah', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Target Sekolah', fieldType: FieldType.TEXT, isRequired: false, order: 2 },
@@ -246,6 +255,8 @@ async function seedCompetitions(categoriesMap: Record<string, string>, levelsMap
             startDate: now,
             endDate: future,
             createdBy: adminId,
+
+            type: CompetitionType.INDIVIDU,
             formFields: [
                 { label: 'Nama Peserta', fieldType: FieldType.TEXT, isRequired: true, order: 1 },
                 { label: 'Pengalaman Adzan', fieldType: FieldType.TEXTAREA, isRequired: false, order: 2 },

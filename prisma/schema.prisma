@@ -52,6 +52,11 @@ enum Gender {
   P
 }
 
+enum CompetitionType {
+  INDIVIDU
+  TIM
+}
+
 model User {
   id         String   @id @default(uuid())
   name       String
@@ -146,6 +151,7 @@ model Competition {
   description String?
   thumbnail   String?
   isActive    Boolean  @default(true)
+  type        CompetitionType @default(INDIVIDU)
   startDate   DateTime
   endDate     DateTime
 

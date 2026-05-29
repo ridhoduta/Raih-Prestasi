@@ -179,6 +179,7 @@ exports.Prisma.CompetitionScalarFieldEnum = {
   description: 'description',
   thumbnail: 'thumbnail',
   isActive: 'isActive',
+  type: 'type',
   startDate: 'startDate',
   endDate: 'endDate',
   categoryId: 'categoryId',
@@ -352,6 +353,11 @@ exports.UserRole = exports.$Enums.UserRole = {
 exports.Gender = exports.$Enums.Gender = {
   L: 'L',
   P: 'P'
+};
+
+exports.CompetitionType = exports.$Enums.CompetitionType = {
+  INDIVIDU: 'INDIVIDU',
+  TIM: 'TIM'
 };
 
 exports.RegistrationStatus = exports.$Enums.RegistrationStatus = {
