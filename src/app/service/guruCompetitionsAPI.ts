@@ -6,6 +6,7 @@ export type CompetitionPayload = {
   thumbnail?: string;
   categoryId: string;
   levelId: string;
+  type?: string;
   startDate: string;
   endDate: string;
   createdById: string;
@@ -18,6 +19,7 @@ export type Competition = {
   description?: string;
   thumbnail?: string;
   isActive: boolean;
+  type: string;
   startDate: string;
   endDate: string;
   categoryId: string;
