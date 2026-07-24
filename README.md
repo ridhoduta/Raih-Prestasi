@@ -19,7 +19,6 @@
 - 🔔 **Notifikasi Real-time**: Integrasi **Pusher** untuk notifikasi instan di web dan **Firebase Cloud Messaging (FCM)** untuk push notification ke perangkat siswa.
 - 📁 **Penyimpanan File Cloud**: Integrasi dengan **Supabase Storage** untuk menyimpan sertifikat, logo tim, dan dokumen pelengkap secara aman.
 - 📊 **Ekspor Laporan**: Generate data prestasi dan statistik ke format **Excel (.xlsx)** serta render sertifikat/laporan ke format **PDF**.
-- 🧪 **Pengujian Otomatis**: Suite pengujian menggunakan **Playwright** untuk memastikan keamanan dan fungsionalitas alur utama sistem berjalan lancar.
 
 ---
 
@@ -69,11 +68,9 @@ raih-prestasi-web/
 │   ├── generated/             # Lokasi output Prisma Client yang di-generate
 │   ├── lib/                   # Utilitas & Inisialisasi SDK (auth, prisma, pusher, supabase)
 │   └── middleware.ts          # Middleware Next.js untuk pengecekan JWT & Proteksi Rute
-├── tests/                     # Suite pengujian E2E dan Integrasi (Playwright)
 ├── .env.example               # Contoh file konfigurasi environment
 ├── next.config.ts             # Konfigurasi Next.js
 ├── package.json               # Daftar dependensi & npm scripts
-├── playwright.config.ts       # Konfigurasi testing Playwright
 └── tsconfig.json              # Konfigurasi TypeScript
 ```
 
@@ -145,27 +142,6 @@ Jika Anda menjalankan langkah **Database Seeder** di atas, Anda dapat masuk ke a
 | **Siswa (1)** | `1000000001` | `1000000001` | *Integrasi Mobile / API* |
 | **Siswa (2)** | `1000000002` | `1000000002` | *Integrasi Mobile / API* |
 | ... | s/d `1000000013` | *sama dengan NISN* | *Integrasi Mobile / API* |
-
----
-
-## 🧪 Menjalankan Unit & Integration Test
-
-Project ini dilengkapi dengan test suite E2E & Integrasi berbasis **Playwright**.
-
-1. **Instal browser bawaan Playwright** (hanya perlu dilakukan sekali):
-   ```bash
-   npx playwright install
-   ```
-
-2. **Jalankan pengujian**:
-   ```bash
-   npx playwright test
-   ```
-
-3. **Lihat laporan hasil pengujian**:
-   ```bash
-   npx playwright show-report
-   ```
 
 ---
 
